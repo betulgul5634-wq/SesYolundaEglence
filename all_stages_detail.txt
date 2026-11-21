@@ -1,0 +1,1380 @@
+
+==================== STAGE 1: /p/ (sound_p) ====================
+--- wordsBeginning (54) ---
+Pes, Pim, Pak, Pin, Pür, Pas, Pis, Pat, Pot, Pay, Park, Palto, Pide, Pasta, Patlak, Peynir, Perde, Pergel, Pilav, Para, Pizza, Panda, Pota, Parmak, Pamuk, Pudra, Paten, Piknik, Pedal, Polis, Pilot, Pencere, Patlıcan, Palmiye, Palyaço, Portakal, Pantolon, Paraşüt, Pastırma, Pastane, Pelerin, Peçete, Pırasa, Pinokyo, Piramit, Pirzola, Piyano, Poğaça, Porselen, Pusula, Papatya, Papağan, Pikap, Periskop
+--- wordsMiddle (39) ---
+Sepet, Çapa, Depo, Hapis, Japon, Kapan, Köpek, Kupa, Kaplan, Yaprak, Rampa, Sehpa, Sopa, Şapka, Topuk, Vapur, Topaç, Zeplin, Küpe, Tepsi, Ahtapot, Apolet, Kelepçe, Apartman, Ispanak, Yapışkan, Kapalı, Hoparlör, Şempanze, Kapüşon, Kerpeten, Diploma, Leopar, Opera, Öpücük, Süpürge, Şampiyon, Şampuan, Kapuska
+--- wordsEnding (41) ---
+Bip, Çap, Çip, Çöp, Dip, Hap, Hop, Kep, Küp, Turp, Çırp, Sarp, Çarp, Kalp, Akrep, Cevap, Çorap, Dolap, Garip, Hesap, Kalıp, Kebap, Kulüp, Mağlup, Maytap, Kitap, Salep, Sahip, Sincap, Şarap, Sürüp, Mektup, Ketçap, Antilop, Baroskop, Gardırop, Lolipop, Mikroskop, Mürekkep, Çinekop, Teleskop
+--- words1Syllable (25) ---
+Pes, Pim, Pak, Pin, Pür, Pas, Pis, Pat, Pot, Pay, Park, Bip, Çap, Çip, Çöp, Dip, Hap, Hop, Kep, Küp, Turp, Çırp, Sarp, Çarp, Kalp
+--- words2Syllables (60) ---
+Palto, Pide, Pasta, Patlak, Peynir, Perde, Pergel, Pilav, Para, Pizza, Panda, Pota, Parmak, Pamuk, Pudra, Paten, Piknik, Pedal, Polis, Pilot, Sepet, Çapa, Depo, Hapis, Japon, Kapan, Köpek, Kupa, Kaplan, Yaprak, Rampa, Sehpa, Sopa, Şapka, Topuk, Vapur, Topaç, Zeplin, Küpe, Tepsi, Akrep, Cevap, Çorap, Dolap, Garip, Hesap, Kalıp, Kebap, Kulüp, Mağlup, Maytap, Kitap, Salep, Sahip, Pikap, Sincap, Şarap, Sürüp, Mektup, Ketçap
+--- words3Syllables (49) ---
+Pencere, Patlıcan, Palmiye, Palyaço, Portakal, Pantolon, Paraşüt, Pastırma, Pastane, Pelerin, Peçete, Pırasa, Pinokyo, Piramit, Pirzola, Piyano, Poğaça, Porselen, Pusula, Papatya, Ahtapot, Apolet, Kelepçe, Apartman, Ispanak, Yapışkan, Kapalı, Hoparlör, Şempanze, Kapüşon, Kerpeten, Diploma, Leopar, Opera, Öpücük, Papağan, Süpürge, Şampiyon, Şampuan, Kapuska, Antilop, Baroskop, Gardırop, Lolipop, Mikroskop, Mürekkep, Çinekop, Periskop, Teleskop
+--- PHRASES (30) ---
+P1: Pullu palto
+P2: Pembe pike
+P3: Peynirli pide
+P4: Plastik poşet
+P5: Pilavlık pirinç
+P6: Pahalı pabuç
+P7: Pembe panter
+P8: Pedallı piyano
+P9: Patlıcanlı pilav
+P10: Püsküllü perde
+P11: Patates püresi
+P12: Portakallı pasta
+P13: Pazartesi pazarı
+P14: Padişahın pelerini
+P15: Palyaçonun pantolonu
+P16: Kalplı şapka
+P17: Kayıp kitap
+P18: Kapalı kapı
+P19: Zıplayan top
+P20: Kaptan pilot
+P21: Piknik sepeti
+P22: Polis kopeği
+P23: Topal sincap
+P24: Hesaplı kasap
+P25: Kaplama küpe
+P26: Kapüşonlu palto
+P27: Ponponlu çorap
+P28: Süpürgenin sapı
+P29: Kepek şampuanı
+P30: Şampiyonun kupası
+--- SENTENCES (20) ---
+S1: Pelin'in perdeleri püsküllü.
+S2: Polat pazartesi Paris'teydi.
+S3: Pencerenin pervazı pislenmiş.
+S4: Patatesçi patatesleri paketledi.
+S5: Patlıcanlı pirinç pilavı pişirelim.
+S6: Postacının pantolonu poşetteymiş.
+S7: Pidecideki peynirli pide pahalıydı.
+S8: Pizzacı pizza pişirmekten pişmandı.
+S9: Palyaçonun Pahalı pabuçları pulluydu.
+S10: Prensesin pırlantası pırıl pırıl parlıyordu.
+S11: Penceredeki papağan perdeyi parçaladı.
+S12: Pelin peynirli poğaçayı Pervin'le paylaştı.
+S13: Pazarlamacı Pervin Pırıltılı penyeleri pazarladı.
+S14: Perşembe pazarındaki pazarcı pırasaları poşetledi.
+S15: Pamuklu pazen pijamasının pantolonunu pembeydi.
+S16: Recep İpek'iöptü.
+S17: Serpil ıspanak pişirdi.
+S18: Serap yaprakları süpürdü.
+S19: Dolaptaki çorapları toparladım.
+S20: Parktaki köpek plastik topu kaptı.
+
+==================== STAGE 2: /b/ (sound_b) ====================
+--- wordsBeginning (53) ---
+Bağ, Bak, Bal, Bit, Biz, Bol, Boş, Bot, Boy, Bul, But, Buz, Balık, Balkon, Bardak, Bıçak, Bahçe, Balon, Bavul, Bayrak, Burun, Böcek, Bilet, Bıyık, Bacak, Bulut, Boncuk, Börek, Bilek, Baca, Baston, Benzin, Bilezik, Bisküvi, Bulaşık, Balıkçı, Balina, Balerin, Bezelye, Büyüteç, Bisiklet, Basamak, Barınak, Bedava, Benzinci, Bulmaca, Bataklık, Bağırsak, Börekçi, Bikini, Baklava, Biberon, Harap
+--- wordsMiddle (41) ---
+Lamba, Çorba, Tablo, Göbek, Sabah, Zebra, Abla, Sabun, Tabak, Robot, Sebze, Kabuk, Soba, Albüm, Kebap, İbik, Pembe, Kibrit, Zımba, Torba, Araba, Kelebek, Abajur, Tabure, Kumbara, Otobüs, Tebeşir, Elbise, Tabela, Kurbağa, Darbuka, Kulübe, Sabunluk, Fabrika, Tabanca, Voleybol, Mobilya, Kaburga, Köstebek, Hamburger, Cebinde
+--- wordsEnding (0) ---
+
+--- words1Syllable (12) ---
+Bağ, Bak, Bal, Bit, Biz, Bol, Boş, Bot, Boy, Bul, But, Buz
+--- words2Syllables (41) ---
+Balık, Balkon, Bardak, Bıçak, Bahçe, Balon, Bavul, Bayrak, Burun, Böcek, Bilet, Bıyık, Bacak, Bulut, Boncuk, Börek, Bilek, Baca, Baston, Benzin, Lamba, Çorba, Tablo, Göbek, Sabah, Zebra, Abla, Sabun, Tabak, Robot, Sebze, Kabuk, Soba, Albüm, Kebap, İbik, Pembe, Kibrit, Zımba, Torba, Harap
+--- words3Syllables (41) ---
+Bilezik, Bisküvi, Bulaşık, Balıkçı, Balina, Balerin, Bezelye, Büyüteç, Bisiklet, Basamak, Barınak, Bedava, Benzinci, Bulmaca, Bataklık, Bağırsak, Börekçi, Bikini, Baklava, Biberon, Araba, Kelebek, Abajur, Tabure, Kumbara, Otobüs, Tebeşir, Elbise, Tabela, Kurbağa, Darbuka, Kulübe, Sabunluk, Fabrika, Tabanca, Voleybol, Mobilya, Kaburga, Köstebek, Hamburger, Cebinde
+--- PHRASES (30) ---
+P1: Bir bahçe
+P2: Bol bilezik
+P3: Boş bavul
+P4: Beş bebek
+P5: Bordo bere
+P6: Bayat börek
+P7: Ballı bisküvi
+P8: Balıkçı bıçağı
+P9: Başka balerin
+P10: Beyaz bayrak
+P11: Büyük burunlu
+P12: Bozuk barbunya
+P13: Benim bardağım
+P14: Boğanın boynuzu
+P15: Bebeğin biberonu
+P16: Sabırlı abla
+P17: Kitabın kabı
+P18: Çabuk çorba
+P19: Elbise torbası
+P20: Sebzeli kebap
+P21: Kabarık elbise
+P22: Arabanın teybi
+P23: Fabrikanın sahibi
+P24: Ebru'nun tabağı
+P25: Pembe kumbara
+P26: Kalabalık otobüs
+P27: Rutubetli kulübe
+P28: Abajurun kablosu
+P29: Yabancı voleybolcu
+P30: Buzdolabındaki kurabiye
+--- SENTENCES (20) ---
+S1: Babam bagaja baktı.
+S2: Bej bluzuma bal bulaştı.
+S3: Burak berberde bitlendi.
+S4: Bebek biberonu boşalttı.
+S5: Berrin'in bilgisayarı bozuldu.
+S6: Boza bardaklarını bulamadık.
+S7: Bugün boşu boşuna bekledim.
+S8: Bülent Banu'nun bisikletine bindi.
+S9: Babaannem bileziklerini bana bıraktı.
+S10: Benim bütün balıklarım birbirine benzer.
+S11: Berna bakır boncuklarını bahçede buldu.
+S12: Büyükbabam banyonun borularını boyadı.
+S13: Bahçeye boş, Beyaz bir bardak bırakmışlar.
+S14: Bütün bahar boyunca başladığım boyayı bitiremedim.
+S15: Bebek beşiğinde baygın baygın uyudu.
+S16: Sabah otobüs kalabalıktı.
+S17: Sebzeli kebaba bayılırım.
+S18: Lavabodaki sabunu bitirdim.
+S19: Berberde torbasını kaybetti.
+S20: Ebru kitabı pembeye boyadı.
+
+==================== STAGE 3: /t/ (sound_t) ====================
+--- wordsBeginning (62) ---
+Taç, Tam, Tan, Taş, Tay, Tef, Tel, Ten, Ter, Tez, Tır, Tıp, Turp, Test, Tayt, Tavşan, Tava, Teras, Tarla, Tenis, Torba, Tepsi, Tuğla, Tarih, Tasma, Timsah, Tamir, Tespih, Tepe, Törpü, Termos, Tablo, Topaç, Tavla, Tras, Tencere, Tabure, Tabanca, Tebeşir, Tarhana, Testere, Turuncu, Talebe, Tansiyon, Telefon, Tiyatro, Tedavi, Terazi, Tabela, Tercüman, Tereyağ, Tecrübe, Tuvalet, Tamirat, Taraftar, Tartı, Tahta, Tatlı, Tat, Tut, Taşıt, Talimat
+--- wordsMiddle (36) ---
+Motor, Futbol, Jeton, Sütun, Panter, Ateş, Martı, Petrol, Çanta, Fayton, Pasta, Palto, Paten, Olta, Mantar, Zeytin, Çatı, Anahtar, Yumurta, Pantolon, Salata, Limonata, Domates, Papatya, Aseton, Otobüs, Dijital, Peçete, Matara, Gazete, Şeftali, Patates, Fatura, Pastırma, Uçurtma, Patlıcan
+--- wordsEnding (66) ---
+Ahtapot, Bat, Bit, Bot, But, Çit, Pot, Çat, Git, Dut, Jet, Sert, Şart, Büst, Dart, Mest, Set, Süt, Sat, Mat, Yat, Yut, Zıt, Hat, Mart, Sırt, Alt, Pert, Bulut, İcat, Palet, Gofret, Nohut, Jilet, Saat, Bilet, Sepet, Pilot, Anıt, Simit, Armut, Halat, Robot, Damat, Poşet, Yoğurt, Alet, Paraşüt, Hayalet, Seyahat, Parazit, Apolet, Ehliyet, Palamut, Marifet, Ziyaret, Dinamit, Nasihat, Adalet, Zarafet, İşaret, Piramit, Labirent, Sefalet, Ziyafet, Marmelat
+--- words1Syllable (45) ---
+Taç, Tam, Tan, Taş, Tay, Tef, Tel, Ten, Ter, Tez, Tır, Tıp, Turp, Test, Tayt, Tras, Bat, Bit, Bot, But, Çit, Pot, Çat, Git, Dut, Jet, Sert, Şart, Büst, Dart, Mest, Set, Süt, Sat, Mat, Tat, Yat, Yut, Zıt, Tut, Hat, Mart, Sırt, Alt, Pert
+--- words2Syllables (59) ---
+Tavşan, Tava, Teras, Tarla, Tenis, Torba, Tepsi, Tuğla, Tarih, Tasma, Timsah, Tamir, Tespih, Tepe, Törpü, Termos, Tablo, Topaç, Tavla, Motor, Futbol, Jeton, Sütun, Panter, Ateş, Martı, Petrol, Çanta, Fayton, Pasta, Tartı, Palto, Tahta, Tatlı, Paten, Olta, Mantar, Zeytin, Çatı, Bulut, İcat, Palet, Gofret, Nohut, Jilet, Saat, Bilet, Sepet, Pilot, Anıt, Taşıt, Simit, Armut, Halat, Robot, Damat, Poşet, Yoğurt, Alet
+--- words3Syllables (60) ---
+Tencere, Tabure, Tabanca, Tebeşir, Tarhana, Testere, Turuncu, Talebe, Tansiyon, Telefon, Tiyatro, Tedavi, Terazi, Tabela, Tercüman, Tereyağ, Tecrübe, Tuvalet, Tamirat, Taraftar, Anahtar, Yumurta, Pantolon, Salata, Limonata, Domates, Papatya, Aseton, Otobüs, Dijital, Peçete, Matara, Gazete, Şeftali, Patates, Fatura, Pastırma, Uçurtma, Patlıcan, Ahtapot, Paraşüt, Hayalet, Seyahat, Parazit, Apolet, Ehliyet, Palamut, Marifet, Ziyaret, Dinamit, Nasihat, Adalet, Zarafet, İşaret, Piramit, Talimat, Labirent, Sefalet, Ziyafet, Marmelat
+--- PHRASES (25) ---
+P1: Titiz terzi
+P2: Tozlu tarla
+P3: Tenis topu
+P4: Tarihi tiyatro
+P5: Tüylü tavşan
+P6: Tahta tabure
+P7: Telsiz telefon
+P8: Tunuslu turist
+P9: Temiz tencere
+P10: Turuncu tabela
+P11: Telefonun tuşu
+P12: Tahtanın tebeşiri
+P13: Tereyağlı tarhana
+P14: Tecrübeli tercüman
+P15: Televizyon tamircisi
+P16: Etli turlu
+P17: Şutlu tatlı
+P18: Futbol topu
+P19: Dantel örtü
+P20: Taze gofret
+P21: Penaltı atışı
+P22: Şeftalili turta
+P23: Lacivert şort
+P24: Yatağın altı
+P25: Ütülü pantolon
+--- SENTENCES (15) ---
+S1: Tuba tayın tüylerini taradı.
+S2: Timsah taşın tepesindeydi.
+S3: Teoman terziyi tanıyamamış.
+S4: Temel tarlanın taşlarını topladı.
+S5: Tahtanın tebeşirleri turuncuydu.
+S6: Taner terasın tentesini temizledi.
+S7: Timuçin'in tedavisi tamamlandı.
+S8: Tarçınlı turtalar tatlı tabağındaydı.
+S9: Tayfun'la Timur tatilde tanışmışlar.
+S10: Tülay'in teyzesinin tarhanası tazeydi.
+S11: Turuncu topum patladı.
+S12: Tahtanın tebeşiri bitmiş.
+S13: Metin salata tabağını taşıdı.
+S14: Tatlıcı Ümit'in sütlacı lezzetli.
+S15: Titiz terzi pantolonları ütüledi.
+
+==================== STAGE 4: /d/ (sound_d) ====================
+--- wordsBeginning (71) ---
+Dal, Dam, Dar, Dağ, Dans, Dev, Del, Dem, Din, Dik, Dip, Diz, Dil, Dol, Dört, Dert, Doy, Doz, Dön, Dök, Dut, Dul, Dur, Diş, Duş, Duy, Dün, Ders, Düz, Dinç, Dost, Dolap, Doktor, Duman, Delik, Dolma, Dükkan, Dirsek, Dosya, Düğme, Damla, Davul, Dayı, Döner, Defter, Duvar, Deniz, Diken, Direk, Dişçi, Damat, Dinozor, Domates, Danışma, Darbuka, Davlumbaz, Davulcu, Define, Değirmen, Deterjan, Dilenci, Daktilo, Dondurma, Düzine, Dönerci, Dakika, Dinamit, Dikkatli, Daire, Dağınık, Diploma
+--- wordsMiddle (40) ---
+Mandal, Vida, Adam, Kadın, Sandal, Bardak, Minder, Ada, Pide, Kedi, Bidon, Perde, Hindi, Mide, Badem, Çadır, Cüzdan, Hardal, Yıldız, Radyo, Çekirdek, Çaydanlık, Arkadaş, Eldiven, Karides, Bilardo, Koridor, Sandalet, Maydanoz, Jandarma, Sandalye, Fırıldak, Kaydırak, Hediye, Kumanda, Madalya, Kaldırım, Merdiven, Oduncu, Yıldırım
+--- wordsEnding (3) ---
+Ad, Ud, Had
+--- words1Syllable (34) ---
+Dal, Dam, Dar, Dağ, Dans, Dev, Del, Dem, Din, Dik, Dip, Diz, Dil, Dol, Dört, Dert, Doy, Doz, Dön, Dök, Dut, Dul, Dur, Diş, Duş, Duy, Dün, Ders, Düz, Dinç, Dost, Ad, Ud, Had
+--- words2Syllables (40) ---
+Dolap, Doktor, Duman, Delik, Dolma, Dükkan, Dirsek, Dosya, Düğme, Damla, Davul, Dayı, Döner, Defter, Duvar, Deniz, Diken, Direk, Dişçi, Damat, Mandal, Vida, Adam, Kadın, Sandal, Bardak, Minder, Ada, Pide, Kedi, Bidon, Perde, Hindi, Mide, Badem, Çadır, Cüzdan, Hardal, Yıldız, Radyo
+--- words3Syllables (40) ---
+Dinozor, Domates, Danışma, Darbuka, Davlumbaz, Davulcu, Define, Değirmen, Deterjan, Dilenci, Daktilo, Dondurma, Düzine, Dönerci, Dakika, Dinamit, Dikkatli, Daire, Dağınık, Diploma, Çekirdek, Çaydanlık, Arkadaş, Eldiven, Karides, Bilardo, Koridor, Sandalet, Maydanoz, Jandarma, Sandalye, Fırıldak, Kaydırak, Hediye, Kumanda, Madalya, Kaldırım, Merdiven, Oduncu, Yıldırım
+--- PHRASES (25) ---
+P1: Dans dersi
+P2: Dolu dolap
+P3: Deli Davut
+P4: Derin deniz
+P5: Dağınık daire
+P6: Dönme dolap
+P7: Dokuz dakika
+P8: Dört domates
+P9: Dikkatsiz dişçi
+P10: Düğün dernek
+P11: Değerli doktor
+P12: Dantelli düğme
+P13: Damla'nın dayısı
+P14: Dükkandaki dilenci
+P15: Düğündeki davulcu
+P16: Bordo çadır
+P17: Aydınlık oda
+P18: Bidonun dibi
+P19: Bademin tadı
+P20: Eda'nın Dedesi
+P21: Kadının eldiveni
+P22: Dedemin arkadaşı
+P23: Yerdeki kumanda
+P24: Caddedeki adam
+P25: Seda'nın Hediyesi
+--- SENTENCES (15) ---
+S1: Damla dikiş diker.
+S2: Dedektif dükkanı dolaştı.
+S3: Dantelli düğmeleri diktiler.
+S4: Derya dört dadı değiştirdi.
+S5: Doktorun dediklerini duydu.
+S6: Didem dans dersinde düştü.
+S7: Dam durup dururken delindi.
+S8: Dedem denizaltıyla dolaşmış.
+S9: Duru derste defterlerini düşürdü.
+S10: Dolaptaki dondurmayı döktüm.
+S11: Cevdet ödevini bitirdi.
+S12: Jandarma düdük çaldı.
+S13: Okulda fındıkla badem yedim.
+S14: Ferda'nın hediyesini beğendim.
+S15: Vedat cüzdanını evde bulamadı.
+
+==================== STAGE 5: /k/ (sound_k) ====================
+--- wordsBeginning (62) ---
+Kaç, Kan, Kar, Kas, Kaz, Kel, Kes, Kıl, Kır, Kalp, Kask, Kız, Kep, Kış, Kolye, Kafes, Kalem, Kamyon, Kaplan, Karga, Karpuz, Kebap, Keçi, Kedi, Kemer, Kemik, Kılıf, Kardeş, Kilim, Kiraz, Korsan, Koyun, Köpek, Kuzu, Kadayıf, Kahraman, Kaldırım, Kanguru, Kapıcı, Karagöz, Karanfil, Karavan, Karınca, Kurbağa, Kumbara, Kelepçe, Kırlangıç, Kırmızı, Kocaman, Kereviz, Körebe, Kumanda, Kuaför, Kulübe, Kırk, Kürk, Kek, Kök, Kaydırak, Kelebek, Kozalak, Kırkayak
+--- wordsMiddle (39) ---
+Akşam, Alkış, Asker, Balkon, Baykuş, Çekiç, Diken, Dikiş, Dükkan, Fakir, Fıkra, Hakem, Halka, Leke, Lokma, Makas, Akrep, Okul, Şapka, Akvaryum, Arkadaş, Baklava, Balıkçı, Bisküvi, Çekirge, Çekmece, Dakika, Fabrika, Gökyüzü, İlkbahar, Makarna, Menekşe, Mikrofon, Mikroskop, Oklava, Pinokyo, Saklambaç, Saksafon, Yapışkan
+--- wordsEnding (62) ---
+Ekmek, Bak, Çak, Çek, Çık, Çok, Dik, Dök, Fok, Gök, Hak, Çark, Fark, Halk, Bük, Yok, Yük, Şok, Sık, Yak, Yık, Renk, Bank, Park, Sirk, Aşk, Açık, Ayak, Balık, Bardak, Leylek, Bebek, Boncuk, Böcek, Çiçek, Çilek, Çocuk, Dudak, Düdük, Emzik, Fındık, Geyik, Gözlük, Işık, Uçak, Yüksek, Açacak, Aydınlık, Bademcik, Bilezik, Bulaşık, Çaydanlık, Çekecek, Çekirdek, Çıngırak, Dinamik, Fırıldak, Ispanak, Hıçkırık, Oyuncak, Mercimek, Şekerlik
+--- words1Syllable (43) ---
+Kaç, Kan, Kar, Kas, Kaz, Kel, Kes, Kıl, Kır, Kalp, Kask, Kız, Kep, Kış, Bak, Çak, Çek, Çık, Çok, Dik, Dök, Fok, Gök, Hak, Çark, Kırk, Fark, Kürk, Halk, Bük, Yok, Yük, Şok, Sık, Yak, Yık, Renk, Bank, Kek, Kök, Park, Sirk, Aşk
+--- words2Syllables (60) ---
+Kolye, Kafes, Kalem, Kamyon, Kaplan, Karga, Karpuz, Kebap, Keçi, Kedi, Kemer, Kemik, Kılıf, Kardeş, Kilim, Kiraz, Korsan, Koyun, Köpek, Kuzu, Akşam, Alkış, Asker, Balkon, Baykuş, Çekiç, Diken, Dikiş, Dükkan, Ekmek, Fakir, Fıkra, Hakem, Halka, Leke, Lokma, Makas, Akrep, Okul, Şapka, Açık, Ayak, Balık, Bardak, Leylek, Bebek, Boncuk, Böcek, Çiçek, Çilek, Çocuk, Dudak, Düdük, Emzik, Fındık, Geyik, Gözlük, Işık, Uçak, Yüksek
+--- words3Syllables (60) ---
+Kadayıf, Kahraman, Kaldırım, Kanguru, Kapıcı, Karagöz, Karanfil, Karavan, Karınca, Kurbağa, Kumbara, Kelepçe, Kırlangıç, Kırmızı, Kocaman, Kereviz, Körebe, Kumanda, Kuaför, Kulübe, Akvaryum, Arkadaş, Baklava, Balıkçı, Bisküvi, Çekirge, Çekmece, Dakika, Fabrika, Gökyüzü, İlkbahar, Makarna, Menekşe, Mikrofon, Mikroskop, Oklava, Pinokyo, Saklambaç, Saksafon, Yapışkan, Açacak, Aydınlık, Bademcik, Bilezik, Bulaşık, Çaydanlık, Çekecek, Çekirdek, Çıngırak, Dinamik, Fırıldak, Ispanak, Kaydırak, Kelebek, Kozalak, Hıçkırık, Oyuncak, Kırkayak, Mercimek, Şekerlik
+--- PHRASES (25) ---
+P1: Kapalı kapı
+P2: Kara karga
+P3: Küçük küpe
+P4: Kepçe kulak
+P5: Kınalı kuzu
+P6: Kızgın köpek
+P7: Keskin koku
+P8: Kırmızı kalem
+P9: Kiralık Konak
+P10: Kokulu karanfil
+P11: Kedinin kuyruğu
+P12: Kahraman kadın
+P13: Kalabalık kasaba
+P14: Kahverengi kazak
+P15: Kaplumbağanın kabuğu
+P16: Açık fikirli
+P17: Balık kılçığı
+P18: Akıllı çocuk
+P19: İpek bayrak
+P20: Büyük köprü
+P21: Islak gömlek
+P22: Benekli inek
+P23: Şeker fabrikası
+P24: Çanak çömlek
+P25: Açık çekmece
+--- SENTENCES (15) ---
+S1: Köpek kediyi kovaladı.
+S2: Kasap kepenkleri kaldırdı.
+S3: Küs karşı kaldırıma kondu.
+S4: Küçük kız kerevizi kaşıkladı.
+S5: Kedi kafesin kapısını kapadı.
+S6: Kızgın kadın kumandayı kırdı.
+S7: Kıvırcık koyun kavunu kokladı.
+S8: Karşı komsu kapısının kilidini kırdı.
+S9: Kaplan koruda kanguruyu kovalıyor.
+S10: Köpek kokarcanın kuyruğunu kokladı.
+S11: Okulda kimse yokmuş.
+S12: Koylu yokuş yukarı çıkmış.
+S13: Küçük kız akşam bakla ayıkladı.
+S14: Büyük saksıda Menekşe ekiliymiş.
+S15: Bekir dükkanda arkadaşını bekledi.
+
+==================== STAGE 6: /g/ (sound_g) ====================
+--- wordsBeginning (63) ---
+Gür, Gar, Gam, Gaz, Gel, Geç, Gez, Gir, Giy, Giz, Genç, Golf, Göl, Gök, Göz, Gör, Güç, Gül, Gün, Güm, Güz, Gem, Göç, Gezgin, Gelin, Garson, Gofret, Gece, Gözlük, Gümüş, Garaj, Gemi, Gömlek, Gölge, Güzel, Gezi, Göbek, Geyik, Gaga, Gazoz, Güneş, Gerçek, Goril, Gazete, Gelinlik, Gezegen, Geveze, Göbekli, Gecelik, Güvercin, Gemici, Gariban, Güzellik, Gözleme, Giyecek, Görüntü, Güvenlik, Gökbilim, Gelincik, Gargara, Gürültü, Görevli, Gösteri
+--- wordsMiddle (39) ---
+Yorgan, Sargı, Çizgi, Karga, Üçgen, Örgü, Vagon, Yengeç, Sünger, Silgi, Zengin, Rüzgar, Kargo, Mangal, Bagaj, Virgül, Yoga, Pergel, Bulgur, Mango, Süpürge, Kırlangıç, Penguen, Otogar, Magazin, Amigo, Kanguru, Şırınga, Piyango, Çekirge, Yörünge, Marangoz, Karagöz, Omurga, Çıngırak, Kaburga, Salyangoz, Hamburger, Solungaç
+--- wordsEnding (14) ---
+Lig, Morg, Org, Şezlong, Bovling, Arkeolog, Sosyolog, Psikolog, Monolog, Ürolog, Katalog, Zoolog, Patolog, Biyolog
+--- words1Syllable (26) ---
+Gür, Gar, Gam, Gaz, Gel, Geç, Gez, Gir, Giy, Giz, Genç, Golf, Göl, Gök, Göz, Gör, Güç, Gül, Gün, Güm, Güz, Gem, Göç, Lig, Morg, Org
+--- words2Syllables (42) ---
+Gezgin, Gelin, Garson, Gofret, Gece, Gözlük, Gümüş, Garaj, Gemi, Gömlek, Gölge, Güzel, Gezi, Göbek, Geyik, Gaga, Gazoz, Güneş, Gerçek, Goril, Yorgan, Sargı, Çizgi, Karga, Üçgen, Örgü, Vagon, Yengeç, Sünger, Silgi, Zengin, Rüzgar, Kargo, Mangal, Bagaj, Virgül, Yoga, Pergel, Bulgur, Mango, Şezlong, Bovling
+--- words3Syllables (48) ---
+Gazete, Gelinlik, Gezegen, Geveze, Göbekli, Gecelik, Güvercin, Gemici, Gariban, Güzellik, Gözleme, Giyecek, Görüntü, Güvenlik, Gökbilim, Gelincik, Gargara, Gürültü, Görevli, Gösteri, Süpürge, Kırlangıç, Penguen, Otogar, Magazin, Amigo, Kanguru, Şırınga, Piyango, Çekirge, Yörünge, Marangoz, Karagöz, Omurga, Çıngırak, Kaburga, Salyangoz, Hamburger, Solungaç, Arkeolog, Sosyolog, Psikolog, Monolog, Ürolog, Katalog, Zoolog, Patolog, Biyolog
+--- PHRASES (25) ---
+P1: Gizli görev
+P2: Güzel gece
+P3: Güneşli gün
+P4: Gazlı gazoz
+P5: Geniş garaj
+P6: Geçersiz göl
+P7: Gri gökyüzü
+P8: Genç gezgin
+P9: Göbekli goril
+P10: Garip garson
+P11: Güvenli geçit
+P12: Gümüş gözlük
+P13: Gevrek galeta
+P14: Güneş gözlüğü
+P15: Gemi güvertesi
+P16: Üzgün Ezgi
+P17: Üçgen silgi
+P18: Saygılı Ege
+P19: Grip salgını
+P20: Çizgili yorgan
+P21: Yorgun Özge
+P22: Rüzgarlı bölge
+P23: Özgür'UN gitarı
+P24: Müge'nin giysisi
+P25: Penguenin rengi
+--- SENTENCES (15) ---
+S1: Galip Göle girecek.
+S2: Gökhan güllaç getirmiş.
+S3: Gölgeler gece görünmez.
+S4: Gelenler göbekli gorile gülüyor.
+S5: Gemici gemiye geç gelecekmiş.
+S6: Gezerken gözüne güneş girmiş.
+S7: Gülay Gaziantep'egezmeye gitti.
+S8: Garson gevrek galetaları getiriyor.
+S9: Gizem geçen gece Gaye'yi görmüş.
+S10: Gazeteciler Girne'ye geziye gittiler.
+S11: Bugün gençlerin günü.
+S12: Engin üzgün görünüyor.
+S13: Kavgacı garson kızgınmış.
+S14: Sergen yorgun gözüküyor.
+S15: Bugün gazeteleri Ege getirmiş.
+
+==================== STAGE 7: /f/ (sound_f) ====================
+--- wordsBeginning (58) ---
+Fal, Fiş, Fan, Fil, Far, Fay, Fol, Faz, Fok, Fen, Fon, Fes, Fark, Form, Fas, Film, Fare, Fındık, Fuar, Füze, Fakir, Fıstık, Fişek, Futbol, Fincan, Faraş, Fıçı, Fayton, Fırın, Fener, Flüt, Fırça, Fıkra, Forma, Fidan, Fizik, Fasulye, Fesleğen, Fırıldak, Falaka, Fırtına, Filika, Fabrika, Fanila, Fakülte, Felaket, Fermuar, Fırıncı, Filozof, Feribot, Fatura, Futbolcu, Fotoğraf, Falçata, Fosforlu, Firavun, Fanatik, Fıskiye
+--- wordsMiddle (40) ---
+Tüfek, Afiş, Nefes, Biftek, Kafa, Kafes, Yufka, Asfalt, Defter, Çiftçi, Sıfır, Köfte, Şoför, Sofra, Mutfak, Parfüm, Ofis, Sayfa, Lüfer, Büfe, Kadife, Telefon, Kıyafet, Mikrofon, Zürafa, Şeftali, Trafik, Aferin, Alfabe, Kuaför, Misafir, Define, Afacan, Karanfil, Greyfurt, Tarife, Köfteci, Taraftar, Teneffüs, Kafiye
+--- wordsEnding (54) ---
+Püf, Raf, Kof, Laf, Şef, Kaf, Saf, Tef, Gaf, Zarf, Küf, Harf, Örf, Sörf, Lif, Lenf, Hafif, Tuhaf, Sahaf, Esnaf, Şeffaf, Arif, Şerif, Sınıf, Taraf, Kılıf, Çarşaf, Şeref, Hoşaf, Tarif, Hedef, Zayıf, Teklif, Sedef, Yulaf, Keşif, Tesadüf, Kadayıf, Dedektif, Pozitif, Tasarruf, Paragraf, İtiraf, Tasavvuf, Sportif, Portatif, Teessüf, Lokomotif, Maalesef, Negatif, Kolektif, Muhtelif, Perspektif, Mükellef
+--- words1Syllable (33) ---
+Fal, Fiş, Püf, Raf, Fan, Fil, Kof, Laf, Far, Şef, Kaf, Fay, Fol, Saf, Tef, Faz, Fok, Gaf, Zarf, Fen, Fon, Küf, Harf, Örf, Fes, Fark, Sörf, Form, Fas, Lif, Lenf, Film, Flüt
+--- words2Syllables (62) ---
+Tüfek, Fare, Hafif, Fındık, Afiş, Tuhaf, Fuar, Nefes, Sahaf, Füze, Biftek, Esnaf, Fakir, Kafa, Şeffaf, Fıstık, Kafes, Arif, Fişek, Yufka, Şerif, Futbol, Asfalt, Sınıf, Fincan, Defter, Taraf, Faraş, Çiftçi, Kılıf, Fıçı, Sıfır, Çarşaf, Köfte, Fayton, Şeref, Fırın, Şoför, Hoşaf, Fener, Sofra, Tarif, Mutfak, Hedef, Fırça, Parfüm, Zayıf, Ofis, Fıkra, Teklif, Forma, Sayfa, Sedef, Fidan, Lüfer, Yulaf, Fizik, Büfe, Keşif, Trafik, Sportif, Greyfurt
+--- words3Syllables (57) ---
+Kadife, Fasulye, Tesadüf, Fesleğen, Telefon, Kadayıf, Fırıldak, Kıyafet, Dedektif, Falaka, Mikrofon, Pozitif, Fırtına, Zürafa, Tasarruf, Filika, Şeftali, Paragraf, Fabrika, İtiraf, Fanila, Aferin, Tasavvuf, Fakülte, Alfabe, Kuaför, Felaket, Portatif, Misafir, Fermuar, Teessüf, Define, Fırıncı, Filozof, Feribot, Afacan, Lokomotif, Fatura, Karanfil, Maalesef, Futbolcu, Fotoğraf, Tarife, Falçata, Negatif, Köfteci, Fosforlu, Kolektif, Firavun, Taraftar, Muhtelif, Fanatik, Teneffüs, Perspektif, Fıskiye, Kafiye, Mükellef
+--- PHRASES (30) ---
+P1: Favori film
+P2: Fakir fukara
+P3: Fındık faresi
+P4: Filmin finali
+P5: Fenerin fiyatı
+P6: Faydalı fıstık
+P7: Fen fakultesi
+P8: Fosforlu forma
+P9: Falcinin fincanı
+P10: Fenerli futbolcu
+P11: Fanila fabrikası
+P12: Farklı fotoğraf cl
+P13: Feribotun filikası
+P14: Fransizfaytoncu
+P15: Fesleğenli fasulye
+P16: Fakir çiftçi
+P17: Hafif küfe
+P18: Ufak tefek
+P19: Öfkeli Efe
+P20: Küflü yufka
+P21: Tuhaf sınıf
+P22: Enfes hoşaf
+P23: Efendi şoför
+P24: Sedef kaftan
+P25: Telefon kılıfı
+P26: Nefis parfüm
+P27: Tuhaf tesadüf
+P28: Defolu çarşaf
+P29: Fıstıklı künefe
+P30: Masraflı misafir
+--- SENTENCES (30) ---
+S1: Ferhat fikrayl fısıldadı.
+S2: Fındık fıstık faydalıdır.
+S3: Filmin finali fiyaskoydu.
+S4: Futbolcunun fiyatı fazlaydı.
+S5: Fikret fiyakalı futbolcudur.
+S6: Fatsalı Fatih fazla fanatikti.
+S7: Faik Fransa'da faytoncuydu.
+S8: Fevzi fenerin fitilini fisekledi.
+S9: Fillerle farelerin fiziği farklidir.
+S10: Fas'ta fakirlik Fransa'Dan fazladir.
+S11: Funda fayanslari fircayla fircaladi.
+S12: Fantastik filmler film festivalindeydi.
+S13: Fatma fincan fabrikasinda fenalasti.
+S14: Fenerli futbolcunun formasi fosforluydu.
+S15: Fotoğrafçı Fransız futbolculari fotografadi.
+S16: Efe Sefa'ya ofkelendi.
+S17: Efatun eşofman ufalmış.
+S18: Elif Büfe'nin köftesi nefistir.
+S19: Raftaki çarşafı naftalinledi.
+S20: Sedefin kaftani defoluymuş.
+S21: Lütfen sınıfta fısıldamayınız.
+S22: Fasulyeyle köfteler sofradaydı.
+S23: Defne teneffüste sınıftan fırladı.
+S24: Fuardaki fırfırlı çarşaflar kadifeydi.
+S25: Defterdeki tuhaf tariflerle zayıfladı.
+S26: Fırıncı enfes şeftalili puflarını fırınladı.
+S27: Arif Fenerbahce'nin fanatik taraftaridir.
+S28: Müfettiş sınıfta fisildayanlari affetmedi.
+S29: Bufenin mutfağındaki se Fin kıya feti tuha fti.
+S30: Şeref haftaya Afyon'da fizik konferansinda.
+
+==================== STAGE 8: /v/ (sound_v) ====================
+--- wordsBeginning (56) ---
+Var, Vak, Van, Vay, Vah, Ver, Vız, Vur, Vazo, Varil, Vapur, Vale, Viraj, Vites, Valiz, Vezir, Volkan, Vana, Vampir, Vagon, Veda, Veli, Verev, Vişne, Vida, Vücut, Vatan, Virgül, Vadi, Vazife, Voleybol, Vazelin, Vilayet, Tun, Alet, Vardiya, Video, Vanilya, Vasıta, Knilcim, Vatandaş, Eldnen, Varlıklı, Lacnert, Varsayım, Anoz, Vasiyet, Vasıflı, Verimli, Vızıltı, Vaziyet, Vitamin, Vesvese, Valide, Virane, Vestiyer
+--- wordsMiddle (36) ---
+Tavşan, Tava, Cezve, Kova, Ceviz, Kavun, Mavi, Havlu, Kahve, Bavul, Havuç, Yuva, Davul, Çivi, Deve, Duvar, Çuval, Küvet, Hava, Tavla, Avukat, Güvercin, Avize, Çerçeve, Kuvvetli, Sevimli, Geveze, Süveter, Kravat, Lavabo, Canavar, Pervane, Baklava, Semaver, Karavan, Mücevher
+--- wordsEnding (25) ---
+Dev, Döv, Kov, Lav, Sav, Sev, Şov, Yiv, Tav, Türev, Görev, Pilav, Grev, Civciv, Alev, Sınav, Ödev, Manav, Söylev, Uzuv, Hiciv, Konkav, Rezerv, Peşrev, Kav
+--- words1Syllable (20) ---
+Var, Dev, Vak, Döv, Van, Kov, Vay, Lav, Vah, Sav, Ver, Sev, Vız, Şov, Vur, Yiv, Tav, Grev, Tun, Kav
+--- words2Syllables (61) ---
+Vazo, Tavşan, Türev, Varil, Tava, Görev, Vapur, Cezve, Pilav, Kova, Vale, Viraj, Ceviz, Civciv, Vites, Kavun, Alev, Valiz, Mavi, Sınav, Vezir, Havlu, Ödev, Volkan, Kahve, Manav, Vana, Bavul, Söylev, Vampir, Havuç, Vagon, Yuva, Uzuv, Davul, Veda, Hiciv, Veli, Çivi, Verev, Vişne, Deve, Konkav, Vida, Duvar, Rezerv, Vücut, Çuval, Peşrev, Vatan, Küvet, Virgül, Hava, Vadi, Tavla, Alet, Knilcim, Eldnen, Lacnert, Anoz, Kravat
+--- words3Syllables (36) ---
+Vazife, Avukat, Voleybol, Güvercin, Vazelin, Avize, Vilayet, Vardiya, Çerçeve, Video, Kuvvetli, Vanilya, Sevimli, Vasıta, Vatandaş, Varlıklı, Varsayım, Vasiyet, Geveze, Vasıflı, Süveter, Verimli, Vızıltı, Lavabo, Vaziyet, Canavar, Vitamin, Pervane, Vesvese, Baklava, Valide, Semaver, Virane, Karavan, Vestiyer, Mücevher
+--- PHRASES (30) ---
+P1: Van Valisi
+P2: Vahşi vampir
+P3: Valinin valizi
+P4: Vişneli vitamin
+P5: Vefasız Vildan
+P6: Varlıklı vezneci
+P7: Vananın vidası
+P8: Vedat'in vedası
+P9: Vagondaki varil
+P10: Varlıklı veteriner
+P11: Vefa'nin vazosu
+P12: Volkanin videosu
+P13: Verda'nin Vosvosu
+P14: Vatandaşlık vazifesi
+P15: Vejetaryen voleybolcu
+P16: Bedava ev
+P17: Duvar çivisi
+P18: Kuvvetli avcı
+P19: Mavi süveter
+P20: Dev canavar
+P21: Tavuklu pilav
+P22: Sevimli tavşan
+P23: Havlu nevresim
+P24: Yavru güvercin
+P25: Lacivert eldiven
+P26: Vitaminli meyve
+P27: Kahverengi bavul
+P28: Lavabodaki Kova
+P29: Tavadaki mücver
+P30: Volkan'in manavı
+--- SENTENCES (30) ---
+S1: Vapur vaktinde vardı.
+S2: Veysel vanayi vidaladı.
+S3: Vapurun vıncı vitesliydi.
+S4: Vehbi'ye vitamin verdiler.
+S5: Volkan Vural'nvelisiymis.
+S6: Vedat'in valizi vagondaydi.
+S7: Voleybolcu Vildan vedalasti.
+S8: Verda vazoyu Vahit'everdi.
+S9: Vapurda voleybolcular vardı.
+S10: Vahşi vaşak veterinere verildi.
+S11: Vapurdaki valizde vişne varmış.
+S12: Valilik vatandasa vize vermedi.
+S13: Vilayetin vestiyerinde varil vardı.
+S14: Vural valizini vestiyere vermedi.
+S15: Volkan vasitalari valeye verecek.
+S16: Devin evi maviydi.
+S17: Manav meyveleri Verdi.
+S18: Seval tavsana havuç Verdi.
+S19: Sevimli güvercin civcivi kovaladi.
+S20: Davulcu davula kuvvetlice vurdu.
+S21: Manavda vitaminli meyveler vardı.
+S22: Evdeki davette tavuklu pilav vard.
+S23: Cuvaldaki cevizleri havanda dovdu.
+S24: Zavallievcil hayvanlar savunmasizdi.
+S25: Kavgacı Avni vazoyu duvara savurdu.
+S26: Tuvaletteki lavabonun vidası gevşemiş.
+S27: Deve kervaninda kahve cuvallari vardı.
+S28: Canavar duvardaki cerceveyi ceviriverdi.
+S29: Lacivert eldiveniyle suiveterini vestiyere Verdi.
+S30: Sevgi lavabodaki ayva ve visneyi tavaya koyuverdi.
+
+==================== STAGE 9: /s/ (sound_s) ====================
+--- wordsBeginning (76) ---
+Sap, Saç, Saf, Sağ, Sar, Sal, Seç, Say, Sel, Ser, Şen, Set, Sık, Sert, Sır, Sil, Sür, Sim, Sor, Şok, Sol, Som, Son, Sok, Suç, Söz, Sirk, Sırt, Saat, Sabun, Sekiz, Salam, Simit, Soğan, Sincap, Sakız, Sinek, Saman, Serçe, Sandık, Sapan, Saray, Sarı, Satır, Sepet, Siyah, Silgi, Sütlaç, Sigara, Salata, Süpürge, Sabunluk, Solucan, Sandalye, Salıncak, Sürahi, Safari, Sivilce, Salyangoz, Satıcı, Sarımsak, Sürücü, Saklambaç, Saksafon, Saksağan, Süveter, Sevimli, Sekreter, Baş, Kuş, Ses, Şiş, Sus, Taş, Yaş, Sosis
+--- wordsMiddle (40) ---
+Mısır, Asker, Musluk, Pasta, Kaset, Lastik, Yastık, Timsah, Fıstık, Taksi, Aslan, Hasta, Basket, Misket, Kasap, Maske, Tepsi, Baston, Yüksek, Masal, Bisiklet, Asansör, Elbise, Fasulye, Aspirin, Basamak, Basketbol, Testere, Eskici, Kestane, Postacı, Yarasa, Fesleğen, Bisküvi, Pırasa, Gösteri, Hastane, Ispanak, Istakoz, Pusula
+--- wordsEnding (59) ---
+Fas, Has, His, Kas, Kes, Kıs, Küs, Mis, Pes, Ters, Mars, Kars, Pus, Rus, Tös, Pas, Pis, Ders, Burs, Kurs, Yunus, Polis, Makas, Atlas, Vites, Kümes, Tenis, Kafes, Nergis, Kalas, Kaktüs, Elips, Elmas, Nefes, Hapis, Paspas, Termos, Hostes, Fayans, Abaküs, Ağustos, Albatros, Ananas, Patates, Karides, Domates, Minibüs, Okyanus, Mühendis, Marakas, Mıknatıs, Otobüs, Prenses, Teneffüs, Papirüs, Konsolos, Erciyes, Konferans, Döpiyes
+--- words1Syllable (55) ---
+Sap, Saç, Saf, Sağ, Sar, Sal, Seç, Say, Sel, Ser, Şen, Set, Sık, Sert, Sır, Sil, Sür, Sim, Sor, Şok, Sol, Som, Son, Sok, Suç, Söz, Sirk, Sırt, Baş, Fas, Has, His, Kas, Kes, Kıs, Kuş, Küs, Mis, Pes, Ters, Mars, Kars, Pus, Rus, Ses, Şiş, Sus, Taş, Tös, Yaş, Pas, Pis, Ders, Burs, Kurs
+--- words2Syllables (61) ---
+Saat, Sabun, Sekiz, Salam, Simit, Soğan, Sincap, Sakız, Sinek, Saman, Serçe, Sandık, Sapan, Saray, Sarı, Satır, Sepet, Siyah, Silgi, Sütlaç, Mısır, Asker, Musluk, Pasta, Kaset, Lastik, Yastık, Timsah, Fıstık, Taksi, Aslan, Hasta, Basket, Misket, Kasap, Maske, Tepsi, Baston, Yüksek, Masal, Yunus, Polis, Makas, Atlas, Vites, Kümes, Tenis, Kafes, Nergis, Kalas, Kaktüs, Elips, Elmas, Nefes, Hapis, Paspas, Termos, Hostes, Sosis, Fayans, Prenses
+--- words3Syllables (59) ---
+Sigara, Salata, Süpürge, Sabunluk, Solucan, Sandalye, Salıncak, Sürahi, Safari, Sivilce, Salyangoz, Satıcı, Sarımsak, Sürücü, Saklambaç, Saksafon, Saksağan, Süveter, Sevimli, Sekreter, Bisiklet, Asansör, Elbise, Fasulye, Aspirin, Basamak, Basketbol, Testere, Eskici, Kestane, Postacı, Yarasa, Fesleğen, Bisküvi, Pırasa, Gösteri, Hastane, Ispanak, Istakoz, Pusula, Abaküs, Ağustos, Albatros, Ananas, Patates, Karides, Domates, Minibüs, Okyanus, Mühendis, Marakas, Mıknatıs, Otobüs, Teneffüs, Papirüs, Konsolos, Erciyes, Konferans, Döpiyes
+--- PHRASES (25) ---
+P1: Sıcak süt
+P2: Sıvı sabun
+P3: Sivri sinek
+P4: Şali sabahı
+P5: Sarı solucan
+P6: Soslu salata
+P7: Sinirli sürücü
+P8: Siyah süveter
+P9: Susamlı simit
+P10: Soğan sepeti
+P11: Süratsiz Sinan
+P12: Sedefli sandık
+P13: Sahipsiz sepet
+P14: Salamlı sandviç
+P15: Sallanan sandalye
+P16: Eski masa
+P17: Asker Sinan
+P18: Kısa mesafe
+P19: Esmer Esma
+P20: Askılı elbise
+P21: Mısır püskülü
+P22: Fıstıklı bisküvi
+P23: Paslı musluk
+P24: Hasır iskemle
+P25: Maskeli süvari
+--- SENTENCES (15) ---
+S1: Sebze soteyi severim.
+S2: Sinem sarı silgiyi sakladı.
+S3: Sezgin'in sorusu saçmaydı.
+S4: Sokaktaki sincaplar sahipsizdi.
+S5: Saçma sözler söylemek serbestti.
+S6: Selin saksıdaki sardunyaları suladı.
+S7: Sarı saclı sporcu sahada sakatlandı.
+S8: Simitçi sokakta sıcak simit satıyordu.
+S9: Semizotu, soğan, sarımsak sepetteydi.
+S10: Serseri sürücü sokakta subaya saldırdı.
+S11: Bakımsız bisiklet paslandı.
+S12: Mesut teneffüste hastalandı.
+S13: Pasaklı Sibel salonu pisletti.
+S14: Aslı siyah paltosunu askıya astı.
+S15: Esin eski elbiselerini eskiciye sattı.
+
+==================== STAGE 10: /z/ (sound_z) ====================
+--- wordsBeginning (50) ---
+Zam, Zar, Zan, Zıt, Zil, Zor, Zift, Zamk, Zarf, Zevk, Zebra, Zakkum, Zafer, Zehir, Zaman, Zalim, Zamir, Zanlı, Zengin, Zeytin, Zenci, Zeybek, Zımba, Zıpkın, Zayıf, Zurna, Zincir, Zindan, Zambak, Zürafa, Ziyafet, Zarafet, Zorunlu, Zararlı, Ziyaret, Zencefil, Zımpara, Zemberek, Zavallı, Zehirli, Zelzele, Zaptiye, Zeytinlik, Zamane, Zabıta, Zenginlik, Zonguldak, Zerzevat, Zamansız, Zahmetli
+--- wordsMiddle (40) ---
+Terzi, Kazak, Gözlük, Yüzük, Uzay, Vazo, Cüzdan, Üzüm, Kuzu, Çözüm, Rüzgar, Uzun, Kazma, Benzin, Çizme, Emzik, Pazar, Müzik, Füze, Süzgeç, Yüzücü, Arıza, Bezelye, Düzine, Gazete, Dinozor, Yeryüzü, Uzunluk, Avize, Kozalak, Mızıka, Kizilay, Kırmızı, Terazi, Bilezik, Borazan, Hazine, Gazino, Temizlik, Gezegen
+--- wordsEnding (73) ---
+Bez, Haz, Biz, Hız, Boz, Kaz, Buz, Kız, Koz, Caz, Çiz, Muz, Naz, Poz, Diz, Saz, Düz, Siz, Doz, Söz, Faz, Tez, Gaz, Tiz, Gez, Toz, Giz, Tuz, Göz, Yaz, Güz, Yüz, Farz, Tarz, Sakız, Gazoz, Ceviz, Gündüz, Dokuz, Horoz, Bornoz, Kiraz, Deniz, Ağız, Sekiz, Domuz, Yıldız, Nabız, Hırsız, Valiz, Temiz, Karpuz, Perhiz, Piyaz, Hokkabaz, Olumsuz, Marangoz, Çaresiz, Maydanoz, Sihirbaz, Hilebaz, Belirsiz, Yaramaz, Hayırsız, Kararsız, Tarafsız, Kereviz, Kavanoz, Onsekiz, Görgüsüz, Kılavuz, Analiz, Engelsiz
+--- words1Syllable (44) ---
+Bez, Zam, Haz, Zar, Biz, Hız, Zan, Boz, Kaz, Zıt, Buz, Kız, Zil, Koz, Zor, Caz, Zift, Çiz, Muz, Zamk, Naz, Zarf, Poz, Diz, Zevk, Saz, Düz, Siz, Doz, Söz, Faz, Tez, Gaz, Tiz, Gez, Toz, Giz, Tuz, Göz, Yaz, Güz, Yüz, Farz, Tarz
+--- words2Syllables (59) ---
+Terzi, Sakız, Zebra, Kazak, Gazoz, Gözlük, Zakkum, Ceviz, Zafer, Yüzük, Gündüz, Zehir, Uzay, Dokuz, Zaman, Vazo, Horoz, Zalim, Cüzdan, Bornoz, Zamir, Üzüm, Kiraz, Zanlı, Kuzu, Deniz, Çözüm, Zengin, Ağız, Zeytin, Rüzgar, Sekiz, Zenci, Uzun, Domuz, Kazma, Zeybek, Yıldız, Benzin, Zımba, Nabız, Zıpkın, Çizme, Hırsız, Emzik, Zayıf, Valiz, Zurna, Pazar, Temiz, Zincir, Müzik, Karpuz, Zindan, Füze, Perhiz, Süzgeç, Zambak, Piyaz
+--- words3Syllables (60) ---
+Zürafa, Yüzücü, Hokkabaz, Ziyafet, Arıza, Olumsuz, Zarafet, Bezelye, Marangoz, Zorunlu, Düzine, Çaresiz, Zararlı, Gazete, Maydanoz, Ziyaret, Dinozor, Sihirbaz, Zencefil, Yeryüzü, Hilebaz, Zımpara, Uzunluk, Belirsiz, Avize, Zemberek, Yaramaz, Zavallı, Kozalak, Hayırsız, Zehirli, Mızıka, Kararsız, Zelzele, Kizilay, Tarafsız, Zaptiye, Kırmızı, Kereviz, Zeytinlik, Terazi, Kavanoz, Bilezik, Zamane, Onsekiz, Zabıta, Borazan, Görgüsüz, Zenginlik, Hazine, Kılavuz, Gazino, Zonguldak, Analiz, Zerzevat, Temizlik, Zamansız, Zahmetli, Gezegen, Engelsiz
+--- PHRASES (30) ---
+P1: Zil zurna
+P2: Zeki Zafer
+P3: Zamklı zarf
+P4: Zor zaman
+P5: Zayıf zenci
+P6: Zavall zebra
+P7: Zincirli zindan
+P8: Zarif ziyaretçi
+P9: Zımbalı zıbın
+P10: Zam zamani
+P11: Zehirli zambak
+P12: Zengin ziyafet
+P13: Zamansız ziyaret
+P14: Zeytinlikteki zeytin
+P15: Zonguldak'li Zehra
+P16: Düz yazı
+P17: Hızlı tazı
+P18: Uzun çizme
+P19: Bozuk Terazi
+P20: Kırmızı kazak
+P21: Taze sebze
+P22: Bezgin terzi
+P23: Müze gezisi
+P24: Kurnaz hırsız
+P25: Düzenli valiz
+P26: Güzel bilezik
+P27: Kizin mizikasi
+P28: Kuzunun gozu
+P29: Kurşunsuz benzin
+P30: Bezelye kavanozu
+--- SENTENCES (30) ---
+S1: Zafer zıpzıp zıpladı.
+S2: Zerrin zarfı zamkladı.
+S3: Zehra'yla Zerrin zekidir.
+S4: Zarif zambak zedelendi.
+S5: Zeytin'izehirli zannettim.
+S6: Ziya zorlanarak zayifladi.
+S7: Zafer zinciri zimparaladi.
+S8: Zarfı zimbayla zimbaladi.
+S9: Zebrayla zurafalar zayifti.
+S10: Zeliha zamaninda. ziyafetteydi.
+S11: Zeynep zaman zaman zirvalar.
+S12: Zeytinyağlı zencefil zararsizdir.
+S13: Zengin ziyaretciyi Ziya zannettim.
+S14: Zehirli zakkum zurafayi zehirledi.
+S15: Zeynep zıplayarak zayıflayacağını zannetti.
+S16: Uzaya fuzeyle gidebiliriz.
+S17: Terzi teyze komsumuzdur.
+S18: Ozgurun kuzeni muzisyendi.
+S19: Gamze'yi yazliktan taniyoruz.
+S20: Hızlı yüzücü havuzda yuzdu.
+S21: Bazen müze gezmeyi ozlerim.
+S22: Pazardaki taze sebzeler azalmış.
+S23: Yazın hepimiz denizde egleniriz.
+S24: Kuzenimle buzlu gazoza bayiliriz.
+S25: Güzel gözlü kizin televizyonu bozuldu.
+S26: Taze bezelyeler kırmızı kavanozdaydi.
+S27: Pazarlari teyzemle zeytinli pizza pisiririz.
+S28: Nezihe kizina kiraz, Üzüm, karpuz hazirlad.
+S29: Kırmızı kazaklı kız bazı zamanlar yalnız geziyor.
+S30: Zafer izlediği yazarin gazetedeki yazilarini ozetledi.
+
+==================== STAGE 11: /ş/ (sound_ş) ====================
+--- wordsBeginning (63) ---
+Şok, Şad, Şal, Şom, Şov, Şam, Şan, Şarj, Şaş, İns, Şap, Şık, Şef, Şort, Şer, Şevk, Şart, Şark, Şurup, Şoför, Şaka, Şalgam, Şalter, Şalvar, Şamar, Şamdan, Şapka, Şarap, Şarkı, Şaşı, Şato, Şekil, Ka, Şeker, Şirin, Şerif, Şimşek, Ye, Sil, Şehir, Şakacı, Şaklaban, Şampanya, Şampiyon, Şempanze, Şampuan, Şeftali, Şehriye, Ellibes, Şımarık, Şekerlik, Şamata, Şerefe, Şekerci, Şırınga, Otuzbes, Şişeci, Şelale, Şüpheli, Şömine, Şövalye, Yetmisbes, Sirine
+--- wordsMiddle (37) ---
+Aşı, Aşçı, Tavşan, Tişört, Başak, Koşu, Başlık, Beşik, Çarşaf, Dişçi, Çarşı, Ekşi, Eşya, Fişek, Çeşme, Eşek, Vişne, Hemşire, Aşure, Başarı, Çalışkan, Başlangıç, Koşucu, Çamaşır, Bulaşık, İşaret, Yarışma, Dövüşçü, Menekşe, Meşrubat, Neşeli, Tebeşir, Kapüşon, Paraşüt, Buruşuk, Yapışkan, Erişte
+--- wordsEnding (54) ---
+Baş, Leş, Beş, Loş, Boş, Muş, Piş, Duş, Fiş, Taş, Kaş, Keş, Yaş, Kış, Koş, Kuş, Marş, Alkış, Yarış, Ateş, Gümüş, Baykuş, Güneş, Cümbüş, Afiş, Dikiş, Kamış, Yavaş, Kardeş, Güreş, Karış, Altmış, Nakış, Buluş, Yokuş, Çavuş, Kuruş, Arkadaş, Yakarış, Çekiliş, Anlayış, Direniş, Çilekeş, Görünüş, Beşiktaş, Karabaş, Keşmekeş, Kurtuluş, Okumuş, Uyanış, Yürüyüş, Tırmanış, Oturuş, Kabataş
+--- words1Syllable (38) ---
+Baş, Leş, Beş, Şok, Şad, Loş, Şal, Şom, Boş, Muş, Şov, Şam, Piş, Şan, Şarj, Şaş, İns, Duş, Şap, Fiş, Şık, Şef, Şort, Taş, Kaş, Şer, Şevk, Şart, Şark, Keş, Yaş, Kış, Koş, Kuş, Marş, Ka, Ye, Sil
+--- words2Syllables (56) ---
+Aşı, Şurup, Alkış, Şoför, Aşçı, Yarış, Tavşan, Ateş, Tişört, Şaka, Gümüş, Şalgam, Başak, Baykuş, Şalter, Koşu, Güneş, Şalvar, Başlık, Cümbüş, Beşik, Şamar, Afiş, Çarşaf, Şamdan, Dikiş, Dişçi, Şapka, Kamış, Şarap, Çarşı, Yavaş, Ekşi, Şarkı, Kardeş, Eşya, Şaşı, Güreş, Fişek, Şato, Karış, Çeşme, Şekil, Altmış, Şeker, Nakış, Şirin, Buluş, Eşek, Şerif, Yokuş, Şimşek, Çavuş, Vişne, Şehir, Kuruş
+--- words3Syllables (60) ---
+Şakacı, Hemşire, Arkadaş, Aşure, Şaklaban, Yakarış, Başarı, Şampanya, Çekiliş, Şampiyon, Çalışkan, Anlayış, Şempanze, Başlangıç, Direniş, Şampuan, Koşucu, Çilekeş, Şeftali, Çamaşır, Görünüş, Şehriye, Bulaşık, Ellibes, İşaret, Şımarık, Beşiktaş, Yarışma, Şekerlik, Karabaş, Şamata, Dövüşçü, Keşmekeş, Menekşe, Şerefe, Kurtuluş, Şekerci, Meşrubat, Okumuş, Neşeli, Şırınga, Otuzbes, Tebeşir, Şişeci, Uyanış, Kapüşon, Şelale, Yürüyüş, Şüpheli, Paraşüt, Tırmanış, Şömine, Buruşuk, Oturuş, Şövalye, Yapışkan, Yetmisbes, Sirine, Erişte, Kabataş
+--- PHRASES (30) ---
+P1: şişman şef
+P2: şan şöhret
+P3: şirin şapka
+P4: şen şakrak
+P5: şişko şoför
+P6: şahane süt
+P7: şekerli şurup
+P8: Sarkill Şenlik
+P9: şeftalili şerbet
+P10: Şımarık Şeyma
+P11: sasl şempanze
+P12: şakacı şaklaban
+P13: Solendeki sarkicl
+P14: samatacl şövalye
+P15: sampiyonun sovu
+P16: Diş taş!
+P17: Beş karış
+P18: Yavaş taşıt
+P19: Kış gunesi
+P20: Duş başlığı
+P21: Koşu yarış!
+P22: Telaşlı ascl
+P23: Yeşil tebeşir
+P24: Karşı komsu
+P25: Güneş Isini
+P26: Gümüş kaşık
+P27: Kaşarlı erişte
+P28: Ayşe'nin kardesi
+P29: Döşeğin kumaş!
+P30: Arkadasimin kalemtirasl
+--- SENTENCES (30) ---
+S1: Şam şekeri Şam'dadir.
+S2: şişko şempanze şirindi.
+S3: şampiyon Şeniz şımarıktı.
+S4: Sengül sohreti sarkiciydi.
+S5: şapkalı Şerif samataciydi.
+S6: sirinler sirine'yle sakalasti.
+S7: Sengül'usan şöhret sasirtti.
+S8: sampiyonun sovu sahaneydi.
+S9: solendeki şaklaban sapkaliydi.
+S10: sominenin sekli Şenay'isasirtmisti.
+S11: şule'nin sekerleri sekerlikteymis.
+S12: şahane samdanlar sovalyenindi.
+S13: şekerli şeftali serbeti sismanlatir.
+S14: şaşı şempanze sSirin şule'yi sasirtti.
+S15: Şöhretli şarkıcı sehirdekileri senlendirdi.
+S16: Başarıl kisiler caliskandir.
+S17: Basimdaki şapka kusluydu.
+S18: Asagidaki komsu aşırı neselidir.
+S19: Arkadasimin Yeşil tisortu yırtılmış.
+S20: Akşam kuslarin otusu coskuluydu.
+S21: Dişlek tavşan kosede kasiniyordu.
+S22: Enistem görüşmeyeli şişmanlamış.
+S23: sovalyenin sakalari basimizi sisirdi.
+S24: Kardesime kreste sekilleri ogretmisler.
+S25: Ayşe düşünce basini tasa çarpmış.
+S26: Şampiyon kosucunun sortu kirmiziymis.
+S27: Yaristaki yarismacilar yavaş kosuyordu.
+S28: sampiyonlar yarista pes pese dizilmisti.
+S29: Şımarık Ayşe arkadasinin pesinden kostu.
+S30: Kumaşçı yıpranmış kumaslari asagidaki koseye koymustu.
+
+==================== STAGE 12: /j/ (sound_j) ====================
+--- wordsBeginning (34) ---
+Jel, Jön, Jet, Jest, Jant, Jüpon, Jale, Jüri, Judo, Jikle, Jokey, Jeton, Japon, Jilet, Jambon, Jarse, Jile, Jargon, Jöle, Jurnal, Joker, Janjan, Jeolog, Jaguar, Jübile, Jelatin, Jakuzi, Japonya, Jenerik, Jüpiter, Jimnastik, Jelibon, Jaluzi, Jandarma
+--- wordsMiddle (30) ---
+Oje, Ajda, Lojman, Ajan, Müjde, Ajans, Panjur, Majör, Obje, Berjer, Oksijen, Enerji, Ejderha, Pijama, Dijital, Alerji, Draje, Orijinal, Sosyoloji, Nijerya, Ajanda, Hidrojen, Deterjan, Proje, Menenjit, Objektif, Hijyenik, Anjiyo, Abajur, Homojen
+--- wordsEnding (35) ---
+Bej, Ruj, Şarj, Mesaj, Garaj, Voltaj, Masaj, Bagaj, Makyaj, Kolej, Viraj, Plaj, Solfej, Pasaj, Staj, Dublaj, Peyzaj, Montaj, Bandaj, İmaj, Kortej, Sondaj, Baraj, Kamuflaj, Sürmenaj, Patinaj, Ambalaj, Avantaj, Stopaj, Blokaj, Debriyaj, Kabotaj, Röportaj, Gramaj, Sabotaj
+--- words1Syllable (10) ---
+Jel, Bej, Jön, Ruj, Jet, Şarj, Jest, Jant, Plaj, Staj
+--- words2Syllables (50) ---
+Jüpon, Oje, Mesaj, Jale, Ajda, Garaj, Jüri, Lojman, Voltaj, Ajan, Judo, Masaj, Jikle, Müjde, Bagaj, Jokey, Ajans, Makyaj, Jeton, Panjur, Kolej, Majör, Japon, Viraj, Jilet, Obje, Jambon, Berjer, Solfej, Jarse, Pasaj, Jile, Jargon, Dublaj, Jöle, Peyzaj, Jurnal, Montaj, Joker, Bandaj, Janjan, İmaj, Kortej, Sondaj, Baraj, Stopaj, Draje, Blokaj, Gramaj, Proje
+--- words3Syllables (39) ---
+Jeolog, Oksijen, Kamuflaj, Enerji, Jaguar, Sürmenaj, Jübile, Ejderha, Patinaj, Jelatin, Pijama, Ambalaj, Jakuzi, Dijital, Avantaj, Japonya, Alerji, Jenerik, Jüpiter, Orijinal, Debriyaj, Jimnastik, Sosyoloji, Kabotaj, Jelibon, Nijerya, Röportaj, Jaluzi, Ajanda, Jandarma, Hidrojen, Sabotaj, Deterjan, Menenjit, Objektif, Hijyenik, Anjiyo, Abajur, Homojen
+--- PHRASES (30) ---
+P1: Jöleli jön
+P2: Japon jüri
+P3: Jumbo jet
+P4: Janjanlı jant
+P5: Judocu Jale
+P6: Japon jokey
+P7: Jeolog Jülide
+P8: Jale'nin jetonu
+P9: Jaguar'in janti
+P10: Jülide'nin jesti
+P11: Jelatinli jambon
+P12: Jelibonun jolesi
+P13: Jandarmanin jileti
+P14: Judocularin jübilesi
+P15: Jamaikal jimnastikçi
+P16: Ojeli Tijen
+P17: Enerjik jüri
+P18: Bej pijama
+P19: Sarjl abajur
+P20: Japon ejderi
+P21: Enerj masaji
+P22: Jetonlu bagaj
+P23: Panjurlu garaj
+P24: Müjdeli mesaj
+P25: Japon makyaji
+P26: Jiletin ambalaji
+P27: Ajanin ajandasi
+P28: Jale'nin projesi
+P29: Ajda'nin alerjisi
+P30: Hijyenik deterjan
+--- SENTENCES (30) ---
+S1: Jet Japonlar'in mi?
+S2: Jokeyin jübilesi jestti.
+S3: Jöleli jön jenerikteydi.
+S4: Jale'nin jilesi jarseydi.
+S5: Jeolog Jale Japonya'da.
+S6: Jöleli jandarma judocuydu.
+S7: Jetin jeneratoru jetonludur.
+S8: Jumbo jambonlar jelatinliydi.
+S9: Jamaikalı judocu Japonya'da.
+S10: Janset Japonlarla Jüpiter'deydi.
+S11: Jülide Jamaika'da jimnastikciydi.
+S12: Jokey Jale jimnastik jurisindeydi.
+S13: Judocu jelatinsiz jetonlari jelatinledi.
+S14: Jamaika'daki jokey Japon jetindeydi.
+S15: Jülide'nin Jaguar'inin jantlari janjanliydi.
+S16: Nejat'in projesi stratejiktir.
+S17: Tijen psikoloji stajindaymis.
+S18: Drajelerin gramaji orijinaldir.
+S19: Bagajin ambalaji garajda mi?
+S20: Ajda'nin alerjisi pijamadanmis.
+S21: Stajyer ferforjeleri montajladl.
+S22: Bej ojemle rujum bagajdaymis.
+S23: Ejderhalı pjamalar Müjde'ninmis.
+S24: Müjdat'in dublaj ajansı pasajdadir.
+S25: Vidanjorler lojmanin garajindadir.
+S26: Kolejdeki deterjanlar hijyenik midir?
+S27: Sosyoloji arkeolojiden avantajlidir.
+S28: Roportaji ajansa mesajla mujdelediler.
+S29: Ajandadaki mesajlar ajanin santajiymis.
+S30: Enerji masajinin orijinali Nijerya'daki plajlardadir.
+
+==================== STAGE 13: /h/ (sound_h) ====================
+--- wordsBeginning (68) ---
+Hep, Hop, Hiç, Hor, Hoş, Hat, Hal, Hav, Hür, Ham, Hır, Huy, Hak, Hey, Hol, Han, Hit, Hap, Her, Has, Harp, Hint, Hurç, Harç, Halk, Harf, Halka, Havuç, Hortum, Hakem, Hala, Hali, Hostes, Hava, Havlu, Hayvan, Heykel, Havuz, Hamam, Helva, Horoz, Hamsi, Hasta, Hamak, Hamur, Hırsız, Hizmetçi, Harita, Hıçkırık, Hacivat, Hediye, Civan, Haziran, Hatıra, Livan, Heyecan, Hoscakal, Harika, Hikaye, Hareket, Hamburger, Hafıza, Hayalet, Hazine, Hemşire, Hamile, Hastane, Hokkabaz
+--- wordsMiddle (38) ---
+Tahta, Sahte, Rahat, Bahçe, Tahıl, Şahit, Buhar, Tohum, Vahşi, Kahve, Nohut, Yahni, Rehber, Şahin, Sahne, Ahır, Tahin, Bahar, Sahil, Sihir, Baharat, Sonbahar, İhtiyaç, İlkbahar, Lahana, Anahtar, Kahraman, Cephane, Lahmacun, Mühendis, Ahtapot, Ihlamur, Bahane, Pahalı, Sihirbaz, Ehliyet, Sahici, Kabahat
+--- wordsEnding (32) ---
+Kah, Deh, Tüh, Şah, Vah, Sulh, Zırh, Sabah, Tespih, Timsah, Mizah, Nikah, Külah, Tercih, Talih, Siyah, Tembih, Ferah, Kadeh, Günah, Tezgah, İlah, Tarih, Cerrah, Fatih, Padişah, Karargah, Maşallah, Güzergah, İnşallah, Bah, Peh
+--- words1Syllable (35) ---
+Hep, Hop, Kah, Hiç, Hor, Deh, Hoş, Hat, Tüh, Hal, Hav, Şah, Hür, Ham, Vah, Hır, Huy, Sulh, Hak, Hey, Zırh, Hol, Han, Hit, Hap, Her, Has, Harp, Hint, Hurç, Harç, Halk, Harf, Bah, Peh
+--- words2Syllables (60) ---
+Tahta, Halka, Sabah, Havuç, Sahte, Tespih, Rahat, Hortum, Timsah, Bahçe, Hakem, Mizah, Hala, Tahıl, Nikah, Şahit, Hali, Külah, Buhar, Hostes, Hava, Tohum, Tercih, Vahşi, Havlu, Talih, Kahve, Hayvan, Nohut, Heykel, Siyah, Yahni, Havuz, Tembih, Hamam, Rehber, Ferah, Şahin, Helva, Kadeh, Horoz, Sahne, Günah, Hamsi, Ahır, Tezgah, Tahin, Hasta, İlah, Hamak, Bahar, Tarih, Hamur, Sahil, Cerrah, Sihir, Hırsız, Fatih, Civan, Livan
+--- words3Syllables (43) ---
+Hizmetçi, Padişah, Baharat, Harita, Karargah, Sonbahar, Hıçkırık, Maşallah, İhtiyaç, Hacivat, Güzergah, İlkbahar, Hediye, İnşallah, Haziran, Lahana, Hatıra, Heyecan, Anahtar, Hoscakal, Kahraman, Harika, Cephane, Hikaye, Lahmacun, Hareket, Mühendis, Hamburger, Ahtapot, Hafıza, Ihlamur, Hayalet, Bahane, Hazine, Pahalı, Hemşire, Sihirbaz, Hamile, Ehliyet, Hastane, Sahici, Hokkabaz, Kabahat
+--- PHRASES (30) ---
+P1: Ham havuç
+P2: Hızlı hırsız
+P3: Hafif helva
+P4: Harika hayal
+P5: Haftalık haber
+P6: Huzurlu hava
+P7: Havuzdaki havlu
+P8: Hassas hediye
+P9: Huysuz horoz
+P10: Hatalı hareket
+P11: Hızlı hokkabaz
+P12: Hastalık hastas
+P13: Hareketli Hülya
+P14: Heyecanlı hikaye
+P15: Hamarat hizmetçi
+P16: Cahil Cihan
+P17: Pahalı nohut
+P18: Rahat sahne
+P19: Sahte Ehliyet
+P20: ihtiyar muhtar
+P21: Sahici sihirbaz
+P22: Kahve bahane
+P23: Şahane bahçe
+P24: Mahalle kahvesi
+P25: Sahanda şehriye
+P26: Sahildeki ahtapot
+P27: Kahraman Ahmet
+P28: Kahverengi anahtar
+P29: Baharatlı la hmacun
+P30: Sehpadaki tahtakurusu
+--- SENTENCES (30) ---
+S1: Hakan hırsızı hatırladı.
+S2: Handan Hanım hıçkırdı.
+S3: Herkesin Hediyesi hazır.
+S4: Helikopter hizla havalandi.
+S5: Halit hirsizlari hemen hakladi.
+S6: Hastanedeki hemşire hatallydi.
+S7: Halam helvayi hemen hazirladi.
+S8: Hülya halam havuzda hastalandi.
+S9: Halidaki hediyelerin hangisi hafif?
+S10: Heyecanlı Halil hirkasini hirpaladi.
+S11: Hande hayalindeki hikayeyi hatırladı.
+S12: Hamaktaki Hasan herseyden habersizdi.
+S13: Hakim hileci haydutlarin hepsini hapsetti.
+S14: Hizmetliler havasız hangari hizla havalandirdilar.
+S15: Hekimler, hemsireler ve hastabakicilar hastanedeydi.
+S16: Nahit tenhada horluyordu.
+S17: Pahalı Mücevher sahteymis.
+S18: Sabiha'nin anahtari siyahti.
+S19: Baharatlı yahni muhtesemdi.
+S20: Bahcedeki kahvaltı harikaydi.
+S21: Baharda havalar hep ferahtir.
+S22: Kahve bahane sohbet şahane.
+S23: Sehpayi tahtakurusu mahvetmiş.
+S24: Saliha Taha'ya ehliyetini hatirlatti.
+S25: Bahcivanin tohumlari bahcedeydi.
+S26: ihtiyar hokkabazin hikayesi tuhaft.
+S27: Sahandaki lahana Serhat'in hakkidir.
+S28: Sihirli ejderhanin hikayesi heyecanliydi.
+S29: Sihirbazin kahkahasi hepimizi rahatlatti.
+S30: Ahmet yemekhanede kahvaltı hazirladi.
+
+==================== STAGE 14: /ç/ (sound_ç) ====================
+--- wordsBeginning (65) ---
+Çay, Çam, Çık, Çan, Çiz, Çap, Çok, Çiğ, Çöl, Çil, Çak, Çip, Çit, Çin, Çek, Ving, Çim, Çöp, Çal, Hing, Çar, Çark, Ding, Çağ, Çırp, Tung, Çanta, Çatal, Çamur, Çadır, Çorba, Çene, Çakmak, Çörek, Çimen, Çirkin, Çiftlik, Çakı, Çizme, Çekiç, Çivi, Çorap, Çocuk, Çapa, Çiçek, Çaydanlık, Çamaşır, Çekirdek, Çekirge, Çekmece, Çerçeve, Çorapçı, Çekecek, Çimento, Çiçeklik, Çıngırak, Çingene, Çalışkan, Cigkofte, Çamurlu, Çimenlik, Çıkartma, Çalgıcı, Çizmeli, Çitlembik
+--- wordsMiddle (40) ---
+Paça, Fıçı, İçki, Açık, Serçe, Bıçak, Reçel, Uçak, Keçi, Açı, Küçük, Tarçın, Fırça, Ketçap, Üçgen, Kepçe, Salça, Bekçi, Açma, Bahçe, Uçurtma, Palyaço, Falçata, Paçavra, Balıkçı, Kelepçe, Reçete, Simitçi, Bahçıvan, Saatçi, Açacak, Peçete, Mızıkçı, Poğaça, Açgözlü, Börekçi, Açelya, Göçebe, Hizmetçi, Sevinçli
+--- wordsEnding (50) ---
+Aç, Güç, İç, Seç, Taç, Saç, Maç, Kaç, Haç, Meç, Borç, Suç, Koç, Geç, Göç, Biç, Harç, İlaç, Araç, Yüzgeç, Topaç, Dalgıç, Yengeç, Satranç, Kılıç, Sevinç, Avuç, Kulaç, Sütlaç, Delgeç, Kırbaç, Süzgeç, Ağaç, Havuç, Yargıç, Sonuç, Solungaç, Saklambaç, Kokoreç, Kaldıraç, İhtiyaç, Büyüteç, Kırlangıç, Bulamaç, Dönemeç, Yürüteç, Üşengeç, Dolambaç, Başlangıç, Utangaç
+--- words1Syllable (43) ---
+Aç, Çay, Güç, İç, Çam, Çık, Seç, Çan, Çiz, Taç, Çap, Çok, Saç, Çiğ, Çöl, Maç, Kaç, Haç, Çil, Çak, Meç, Çip, Çit, Borç, Çin, Suç, Çek, Ving, Çim, Koç, Geç, Çöp, Göç, Çal, Biç, Hing, Çar, Çark, Ding, Çağ, Çırp, Tung, Harç
+--- words2Syllables (58) ---
+Paça, İlaç, Fıçı, Çanta, Araç, İçki, Çatal, Yüzgeç, Açık, Çamur, Topaç, Çadır, Serçe, Dalgıç, Çorba, Bıçak, Yengeç, Reçel, Satranç, Uçak, Çene, Kılıç, Keçi, Çakmak, Sevinç, Çörek, Açı, Avuç, Küçük, Çimen, Kulaç, Çirkin, Tarçın, Sütlaç, Çiftlik, Fırça, Delgeç, Çakı, Ketçap, Kırbaç, Çizme, Üçgen, Çekiç, Çivi, Kepçe, Süzgeç, Çorap, Salça, Ağaç, Çocuk, Bekçi, Havuç, Çapa, Açma, Yargıç, Çiçek, Bahçe, Sonuç
+--- words3Syllables (54) ---
+Uçurtma, Çaydanlık, Solungaç, Çamaşır, Palyaço, Saklambaç, Falçata, Çekirdek, Kokoreç, Çekirge, Paçavra, Kaldıraç, Balıkçı, Çekmece, İhtiyaç, Kelepçe, Çerçeve, Büyüteç, Çorapçı, Reçete, Kırlangıç, Simitçi, Çekecek, Bulamaç, Çimento, Bahçıvan, Dönemeç, Saatçi, Çiçeklik, Yürüteç, Çıngırak, Açacak, Üşengeç, Çingene, Peçete, Dolambaç, Mızıkçı, Çalışkan, Başlangıç, Cigkofte, Poğaça, Utangaç, Çamurlu, Açgözlü, Çimenlik, Börekçi, Çıkartma, Açelya, Çalgıcı, Göçebe, Çizmeli, Hizmetçi, Çitlembik, Sevinçli
+--- PHRASES (30) ---
+P1: Çürük çilek
+P2: Çirkin çörek
+P3: Çukur çanak
+P4: Çizgili çorap
+P5: Çok çikolata
+P6: Çabuk çorba
+P7: Çizmeli çocuk
+P8: Çalışkan çiftçi
+P9: Çorapçı Çetin
+P10: Çanak çömlek
+P11: Çamurlu çanta
+P12: Çatlak çerçeve
+P13: Çıngırağın çanı
+P14: Cayirdaki çimen
+P15: Caydanliktaki çay
+P16: Üç uçak
+P17: Ağaçlı bahçe
+P18: inatçı keçi
+P19: Sağ fircas
+P20: Kaçak araç
+P21: Güçlü bekçi
+P22: Küçük serçe
+P23: Açelya çiçeği
+P24: Açık çekmece
+P25: Mızıkçı Tugce
+P26: Tarçınlı içecek
+P27: Suçlu hizmetçi
+P28: Çekişmeli maç
+P29: Havuçlu poğaça
+P30: Palyaconun sacl
+--- SENTENCES (30) ---
+S1: Çocuk çanı çaldı.
+S2: Çelik çiçek çizdi.
+S3: Çilekler çürük çıktı.
+S4: Çukur ganak gatladi.
+S5: Çekiçle civiyi caktim.
+S6: Çiftçi ciftlikte calisiyor.
+S7: Carsida cantam galindi.
+S8: Çetin camasirlari calkaladi.
+S9: Cicekcideki cicekler cogaldi.
+S10: Cantasindaki çakmağı cakti.
+S11: Çağla çocuğun çorabını gekti.
+S12: Camasirin gamurunu gitiledim.
+S13: Çalışkan Çağdaş Çiğdem'icalistirdl.
+S14: Copçu copleri carsidan çuvalla cgikard.
+S15: Cikolatalar çocuğun gekmecesinden çıktı.
+S16: Suç lu bekçi kacti.
+S17: Burç in kraliçe secildi.
+S18: Orc UN üç üşü kaç irdi.
+S19: Sağ ina çekirge sıç Radi.
+S20: inatçı kecicayira kact.
+S21: Üç serçe agactan üç tu.
+S22: Seçil Açelya'ya borç landi.
+S23: Palyaço üç urtma üç Urdu.
+S24: Ayca üç akta hiç iç ki icmedi.
+S25: Bahc edeki ağaç lar cic ek aç ti.
+S26: Sevinç reçelli pogacalarl secti.
+S27: Bahc ivan bahc edeki cimleri bicti.
+S28: Tarc inli iç ecekler fic inin iç indeydi.
+S29: Kuc UK göçük recetedeki ilaclari iç ti.
+S30: Fenerbahce'nin maç ikac kaç sonuç landi?
+
+==================== STAGE 15: /c/ (sound_c) ====================
+--- wordsBeginning (55) ---
+Çam, Çan, Cop, Caz, Coş, Cem, Cenk, Cep, Cet, Cilt, Cins, Cips, Cip, Celp, Cüz, Ceket, Ceviz, Ciğer, Cuma, Ceza, Cami, Cila, Cadde, Canlı, Cambaz, Cezve, Cesur, Civciv, Cevap, Cansız, Cacık, Ceylan, Cadı, Cımbız, Cüce, Canavar, Cereyan, Cesaret, Cıvıltı, Ciğerci, Cinsiyet, Coğrafya, Cezalı, Cızırtı, Cilveli, Cilalı, Cimcime, Curcuna, Centilmen, Camekan, Cazibe, Cezayir, Coşkulu, Cephane, Cıvata
+--- wordsMiddle (40) ---
+Acı, Macun, Sıcak, Bacak, İncir, Gece, Amca, Ucuz, İzci, Kucak, Boncuk, Baca, Sucuk, İnci, Sincap, Böcek, Kanca, Zincir, Ocak, Hece, Gecelik, Lacivert, Fırıncı, Salıncak, Tencere, İçecek, Oyuncak, Güvercin, Baloncu, Patlıcan, Oduncu, Pencere, Giyecek, Mercimek, Bademcik, Acılı, Açacak, Örümcek, Bulmaca, Karınca
+--- wordsEnding (0) ---
+
+--- words1Syllable (15) ---
+Çam, Çan, Cop, Caz, Coş, Cem, Cenk, Cep, Cet, Cilt, Cins, Cips, Cip, Celp, Cüz
+--- words2Syllables (40) ---
+Ceket, Acı, Ceviz, Macun, Ciğer, Sıcak, Cuma, Bacak, Ceza, İncir, Cami, Gece, Cila, Amca, Cadde, Ucuz, Canlı, İzci, Cambaz, Kucak, Cezve, Boncuk, Cesur, Baca, Civciv, Sucuk, Cevap, İnci, Cansız, Sincap, Cacık, Böcek, Ceylan, Kanca, Cadı, Zincir, Cımbız, Ocak, Cüce, Hece
+--- words3Syllables (40) ---
+Canavar, Gecelik, Cereyan, Lacivert, Cesaret, Fırıncı, Cıvıltı, Salıncak, Ciğerci, Tencere, Cinsiyet, İçecek, Coğrafya, Oyuncak, Cezalı, Güvercin, Cızırtı, Baloncu, Cilveli, Patlıcan, Cilalı, Oduncu, Cimcime, Pencere, Curcuna, Giyecek, Centilmen, Mercimek, Camekan, Bademcik, Cazibe, Acılı, Cezayir, Açacak, Coşkulu, Örümcek, Cephane, Bulmaca, Cıvata, Karınca
+--- PHRASES (30) ---
+P1: Cüce cadı
+P2: Cilalı cezve
+P3: Çam cımbız
+P4: Canlı civciv
+P5: Ceketin cebi
+P6: Cırt cirtl cep
+P7: Cimri Cengiz
+P8: Cesur cerrah
+P9: Çanı canavar
+P10: Cem'in cesareti
+P11: Caydırıcı cevap
+P12: Cumbur cemaat
+P13: Cadinin cuppesi
+P14: Cebindeki cüzdan
+P15: Cumhuriyet coskusu
+P16: incir agacl
+P17: Ucuz fincan
+P18: Bücür çocuk
+P19: Cırcır böceği
+P20: Oduncu amca
+P21: Eğlenceli gece
+P22: Acılı lahmacun
+P23: Minicik karınca
+P24: Lacivert gecelik
+P25: Acemi tamirci
+P26: Oyuncak sincap
+P27: Sıcak mercimek
+P28: Birinci yarismacl
+P29: Ocaktaki tencere
+P30: Salıncağın zinciri
+--- SENTENCES (30) ---
+S1: Çan'la Cem cesurdur.
+S2: Cici Cemre cıvıl cıvıldı.
+S3: Ceren cumartesi costu.
+S4: Cihan cezveleri cilaladi.
+S5: Camdan cama cevapladl.
+S6: Ceketinin cebi cirtcirtlydl.
+S7: Cimcime Canan cesaretlidir.
+S8: Civardaki caddeler canlandi.
+S9: Civcivler civarda civildiyordu.
+S10: Cırlayan circirbocegi canliydi.
+S11: Cambaz cafcaflı caddeyi costurdu.
+S12: Ceyda cumhuriyet coskusuyla costu.
+S13: Cenkin cebindeki cetvel Cemilinmis.
+S14: Cevizler Cansu'nun ceketinin cebinde.
+S15: Cengiz camcinin camlarini cilalamadigindan cezaliydi.
+S16: Ece'nin çanı acidi.
+S17: Sıcak içeceği dökecek.
+S18: Böcek çocuğu ısıracak.
+S19: Burcu pabucunu giyecek.
+S20: Çocuk cekmeceyi açacak.
+S21: Boyacı bacayi boyayacak.
+S22: Gülce Cuma geçesi gelecek.
+S23: Karınca ağaca tırmanacak.
+S24: Vicdanlı amca çocuğa acidi.
+S25: Eczacinin ilacı eczanededir.
+S26: inci'nin bacağı karincalandi.
+S27: Nurcan amcasini arayacak.
+S28: Naci amcanin lahmacunu acıydı.
+S29: Acayip bilmeceyi cevaplayamadi.
+S30: Cırcır böceği çocuğun avucundaydı.
+
+==================== STAGE 16: /m/ (sound_m) ====================
+--- wordsBeginning (69) ---
+Mor, Maç, Mal, Mum, Men, Muz, Mıh, Mat, Mil, Mest, Mim, Mont, Mis, Misk, Mars, Mart, Mülk, Mert, Aç, Ma, Melek, Maske, Mendil, Martı, Mayo, Mektup, Meyve, Yağ, Mur, Macun, Meslek, Mısır, Makas, Mantı, Musluk, Müzik, Maymun, Mutfak, Manto, Misket, Ke, Mik, Masal, Mevsim, Manken, Misafir, Menekşe, Mikrofon, Merasim, Merdiven, Mobilya, Mandolin, Makarna, Müdavim, Maydanoz, Minare, Madalyon, Mıknatıs, Minibüs, Mütercim, Marangoz, Mercimek, Manzara, Mülayim, Meşale, Mesafe, Maraton, Meraklı, Müzisyen
+--- wordsMiddle (37) ---
+Saman, Simit, Lamba, Çakmak, Limon, Tembel, Ekmek, Temizz, Çamur, Kemer, Şişman, Timsah, Çimen, Gemi, Kamyon, Demlik, Düğme, Pijama, Diploma, Dondurma, Piramit, Şömine, Yumurta, Uçurtma, Kırmızı, Kumbara, Çekmece, Domates, Kumanda, Çamaşır, Şampuan, Temizlik, Hemşire, Numara, Şempanze, Dinamit, Değirmen
+--- wordsEnding (56) ---
+Çam, Kim, Nem, Zam, Sim, Çim, Cem, Dam, Yem, Gam, Tam, Gem, Kum, Tüm, Tim, Nam, Dem, Ham, Yum, Şam, Göm, Kalem, Üzüm, Hakem, Lokum, Salam, Resim, Takvim, Şalgam, Kilim, Albüm, Bölüm, Tohum, Adam, Susam, Akşam, Badem, Rakam, Dilim, Yarım, Akvaryum, Anonim, Pantomim, Tüketim, Kaldırım, Kullanım, Birikim, Yaklaşım, Kıvılcım, Atletizm, Oturum, Dönüşüm, Tasarım, Çağrışım, Tebessüm, Paylaşım
+--- words1Syllable (45) ---
+Mor, Çam, Maç, Kim, Mal, Mum, Nem, Zam, Men, Muz, Sim, Mıh, Mat, Çim, Cem, Mil, Mest, Dam, Yem, Mim, Mont, Gam, Tam, Mis, Misk, Gem, Kum, Tüm, Mars, Mart, Tim, Mülk, Nam, Mert, Dem, Ham, Yum, Şam, Göm, Aç, Ma, Yağ, Mur, Ke, Mik
+--- words2Syllables (57) ---
+Melek, Kalem, Maske, Saman, Üzüm, Mendil, Simit, Hakem, Martı, Lamba, Lokum, Mayo, Çakmak, Salam, Limon, Mektup, Resim, Meyve, Tembel, Takvim, Macun, Şalgam, Ekmek, Meslek, Kilim, Temizz, Mısır, Albüm, Makas, Çamur, Bölüm, Mantı, Kemer, Tohum, Şişman, Musluk, Adam, Müzik, Timsah, Susam, Çimen, Maymun, Akşam, Gemi, Mutfak, Badem, Kamyon, Manto, Rakam, Misket, Dilim, Masal, Demlik, Mevsim, Manken, Düğme, Yarım
+--- words3Syllables (60) ---
+Misafir, Pijama, Akvaryum, Diploma, Menekşe, Anonim, Mikrofon, Dondurma, Merasim, Piramit, Merdiven, Pantomim, Şömine, Mobilya, Tüketim, Mandolin, Yumurta, Kaldırım, Uçurtma, Makarna, Müdavim, Kırmızı, Maydanoz, Kullanım, Minare, Kumbara, Birikim, Çekmece, Madalyon, Yaklaşım, Mıknatıs, Domates, Kıvılcım, Minibüs, Kumanda, Mütercim, Çamaşır, Marangoz, Atletizm, Mercimek, Şampuan, Oturum, Temizlik, Manzara, Mülayim, Hemşire, Meşale, Dönüşüm, Numara, Mesafe, Tasarım, Şempanze, Maraton, Çağrışım, Dinamit, Meraklı, Tebessüm, Müzisyen, Değirmen, Paylaşım
+--- PHRASES (30) ---
+P1: Mavi mayo
+P2: Mızıkçı Mira
+P3: Mutlu Merve
+P4: Mor Menekşe
+P5: Mutfak masasl
+P6: Masum Meral
+P7: Minik maymun
+P8: Misafirin montu
+P9: Maceracı Mert
+P10: Masadaki meyve
+P11: Meraklı Melahat
+P12: Metrodaki mizikacl
+P13: Mayonezli makarna
+P14: Mükemmel manzara
+P15: Muzisyenin mandolini
+P16: Kırmızı elma
+P17: Salam dilimi
+P18: Çam ormani
+P19: Komik adam
+P20: Temiz mendil
+P21: Susamll simit
+P22: Kırmızı kalem
+P23: Elmas madeni
+P24: Demir kumbara
+P25: Temmuz aksaml
+P26: Zaman makinesi
+P27: Elmas Mücevher
+P28: Kocaman kamyon
+P29: Limonlu dondurma
+P30: Otomobil tamircisi
+--- SENTENCES (30) ---
+S1: Meral'le Murat mutluydu.
+S2: Melda'nin maskesi matraktı.
+S3: Masadaki makas Mert'inmiş.
+S4: Meltem'in montu masadaydi.
+S5: Minderdeki minikler meshurdur.
+S6: Meydandaki menekseler mordu.
+S7: Mehmet'in mendili mutfaktaymis.
+S8: Mikroskop meraklı mucidinmis.
+S9: Mehtap mesleğinden memnundu.
+S10: Miray'nmuhallebisi mukemmeldir.
+S11: Mutfağımızın masasi memerdendir.
+S12: Makarnacinin makarnalari mantarliydi.
+S13: Mutfaktaki masanin musambasi maviydi.
+S14: Minik Mırnav mutfak masasinda mirildandi.
+S15: Mahallemizdeki manavinin meyveleri meshurdur.
+S16: Sevimli Selim emziğini emdi.
+S17: Benim kedimin ismi Lokum'dur.
+S18: Elmas madenini işletmek masraflydi.
+S19: Masamdaki tükenmez kalemler kimin?
+S20: Adam kamyonunu kirmiziya boyamış.
+S21: Kumarbaz adam tembellikten sismanladi.
+S22: Meyve suyumu kamisla icmeye bayilirim.
+S23: Kemal'in mahallesindeki cimenler temizdi.
+S24: Kardesim cebime Pembe kalemler koymuş.
+S25: Ormanimizdaki camlar müthiş kokmaktadir.
+S26: Dilimledigin salamlari makarnaya katmalisin.
+S27: Geminin kamarasindan manzarayl seyrettim.
+S28: Annem yemediğim kuruyemisleri cantamdan çıkarmış.
+S29: Komik adam kambur numarasi yapmaya calismaktaydi.
+S30: Çamurlanan ustumuzu samanliktaki samanlarla temizledik.
+
+==================== STAGE 17: /n/ (sound_n) ====================
+--- wordsBeginning (50) ---
+Nal, Nam, Nar, Naz, Nem, Net, Ney, Nil, Not, Nuh, Nur, Nabız, Nakış, Normal, Nane, Naylon, Nefes, Nehir, Nergis, Neşe, Nazik, Nine, Nezle, Nişan, Nohut, Nokta, Nöbet, Nüfus, Neden, Nota, Nadide, Naftalin, Nakarat, Nakliye, Nargile, Nasihat, Negatif, Numara, Neşeli, Nilüfer, Nişasta, Nostaljik, Nöbetçi, Netice, Nafile, Nevresim, Nihale, Nişanlı, Namuslu, Nazarlık
+--- wordsMiddle (40) ---
+Güneş, Güney, Hindi, Kanca, Korkunç, Manav, Mandal, Mantar, Mendil, Minder, Panter, Peynir, Sandık, Sünger, Tünel, Anne, Boncuk, Boynuz, Fındık, Sincap, Turuncu, Hastane, Hazine, Ispanak, İstanbul, Kanguru, Karınca, Kestane, Salıncak, Salyangoz, Okyanus, Anahtar, Pencere, Balina, Canavar, Penaltı, Dondurma, Piyano, Çıngırak, Dinozor
+--- wordsEnding (63) ---
+Ben, Han, Çan, Şen, Son, Çin, Dön, Tan, Dün, Ten, Fan, Ton, Fen, Yan, Fon, Yön, Kin, Yün, Bin, Kan, Fincan, Baston, Burun, Fırın, Gelin, Hayvan, Kaplan, Kavun, İnnin, Koyun, Limon, Maymun, Paten, Sabun, Soğan, Şişman, Tavşan, Üçgen, Vagon, Volkan, Yorgan, Zeytin, Şahin, Değirmen, Eldiven, Merdiven, Gergedan, Solucan, Müzisyen, Telefon, Şampuan, Pantolon, Afacan, Aspirin, Biberon, Güvercin, Gezegen, Papağan, Kahraman, Penguen, Şampiyon, Rafadan, Bahçıvan
+--- words1Syllable (31) ---
+Nal, Ben, Han, Nam, Çan, Şen, Nar, Son, Naz, Çin, Nem, Dön, Tan, Net, Dün, Ten, Ney, Fan, Ton, Nil, Fen, Yan, Not, Fon, Yön, Nuh, Kin, Yün, Nur, Bin, Kan
+--- words2Syllables (62) ---
+Nabız, Fincan, Baston, Güneş, Nakış, Burun, Normal, Güney, Fırın, Hindi, Nane, Gelin, Kanca, Naylon, Hayvan, Korkunç, Nefes, Kaplan, Nehir, Manav, Kavun, İnnin, Mandal, Koyun, Nergis, Mantar, Limon, Mendil, Neşe, Maymun, Nazik, Minder, Paten, Nine, Panter, Sabun, Peynir, Nezle, Soğan, Nişan, Sandık, Şişman, Sünger, Nohut, Tavşan, Tünel, Nokta, Üçgen, Nöbet, Anne, Vagon, Boncuk, Volkan, Nüfus, Boynuz, Yorgan, Fındık, Neden, Zeytin, Sincap, Nota, Şahin
+--- words3Syllables (60) ---
+Nadide, Turuncu, Değirmen, Naftalin, Hastane, Eldiven, Hazine, Nakarat, Merdiven, Nakliye, Ispanak, Gergedan, Nargile, İstanbul, Solucan, Nasihat, Kanguru, Müzisyen, Negatif, Karınca, Telefon, Numara, Kestane, Şampuan, Neşeli, Salıncak, Pantolon, Nilüfer, Salyangoz, Afacan, Okyanus, Nişasta, Aspirin, Anahtar, Nostaljik, Biberon, Nöbetçi, Pencere, Güvercin, Netice, Balina, Gezegen, Nafile, Canavar, Papağan, Nevresim, Penaltı, Kahraman, Nihale, Dondurma, Penguen, Nişanlı, Piyano, Şampiyon, Namuslu, Çıngırak, Rafadan, Nazarlık, Dinozor, Bahçıvan
+--- PHRASES (30) ---
+P1: Neşeli nota
+P2: Nazlı Nehir
+P3: Nefis nektar
+P4: Naneli nohut
+P5: Normal nefes
+P6: Nakliyeci Nuri
+P7: Nemli naylon
+P8: Neşeli Nazan
+P9: Nazik Nermin
+P10: Nöbetçi Nezih
+P11: Nişan nezlesi
+P12: Nermin'in nişan!
+P13: Nehirdeki nilüfer
+P14: Naneli nemlendirici
+P15: Ninemin nasihatleri
+P16: Altın madeni
+P17: Banyo sabunu
+P18: Çıngıraklı yılan
+P19: Gezinti teknesi
+P20: Sineğin kanadi
+P21: Esnaf lokantasi
+P22: Karanlık sinema
+P23: Kapinin mandalı
+P24: Kadinin eldiveni
+P25: Lahana tenceresi
+P26: Bebeğin biberonu
+P27: Vişneli dondurma
+P28: Benzin istasyonu
+P29: Gergedanin boynuzu
+P30: Lunaparktaki salıncak
+--- SENTENCES (30) ---
+S1: Naneli nohut nefisti.
+S2: Narin nilüfer nehirdeydi.
+S3: Nohut nerede nemlendi?
+S4: Nezih nisaninda neseliydi.
+S5: Neriman'in nisanlisi nankordu.
+S6: Nazan'nnevresimleri nemliydi.
+S7: Nil Nehri'ndeki niluferler nefisti.
+S8: Narin Nedime nikahta nazlandi.
+S9: Nöbetçi Naim nobette neseliydi..
+S10: Nihan'in nikahi neseyle noktalandi.
+S11: Nalan'in notlarinin neticesi negatifti.
+S12: Nazarlıklı nevresimin numarasi neydi?
+S13: Neriman'la Naim Niğde'de nisanlandilar.
+S14: Nazlı nakarattaki notalari numaralandirdi.
+S15: Nakliyeci Nevşehir'den Niğde'ye naylonlari nakletti.
+S16: Kadinin eldiveni delindi.
+S17: Lunaparkta salıncağa bindik.
+S18: Kumanda pencerenin onundeydi.
+S19: Aslan, yavrularinin yanina uzandi.
+S20: Gezinti teknesiyle denizde dolandi.
+S21: Kenan cantasini dukkanda unuttu.
+S22: Koyunlar cimenlerin tadını begendi.
+S23: Korsan kancasiyla sandala tutundu.
+S24: Erşan arkadasini kuzeniyle tanistirdi.
+S25: Gelin dugunde tanidiklariyla eglendi.
+S26: Sandiktan çıkan altinlari görünce sevindi.
+S27: Geminin yaninda yüzen balina kocamand.
+S28: Bahçıvan tunelin sonunda kamyondan indi.
+S29: Annem tavsanin yanağına burnuyla dokundu.
+S30: Oyuncu penguen kayanin arkasina saklandl.
+
+==================== STAGE 18: /l/ (sound_l) ====================
+--- wordsBeginning (52) ---
+Laf, Löp, Loş, Lav, Lüks, Leş, Laz, Lenf, Lif, Lens, Lal, Lig, Leke, Limon, Lastik, Lale, Leğen, Levha, Lamba, Lise, Lakap, Lokma, Lades, Lodos, Liman, Lezzet, Lavaş, Liste, Lokum, Lütfen, Lüle, Lazım, Lahana, Lokanta, Lokumcu, Leblebi, Lahmacun, Lavabo, Lazımlık, Limuzin, Lezzetli, Limonluk, Lolipop, Lekeli, Limoncu, Liseli, Lavanta, Lambacı, Laleli, Lastikçi, Lübnanlı, Lüzumlu
+--- wordsMiddle (40) ---
+Aslan, Kalem, Pilot, Havlu, Gömlek, Dolap, Melek, Silah, Kaplan, Salam, İlaç, Balık, Salon, Elma, Silgi, Koltuk, Bilet, Gölge, Gözlük, Islak, Kelebek, Şeftali, Elbise, Salıncak, Bilezik, Solucan, Tuvalet, Eldiven, Kulübe, Baklava, Bisiklet, Bulaşık, Telefon, Balina, Pantolon, Gelinlik, Bulmaca, Gözleme, Hamile, Salata
+--- wordsEnding (66) ---
+Bal, Dil, Mal, Göl, Nal, Fil, Dal, Sal, Bul, Sol, Kel, Sel, Gül, Pul, Bol, Çil, Tel, Zil, Bil, Del, Kal, Kıl, Kol, Kül, Hal, Pil, Dol, Çuval, Şekil, Bavul, Sandal, Tünel, Çatal, Okul, Mangal, Cetvel, Tembel, Otel, Mendil, Güzel, Tatil, Sahil, Ampul, Masal, Sakal, Hamal, Davul, Zencefil, İstanbul, Basketbol, İlkokul, Müstakil, Matmazel, Sanatsal, Anadil, İskambil, Peştamal, Kabzımal, Belgesel, Bilimsel, Müstakbel, İstikbal, Fiziksel, Mükemmel, Fasikül, Molekül
+--- words1Syllable (39) ---
+Laf, Löp, Bal, Dil, Loş, Mal, Lav, Göl, Lüks, Leş, Nal, Fil, Laz, Lenf, Dal, Sal, Lif, Lens, Bul, Sol, Lal, Lig, Kel, Sel, Gül, Pul, Bol, Çil, Tel, Zil, Bil, Del, Kal, Kıl, Kol, Kül, Hal, Pil, Dol
+--- words2Syllables (60) ---
+Aslan, Leke, Çuval, Limon, Kalem, Şekil, Lastik, Pilot, Bavul, Lale, Havlu, Sandal, Leğen, Gömlek, Tünel, Levha, Dolap, Çatal, Lamba, Melek, Okul, Lise, Silah, Mangal, Lakap, Kaplan, Cetvel, Lokma, Salam, Tembel, İlaç, Lades, Otel, Balık, Lodos, Mendil, Liman, Salon, Güzel, Lezzet, Elma, Tatil, Silgi, Lavaş, Sahil, Liste, Koltuk, Ampul, Lokum, Bilet, Masal, Lütfen, Gölge, Sakal, Lüle, Gözlük, Hamal, Lazım, Islak, Davul
+--- words3Syllables (59) ---
+Kelebek, Lahana, Zencefil, Şeftali, Lokanta, İstanbul, Lokumcu, Elbise, Basketbol, Leblebi, Salıncak, İlkokul, Bilezik, Lahmacun, Müstakil, Lavabo, Solucan, Matmazel, Lazımlık, Tuvalet, Sanatsal, Limuzin, Eldiven, Anadil, Kulübe, Lezzetli, İskambil, Limonluk, Baklava, Peştamal, Lolipop, Bisiklet, Kabzımal, Lekeli, Bulaşık, Belgesel, Telefon, Limoncu, Bilimsel, Liseli, Balina, Müstakbel, Lavanta, Pantolon, İstikbal, Gelinlik, Lambacı, Fiziksel, Laleli, Bulmaca, Mükemmel, Lastikçi, Gözleme, Fasikül, Lübnanlı, Hamile, Lüzumlu, Salata, Molekül
+--- PHRASES (30) ---
+P1: Laleli logo
+P2: Loş lokanta
+P3: Lila lamba
+P4: Lodoslu liman
+P5: Lüks limuzin
+P6: Lastik levha
+P7: Limonlu lokum
+P8: Lale'nin lakabı
+P9: Lübnanlı Levent
+P10: Liseli Leman
+P11: Lekeli lavabo
+P12: Leziz limonata
+P13: Levent'in listesi
+P14: Limonlu lolipop
+P15: Lezzetli lahmacun
+P16: Kalın sal
+P17: Altı bilet
+P18: Altın bilezik
+P19: Güzel salon
+P20: Güçlü aslan
+P21: iskambil falı
+P22: Şutlu güllaç
+P23: Bavulun kilidi
+P24: Desenli elbise
+P25: Plastik kolluk
+P26: Fıstıklı çikolata
+P27: Cevizli baklava
+P28: Mahalle bakkali
+P29: Bulaşık eldiveni
+P30: Telefonun kablosu
+--- SENTENCES (30) ---
+S1: Lila lamba lekelendi.
+S2: Lütfü'nun lisesi Laleli'de.
+S3: Levent'elazimlik lazım.
+S4: Limonlu lolipop lezzetli.
+S5: Legeni lavaboda lifledim.
+S6: Lokantanin lambasi lostu.
+S7: Lüks limuzin luzumsuzdu.
+S8: Lale'nin lokumu lavantalı.
+S9: Lokomotifteki lamba lekeli.
+S10: Leman'in limonatasi lezizdi.
+S11: Lisede Levent'in lakabı Laz'di.
+S12: Lahmacun limonla lezzetlendi.
+S13: Latif'in lahanasina limon lazım.
+S14: Loş lokantada Lokman'la lafladık.
+S15: Laleli'deki lüks lokantanin lokumu limonlu.
+S16: Kelebek hizla kanatlandi..
+S17: Bakkaldan leblebi aldim.
+S18: Elini mendille temizledi.
+S19: Valizde altı gözlük bulundu.
+S20: Ali ilaç alıp koltukta dinlendi.
+S21: Okul önlüğümü halam almisti.
+S22: Kelebek desenli elbise guzeldi.
+S23: Bavulu alan hamal ötele geldi.
+S24: Cevizli baklava fazla tatlı oldu.
+S25: Ali'nin eline çilekli çikolata bulasti.
+S26: Elbisem kola dökülünce lekelendi.
+S27: Ela'nin elbisesinde şeftali lekesi kaldi.
+S28: Melis desenli kalemini koltuğun altinda buldu.
+S29: Selim'in gömleği ve pantolonu koltuğun altinda kaldi.
+S30: Tatilde babamla İstanbul'ubisikletle dolaşmak guzeldi.
+
+==================== STAGE 19: /r/ (sound_r) ====================
+--- wordsBeginning (52) ---
+Raf, Rap, Rast, Renk, Rest, Ring, Ruh, Ruj, Rum, Rus, Ret, Risk, Rahat, Rakam, Roka, Rakip, Rampa, Ranza, Robot, Rüzgar, Rapor, Rejim, Rende, Resim, Ressam, Ritim, Roket, Roman, Rozet, Rica, Renksiz, Raket, Rafadan, Rahibe, Randevu, Reçete, Reçine, Rutubet, Refakat, Referans, Rehavet, Rejisör, Rekabet, Rengarenk, Restoran, Rezene, Rezidans, Riziko, Romancı, Romantik, Rakipsiz, Rodeo
+--- wordsMiddle (40) ---
+Ağrı, Ördek, Kürek, Çorba, Artı, Fare, Garaj, Bere, Boru, Çerez, Dere, Burun, Fırın, Fırça, Martı, Para, Sarı, Şarkı, Toprak, Armut, Makarna, Akarsu, Paraşüt, Kumbara, Zürafa, Arkadaş, Armağan, Aşure, Atari, Turuncu, Merdiven, Tencere, Karate, Karınca, Terazi, Dondurma, Mikrofon, Uçurtma, Süpürge, Araba
+--- wordsEnding (63) ---
+Zar, Bar, Bir, Bor, Çar, Dar, Dur, Zor, Far, Fer, Gar, Gür, Gör, Har, Her, Kar, Kır, Kör, Kur, Mor, Nar, Pîr, Sür, Ağır, Vapur, Bahar, Bakır, Defter, Mısır, Çadır, Sünger, Çamur, Döner, Duvar, Fener, Gitar, Pazar, Kömür, Katır, Sakar, Damar, Şeker, Mantar, Adaptör, Akciğer, Abajur, Anahtar, Antrenör, Asansör, Hamburger, Birdirbir, Canavar, Çamaşır, Haberdar, Dinozor, Misafir, Kafadar, Mücevher, Matador, Muhabir, Semaver, Tebeşir, Kuaför
+--- words1Syllable (34) ---
+Raf, Rap, Rast, Renk, Rest, Ring, Ruh, Ruj, Rum, Rus, Ret, Risk, Zar, Bar, Bir, Bor, Çar, Dar, Dur, Zor, Far, Fer, Gar, Gür, Gör, Har, Her, Kar, Kır, Kör, Kur, Mor, Nar, Sür
+--- words2Syllables (60) ---
+Rahat, Rakam, Roka, Rakip, Rampa, Ranza, Robot, Rüzgar, Rapor, Rejim, Rende, Resim, Ressam, Ritim, Roket, Roman, Rozet, Rica, Renksiz, Raket, Ağrı, Ördek, Kürek, Çorba, Artı, Fare, Garaj, Bere, Boru, Çerez, Dere, Burun, Fırın, Fırça, Martı, Para, Sarı, Şarkı, Toprak, Armut, Ağır, Vapur, Bahar, Bakır, Defter, Mısır, Çadır, Sünger, Çamur, Döner, Duvar, Fener, Gitar, Pazar, Kömür, Katır, Sakar, Damar, Şeker, Mantar
+--- words3Syllables (60) ---
+Rafadan, Rahibe, Randevu, Reçete, Reçine, Rutubet, Refakat, Referans, Rehavet, Rejisör, Rekabet, Rengarenk, Restoran, Rezene, Rezidans, Riziko, Romancı, Romantik, Rakipsiz, Rodeo, Makarna, Akarsu, Paraşüt, Kumbara, Zürafa, Arkadaş, Armağan, Aşure, Atari, Turuncu, Merdiven, Tencere, Karate, Karınca, Terazi, Dondurma, Mikrofon, Uçurtma, Süpürge, Araba, Adaptör, Akciğer, Abajur, Anahtar, Antrenör, Asansör, Hamburger, Birdirbir, Canavar, Çamaşır, Haberdar, Dinozor, Misafir, Kafadar, Mücevher, Matador, Muhabir, Semaver, Tebeşir, Kuaför
+--- PHRASES (25) ---
+P1: Rahat revir
+P2: Rujun rengi
+P3: Robot resim
+P4: Rus restoranı
+P5: Roma rakamı
+P6: Roketin rotası
+P7: Rıza'nın raketi
+P8: Reisin romanı
+P9: Rakipsiz ressam
+P10: Recep'in ranzası
+P11: Rehberin raporu
+P12: Ressamın rozeti
+P13: Romantik Romeo
+P14: Rengarenk rende
+P15: Restorandaki roka
+P16: Mor örtü
+P17: Zor karar
+P18: Kara tren
+P19: Derin dere
+P20: Sarı kürek
+P21: Kırık bardak
+P22: Kurak arazi
+P23: Dört kafadar
+P24: Arabanın farı
+P25: Kırmızı biber
+--- SENTENCES (15) ---
+S1: Roka ve rosto rafta.
+S2: Reha ruhen rahatsızdı.
+S3: Rıdvan raporu reddetti.
+S4: Romen Rus'UN rakibidir.
+S5: Rıza revirde refakatçidir.
+S6: Rana'nın ruju rengarenk.
+S7: Reha'nın ranzası renksizdi.
+S8: Ressam romanı resmetti.
+S9: Revirdeki ranza rahatmış.
+S10: Rus restoranı ruhsatsızmış.
+S11: Arabada çamur sıçradı.
+S12: Fenerbahçe rakibini korkuttu.
+S13: Berna revire merhemi götürdü.
+S14: Karateci boksöre karşı cesurdu.
+S15: Kameraman arkadaşını çağırdı.
+
+==================== STAGE 20: /y/ (sound_y) ====================
+--- wordsBeginning (65) ---
+Yak, Yet, Yan, Yık, Yap, Yığ, Yaş, Yut, Yum, Yok, Yaz, Yön, Yük, Yat, Yem, Yay, Yün, Yüz, Yen, Yüzük, Yunus, Yeni, Yazı, Mid, Ye, Yavaş, Yengeç, Yangın, Yuva, Yatak, Yapay, Yüzgeç, Yaka, Yatay, Yokuş, Yastık, Yanak, Yonca, Yufka, Yüksek, Yamaç, Yosun, Yumak, Yüzey, Yabancı, Yumuşak, Yazışma, Yönetmen, Yetenek, Yetmisbes, Yıkıcı, Yansıma, Yüzbaşı, Yıkama, Yapımcı, Yetişkin, Yakamoz, Yüzücü, Yemeni, Yapışık, Yiyecek, Yazıcı, Yabani, Yönetim, Yufkacı
+--- wordsMiddle (41) ---
+Ayna, Bıyık, Kamyon, Beyaz, Mayo, Zayıf, Baykuş, Sayfa, Geyik, Maymun, Koyun, Hayvan, Meyve, Oyun, Boya, Ayak, Kuyu, Hayat, Duygu, Zeytin, Hediye, Kadayıf, Piyango, Şemsiye, Oyuncak, Kıyafet, Şikayet, Boyama, Soyguncu, Kamyonet, Şampiyon, Hikaye, Papatya, Maydanoz, Gökyüzü, Ziyafet, Büyüteç, Kayısı, Pansiyon, Oyuncu, Tavsiye
+--- wordsEnding (40) ---
+Bay, Köy, Bey, Boy, Mey, Çay, Ney, Doy, Pay, Duy, Say, Soy, Fay, Tay, Giy, Toy, Kıy, Tüy, Kay, Huy, Deney, Kuzey, Üvey, Onay, Düzey, Subay, Kobay, Buğday, Kovboy, Konvoy, Güney, Düşey, Jokey, Kaykay, Aday, Dikey, Uzay, Hatay, Danıştay, Sayistay
+--- words1Syllable (41) ---
+Yak, Yet, Bay, Köy, Yan, Bey, Yık, Yap, Yığ, Boy, Mey, Yaş, Çay, Yut, Ney, Yum, Yok, Doy, Pay, Yaz, Duy, Say, Yön, Yük, Soy, Yat, Yem, Fay, Tay, Yay, Yün, Giy, Toy, Yüz, Yen, Kıy, Tüy, Kay, Huy, Mid, Ye
+--- words2Syllables (61) ---
+Yüzük, Ayna, Deney, Yunus, Bıyık, Kuzey, Yeni, Kamyon, Üvey, Yazı, Onay, Yavaş, Beyaz, Düzey, Yengeç, Mayo, Subay, Yangın, Zayıf, Kobay, Yuva, Baykuş, Buğday, Yatak, Sayfa, Yapay, Yüzgeç, Geyik, Kovboy, Yaka, Maymun, Konvoy, Koyun, Yatay, Yokuş, Hayvan, Güney, Yastık, Meyve, Düşey, Yanak, Oyun, Jokey, Yonca, Boya, Kaykay, Yufka, Ayak, Aday, Yüksek, Kuyu, Dikey, Yamaç, Hayat, Uzay, Yosun, Duygu, Hatay, Yumak, Zeytin, Yüzey
+--- words3Syllables (44) ---
+Yabancı, Hediye, Danıştay, Yumuşak, Kadayıf, Sayistay, Yazışma, Piyango, Yönetmen, Şemsiye, Yetenek, Oyuncak, Yetmisbes, Kıyafet, Yıkıcı, Şikayet, Yansıma, Boyama, Yüzbaşı, Soyguncu, Yıkama, Kamyonet, Yapımcı, Şampiyon, Yetişkin, Hikaye, Yakamoz, Papatya, Yüzücü, Maydanoz, Yemeni, Gökyüzü, Yapışık, Ziyafet, Yiyecek, Büyüteç, Yazıcı, Kayısı, Yabani, Pansiyon, Yönetim, Oyuncu, Yufkacı, Tavsiye
+--- PHRASES (30) ---
+P1: Yeni yatak
+P2: Yedi yunus
+P3: Yatağın yan
+P4: Yeni Yöntem
+P5: Yeşim'in yuzu
+P6: Yavaş yamak
+P7: Yapıcı yönetim
+P8: Yamasız yastık
+P9: Yüksek Yamaç
+P10: Yengeç yuvasi
+P11: Yumuşak yastık
+P12: Yengemin yazisI
+P13: Yüzücü yüzbaşı
+P14: Yapışkan yiyecek
+P15: Yabancı yönetmen
+P16: Beyaz boya
+P17: Yeni kıyafet
+P18: Kayak keyfi
+P19: Hediye yüzük
+P20: Zayıf subay
+P21: Boy aynas
+P22: Uzay deneyi
+P23: Oyuncak ayı
+P24: Koyunun tuyu
+P25: Bayat kadayıf
+P26: Kaygan yüzey
+P27: Siyah ayakkabı
+P28: Yüzücü mayosu
+P29: Meyve kamyonu
+P30: Geyiğin boynuzu
+--- SENTENCES (30) ---
+S1: Yavuz yemek yaptı.
+S2: Yigitin yeğeni yuzbasiyd.
+S3: Yaşın yuvada yemiş yedi.
+S4: Yeşim yeni yatağında yatt.
+S5: Yonca yaziyi yamuk yazdi.
+S6: Yankesici yetmiş yasindaydi.
+S7: Yandaki yapımcı yabanciydi.
+S8: Yusuf yüzbaşı yemeğe yetisti.
+S9: Yeşim'in yengesi yabanciydi.
+S10: Yunus'UN Yakut yüzüğü yeniydi.
+S11: Yakup'UN yatag yanginda yandi.
+S12: Yeni yonetmenin yapimi yetismedi.
+S13: Yağız'in yatağındaki yastık yumusakti.
+S14: Yeteneksiz Yaman yatakhanede yoktu.
+S15: Yasemin"in yengesi Yavuz'UN yatağını yaptı.
+S16: Maya yuvada sayı saydi.
+S17: Yabancı uzay deneyi yaptı.
+S18: Ayca yuzicu mayosunu giydi.
+S19: Ayşe oyuncak ayisini kaybetti.
+S20: Duygu ve Yonca oyun oynadi.
+S21: Büyük kaplyi beyaza boyadim.
+S22: Ayşe hikaye yazmayi deneyecek.
+S23: Yiğit yüksek yamacta kayak kaydi.
+S24: Gaye kaygan yuzeyde kayak yaptı.
+S25: Zayıf subayin yeni ayakkabisi siyahti.
+S26: Boyacı büyük odayi pembeye boyadi.
+S27: Beyza'nin yük kamyonunu koyu maviydi.
+S28: Yengemin yemekte giydiği kıyafet yeniydi.
+S29: Aydan teyzesinin yaptığı yemeği ayakta yedi.
+S30: Ayhan dayanıksız binayi yıkıp yeniden yaptı.

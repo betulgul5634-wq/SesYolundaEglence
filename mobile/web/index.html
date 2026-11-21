@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Ses Yolunda Eğlence Artikülasyon Terapisi">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Ses Yolunda Eğlence">
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <title>Ses Yolunda Eğlence</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0f172a;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    #app-loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+      color: white;
+      z-index: 999999;
+      transition: opacity 0.5s ease-out;
+    }
+    .loading-pulse-logo {
+      font-size: 64px;
+      animation: logoBounce 1.4s infinite ease-in-out;
+      margin-bottom: 16px;
+    }
+    @keyframes logoBounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-10px) scale(1.08); }
+    }
+    .loading-spinner {
+      width: 44px;
+      height: 44px;
+      border: 4px solid rgba(255, 255, 255, 0.15);
+      border-top-color: #38bdf8;
+      border-radius: 50%;
+      animation: spin 0.8s infinite linear;
+      margin-bottom: 18px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .loading-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: #38bdf8;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .loading-subtitle {
+      font-size: 14px;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <div id="app-loading-screen">
+    <div class="loading-pulse-logo">🎈</div>
+    <div class="loading-spinner"></div>
+    <div class="loading-title">Ses Yolunda Eğlence</div>
+    <div class="loading-subtitle">Oyun & Terapi Dünyası Yükleniyor... 🚀</div>
+  </div>
+
+  <script>
+    // Flutter ilk kareyi ekrana bastığında yükleme ekranını yumuşakça yok et
+    window.addEventListener('flutter-first-frame', function () {
+      const loader = document.getElementById('app-loading-screen');
+      if (loader) {
+        loader.style.opacity = '0';
+        setTimeout(() => { if (loader.parentNode) loader.parentNode.removeChild(loader); }, 500);
+      }
+    });
+
+    // Kullanıcının ilk dokunuşunda (gesture) tarayıcı AudioContext ve Speech kilidini çöz
+    function unlockWebAudio() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (AudioCtx) {
+          const ctx = new AudioCtx();
+          ctx.resume();
+        }
+        if (window.speechSynthesis) {
+          window.speechSynthesis.resume();
+        }
+      } catch (e) {}
+      window.removeEventListener('pointerdown', unlockWebAudio);
+      window.removeEventListener('keydown', unlockWebAudio);
+    }
+    window.addEventListener('pointerdown', unlockWebAudio, { once: true });
+    window.addEventListener('keydown', unlockWebAudio, { once: true });
+
+    // Her tıklamada ses motorunu sıcak tut
+    function ensureAudioContextActive() {
+      if (window._globalAudioCtx && window._globalAudioCtx.state === 'suspended') {
+        window._globalAudioCtx.resume().catch(() => {});
+      }
+    }
+    window.addEventListener('click', ensureAudioContextActive, { capture: true });
+    window.addEventListener('pointerdown', ensureAudioContextActive, { capture: true });
+  </script>
+  <script>
+
+    // ── 1. Doğrudan Tarayıcı Medya ve Mikrofon İzni ───────────────────────────
+    window.hasMicPermission = false;
+    let globalAudioStream = null;
+    let audioContext = null;
+    let analyser = null;
+    let volumeInterval = null;
+
+    window.requestMicPermission = async function() {
+      try {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          console.warn('Tarayıcınız mikrofon erişimini desteklemiyor!');
+          return false;
+        }
+        const tempStream = await navigator.mediaDevices.getUserMedia({ 
+          audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } 
+        });
+        tempStream.getTracks().forEach(t => {
+          try { t.stop(); } catch(e) {}
+        });
+        window.hasMicPermission = true;
+        console.log('Mikrofon izni hazır ve doğrulandı!');
+        return true;
+      } catch (err) {
+        console.error('Mikrofon izni alınamadı:', err);
+        window.hasMicPermission = false;
+        return false;
+      }
+    };
+
+    // ── 2. Canlı Desibel ve Ses Seviyesi Göstergesi (Ultra Hassas) ───────────
+    window.startLiveVolumeMeter = async function() {
+      try {
+        if (!globalAudioStream || !globalAudioStream.active) {
+          return;
+        }
+        if (!audioContext || audioContext.state === 'closed') {
+          audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioContext.state === 'suspended') {
+          await audioContext.resume();
+        }
+        if (!analyser) {
+          const source = audioContext.createMediaStreamSource(globalAudioStream);
+          analyser = audioContext.createAnalyser();
+          analyser.fftSize = 256;
+          source.connect(analyser);
+        }
+
+        const dataArray = new Uint8Array(analyser.frequencyBinCount);
+        if (volumeInterval) clearInterval(volumeInterval);
+
+        volumeInterval = setInterval(() => {
+          if (!analyser) return;
+          analyser.getByteFrequencyData(dataArray);
+          let sum = 0;
+          for (let i = 0; i < dataArray.length; i++) {
+            sum += dataArray[i];
+          }
+          const avg = sum / dataArray.length;
+          // Ultra duyarlı ölçek: sessiz çocuk seslerini de yakalar
+          const normalized = Math.min(100, Math.round((avg / 24) * 100));
+          window.peakSpeechVolume = Math.max(window.peakSpeechVolume || 0, normalized);
+          window.dispatchEvent(new CustomEvent('mic_volume', { detail: { volume: normalized } }));
+        }, 50);
+      } catch (err) {
+        console.warn('Volume meter başlatılamadı:', err);
+      }
+    };
+
+    window.stopLiveVolumeMeter = function() {
+      if (volumeInterval) {
+        clearInterval(volumeInterval);
+        volumeInterval = null;
+      }
+      if (analyser) {
+        try { analyser.disconnect(); } catch(e) {}
+        analyser = null;
+      }
+    };
+
+    // ── 3. Yüksek Hassasiyetli Türkçe Ses Tanıma & WAV Kayıt Motoru (Duolingo Tarzı) ──
+    let recognition = null;
+    window.currentSpokenTranscript = '';
+    window.peakSpeechVolume = 0;
+    window.lastRecordedWavBlob = null;
+    window.isListeningActive = false;
+    window.hasUserSpokenThisTurn = false;
+    window.lastVocalTime = 0;
+    let silenceTimer = null;
+    let vadCheckInterval = null;
+    let wavRecorderSource = null;
+    let wavScriptProcessor = null;
+    let wavPcmBuffers = [];
+    let isWavRecording = false;
+
+    function encodeWav(samples, sampleRate) {
+      if (!samples || samples.length === 0) return null;
+
+      // 1. Önce genel ses zirvesini (Peak) tespit et
+      let globalPeak = 0;
+      for (let i = 0; i < samples.length; i++) {
+        const v = Math.abs(samples[i]);
+        if (v > globalPeak) globalPeak = v;
+      }
+
+      let activeSamples = samples;
+      // Eğer gerçek bir konuşma sesi zirvesi varsa (arka plan fan/oda gürültüsünden yüksek)
+      if (globalPeak > 0.02) {
+        const frameSize = Math.round(sampleRate * 0.02); // 20ms
+        const hopSize = Math.round(sampleRate * 0.01);   // 10ms
+        const threshold = globalPeak * 0.18; // Zirvenin %18'i ses başlangıcıdır
+        
+        let firstFrame = -1;
+        let lastFrame = -1;
+        for (let i = 0; i < samples.length - frameSize; i += hopSize) {
+          let frameMax = 0;
+          for (let j = 0; j < frameSize; j++) {
+            const v = Math.abs(samples[i + j]);
+            if (v > frameMax) frameMax = v;
+          }
+          if (frameMax > threshold) {
+            if (firstFrame === -1) firstFrame = i;
+            lastFrame = i;
+          }
+        }
+
+        if (firstFrame !== -1 && lastFrame !== -1) {
+          // Sesin hemen başından 80ms önce başla, ses bittikten 150ms sonra bitir
+          const startIdx = Math.max(0, firstFrame - Math.round(sampleRate * 0.08));
+          const endIdx = Math.min(samples.length, lastFrame + Math.round(sampleRate * 0.15));
+          if (endIdx > startIdx) {
+            activeSamples = samples.subarray(startIdx, endIdx);
+            console.log('[encodeWav] Boş sessizlik kırpıldı:', (samples.length / sampleRate).toFixed(2), 'sn ->', (activeSamples.length / sampleRate).toFixed(2), 'sn');
+          }
+        }
+      }
+
+      // 2. Akıllı Ses Seviyesi Yükseltme & Normalizasyon (Auto-Gain Normalization)
+      let peak = 0;
+      for (let i = 0; i < activeSamples.length; i++) {
+        const val = Math.abs(activeSamples[i]);
+        if (val > peak) peak = val;
+      }
+
+      // Mikrofon kısık kaydettiyse seviyeyi %88 dolgun ve yüksek sese ulaştır (12 kata kadar temiz amplifikasyon)
+      const gain = (peak > 0.003) ? Math.min(12.0, 0.88 / peak) : 1.0;
+      const normalized = new Float32Array(activeSamples.length);
+      for (let i = 0; i < activeSamples.length; i++) {
+        normalized[i] = Math.max(-1, Math.min(1, activeSamples[i] * gain));
+      }
+
+      const buffer = new ArrayBuffer(44 + normalized.length * 2);
+      const view = new DataView(buffer);
+      function writeStr(offset, str) {
+        for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i));
+      }
+      writeStr(0, 'RIFF');
+      view.setUint32(4, 36 + normalized.length * 2, true);
+      writeStr(8, 'WAVE');
+      writeStr(12, 'fmt ');
+      view.setUint32(16, 16, true);
+      view.setUint16(20, 1, true);
+      view.setUint16(22, 1, true);
+      view.setUint32(24, sampleRate, true);
+      view.setUint32(28, sampleRate * 2, true);
+      view.setUint16(32, 2, true);
+      view.setUint16(34, 16, true);
+      writeStr(36, 'data');
+      view.setUint32(40, normalized.length * 2, true);
+
+      let offset = 44;
+      for (let i = 0; i < normalized.length; i++) {
+        const s = normalized[i];
+        view.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+        offset += 2;
+      }
+      return new Blob([view], { type: 'audio/wav' });
+    }
+
+    window.startSpeechRecognition = async function(lang = 'tr-TR', isContinuous = false, targetText = '', phoneme = '') {
+      console.log('startSpeechRecognition başlatıldı. Hedef:', targetText, 'Fonem:', phoneme, 'Sürekli:', isContinuous);
+
+      window.currentSpokenTranscript = '';
+      window.rawSpokenTranscript = '';
+      sessionStorage.setItem('__lastSpokenText', '');
+
+      // Önceki yarım kalan dinleme varsa temizle ve donanımı sıfırla
+      if (window.isListeningActive) {
+        window.isListeningActive = false;
+        if (silenceTimer) { clearTimeout(silenceTimer); silenceTimer = null; }
+        if (vadCheckInterval) { clearInterval(vadCheckInterval); vadCheckInterval = null; }
+        if (recognition) {
+          try { 
+            recognition.onend = null;
+            recognition.onerror = null;
+            recognition.onresult = null;
+            recognition.stop(); 
+            recognition.abort();
+          } catch(e) {}
+          recognition = null;
+        }
+        await new Promise(r => setTimeout(r, 60));
+      }
+
+      window.peakSpeechVolume = 0;
+      window.lastRecordedWavBlob = null;
+      window.isListeningActive = true;
+      window.hasUserSpokenThisTurn = false;
+      window.lastVocalTime = 0;
+      wavPcmBuffers = [];
+      isWavRecording = true;
+      if (silenceTimer) clearTimeout(silenceTimer);
+      if (vadCheckInterval) clearInterval(vadCheckInterval);
+
+      // TERTEMİZ, TAZE MİKROFON AKIŞI AL
+      try {
+        if (globalAudioStream) {
+          try { globalAudioStream.getTracks().forEach(t => t.stop()); } catch(e) {}
+          globalAudioStream = null;
+        }
+        globalAudioStream = await navigator.mediaDevices.getUserMedia({ 
+          audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } 
+        });
+        window.hasMicPermission = true;
+      } catch (err) {
+        console.error('Mikrofon akışı alınamadı:', err);
+        window.isListeningActive = false;
+        isWavRecording = false;
+        return;
+      }
+
+      // AudioContext'i her dinlemede yepyeni aç (Asla suspend/resume hatasına düşmez)
+      try {
+        if (audioContext) {
+          try { audioContext.close(); } catch(e) {}
+          audioContext = null;
+        }
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioContext.state === 'suspended') {
+          await audioContext.resume();
+        }
+
+        // Tek bir taze MediaStreamAudioSourceNode oluştur (Çift bağlanma hatasını önler)
+        const mediaSource = audioContext.createMediaStreamSource(globalAudioStream);
+
+        // Canlı Desibel Ekolayzır
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = 256;
+        mediaSource.connect(analyser);
+
+        const dataArray = new Uint8Array(analyser.frequencyBinCount);
+        if (volumeInterval) clearInterval(volumeInterval);
+        volumeInterval = setInterval(() => {
+          if (!analyser || !window.isListeningActive) return;
+          analyser.getByteFrequencyData(dataArray);
+          let sum = 0;
+          for (let i = 0; i < dataArray.length; i++) sum += dataArray[i];
+          const avg = sum / dataArray.length;
+          const normalized = Math.min(100, Math.round((avg / 24) * 100));
+          window.peakSpeechVolume = Math.max(window.peakSpeechVolume || 0, normalized);
+          window.dispatchEvent(new CustomEvent('mic_volume', { detail: { volume: normalized } }));
+        }, 50);
+
+        // WAV Kayıt Akışı & VAD
+        window.wavScriptProcessor = audioContext.createScriptProcessor(4096, 1, 1);
+        wavScriptProcessor = window.wavScriptProcessor;
+        wavScriptProcessor.onaudioprocess = function(e) {
+          if (!isWavRecording) return;
+          const chan = e.inputBuffer.getChannelData(0);
+          wavPcmBuffers.push(new Float32Array(chan));
+
+          // Anlık RMS Enerji Hesabı (Ses Aktivite Algılama - VAD)
+          let sum = 0;
+          for (let i = 0; i < chan.length; i++) {
+            sum += chan[i] * chan[i];
+          }
+          const rms = Math.sqrt(sum / chan.length);
+          if (rms > 0.005) { // Çok daha duyarlı eşik
+            window.hasUserSpokenThisTurn = true;
+            window.lastVocalTime = Date.now();
+            const normalized = Math.min(100, Math.round(rms * 400));
+            window.peakSpeechVolume = Math.max(window.peakSpeechVolume || 0, normalized);
+          }
+        };
+        mediaSource.connect(wavScriptProcessor);
+        const muteNode = audioContext.createGain();
+        muteNode.gain.value = 0;
+        wavScriptProcessor.connect(muteNode);
+        muteNode.connect(audioContext.destination);
+
+        // VAD Otomatik Dinleme Bitirici (Kullanıcı konuştu ve 1.0 saniye sustuysa bitir)
+        if (!isContinuous) {
+          vadCheckInterval = setInterval(() => {
+            if (!window.isListeningActive) {
+              clearInterval(vadCheckInterval);
+              return;
+            }
+            if (window.hasUserSpokenThisTurn && window.lastVocalTime > 0) {
+              const elapsedSinceSpeech = Date.now() - window.lastVocalTime;
+              if (elapsedSinceSpeech >= 1100) {
+                console.log('[VAD] Kullanıcı konuştu ve sustu, otomatik değerlendirme başlatılıyor...');
+                clearInterval(vadCheckInterval);
+                window.stopSpeechRecognition();
+              }
+            }
+          }, 150);
+        }
+      } catch (err) {
+        console.warn('Web Audio başlatma hatası:', err);
+      }
+
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (SpeechRec) {
+        if (recognition) {
+          try { 
+            recognition.onend = null;
+            recognition.onerror = null;
+            recognition.onresult = null;
+            recognition.abort(); 
+          } catch(e) {}
+          recognition = null;
+        }
+
+        recognition = new SpeechRec();
+        recognition.lang = lang;
+        recognition.continuous = isContinuous;
+        recognition.interimResults = true;
+        recognition.maxAlternatives = 10;
+
+        recognition.onstart = function() {
+          console.log('Mikrofon ve STT hazır, dinleniyor...');
+          window.dispatchEvent(new CustomEvent('stt_started'));
+        };
+
+        recognition.onresult = function(event) {
+          let fullTranscript = '';
+          for (let i = 0; i < event.results.length; ++i) {
+            const res = event.results[i];
+            if (res.length > 0) {
+              fullTranscript += res[0].transcript;
+            }
+          }
+          const heard = fullTranscript.trim();
+
+          if (heard) {
+            window.currentSpokenTranscript = heard;
+            window.rawSpokenTranscript = heard; // Olduğu gibi sakla
+            sessionStorage.setItem('__lastSpokenText', heard);
+            console.log('Konuşma algılandı:', heard);
+            window.dispatchEvent(new CustomEvent('stt_interim', { detail: { text: heard } }));
+
+            if (!isContinuous) {
+              if (silenceTimer) clearTimeout(silenceTimer);
+              silenceTimer = setTimeout(() => {
+                if (window.isListeningActive) {
+                  console.log('Kelime söylendi ve sessizlik algılandı, otomatik analiz ediliyor:', heard);
+                  window.stopSpeechRecognition();
+                }
+              }, 1200);
+            }
+          }
+        };
+
+        recognition.onerror = function(event) {
+          console.warn('STT bildirimi / hata:', event.error);
+        };
+
+        recognition.onend = function() {
+          console.log('STT onend. isListeningActive:', window.isListeningActive);
+          if (window.isListeningActive) {
+            try {
+              recognition.start();
+              console.log('STT yeniden başlatıldı.');
+            } catch(e) {}
+          }
+        };
+
+        try {
+          recognition.start();
+        } catch (err) {
+          console.warn('recognition.start ilk denemede hata verdi, 100ms sonra tekrar deneniyor:', err);
+          setTimeout(() => {
+            if (window.isListeningActive && recognition) {
+              try { recognition.start(); } catch(e2) { console.warn('recognition retry:', e2); }
+            }
+          }, 100);
+        }
+      }
+    };
+
+    window.finishAudioRecording = function() {
+      if (!isWavRecording && window.lastRecordedWavBlob) return;
+      isWavRecording = false;
+      if (silenceTimer) {
+        clearTimeout(silenceTimer);
+        silenceTimer = null;
+      }
+      if (vadCheckInterval) {
+        clearInterval(vadCheckInterval);
+        vadCheckInterval = null;
+      }
+      if (wavScriptProcessor && wavRecorderSource) {
+        try {
+          wavRecorderSource.disconnect();
+          wavScriptProcessor.disconnect();
+        } catch(e) {}
+        wavRecorderSource = null;
+        wavScriptProcessor = null;
+      }
+
+      if (wavPcmBuffers.length > 0 && audioContext) {
+        let totalLen = 0;
+        for (let i = 0; i < wavPcmBuffers.length; i++) totalLen += wavPcmBuffers[i].length;
+        const merged = new Float32Array(totalLen);
+        let pos = 0;
+        for (let i = 0; i < wavPcmBuffers.length; i++) {
+          merged.set(wavPcmBuffers[i], pos);
+          pos += wavPcmBuffers[i].length;
+        }
+        window.lastRecordedWavBlob = encodeWav(merged, audioContext.sampleRate);
+        window._persistentLastWavBlob = window.lastRecordedWavBlob;
+        console.log('WAV Kaydı hazır! Boyut:', window.lastRecordedWavBlob ? window.lastRecordedWavBlob.size : 0, 'bayt. Ses var mıydı:', window.hasUserSpokenThisTurn);
+      }
+
+      window.dispatchEvent(new CustomEvent('stt_ended', { 
+        detail: { text: window.currentSpokenTranscript } 
+      }));
+    };
+
+    window.stopSpeechRecognition = async function() {
+      if (!window.isListeningActive && !recognition) return;
+      console.log('stopSpeechRecognition çağrıldı. isListeningActive:', window.isListeningActive);
+      window.isListeningActive = false;
+      if (silenceTimer) {
+        clearTimeout(silenceTimer);
+        silenceTimer = null;
+      }
+      if (vadCheckInterval) {
+        clearInterval(vadCheckInterval);
+        vadCheckInterval = null;
+      }
+
+      // Recognition'ı nazikçe durdur (stop() çağrısı buffer'daki konuşmaları çözüp onresult'ı üretir)
+      if (recognition) {
+        try { 
+          recognition.stop(); 
+        } catch(e) {}
+      }
+
+      // Web Speech API'nin son kelimeleri çözüp onresult üretmesi için kısa bir süre tanı
+      await new Promise(r => setTimeout(r, 350));
+
+      if (recognition) {
+        try { 
+          recognition.onend = null;
+          recognition.onerror = null;
+          recognition.onresult = null;
+          recognition.abort(); 
+        } catch(e) {}
+        recognition = null;
+      }
+
+      window.finishAudioRecording();
+      window.stopLiveVolumeMeter();
+
+      // MİKROFON DONANIMINI TAMAMEN SERBEST BIRAK (Chrome mavi mikrofon simgesini anında kapatır)
+      if (globalAudioStream) {
+        try {
+          globalAudioStream.getTracks().forEach(t => {
+            try { 
+              t.stop(); 
+              console.log('[stopSpeechRecognition] Donanım track durduruldu:', t.label);
+            } catch(e) {}
+          });
+        } catch(e) {}
+        globalAudioStream = null;
+      }
+      if (audioContext) {
+        try { audioContext.close(); } catch(e) {}
+        audioContext = null;
+      }
+    };
+
+    // ── 4. Doğrudan Tarayıcı İçi Native Backend Ses Değerlendirme Köprüsü ────
+    window.callEvaluateAudioApi = function(backendUrl, targetText, phoneme, spokenText) {
+      try {
+        const fd = new FormData();
+        fd.append('target_text', targetText || '');
+        fd.append('target_phoneme', phoneme || '');
+        // rawSpokenTranscript: Chrome'un olduğu gibi döndürdüğü ham metin (eşleştirme uygulanmamış)
+        const effSpoken = (spokenText || window.rawSpokenTranscript || window.currentSpokenTranscript || '').trim();
+        fd.append('spoken_text', effSpoken);
+        console.log('[callEvaluateAudioApi] Gönderilen spoken_text:', effSpoken, '| target:', targetText);
+
+        if (window.lastRecordedWavBlob && window.lastRecordedWavBlob.size > 200) {
+          fd.append('audio_file', window.lastRecordedWavBlob, 'speech.wav');
+          console.log('[callEvaluateAudioApi] WAV gönderiliyor, boyut:', window.lastRecordedWavBlob.size);
+        } else {
+          console.log('[callEvaluateAudioApi] WAV dosyası eklenmedi.');
+        }
+
+        fetch(backendUrl + '/api/evaluate-audio', {
+          method: 'POST',
+          body: fd
+        })
+        .then(res => {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.json();
+        })
+        .then(data => {
+          const jsonStr = JSON.stringify(data);
+          window.__lastEvalJson = jsonStr;
+          console.log('[callEvaluateAudioApi] Backend yanıtı:', data);
+          window.dispatchEvent(new CustomEvent('speech_eval_done', { detail: { json: jsonStr } }));
+        })
+        .catch(err => {
+          console.error('[callEvaluateAudioApi] Hata:', err);
+          window.__lastEvalError = String(err);
+          window.dispatchEvent(new CustomEvent('speech_eval_error', { detail: { error: String(err) } }));
+        });
+      } catch (e) {
+        console.error('[callEvaluateAudioApi] Genel Hata:', e);
+        window.__lastEvalError = String(e);
+        window.dispatchEvent(new CustomEvent('speech_eval_error', { detail: { error: String(e) } }));
+      }
+    };
+
+    window.startSpeechMirror = function(containerId) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      container.innerHTML = '';
+      const video = document.createElement('video');
+      video.autoplay = true;
+      video.muted = true;
+      video.playsInline = true;
+      video.style.width = '100%';
+      video.style.height = '100%';
+      video.style.objectFit = 'cover';
+      video.style.borderRadius = '24px';
+      video.style.transform = 'scaleX(-1)'; // Ayna efekti
+      container.appendChild(video);
+
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
+        .then(stream => {
+          window._speechMirrorStream = stream;
+          video.srcObject = stream;
+        })
+        .catch(err => {
+          console.warn('Ayna kamerası açılamadı:', err);
+          container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#777;font-size:12px;text-align:center;padding:10px;">Kamera izni verilmedi veya kamera bulunamadı 📷</div>';
+        });
+    };
+
+    window.stopSpeechMirror = function() {
+      if (window._speechMirrorStream) {
+        window._speechMirrorStream.getTracks().forEach(t => t.stop());
+        window._speechMirrorStream = null;
+      }
+    };
+
+    function playWavWithWebAudio(blob) {
+      if (!blob) return;
+      try {
+        blob.arrayBuffer().then(buf => {
+          const actx = new (window.AudioContext || window.webkitAudioContext)();
+          if (actx.state === 'suspended') actx.resume();
+          actx.decodeAudioData(buf, (audioBuf) => {
+            const source = actx.createBufferSource();
+            const gainNode = actx.createGain();
+            gainNode.gain.value = 1.0;
+            source.buffer = audioBuf;
+            source.connect(gainNode);
+            gainNode.connect(actx.destination);
+            source.start(0);
+            source.onended = () => {
+              window.dispatchEvent(new CustomEvent('playback_ended'));
+            };
+          }, (err) => console.error('decodeAudioData error:', err));
+        }).catch(err => console.error('playWavWithWebAudio error:', err));
+      } catch (err) {
+        console.error('playWavWithWebAudio genel hata:', err);
+      }
+    }
+
+    window.playLastRecordedAudio = function() {
+      const blob = window.lastRecordedWavBlob || window._persistentLastWavBlob;
+      console.log('[playLastRecordedAudio] Çağrıldı. Blob:', blob);
+      if (blob && blob.size > 100) {
+        try {
+          // Doğrudan Web Audio API ile gecikmesiz, anında ve güçlü çalma
+          blob.arrayBuffer().then(buf => {
+            const actx = new (window.AudioContext || window.webkitAudioContext)();
+            if (actx.state === 'suspended') actx.resume();
+            actx.decodeAudioData(buf.slice(0), (audioBuf) => {
+              if (window._currentPlaybackSource) {
+                try { window._currentPlaybackSource.stop(); } catch(e) {}
+              }
+              const source = actx.createBufferSource();
+              const gainNode = actx.createGain();
+              gainNode.gain.value = 1.3; // Güçlü, net duyulan ses
+              source.buffer = audioBuf;
+              source.connect(gainNode);
+              gainNode.connect(actx.destination);
+              window._currentPlaybackSource = source;
+              source.onended = () => {
+                console.log('[playLastRecordedAudio] Çalma tamamlandı.');
+                window.dispatchEvent(new CustomEvent('playback_ended'));
+              };
+              source.start(0);
+            }, (err) => {
+              console.warn('decodeAudioData hatası, HTML5 Audio deneniyor:', err);
+              playWithHtmlAudio(blob);
+            });
+          }).catch(err => {
+            console.warn('arrayBuffer hatası:', err);
+            playWithHtmlAudio(blob);
+          });
+          return true;
+        } catch (e) {
+          console.error('[playLastRecordedAudio] Hata:', e);
+          playWithHtmlAudio(blob);
+          return true;
+        }
+      }
+      console.warn('[playLastRecordedAudio] Kayıtlı WAV bulunamadı.');
+      return false;
+    };
+
+    function playWithHtmlAudio(blob) {
+      try {
+        const url = URL.createObjectURL(blob);
+        const audio = new Audio();
+        audio.src = url;
+        audio.volume = 1.0;
+        audio.onended = () => window.dispatchEvent(new CustomEvent('playback_ended'));
+        audio.play();
+      } catch(e) {}
+    }
+
+    window.appendRecordedWavToFormData = function(fd) {
+      if (window.lastRecordedWavBlob && window.lastRecordedWavBlob.size > 200) {
+        try {
+          fd.append('audio_file', window.lastRecordedWavBlob, 'speech.wav');
+          console.log('WAV Blob FormData eklendi, boyut:', window.lastRecordedWavBlob.size);
+          return true;
+        } catch(e) {
+          console.warn('fd.append hatası:', e);
+        }
+      }
+      return false;
+    };
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>

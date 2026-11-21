@@ -1,0 +1,48 @@
+# Git Ignore - Ses Yolunda Eğlence (Bitirme Projesi)
+
+# Python & Sanal Ortam (Virtualenv)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+backend/venv/
+venv/
+env/
+ENV/
+.env
+
+# Flutter & Dart
+mobile/.dart_tool/
+mobile/build/
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
+mobile/.packages
+mobile/coverage/
+
+# IDE & Editör Ayarları
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+
+# İşletim Sistemi Geçici Dosyaları
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.bak
+*.tmp
+
+# Test & Sistem Log Çıktıları
+*.log
+.system_generated/
+test_*.wav
+test_*.mp3
+cand_*.wav
+cloudflared.exe
+/*.wav
+/*.mp3
+/pure_syllables/

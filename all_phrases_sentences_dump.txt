@@ -1,0 +1,1140 @@
+
+==================== STAGE 1: /p/ (sound_p) ====================
+--- PHRASES (30) ---
+  P1: Pullu palto
+  P2: Pembe pike
+  P3: Peynirli pide
+  P4: Plastik poşet
+  P5: Pilavlık pirinç
+  P6: Pahalı pabuç
+  P7: Pembe panter
+  P8: Pedallı piyano
+  P9: Patlıcanlı pilav
+  P10: Püsküllü perde
+  P11: Patates püresi
+  P12: Portakallı pasta
+  P13: Pazartesi pazarı
+  P14: Padişahın pelerini
+  P15: Palyaçonun pantolonu
+  P16: Kalplı şapka
+  P17: Kayıp kitap
+  P18: Kapalı kapı
+  P19: Zıplayan top
+  P20: Kaptan pilot
+  P21: Piknik sepeti
+  P22: Polis kopeği
+  P23: Topal sincap
+  P24: Hesaplı kasap
+  P25: Kaplama küpe
+  P26: Kapüşonlu palto
+  P27: Ponponlu çorap
+  P28: Süpürgenin sapı
+  P29: Kepek şampuanı
+  P30: Şampiyonun kupası
+--- SENTENCES (20) ---
+  S1: Pelin'in perdeleri püsküllü.
+  S2: Polat pazartesi Paris'teydi.
+  S3: Pencerenin pervazı pislenmiş.
+  S4: Patatesçi patatesleri paketledi.
+  S5: Patlıcanlı pirinç pilavı pişirelim.
+  S6: Postacının pantolonu poşetteymiş.
+  S7: Pidecideki peynirli pide pahalıydı.
+  S8: Pizzacı pizza pişirmekten pişmandı.
+  S9: Palyaçonun Pahalı pabuçları pulluydu.
+  S10: Prensesin pırlantası pırıl pırıl parlıyordu.
+  S11: Penceredeki papağan perdeyi parçaladı.
+  S12: Pelin peynirli poğaçayı Pervin'le paylaştı.
+  S13: Pazarlamacı Pervin Pırıltılı penyeleri pazarladı.
+  S14: Perşembe pazarındaki pazarcı pırasaları poşetledi.
+  S15: Pamuklu pazen pijamasının pantolonunu pembeydi.
+  S16: Recep İpek'iöptü.
+  S17: Serpil ıspanak pişirdi.
+  S18: Serap yaprakları süpürdü.
+  S19: Dolaptaki çorapları toparladım.
+  S20: Parktaki köpek plastik topu kaptı.
+
+==================== STAGE 2: /b/ (sound_b) ====================
+--- PHRASES (30) ---
+  P1: Bir bahçe
+  P2: Bol bilezik
+  P3: Boş bavul
+  P4: Beş bebek
+  P5: Bordo bere
+  P6: Bayat börek
+  P7: Ballı bisküvi
+  P8: Balıkçı bıçağı
+  P9: Başka balerin
+  P10: Beyaz bayrak
+  P11: Büyük burunlu
+  P12: Bozuk barbunya
+  P13: Benim bardağım
+  P14: Boğanın boynuzu
+  P15: Bebeğin biberonu
+  P16: Sabırlı abla
+  P17: Kitabın kabı
+  P18: Çabuk çorba
+  P19: Elbise torbası
+  P20: Sebzeli kebap
+  P21: Kabarık elbise
+  P22: Arabanın teybi
+  P23: Fabrikanın sahibi
+  P24: Ebru'nun tabağı
+  P25: Pembe kumbara
+  P26: Kalabalık otobüs
+  P27: Rutubetli kulübe
+  P28: Abajurun kablosu
+  P29: Yabancı voleybolcu
+  P30: Buzdolabındaki kurabiye
+--- SENTENCES (20) ---
+  S1: Babam bagaja baktı.
+  S2: Bej bluzuma bal bulaştı.
+  S3: Burak berberde bitlendi.
+  S4: Bebek biberonu boşalttı.
+  S5: Berrin'in bilgisayarı bozuldu.
+  S6: Boza bardaklarını bulamadık.
+  S7: Bugün boşu boşuna bekledim.
+  S8: Bülent Banu'nun bisikletine bindi.
+  S9: Babaannem bileziklerini bana bıraktı.
+  S10: Benim bütün balıklarım birbirine benzer.
+  S11: Berna bakır boncuklarını bahçede buldu.
+  S12: Büyükbabam banyonun borularını boyadı.
+  S13: Bahçeye boş, Beyaz bir bardak bırakmışlar.
+  S14: Bütün bahar boyunca başladığım boyayı bitiremedim.
+  S15: Bebek beşiğinde baygın baygın uyudu.
+  S16: Sabah otobüs kalabalıktı.
+  S17: Sebzeli kebaba bayılırım.
+  S18: Lavabodaki sabunu bitirdim.
+  S19: Berberde torbasını kaybetti.
+  S20: Ebru kitabı pembeye boyadı.
+
+==================== STAGE 3: /t/ (sound_t) ====================
+--- PHRASES (25) ---
+  P1: Titiz terzi
+  P2: Tozlu tarla
+  P3: Tenis topu
+  P4: Tarihi tiyatro
+  P5: Tüylü tavşan
+  P6: Tahta tabure
+  P7: Telsiz telefon
+  P8: Tunuslu turist
+  P9: Temiz tencere
+  P10: Turuncu tabela
+  P11: Telefonun tuşu
+  P12: Tahtanın tebeşiri
+  P13: Tereyağlı tarhana
+  P14: Tecrübeli tercüman
+  P15: Televizyon tamircisi
+  P16: Etli turlu
+  P17: Şutlu tatlı
+  P18: Futbol topu
+  P19: Dantel örtü
+  P20: Taze gofret
+  P21: Penaltı atışı
+  P22: Şeftalili turta
+  P23: Lacivert şort
+  P24: Yatağın altı
+  P25: Ütülü pantolon
+--- SENTENCES (15) ---
+  S1: Tuba tayın tüylerini taradı.
+  S2: Timsah taşın tepesindeydi.
+  S3: Teoman terziyi tanıyamamış.
+  S4: Temel tarlanın taşlarını topladı.
+  S5: Tahtanın tebeşirleri turuncuydu.
+  S6: Taner terasın tentesini temizledi.
+  S7: Timuçin'in tedavisi tamamlandı.
+  S8: Tarçınlı turtalar tatlı tabağındaydı.
+  S9: Tayfun'la Timur tatilde tanışmışlar.
+  S10: Tülay'in teyzesinin tarhanası tazeydi.
+  S11: Turuncu topum patladı.
+  S12: Tahtanın tebeşiri bitmiş.
+  S13: Metin salata tabağını taşıdı.
+  S14: Tatlıcı Ümit'in sütlacı lezzetli.
+  S15: Titiz terzi pantolonları ütüledi.
+
+==================== STAGE 4: /d/ (sound_d) ====================
+--- PHRASES (25) ---
+  P1: Dans dersi
+  P2: Dolu dolap
+  P3: Deli Davut
+  P4: Derin deniz
+  P5: Dağınık daire
+  P6: Dönme dolap
+  P7: Dokuz dakika
+  P8: Dört domates
+  P9: Dikkatsiz dişçi
+  P10: Düğün dernek
+  P11: Değerli doktor
+  P12: Dantelli düğme
+  P13: Damla'nın dayısı
+  P14: Dükkandaki dilenci
+  P15: Düğündeki davulcu
+  P16: Bordo çadır
+  P17: Aydınlık oda
+  P18: Bidonun dibi
+  P19: Bademin tadı
+  P20: Eda'nın Dedesi
+  P21: Kadının eldiveni
+  P22: Dedemin arkadaşı
+  P23: Yerdeki kumanda
+  P24: Caddedeki adam
+  P25: Seda'nın Hediyesi
+--- SENTENCES (15) ---
+  S1: Damla dikiş diker.
+  S2: Dedektif dükkanı dolaştı.
+  S3: Dantelli düğmeleri diktiler.
+  S4: Derya dört dadı değiştirdi.
+  S5: Doktorun dediklerini duydu.
+  S6: Didem dans dersinde düştü.
+  S7: Dam durup dururken delindi.
+  S8: Dedem denizaltıyla dolaşmış.
+  S9: Duru derste defterlerini düşürdü.
+  S10: Dolaptaki dondurmayı döktüm.
+  S11: Cevdet ödevini bitirdi.
+  S12: Jandarma düdük çaldı.
+  S13: Okulda fındıkla badem yedim.
+  S14: Ferda'nın hediyesini beğendim.
+  S15: Vedat cüzdanını evde bulamadı.
+
+==================== STAGE 5: /k/ (sound_k) ====================
+--- PHRASES (25) ---
+  P1: Kapalı kapı
+  P2: Kara karga
+  P3: Küçük küpe
+  P4: Kepçe kulak
+  P5: Kınalı kuzu
+  P6: Kızgın köpek
+  P7: Keskin koku
+  P8: Kırmızı kalem
+  P9: Kiralık Konak
+  P10: Kokulu karanfil
+  P11: Kedinin kuyruğu
+  P12: Kahraman kadın
+  P13: Kalabalık kasaba
+  P14: Kahverengi kazak
+  P15: Kaplumbağanın kabuğu
+  P16: Açık fikirli
+  P17: Balık kılçığı
+  P18: Akıllı çocuk
+  P19: İpek bayrak
+  P20: Büyük köprü
+  P21: Islak gömlek
+  P22: Benekli inek
+  P23: Şeker fabrikası
+  P24: Çanak çömlek
+  P25: Açık çekmece
+--- SENTENCES (15) ---
+  S1: Köpek kediyi kovaladı.
+  S2: Kasap kepenkleri kaldırdı.
+  S3: Küs karşı kaldırıma kondu.
+  S4: Küçük kız kerevizi kaşıkladı.
+  S5: Kedi kafesin kapısını kapadı.
+  S6: Kızgın kadın kumandayı kırdı.
+  S7: Kıvırcık koyun kavunu kokladı.
+  S8: Karşı komsu kapısının kilidini kırdı.
+  S9: Kaplan koruda kanguruyu kovalıyor.
+  S10: Köpek kokarcanın kuyruğunu kokladı.
+  S11: Okulda kimse yokmuş.
+  S12: Koylu yokuş yukarı çıkmış.
+  S13: Küçük kız akşam bakla ayıkladı.
+  S14: Büyük saksıda Menekşe ekiliymiş.
+  S15: Bekir dükkanda arkadaşını bekledi.
+
+==================== STAGE 6: /g/ (sound_g) ====================
+--- PHRASES (25) ---
+  P1: Gizli görev
+  P2: Güzel gece
+  P3: Güneşli gün
+  P4: Gazlı gazoz
+  P5: Geniş garaj
+  P6: Geçersiz göl
+  P7: Gri gökyüzü
+  P8: Genç gezgin
+  P9: Göbekli goril
+  P10: Garip garson
+  P11: Güvenli geçit
+  P12: Gümüş gözlük
+  P13: Gevrek galeta
+  P14: Güneş gözlüğü
+  P15: Gemi güvertesi
+  P16: Üzgün Ezgi
+  P17: Üçgen silgi
+  P18: Saygılı Ege
+  P19: Grip salgını
+  P20: Çizgili yorgan
+  P21: Yorgun Özge
+  P22: Rüzgarlı bölge
+  P23: Özgür'UN gitarı
+  P24: Müge'nin giysisi
+  P25: Penguenin rengi
+--- SENTENCES (15) ---
+  S1: Galip Göle girecek.
+  S2: Gökhan güllaç getirmiş.
+  S3: Gölgeler gece görünmez.
+  S4: Gelenler göbekli gorile gülüyor.
+  S5: Gemici gemiye geç gelecekmiş.
+  S6: Gezerken gözüne güneş girmiş.
+  S7: Gülay Gaziantep'egezmeye gitti.
+  S8: Garson gevrek galetaları getiriyor.
+  S9: Gizem geçen gece Gaye'yi görmüş.
+  S10: Gazeteciler Girne'ye geziye gittiler.
+  S11: Bugün gençlerin günü.
+  S12: Engin üzgün görünüyor.
+  S13: Kavgacı garson kızgınmış.
+  S14: Sergen yorgun gözüküyor.
+  S15: Bugün gazeteleri Ege getirmiş.
+
+==================== STAGE 7: /f/ (sound_f) ====================
+--- PHRASES (30) ---
+  P1: Favori film
+  P2: Fakir fukara
+  P3: Fındık faresi
+  P4: Filmin finali
+  P5: Fenerin fiyatı
+  P6: Faydalı fıstık
+  P7: Fen fakultesi
+  P8: Fosforlu forma
+  P9: Falcinin fincanı
+  P10: Fenerli futbolcu
+  P11: Fanila fabrikası
+  P12: Farklı fotoğraf cl
+  P13: Feribotun filikası
+  P14: Fransizfaytoncu
+  P15: Fesleğenli fasulye
+  P16: Fakir çiftçi
+  P17: Hafif küfe
+  P18: Ufak tefek
+  P19: Öfkeli Efe
+  P20: Küflü yufka
+  P21: Tuhaf sınıf
+  P22: Enfes hoşaf
+  P23: Efendi şoför
+  P24: Sedef kaftan
+  P25: Telefon kılıfı
+  P26: Nefis parfüm
+  P27: Tuhaf tesadüf
+  P28: Defolu çarşaf
+  P29: Fıstıklı künefe
+  P30: Masraflı misafir
+--- SENTENCES (30) ---
+  S1: Ferhat fikrayl fısıldadı.
+  S2: Fındık fıstık faydalıdır.
+  S3: Filmin finali fiyaskoydu.
+  S4: Futbolcunun fiyatı fazlaydı.
+  S5: Fikret fiyakalı futbolcudur.
+  S6: Fatsalı Fatih fazla fanatikti.
+  S7: Faik Fransa'da faytoncuydu.
+  S8: Fevzi fenerin fitilini fisekledi.
+  S9: Fillerle farelerin fiziği farklidir.
+  S10: Fas'ta fakirlik Fransa'Dan fazladir.
+  S11: Funda fayanslari fircayla fircaladi.
+  S12: Fantastik filmler film festivalindeydi.
+  S13: Fatma fincan fabrikasinda fenalasti.
+  S14: Fenerli futbolcunun formasi fosforluydu.
+  S15: Fotoğrafçı Fransız futbolculari fotografadi.
+  S16: Efe Sefa'ya ofkelendi.
+  S17: Efatun eşofman ufalmış.
+  S18: Elif Büfe'nin köftesi nefistir.
+  S19: Raftaki çarşafı naftalinledi.
+  S20: Sedefin kaftani defoluymuş.
+  S21: Lütfen sınıfta fısıldamayınız.
+  S22: Fasulyeyle köfteler sofradaydı.
+  S23: Defne teneffüste sınıftan fırladı.
+  S24: Fuardaki fırfırlı çarşaflar kadifeydi.
+  S25: Defterdeki tuhaf tariflerle zayıfladı.
+  S26: Fırıncı enfes şeftalili puflarını fırınladı.
+  S27: Arif Fenerbahce'nin fanatik taraftaridir.
+  S28: Müfettiş sınıfta fisildayanlari affetmedi.
+  S29: Bufenin mutfağındaki se Fin kıya feti tuha fti.
+  S30: Şeref haftaya Afyon'da fizik konferansinda.
+
+==================== STAGE 8: /v/ (sound_v) ====================
+--- PHRASES (30) ---
+  P1: Van Valisi
+  P2: Vahşi vampir
+  P3: Valinin valizi
+  P4: Vişneli vitamin
+  P5: Vefasız Vildan
+  P6: Varlıklı vezneci
+  P7: Vananın vidası
+  P8: Vedat'in vedası
+  P9: Vagondaki varil
+  P10: Varlıklı veteriner
+  P11: Vefa'nin vazosu
+  P12: Volkanin videosu
+  P13: Verda'nin Vosvosu
+  P14: Vatandaşlık vazifesi
+  P15: Vejetaryen voleybolcu
+  P16: Bedava ev
+  P17: Duvar çivisi
+  P18: Kuvvetli avcı
+  P19: Mavi süveter
+  P20: Dev canavar
+  P21: Tavuklu pilav
+  P22: Sevimli tavşan
+  P23: Havlu nevresim
+  P24: Yavru güvercin
+  P25: Lacivert eldiven
+  P26: Vitaminli meyve
+  P27: Kahverengi bavul
+  P28: Lavabodaki Kova
+  P29: Tavadaki mücver
+  P30: Volkan'in manavı
+--- SENTENCES (30) ---
+  S1: Vapur vaktinde vardı.
+  S2: Veysel vanayi vidaladı.
+  S3: Vapurun vıncı vitesliydi.
+  S4: Vehbi'ye vitamin verdiler.
+  S5: Volkan Vural'nvelisiymis.
+  S6: Vedat'in valizi vagondaydi.
+  S7: Voleybolcu Vildan vedalasti.
+  S8: Verda vazoyu Vahit'everdi.
+  S9: Vapurda voleybolcular vardı.
+  S10: Vahşi vaşak veterinere verildi.
+  S11: Vapurdaki valizde vişne varmış.
+  S12: Valilik vatandasa vize vermedi.
+  S13: Vilayetin vestiyerinde varil vardı.
+  S14: Vural valizini vestiyere vermedi.
+  S15: Volkan vasitalari valeye verecek.
+  S16: Devin evi maviydi.
+  S17: Manav meyveleri Verdi.
+  S18: Seval tavsana havuç Verdi.
+  S19: Sevimli güvercin civcivi kovaladi.
+  S20: Davulcu davula kuvvetlice vurdu.
+  S21: Manavda vitaminli meyveler vardı.
+  S22: Evdeki davette tavuklu pilav vard.
+  S23: Cuvaldaki cevizleri havanda dovdu.
+  S24: Zavallievcil hayvanlar savunmasizdi.
+  S25: Kavgacı Avni vazoyu duvara savurdu.
+  S26: Tuvaletteki lavabonun vidası gevşemiş.
+  S27: Deve kervaninda kahve cuvallari vardı.
+  S28: Canavar duvardaki cerceveyi ceviriverdi.
+  S29: Lacivert eldiveniyle suiveterini vestiyere Verdi.
+  S30: Sevgi lavabodaki ayva ve visneyi tavaya koyuverdi.
+
+==================== STAGE 9: /s/ (sound_s) ====================
+--- PHRASES (25) ---
+  P1: Sıcak süt
+  P2: Sıvı sabun
+  P3: Sivri sinek
+  P4: Şali sabahı
+  P5: Sarı solucan
+  P6: Soslu salata
+  P7: Sinirli sürücü
+  P8: Siyah süveter
+  P9: Susamlı simit
+  P10: Soğan sepeti
+  P11: Süratsiz Sinan
+  P12: Sedefli sandık
+  P13: Sahipsiz sepet
+  P14: Salamlı sandviç
+  P15: Sallanan sandalye
+  P16: Eski masa
+  P17: Asker Sinan
+  P18: Kısa mesafe
+  P19: Esmer Esma
+  P20: Askılı elbise
+  P21: Mısır püskülü
+  P22: Fıstıklı bisküvi
+  P23: Paslı musluk
+  P24: Hasır iskemle
+  P25: Maskeli süvari
+--- SENTENCES (15) ---
+  S1: Sebze soteyi severim.
+  S2: Sinem sarı silgiyi sakladı.
+  S3: Sezgin'in sorusu saçmaydı.
+  S4: Sokaktaki sincaplar sahipsizdi.
+  S5: Saçma sözler söylemek serbestti.
+  S6: Selin saksıdaki sardunyaları suladı.
+  S7: Sarı saclı sporcu sahada sakatlandı.
+  S8: Simitçi sokakta sıcak simit satıyordu.
+  S9: Semizotu, soğan, sarımsak sepetteydi.
+  S10: Serseri sürücü sokakta subaya saldırdı.
+  S11: Bakımsız bisiklet paslandı.
+  S12: Mesut teneffüste hastalandı.
+  S13: Pasaklı Sibel salonu pisletti.
+  S14: Aslı siyah paltosunu askıya astı.
+  S15: Esin eski elbiselerini eskiciye sattı.
+
+==================== STAGE 10: /z/ (sound_z) ====================
+--- PHRASES (30) ---
+  P1: Zil zurna
+  P2: Zeki Zafer
+  P3: Zamklı zarf
+  P4: Zor zaman
+  P5: Zayıf zenci
+  P6: Zavall zebra
+  P7: Zincirli zindan
+  P8: Zarif ziyaretçi
+  P9: Zımbalı zıbın
+  P10: Zam zamani
+  P11: Zehirli zambak
+  P12: Zengin ziyafet
+  P13: Zamansız ziyaret
+  P14: Zeytinlikteki zeytin
+  P15: Zonguldak'li Zehra
+  P16: Düz yazı
+  P17: Hızlı tazı
+  P18: Uzun çizme
+  P19: Bozuk Terazi
+  P20: Kırmızı kazak
+  P21: Taze sebze
+  P22: Bezgin terzi
+  P23: Müze gezisi
+  P24: Kurnaz hırsız
+  P25: Düzenli valiz
+  P26: Güzel bilezik
+  P27: Kizin mizikasi
+  P28: Kuzunun gozu
+  P29: Kurşunsuz benzin
+  P30: Bezelye kavanozu
+--- SENTENCES (30) ---
+  S1: Zafer zıpzıp zıpladı.
+  S2: Zerrin zarfı zamkladı.
+  S3: Zehra'yla Zerrin zekidir.
+  S4: Zarif zambak zedelendi.
+  S5: Zeytin'izehirli zannettim.
+  S6: Ziya zorlanarak zayifladi.
+  S7: Zafer zinciri zimparaladi.
+  S8: Zarfı zimbayla zimbaladi.
+  S9: Zebrayla zurafalar zayifti.
+  S10: Zeliha zamaninda. ziyafetteydi.
+  S11: Zeynep zaman zaman zirvalar.
+  S12: Zeytinyağlı zencefil zararsizdir.
+  S13: Zengin ziyaretciyi Ziya zannettim.
+  S14: Zehirli zakkum zurafayi zehirledi.
+  S15: Zeynep zıplayarak zayıflayacağını zannetti.
+  S16: Uzaya fuzeyle gidebiliriz.
+  S17: Terzi teyze komsumuzdur.
+  S18: Ozgurun kuzeni muzisyendi.
+  S19: Gamze'yi yazliktan taniyoruz.
+  S20: Hızlı yüzücü havuzda yuzdu.
+  S21: Bazen müze gezmeyi ozlerim.
+  S22: Pazardaki taze sebzeler azalmış.
+  S23: Yazın hepimiz denizde egleniriz.
+  S24: Kuzenimle buzlu gazoza bayiliriz.
+  S25: Güzel gözlü kizin televizyonu bozuldu.
+  S26: Taze bezelyeler kırmızı kavanozdaydi.
+  S27: Pazarlari teyzemle zeytinli pizza pisiririz.
+  S28: Nezihe kizina kiraz, Üzüm, karpuz hazirlad.
+  S29: Kırmızı kazaklı kız bazı zamanlar yalnız geziyor.
+  S30: Zafer izlediği yazarin gazetedeki yazilarini ozetledi.
+
+==================== STAGE 11: /ş/ (sound_ş) ====================
+--- PHRASES (30) ---
+  P1: şişman şef
+  P2: şan şöhret
+  P3: şirin şapka
+  P4: şen şakrak
+  P5: şişko şoför
+  P6: şahane süt
+  P7: şekerli şurup
+  P8: Sarkill Şenlik
+  P9: şeftalili şerbet
+  P10: Şımarık Şeyma
+  P11: sasl şempanze
+  P12: şakacı şaklaban
+  P13: Solendeki sarkicl
+  P14: samatacl şövalye
+  P15: sampiyonun sovu
+  P16: Diş taş!
+  P17: Beş karış
+  P18: Yavaş taşıt
+  P19: Kış gunesi
+  P20: Duş başlığı
+  P21: Koşu yarış!
+  P22: Telaşlı ascl
+  P23: Yeşil tebeşir
+  P24: Karşı komsu
+  P25: Güneş Isini
+  P26: Gümüş kaşık
+  P27: Kaşarlı erişte
+  P28: Ayşe'nin kardesi
+  P29: Döşeğin kumaş!
+  P30: Arkadasimin kalemtirasl
+--- SENTENCES (30) ---
+  S1: Şam şekeri Şam'dadir.
+  S2: şişko şempanze şirindi.
+  S3: şampiyon Şeniz şımarıktı.
+  S4: Sengül sohreti sarkiciydi.
+  S5: şapkalı Şerif samataciydi.
+  S6: sirinler sirine'yle sakalasti.
+  S7: Sengül'usan şöhret sasirtti.
+  S8: sampiyonun sovu sahaneydi.
+  S9: solendeki şaklaban sapkaliydi.
+  S10: sominenin sekli Şenay'isasirtmisti.
+  S11: şule'nin sekerleri sekerlikteymis.
+  S12: şahane samdanlar sovalyenindi.
+  S13: şekerli şeftali serbeti sismanlatir.
+  S14: şaşı şempanze sSirin şule'yi sasirtti.
+  S15: Şöhretli şarkıcı sehirdekileri senlendirdi.
+  S16: Başarıl kisiler caliskandir.
+  S17: Basimdaki şapka kusluydu.
+  S18: Asagidaki komsu aşırı neselidir.
+  S19: Arkadasimin Yeşil tisortu yırtılmış.
+  S20: Akşam kuslarin otusu coskuluydu.
+  S21: Dişlek tavşan kosede kasiniyordu.
+  S22: Enistem görüşmeyeli şişmanlamış.
+  S23: sovalyenin sakalari basimizi sisirdi.
+  S24: Kardesime kreste sekilleri ogretmisler.
+  S25: Ayşe düşünce basini tasa çarpmış.
+  S26: Şampiyon kosucunun sortu kirmiziymis.
+  S27: Yaristaki yarismacilar yavaş kosuyordu.
+  S28: sampiyonlar yarista pes pese dizilmisti.
+  S29: Şımarık Ayşe arkadasinin pesinden kostu.
+  S30: Kumaşçı yıpranmış kumaslari asagidaki koseye koymustu.
+
+==================== STAGE 12: /j/ (sound_j) ====================
+--- PHRASES (30) ---
+  P1: Jöleli jön
+  P2: Japon jüri
+  P3: Jumbo jet
+  P4: Janjanlı jant
+  P5: Judocu Jale
+  P6: Japon jokey
+  P7: Jeolog Jülide
+  P8: Jale'nin jetonu
+  P9: Jaguar'in janti
+  P10: Jülide'nin jesti
+  P11: Jelatinli jambon
+  P12: Jelibonun jolesi
+  P13: Jandarmanin jileti
+  P14: Judocularin jübilesi
+  P15: Jamaikal jimnastikçi
+  P16: Ojeli Tijen
+  P17: Enerjik jüri
+  P18: Bej pijama
+  P19: Sarjl abajur
+  P20: Japon ejderi
+  P21: Enerj masaji
+  P22: Jetonlu bagaj
+  P23: Panjurlu garaj
+  P24: Müjdeli mesaj
+  P25: Japon makyaji
+  P26: Jiletin ambalaji
+  P27: Ajanin ajandasi
+  P28: Jale'nin projesi
+  P29: Ajda'nin alerjisi
+  P30: Hijyenik deterjan
+--- SENTENCES (30) ---
+  S1: Jet Japonlar'in mi?
+  S2: Jokeyin jübilesi jestti.
+  S3: Jöleli jön jenerikteydi.
+  S4: Jale'nin jilesi jarseydi.
+  S5: Jeolog Jale Japonya'da.
+  S6: Jöleli jandarma judocuydu.
+  S7: Jetin jeneratoru jetonludur.
+  S8: Jumbo jambonlar jelatinliydi.
+  S9: Jamaikalı judocu Japonya'da.
+  S10: Janset Japonlarla Jüpiter'deydi.
+  S11: Jülide Jamaika'da jimnastikciydi.
+  S12: Jokey Jale jimnastik jurisindeydi.
+  S13: Judocu jelatinsiz jetonlari jelatinledi.
+  S14: Jamaika'daki jokey Japon jetindeydi.
+  S15: Jülide'nin Jaguar'inin jantlari janjanliydi.
+  S16: Nejat'in projesi stratejiktir.
+  S17: Tijen psikoloji stajindaymis.
+  S18: Drajelerin gramaji orijinaldir.
+  S19: Bagajin ambalaji garajda mi?
+  S20: Ajda'nin alerjisi pijamadanmis.
+  S21: Stajyer ferforjeleri montajladl.
+  S22: Bej ojemle rujum bagajdaymis.
+  S23: Ejderhalı pjamalar Müjde'ninmis.
+  S24: Müjdat'in dublaj ajansı pasajdadir.
+  S25: Vidanjorler lojmanin garajindadir.
+  S26: Kolejdeki deterjanlar hijyenik midir?
+  S27: Sosyoloji arkeolojiden avantajlidir.
+  S28: Roportaji ajansa mesajla mujdelediler.
+  S29: Ajandadaki mesajlar ajanin santajiymis.
+  S30: Enerji masajinin orijinali Nijerya'daki plajlardadir.
+
+==================== STAGE 13: /h/ (sound_h) ====================
+--- PHRASES (30) ---
+  P1: Ham havuç
+  P2: Hızlı hırsız
+  P3: Hafif helva
+  P4: Harika hayal
+  P5: Haftalık haber
+  P6: Huzurlu hava
+  P7: Havuzdaki havlu
+  P8: Hassas hediye
+  P9: Huysuz horoz
+  P10: Hatalı hareket
+  P11: Hızlı hokkabaz
+  P12: Hastalık hastas
+  P13: Hareketli Hülya
+  P14: Heyecanlı hikaye
+  P15: Hamarat hizmetçi
+  P16: Cahil Cihan
+  P17: Pahalı nohut
+  P18: Rahat sahne
+  P19: Sahte Ehliyet
+  P20: ihtiyar muhtar
+  P21: Sahici sihirbaz
+  P22: Kahve bahane
+  P23: Şahane bahçe
+  P24: Mahalle kahvesi
+  P25: Sahanda şehriye
+  P26: Sahildeki ahtapot
+  P27: Kahraman Ahmet
+  P28: Kahverengi anahtar
+  P29: Baharatlı la hmacun
+  P30: Sehpadaki tahtakurusu
+--- SENTENCES (30) ---
+  S1: Hakan hırsızı hatırladı.
+  S2: Handan Hanım hıçkırdı.
+  S3: Herkesin Hediyesi hazır.
+  S4: Helikopter hizla havalandi.
+  S5: Halit hirsizlari hemen hakladi.
+  S6: Hastanedeki hemşire hatallydi.
+  S7: Halam helvayi hemen hazirladi.
+  S8: Hülya halam havuzda hastalandi.
+  S9: Halidaki hediyelerin hangisi hafif?
+  S10: Heyecanlı Halil hirkasini hirpaladi.
+  S11: Hande hayalindeki hikayeyi hatırladı.
+  S12: Hamaktaki Hasan herseyden habersizdi.
+  S13: Hakim hileci haydutlarin hepsini hapsetti.
+  S14: Hizmetliler havasız hangari hizla havalandirdilar.
+  S15: Hekimler, hemsireler ve hastabakicilar hastanedeydi.
+  S16: Nahit tenhada horluyordu.
+  S17: Pahalı Mücevher sahteymis.
+  S18: Sabiha'nin anahtari siyahti.
+  S19: Baharatlı yahni muhtesemdi.
+  S20: Bahcedeki kahvaltı harikaydi.
+  S21: Baharda havalar hep ferahtir.
+  S22: Kahve bahane sohbet şahane.
+  S23: Sehpayi tahtakurusu mahvetmiş.
+  S24: Saliha Taha'ya ehliyetini hatirlatti.
+  S25: Bahcivanin tohumlari bahcedeydi.
+  S26: ihtiyar hokkabazin hikayesi tuhaft.
+  S27: Sahandaki lahana Serhat'in hakkidir.
+  S28: Sihirli ejderhanin hikayesi heyecanliydi.
+  S29: Sihirbazin kahkahasi hepimizi rahatlatti.
+  S30: Ahmet yemekhanede kahvaltı hazirladi.
+
+==================== STAGE 14: /ç/ (sound_ç) ====================
+--- PHRASES (30) ---
+  P1: Çürük çilek
+  P2: Çirkin çörek
+  P3: Çukur çanak
+  P4: Çizgili çorap
+  P5: Çok çikolata
+  P6: Çabuk çorba
+  P7: Çizmeli çocuk
+  P8: Çalışkan çiftçi
+  P9: Çorapçı Çetin
+  P10: Çanak çömlek
+  P11: Çamurlu çanta
+  P12: Çatlak çerçeve
+  P13: Çıngırağın çanı
+  P14: Cayirdaki çimen
+  P15: Caydanliktaki çay
+  P16: Üç uçak
+  P17: Ağaçlı bahçe
+  P18: inatçı keçi
+  P19: Sağ fircas
+  P20: Kaçak araç
+  P21: Güçlü bekçi
+  P22: Küçük serçe
+  P23: Açelya çiçeği
+  P24: Açık çekmece
+  P25: Mızıkçı Tugce
+  P26: Tarçınlı içecek
+  P27: Suçlu hizmetçi
+  P28: Çekişmeli maç
+  P29: Havuçlu poğaça
+  P30: Palyaconun sacl
+--- SENTENCES (30) ---
+  S1: Çocuk çanı çaldı.
+  S2: Çelik çiçek çizdi.
+  S3: Çilekler çürük çıktı.
+  S4: Çukur ganak gatladi.
+  S5: Çekiçle civiyi caktim.
+  S6: Çiftçi ciftlikte calisiyor.
+  S7: Carsida cantam galindi.
+  S8: Çetin camasirlari calkaladi.
+  S9: Cicekcideki cicekler cogaldi.
+  S10: Cantasindaki çakmağı cakti.
+  S11: Çağla çocuğun çorabını gekti.
+  S12: Camasirin gamurunu gitiledim.
+  S13: Çalışkan Çağdaş Çiğdem'icalistirdl.
+  S14: Copçu copleri carsidan çuvalla cgikard.
+  S15: Cikolatalar çocuğun gekmecesinden çıktı.
+  S16: Suç lu bekçi kacti.
+  S17: Burç in kraliçe secildi.
+  S18: Orc UN üç üşü kaç irdi.
+  S19: Sağ ina çekirge sıç Radi.
+  S20: inatçı kecicayira kact.
+  S21: Üç serçe agactan üç tu.
+  S22: Seçil Açelya'ya borç landi.
+  S23: Palyaço üç urtma üç Urdu.
+  S24: Ayca üç akta hiç iç ki icmedi.
+  S25: Bahc edeki ağaç lar cic ek aç ti.
+  S26: Sevinç reçelli pogacalarl secti.
+  S27: Bahc ivan bahc edeki cimleri bicti.
+  S28: Tarc inli iç ecekler fic inin iç indeydi.
+  S29: Kuc UK göçük recetedeki ilaclari iç ti.
+  S30: Fenerbahce'nin maç ikac kaç sonuç landi?
+
+==================== STAGE 15: /c/ (sound_c) ====================
+--- PHRASES (30) ---
+  P1: Cüce cadı
+  P2: Cilalı cezve
+  P3: Çam cımbız
+  P4: Canlı civciv
+  P5: Ceketin cebi
+  P6: Cırt cirtl cep
+  P7: Cimri Cengiz
+  P8: Cesur cerrah
+  P9: Çanı canavar
+  P10: Cem'in cesareti
+  P11: Caydırıcı cevap
+  P12: Cumbur cemaat
+  P13: Cadinin cuppesi
+  P14: Cebindeki cüzdan
+  P15: Cumhuriyet coskusu
+  P16: incir agacl
+  P17: Ucuz fincan
+  P18: Bücür çocuk
+  P19: Cırcır böceği
+  P20: Oduncu amca
+  P21: Eğlenceli gece
+  P22: Acılı lahmacun
+  P23: Minicik karınca
+  P24: Lacivert gecelik
+  P25: Acemi tamirci
+  P26: Oyuncak sincap
+  P27: Sıcak mercimek
+  P28: Birinci yarismacl
+  P29: Ocaktaki tencere
+  P30: Salıncağın zinciri
+--- SENTENCES (30) ---
+  S1: Çan'la Cem cesurdur.
+  S2: Cici Cemre cıvıl cıvıldı.
+  S3: Ceren cumartesi costu.
+  S4: Cihan cezveleri cilaladi.
+  S5: Camdan cama cevapladl.
+  S6: Ceketinin cebi cirtcirtlydl.
+  S7: Cimcime Canan cesaretlidir.
+  S8: Civardaki caddeler canlandi.
+  S9: Civcivler civarda civildiyordu.
+  S10: Cırlayan circirbocegi canliydi.
+  S11: Cambaz cafcaflı caddeyi costurdu.
+  S12: Ceyda cumhuriyet coskusuyla costu.
+  S13: Cenkin cebindeki cetvel Cemilinmis.
+  S14: Cevizler Cansu'nun ceketinin cebinde.
+  S15: Cengiz camcinin camlarini cilalamadigindan cezaliydi.
+  S16: Ece'nin çanı acidi.
+  S17: Sıcak içeceği dökecek.
+  S18: Böcek çocuğu ısıracak.
+  S19: Burcu pabucunu giyecek.
+  S20: Çocuk cekmeceyi açacak.
+  S21: Boyacı bacayi boyayacak.
+  S22: Gülce Cuma geçesi gelecek.
+  S23: Karınca ağaca tırmanacak.
+  S24: Vicdanlı amca çocuğa acidi.
+  S25: Eczacinin ilacı eczanededir.
+  S26: inci'nin bacağı karincalandi.
+  S27: Nurcan amcasini arayacak.
+  S28: Naci amcanin lahmacunu acıydı.
+  S29: Acayip bilmeceyi cevaplayamadi.
+  S30: Cırcır böceği çocuğun avucundaydı.
+
+==================== STAGE 16: /m/ (sound_m) ====================
+--- PHRASES (30) ---
+  P1: Mavi mayo
+  P2: Mızıkçı Mira
+  P3: Mutlu Merve
+  P4: Mor Menekşe
+  P5: Mutfak masasl
+  P6: Masum Meral
+  P7: Minik maymun
+  P8: Misafirin montu
+  P9: Maceracı Mert
+  P10: Masadaki meyve
+  P11: Meraklı Melahat
+  P12: Metrodaki mizikacl
+  P13: Mayonezli makarna
+  P14: Mükemmel manzara
+  P15: Muzisyenin mandolini
+  P16: Kırmızı elma
+  P17: Salam dilimi
+  P18: Çam ormani
+  P19: Komik adam
+  P20: Temiz mendil
+  P21: Susamll simit
+  P22: Kırmızı kalem
+  P23: Elmas madeni
+  P24: Demir kumbara
+  P25: Temmuz aksaml
+  P26: Zaman makinesi
+  P27: Elmas Mücevher
+  P28: Kocaman kamyon
+  P29: Limonlu dondurma
+  P30: Otomobil tamircisi
+--- SENTENCES (30) ---
+  S1: Meral'le Murat mutluydu.
+  S2: Melda'nin maskesi matraktı.
+  S3: Masadaki makas Mert'inmiş.
+  S4: Meltem'in montu masadaydi.
+  S5: Minderdeki minikler meshurdur.
+  S6: Meydandaki menekseler mordu.
+  S7: Mehmet'in mendili mutfaktaymis.
+  S8: Mikroskop meraklı mucidinmis.
+  S9: Mehtap mesleğinden memnundu.
+  S10: Miray'nmuhallebisi mukemmeldir.
+  S11: Mutfağımızın masasi memerdendir.
+  S12: Makarnacinin makarnalari mantarliydi.
+  S13: Mutfaktaki masanin musambasi maviydi.
+  S14: Minik Mırnav mutfak masasinda mirildandi.
+  S15: Mahallemizdeki manavinin meyveleri meshurdur.
+  S16: Sevimli Selim emziğini emdi.
+  S17: Benim kedimin ismi Lokum'dur.
+  S18: Elmas madenini işletmek masraflydi.
+  S19: Masamdaki tükenmez kalemler kimin?
+  S20: Adam kamyonunu kirmiziya boyamış.
+  S21: Kumarbaz adam tembellikten sismanladi.
+  S22: Meyve suyumu kamisla icmeye bayilirim.
+  S23: Kemal'in mahallesindeki cimenler temizdi.
+  S24: Kardesim cebime Pembe kalemler koymuş.
+  S25: Ormanimizdaki camlar müthiş kokmaktadir.
+  S26: Dilimledigin salamlari makarnaya katmalisin.
+  S27: Geminin kamarasindan manzarayl seyrettim.
+  S28: Annem yemediğim kuruyemisleri cantamdan çıkarmış.
+  S29: Komik adam kambur numarasi yapmaya calismaktaydi.
+  S30: Çamurlanan ustumuzu samanliktaki samanlarla temizledik.
+
+==================== STAGE 17: /n/ (sound_n) ====================
+--- PHRASES (30) ---
+  P1: Neşeli nota
+  P2: Nazlı Nehir
+  P3: Nefis nektar
+  P4: Naneli nohut
+  P5: Normal nefes
+  P6: Nakliyeci Nuri
+  P7: Nemli naylon
+  P8: Neşeli Nazan
+  P9: Nazik Nermin
+  P10: Nöbetçi Nezih
+  P11: Nişan nezlesi
+  P12: Nermin'in nişan!
+  P13: Nehirdeki nilüfer
+  P14: Naneli nemlendirici
+  P15: Ninemin nasihatleri
+  P16: Altın madeni
+  P17: Banyo sabunu
+  P18: Çıngıraklı yılan
+  P19: Gezinti teknesi
+  P20: Sineğin kanadi
+  P21: Esnaf lokantasi
+  P22: Karanlık sinema
+  P23: Kapinin mandalı
+  P24: Kadinin eldiveni
+  P25: Lahana tenceresi
+  P26: Bebeğin biberonu
+  P27: Vişneli dondurma
+  P28: Benzin istasyonu
+  P29: Gergedanin boynuzu
+  P30: Lunaparktaki salıncak
+--- SENTENCES (30) ---
+  S1: Naneli nohut nefisti.
+  S2: Narin nilüfer nehirdeydi.
+  S3: Nohut nerede nemlendi?
+  S4: Nezih nisaninda neseliydi.
+  S5: Neriman'in nisanlisi nankordu.
+  S6: Nazan'nnevresimleri nemliydi.
+  S7: Nil Nehri'ndeki niluferler nefisti.
+  S8: Narin Nedime nikahta nazlandi.
+  S9: Nöbetçi Naim nobette neseliydi..
+  S10: Nihan'in nikahi neseyle noktalandi.
+  S11: Nalan'in notlarinin neticesi negatifti.
+  S12: Nazarlıklı nevresimin numarasi neydi?
+  S13: Neriman'la Naim Niğde'de nisanlandilar.
+  S14: Nazlı nakarattaki notalari numaralandirdi.
+  S15: Nakliyeci Nevşehir'den Niğde'ye naylonlari nakletti.
+  S16: Kadinin eldiveni delindi.
+  S17: Lunaparkta salıncağa bindik.
+  S18: Kumanda pencerenin onundeydi.
+  S19: Aslan, yavrularinin yanina uzandi.
+  S20: Gezinti teknesiyle denizde dolandi.
+  S21: Kenan cantasini dukkanda unuttu.
+  S22: Koyunlar cimenlerin tadını begendi.
+  S23: Korsan kancasiyla sandala tutundu.
+  S24: Erşan arkadasini kuzeniyle tanistirdi.
+  S25: Gelin dugunde tanidiklariyla eglendi.
+  S26: Sandiktan çıkan altinlari görünce sevindi.
+  S27: Geminin yaninda yüzen balina kocamand.
+  S28: Bahçıvan tunelin sonunda kamyondan indi.
+  S29: Annem tavsanin yanağına burnuyla dokundu.
+  S30: Oyuncu penguen kayanin arkasina saklandl.
+
+==================== STAGE 18: /l/ (sound_l) ====================
+--- PHRASES (30) ---
+  P1: Laleli logo
+  P2: Loş lokanta
+  P3: Lila lamba
+  P4: Lodoslu liman
+  P5: Lüks limuzin
+  P6: Lastik levha
+  P7: Limonlu lokum
+  P8: Lale'nin lakabı
+  P9: Lübnanlı Levent
+  P10: Liseli Leman
+  P11: Lekeli lavabo
+  P12: Leziz limonata
+  P13: Levent'in listesi
+  P14: Limonlu lolipop
+  P15: Lezzetli lahmacun
+  P16: Kalın sal
+  P17: Altı bilet
+  P18: Altın bilezik
+  P19: Güzel salon
+  P20: Güçlü aslan
+  P21: iskambil falı
+  P22: Şutlu güllaç
+  P23: Bavulun kilidi
+  P24: Desenli elbise
+  P25: Plastik kolluk
+  P26: Fıstıklı çikolata
+  P27: Cevizli baklava
+  P28: Mahalle bakkali
+  P29: Bulaşık eldiveni
+  P30: Telefonun kablosu
+--- SENTENCES (30) ---
+  S1: Lila lamba lekelendi.
+  S2: Lütfü'nun lisesi Laleli'de.
+  S3: Levent'elazimlik lazım.
+  S4: Limonlu lolipop lezzetli.
+  S5: Legeni lavaboda lifledim.
+  S6: Lokantanin lambasi lostu.
+  S7: Lüks limuzin luzumsuzdu.
+  S8: Lale'nin lokumu lavantalı.
+  S9: Lokomotifteki lamba lekeli.
+  S10: Leman'in limonatasi lezizdi.
+  S11: Lisede Levent'in lakabı Laz'di.
+  S12: Lahmacun limonla lezzetlendi.
+  S13: Latif'in lahanasina limon lazım.
+  S14: Loş lokantada Lokman'la lafladık.
+  S15: Laleli'deki lüks lokantanin lokumu limonlu.
+  S16: Kelebek hizla kanatlandi..
+  S17: Bakkaldan leblebi aldim.
+  S18: Elini mendille temizledi.
+  S19: Valizde altı gözlük bulundu.
+  S20: Ali ilaç alıp koltukta dinlendi.
+  S21: Okul önlüğümü halam almisti.
+  S22: Kelebek desenli elbise guzeldi.
+  S23: Bavulu alan hamal ötele geldi.
+  S24: Cevizli baklava fazla tatlı oldu.
+  S25: Ali'nin eline çilekli çikolata bulasti.
+  S26: Elbisem kola dökülünce lekelendi.
+  S27: Ela'nin elbisesinde şeftali lekesi kaldi.
+  S28: Melis desenli kalemini koltuğun altinda buldu.
+  S29: Selim'in gömleği ve pantolonu koltuğun altinda kaldi.
+  S30: Tatilde babamla İstanbul'ubisikletle dolaşmak guzeldi.
+
+==================== STAGE 19: /r/ (sound_r) ====================
+--- PHRASES (25) ---
+  P1: Rahat revir
+  P2: Rujun rengi
+  P3: Robot resim
+  P4: Rus restoranı
+  P5: Roma rakamı
+  P6: Roketin rotası
+  P7: Rıza'nın raketi
+  P8: Reisin romanı
+  P9: Rakipsiz ressam
+  P10: Recep'in ranzası
+  P11: Rehberin raporu
+  P12: Ressamın rozeti
+  P13: Romantik Romeo
+  P14: Rengarenk rende
+  P15: Restorandaki roka
+  P16: Mor örtü
+  P17: Zor karar
+  P18: Kara tren
+  P19: Derin dere
+  P20: Sarı kürek
+  P21: Kırık bardak
+  P22: Kurak arazi
+  P23: Dört kafadar
+  P24: Arabanın farı
+  P25: Kırmızı biber
+--- SENTENCES (15) ---
+  S1: Roka ve rosto rafta.
+  S2: Reha ruhen rahatsızdı.
+  S3: Rıdvan raporu reddetti.
+  S4: Romen Rus'UN rakibidir.
+  S5: Rıza revirde refakatçidir.
+  S6: Rana'nın ruju rengarenk.
+  S7: Reha'nın ranzası renksizdi.
+  S8: Ressam romanı resmetti.
+  S9: Revirdeki ranza rahatmış.
+  S10: Rus restoranı ruhsatsızmış.
+  S11: Arabada çamur sıçradı.
+  S12: Fenerbahçe rakibini korkuttu.
+  S13: Berna revire merhemi götürdü.
+  S14: Karateci boksöre karşı cesurdu.
+  S15: Kameraman arkadaşını çağırdı.
+
+==================== STAGE 20: /y/ (sound_y) ====================
+--- PHRASES (30) ---
+  P1: Yeni yatak
+  P2: Yedi yunus
+  P3: Yatağın yan
+  P4: Yeni Yöntem
+  P5: Yeşim'in yuzu
+  P6: Yavaş yamak
+  P7: Yapıcı yönetim
+  P8: Yamasız yastık
+  P9: Yüksek Yamaç
+  P10: Yengeç yuvasi
+  P11: Yumuşak yastık
+  P12: Yengemin yazisI
+  P13: Yüzücü yüzbaşı
+  P14: Yapışkan yiyecek
+  P15: Yabancı yönetmen
+  P16: Beyaz boya
+  P17: Yeni kıyafet
+  P18: Kayak keyfi
+  P19: Hediye yüzük
+  P20: Zayıf subay
+  P21: Boy aynas
+  P22: Uzay deneyi
+  P23: Oyuncak ayı
+  P24: Koyunun tuyu
+  P25: Bayat kadayıf
+  P26: Kaygan yüzey
+  P27: Siyah ayakkabı
+  P28: Yüzücü mayosu
+  P29: Meyve kamyonu
+  P30: Geyiğin boynuzu
+--- SENTENCES (30) ---
+  S1: Yavuz yemek yaptı.
+  S2: Yigitin yeğeni yuzbasiyd.
+  S3: Yaşın yuvada yemiş yedi.
+  S4: Yeşim yeni yatağında yatt.
+  S5: Yonca yaziyi yamuk yazdi.
+  S6: Yankesici yetmiş yasindaydi.
+  S7: Yandaki yapımcı yabanciydi.
+  S8: Yusuf yüzbaşı yemeğe yetisti.
+  S9: Yeşim'in yengesi yabanciydi.
+  S10: Yunus'UN Yakut yüzüğü yeniydi.
+  S11: Yakup'UN yatag yanginda yandi.
+  S12: Yeni yonetmenin yapimi yetismedi.
+  S13: Yağız'in yatağındaki yastık yumusakti.
+  S14: Yeteneksiz Yaman yatakhanede yoktu.
+  S15: Yasemin"in yengesi Yavuz'UN yatağını yaptı.
+  S16: Maya yuvada sayı saydi.
+  S17: Yabancı uzay deneyi yaptı.
+  S18: Ayca yuzicu mayosunu giydi.
+  S19: Ayşe oyuncak ayisini kaybetti.
+  S20: Duygu ve Yonca oyun oynadi.
+  S21: Büyük kaplyi beyaza boyadim.
+  S22: Ayşe hikaye yazmayi deneyecek.
+  S23: Yiğit yüksek yamacta kayak kaydi.
+  S24: Gaye kaygan yuzeyde kayak yaptı.
+  S25: Zayıf subayin yeni ayakkabisi siyahti.
+  S26: Boyacı büyük odayi pembeye boyadi.
+  S27: Beyza'nin yük kamyonunu koyu maviydi.
+  S28: Yengemin yemekte giydiği kıyafet yeniydi.
+  S29: Aydan teyzesinin yaptığı yemeği ayakta yedi.
+  S30: Ayhan dayanıksız binayi yıkıp yeniden yaptı.

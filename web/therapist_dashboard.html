@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ses Yolunda Eğlence | Terapist Takip ve Klinik Yönetim Paneli</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- React 18 & ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <!-- Babel -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F8FAFC; }
+    
+    /* Yazdırma (PDF Çıktısı) Stilleri */
+    @media print {
+      body { background-color: #FFFFFF !important; color: #000000 !important; }
+      header, .no-print, button, input, select, .action-buttons { display: none !important; }
+      .print-only { display: block !important; }
+      .shadow-sm, .shadow-md, .shadow-2xl { box-shadow: none !important; border: 1px solid #CBD5E1 !important; }
+      .bg-white { background: transparent !important; }
+      .print-page-break { page-break-after: always; }
+    }
+    .print-only { display: none; }
+  </style>
+</head>
+<body class="text-slate-800 antialiased">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    function App() {
+      const [token, setToken] = useState(localStorage.getItem('therapist_token') || 'demo_token');
+      const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('therapist_token') || true);
+      const [dashboard, setDashboard] = useState(null);
+      const [students, setStudents] = useState([]);
+      const [selectedStudent, setSelectedStudent] = useState(null);
+      const [studentDetail, setStudentDetail] = useState(null);
+      const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard', 'students'
+      
+      // Arama & Filtreleme
+      const [searchQuery, setSearchQuery] = useState('');
+      const [filterPhoneme, setFilterPhoneme] = useState('ALL');
+      
+      // Modallar & Formlar
+      const [isAddStudentOpen, setIsAddStudentOpen] = useState(false);
+      const [shareModalStudent, setShareModalStudent] = useState(null);
+      const [isCopied, setIsCopied] = useState(false);
+      const [newStudent, setNewStudent] = useState({ full_name: '', age: 6, avatar: '👦', diagnosis: 'Artikülasyon Güçlüğü', target_phonemes: '/r/, /s/' });
+      const [clinicalNoteInput, setClinicalNoteInput] = useState('');
+      const [isSavingNote, setIsSavingNote] = useState(false);
+      const [isRefreshing, setIsRefreshing] = useState(false);
+      const [lastRefreshedTime, setLastRefreshedTime] = useState(new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
+
+      // Giriş & Kayıt Formu State
+      const [authMode, setAuthMode] = useState('login'); // 'login' or 'register'
+      const [loginEmail, setLoginEmail] = useState('terapist@istinye.edu.tr');
+      const [loginPass, setLoginPass] = useState('123456');
+      const [regFullName, setRegFullName] = useState('');
+      const [regEmail, setRegEmail] = useState('');
+      const [regPass, setRegPass] = useState('');
+      const [regClinic, setRegClinic] = useState('İstinye Üniversitesi Dil ve Konuşma Terapisi Kliniği');
+      const [regTitle, setRegTitle] = useState('Uzman Dil ve Konuşma Terapisti');
+      const [loginError, setLoginError] = useState('');
+
+      const phonemeChartRef = useRef(null);
+      const errorChartRef = useRef(null);
+      const chartInstances = useRef({});
+
+      const API_BASE = 'http://127.0.0.1:8000';
+      const FLUTTER_WEB_BASE = 'http://127.0.0.1:8080';
+
+      const handleLogin = async (e) => {
+        if (e) e.preventDefault();
+        setLoginError('');
+        try {
+          const res = await fetch(`${API_BASE}/api/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: loginEmail, password: loginPass })
+          });
+          if (res.ok) {
+            const data = await res.json();
+            localStorage.setItem('therapist_token', data.access_token);
+            setToken(data.access_token);
+            setIsLoggedIn(true);
+            fetchDashboard();
+            fetchStudents();
+          } else {
+            setLoginError('E-posta veya şifre hatalı!');
+          }
+        } catch (err) {
+          // Fallback demo giriş
+          localStorage.setItem('therapist_token', 'demo_token');
+          setToken('demo_token');
+          setIsLoggedIn(true);
+        }
+      };
+
+      const handleLogout = () => {
+        localStorage.removeItem('therapist_token');
+        setToken('');
+        setIsLoggedIn(false);
+      };
+
+      const handleRegister = async (e) => {
+        if (e) e.preventDefault();
+        setLoginError('');
+        try {
+          const res = await fetch(`${API_BASE}/api/auth/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              full_name: regFullName,
+              email: regEmail,
+              password: regPass,
+              clinic_name: regClinic,
+              title: regTitle
+            })
+          });
+          if (res.ok) {
+            const data = await res.json();
+            localStorage.setItem('therapist_token', data.access_token);
+            setToken(data.access_token);
+            setIsLoggedIn(true);
+            fetchDashboard();
+            fetchStudents();
+          } else {
+            const errData = await res.json();
+            setLoginError(errData.detail || 'Kayıt oluşturulamadı!');
+          }
+        } catch (err) {
+          setLoginError('Sunucu bağlantı hatası!');
+        }
+      };
+
+      const fetchDashboard = async () => {
+        try {
+          const res = await fetch(`${API_BASE}/api/therapist/dashboard`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          const data = await res.json();
+          setDashboard(data);
+        } catch (e) {
+          console.error('Dashboard çekme hatası:', e);
+        }
+      };
+
+      const fetchStudents = async () => {
+        try {
+          const res = await fetch(`${API_BASE}/api/therapist/students`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          const data = await res.json();
+          setStudents(data.students || []);
+        } catch (e) {
+          console.error('Öğrenci listesi hatası:', e);
+        }
+      };
+
+      const fetchStudentDetail = async (id) => {
+        try {
+          const res = await fetch(`${API_BASE}/api/therapist/students/${id}`);
+          const data = await res.json();
+          setStudentDetail(data);
+          setSelectedStudent(data.student);
+        } catch (e) {
+          console.error('Öğrenci detay hatası:', e);
+        }
+      };
+
+      const handleRefresh = async () => {
+        setIsRefreshing(true);
+        await Promise.all([fetchDashboard(), fetchStudents()]);
+        if (selectedStudent) {
+          await fetchStudentDetail(selectedStudent.id);
+        }
+        setLastRefreshedTime(new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
+        setTimeout(() => setIsRefreshing(false), 500);
+      };
+
+      useEffect(() => {
+        if (isLoggedIn) {
+          fetchDashboard();
+          fetchStudents();
+        }
+      }, [token, isLoggedIn]);
+
+      // Grafiklerin çizimi
+      useEffect(() => {
+        if (!dashboard || activeTab !== 'dashboard' || !isLoggedIn) return;
+
+        // 1. Fonem Başarı Grafiği (Bar)
+        if (phonemeChartRef.current) {
+          if (chartInstances.current.phoneme) chartInstances.current.phoneme.destroy();
+          const pLabels = dashboard.phoneme_stats?.map(p => `/${p.phoneme}/ Sesi`) || [];
+          const pValues = dashboard.phoneme_stats?.map(p => p.accuracy) || [];
+          
+          chartInstances.current.phoneme = new Chart(phonemeChartRef.current, {
+            type: 'bar',
+            data: {
+              labels: pLabels.length > 0 ? pLabels : ['/r/ Sesi', '/k/ Sesi', '/s/ Sesi', '/p/ Sesi', '/t/ Sesi'],
+              datasets: [{
+                label: 'Ortalama Artikülasyon Başarısı (%)',
+                data: pValues.length > 0 ? pValues : [78.5, 84.0, 91.2, 72.0, 88.0],
+                backgroundColor: '#3B82F6',
+                borderRadius: 8,
+              }]
+            },
+            options: {
+              responsive: true,
+              scales: {
+                y: { min: 0, max: 100, grid: { color: '#F1F5F9' } },
+                x: { grid: { display: false } }
+              },
+              plugins: { legend: { display: false } }
+            }
+          });
+        }
+
+        // 2. Hata Türleri Dağılımı (Doughnut)
+        if (errorChartRef.current) {
+          if (chartInstances.current.error) chartInstances.current.error.destroy();
+          const errEntries = Object.entries(dashboard.error_distribution || {});
+          
+          chartInstances.current.error = new Chart(errorChartRef.current, {
+            type: 'doughnut',
+            data: {
+              labels: errEntries.map(e => e[0]),
+              datasets: [{
+                data: errEntries.map(e => e[1]),
+                backgroundColor: ['#EF4444', '#F59E0B', '#10B981', '#6366F1', '#8B5CF6'],
+                borderWidth: 2,
+                borderColor: '#FFFFFF'
+              }]
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } }
+              }
+            }
+          });
+        }
+      }, [dashboard, activeTab, isLoggedIn]);
+
+      const handleAddStudent = async (e) => {
+        e.preventDefault();
+        try {
+          const res = await fetch(`${API_BASE}/api/therapist/students`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(newStudent)
+          });
+          if (res.ok) {
+            setIsAddStudentOpen(false);
+            setNewStudent({ full_name: '', age: 6, avatar: '👦', diagnosis: 'Artikülasyon Güçlüğü', target_phonemes: '/r/, /s/' });
+            fetchStudents();
+            fetchDashboard();
+          }
+        } catch (err) {
+          alert('Öğrenci eklenemedi!');
+        }
+      };
+
+      const handleDeleteStudent = async (e, id, name) => {
+        e.stopPropagation();
+        if (!confirm(`"${name}" adlı danışanı ve tüm seans geçmişini silmek istediğinize emin misiniz?`)) return;
+        try {
+          const res = await fetch(`${API_BASE}/api/therapist/students/${id}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          if (res.ok) {
+            fetchStudents();
+            fetchDashboard();
+            if (selectedStudent?.id === id) {
+              setSelectedStudent(null);
+            }
+          }
+        } catch (err) {
+          alert('Silme işlemi başarısız!');
+        }
+      };
+
+      const handleAddClinicalNote = async (e) => {
+        e.preventDefault();
+        if (!clinicalNoteInput.trim() || !selectedStudent) return;
+        setIsSavingNote(true);
+        try {
+          const res = await fetch(`${API_BASE}/api/therapist/students/${selectedStudent.id}/notes`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ note: clinicalNoteInput.trim() })
+          });
+          if (res.ok) {
+            setClinicalNoteInput('');
+            fetchStudentDetail(selectedStudent.id);
+          }
+        } catch (err) {
+          alert('Not eklenemedi!');
+        } finally {
+          setIsSavingNote(false);
+        }
+      };
+
+      const getMagicLink = (std) => {
+        if (!std) return FLUTTER_WEB_BASE;
+        return `${FLUTTER_WEB_BASE}/?student=${encodeURIComponent(std.full_name)}&id=${std.id}`;
+      };
+
+      const copyToClipboard = (text) => {
+        navigator.clipboard.writeText(text);
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2500);
+      };
+
+      const filteredStudents = students.filter(s => {
+        const matchesSearch = s.full_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                              s.diagnosis?.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesPhoneme = filterPhoneme === 'ALL' || s.target_phonemes?.includes(filterPhoneme);
+        return matchesSearch && matchesPhoneme;
+      });
+
+      // ── EĞER GİRİŞ YAPILMAMIŞSA: KLİNİK GİRİŞ & KAYIT EKRANI ──────────────
+      if (!isLoggedIn) {
+        return (
+          <div className="min-h-screen bg-gradient-to-tr from-slate-100 via-blue-50 to-indigo-100 flex items-center justify-center p-4">
+            <div className="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl border border-slate-200">
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-2xl mx-auto flex items-center justify-center text-white text-3xl shadow-lg shadow-blue-500/30 mb-3">
+                  🎙️
+                </div>
+                <h2 className="text-2xl font-black text-slate-900 tracking-tight">Ses Yolunda Eğlence</h2>
+                <p className="text-xs text-blue-700 font-bold mt-1">İstinye Üniversitesi Terapist Portalı</p>
+                <p className="text-[11px] text-slate-400 mt-0.5">Uzman Dil ve Konuşma Terapisti Giriş ve Kayıt</p>
+              </div>
+
+              {/* Sekme: Giriş Yap vs Terapist Kayıt Ol */}
+              <div className="flex bg-slate-100 p-1 rounded-2xl mb-5">
+                <button
+                  type="button"
+                  onClick={() => { setAuthMode('login'); setLoginError(''); }}
+                  className={`flex-1 py-2 text-xs font-extrabold rounded-xl transition ${authMode === 'login' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'}`}
+                >
+                  🔐 Giriş Yap
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setAuthMode('register'); setLoginError(''); }}
+                  className={`flex-1 py-2 text-xs font-extrabold rounded-xl transition ${authMode === 'register' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-900'}`}
+                >
+                  📝 Terapist Kayıt Ol
+                </button>
+              </div>
+
+              {loginError && (
+                <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-xs font-bold text-red-700 flex items-center gap-2">
+                  <i className="fa-solid fa-triangle-exclamation"></i>
+                  {loginError}
+                </div>
+              )}
+
+              {authMode === 'login' ? (
+                // 1. GİRİŞ FORMU
+                <form onSubmit={handleLogin} className="space-y-4">
+                  <div>
+                    <label className="text-xs font-bold text-slate-700 block mb-1">Kurumsal E-posta</label>
+                    <div className="relative">
+                      <span className="absolute left-3.5 top-3 text-slate-400 text-sm">
+                        <i className="fa-solid fa-envelope"></i>
+                      </span>
+                      <input
+                        type="email"
+                        required
+                        value={loginEmail}
+                        onChange={e => setLoginEmail(e.target.value)}
+                        placeholder="terapist@istinye.edu.tr"
+                        className="w-full pl-10 pr-4 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:border-blue-600 transition"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-bold text-slate-700 block mb-1">Şifre</label>
+                    <div className="relative">
+                      <span className="absolute left-3.5 top-3 text-slate-400 text-sm">
+                        <i className="fa-solid fa-lock"></i>
+                      </span>
+                      <input
+                        type="password"
+                        required
+                        value={loginPass}
+                        onChange={e => setLoginPass(e.target.value)}
+                        placeholder="••••••••"
+                        className="w-full pl-10 pr-4 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:border-blue-600 transition"
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold text-sm rounded-xl shadow-md shadow-blue-500/25 transition flex items-center justify-center gap-2 mt-2"
+                  >
+                    <i className="fa-solid fa-right-to-bracket"></i>
+                    Kliniğe Giriş Yap
+                  </button>
+
+                  <div className="mt-4 pt-4 border-t border-slate-100 text-center">
+                    <button
+                      type="button"
+                      onClick={() => { setLoginEmail('terapist@istinye.edu.tr'); setLoginPass('123456'); handleLogin(); }}
+                      className="text-xs font-bold text-slate-500 hover:text-blue-600 transition flex items-center justify-center gap-1.5 mx-auto"
+                    >
+                      <i className="fa-solid fa-bolt text-amber-500"></i>
+                      Tek Tıkla Demo Giriş (Doç. Dr. Emir)
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                // 2. YENİ TERAPİST KAYIT FORMU
+                <form onSubmit={handleRegister} className="space-y-3.5">
+                  <div>
+                    <label className="text-xs font-bold text-slate-700 block mb-1">Adınız Soyadınız</label>
+                    <input
+                      type="text"
+                      required
+                      value={regFullName}
+                      onChange={e => setRegFullName(e.target.value)}
+                      placeholder="Örn: Uzm. DKT Merve Kaya"
+                      className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-slate-300 focus:outline-none focus:border-blue-600 transition"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-bold text-slate-700 block mb-1">Klinik / Üniversite Adı</label>
+                    <input
+                      type="text"
+                      required
+                      value={regClinic}
+                      onChange={e => setRegClinic(e.target.value)}
+                      placeholder="Örn: İstinye DKT Kliniği"
+                      className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-slate-300 focus:outline-none focus:border-blue-600 transition"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-bold text-slate-700 block mb-1">Kurumsal E-posta</label>
+                    <input
+                      type="email"
+                      required
+                      value={regEmail}
+                      onChange={e => setRegEmail(e.target.value)}
+                      placeholder="merve@klinik.com"
+                      className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-slate-300 focus:outline-none focus:border-blue-600 transition"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-bold text-slate-700 block mb-1">Şifre Belirleyin</label>
+                    <input
+                      type="password"
+                      required
+                      value={regPass}
+                      onChange={e => setRegPass(e.target.value)}
+                      placeholder="••••••••"
+                      className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-slate-300 focus:outline-none focus:border-blue-600 transition"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-extrabold text-xs rounded-xl shadow-md shadow-emerald-500/25 transition flex items-center justify-center gap-2 mt-2"
+                  >
+                    <i className="fa-solid fa-user-plus"></i>
+                    Terapist Hesabı Oluştur ve Başla
+                  </button>
+                </form>
+              )}
+
+              {/* Çocuk / Danışan için Yönlendirme */}
+              <div className="mt-6 pt-4 border-t border-slate-100 text-center">
+                <a
+                  href={FLUTTER_WEB_BASE}
+                  target="_blank"
+                  className="text-xs font-extrabold text-indigo-600 hover:text-indigo-800 transition flex items-center justify-center gap-1.5"
+                >
+                  <i className="fa-solid fa-gamepad"></i>
+                  Çocuk / Danışan mısınız? Oyuna Git →
+                </a>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      // ── ANA TERAPİST PANELİ ───────────────────────────────────────────────
+      return (
+        <div className="min-h-screen flex flex-col">
+          {/* Üst Header */}
+          <header className="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm no-print">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-md shadow-blue-500/20">
+                  🎙️
+                </div>
+                <div>
+                  <h1 className="text-lg font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
+                    Ses Yolunda Eğlence
+                    <span className="text-xs bg-blue-100 text-blue-700 font-bold px-2.5 py-0.5 rounded-full border border-blue-200">
+                      Terapist Paneli (React)
+                    </span>
+                  </h1>
+                  <p className="text-xs text-slate-500">İstinye Üniversitesi Dil ve Konuşma Terapisi Kliniği</p>
+                </div>
+              </div>
+
+              {/* Kullanıcı Profili ve Canlı Butonlar */}
+              <div className="flex items-center space-x-3">
+                {/* 🔄 Canlı Yenile Butonu */}
+                <button
+                  onClick={handleRefresh}
+                  className="flex items-center gap-1.5 text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 border border-slate-300 px-3 py-2 rounded-xl transition"
+                  title="Veritabanındaki yeni seansları anında çek"
+                >
+                  <i className={`fa-solid fa-rotate ${isRefreshing ? 'fa-spin text-blue-600' : ''}`}></i>
+                  <span className="hidden sm:inline">Canlı Yenile</span>
+                </button>
+
+                {/* Çocuk Oyununa Geçiş */}
+                <a href={FLUTTER_WEB_BASE} target="_blank" className="hidden sm:flex items-center gap-2 text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-3 py-2 rounded-xl transition">
+                  <i className="fa-solid fa-gamepad"></i>
+                  Çocuk Uygulaması
+                </a>
+
+                {/* Profil & Çıkış Yap */}
+                <div className="flex items-center gap-2 pl-3 border-l border-slate-200">
+                  <div className="w-9 h-9 rounded-full bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-700 font-bold">
+                    👨‍⚕️
+                  </div>
+                  <div className="text-left hidden md:block">
+                    <p className="text-xs font-bold text-slate-800 leading-tight">Doç. Dr. Emir Seyyedabbasi</p>
+                    <p className="text-[10px] text-slate-400">Danışman Terapist</p>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="ml-2 w-8 h-8 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 flex items-center justify-center transition"
+                    title="Güvenli Çıkış Yap"
+                  >
+                    <i className="fa-solid fa-right-from-bracket text-sm"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </header>
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+            {/* Sekme Menüsü */}
+            <div className="flex items-center justify-between mb-8 border-b border-slate-200 pb-4 no-print">
+              <div className="flex space-x-2">
+                <button
+                  onClick={() => { setActiveTab('dashboard'); setSelectedStudent(null); }}
+                  className={`px-4 py-2.5 rounded-xl font-bold text-sm transition flex items-center gap-2 ${activeTab === 'dashboard' ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20' : 'text-slate-600 hover:bg-slate-100'}`}
+                >
+                  <i className="fa-solid fa-chart-pie"></i>
+                  Genel Bakış & Analitik
+                </button>
+                <button
+                  onClick={() => setActiveTab('students')}
+                  className={`px-4 py-2.5 rounded-xl font-bold text-sm transition flex items-center gap-2 ${activeTab === 'students' ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20' : 'text-slate-600 hover:bg-slate-100'}`}
+                >
+                  <i className="fa-solid fa-children"></i>
+                  Danışan Çocuklar ({students.length})
+                </button>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <span className="text-[11px] text-slate-400 font-medium hidden sm:inline">
+                  Son Veri: {lastRefreshedTime}
+                </span>
+                <button
+                  onClick={() => setIsAddStudentOpen(true)}
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm px-4 py-2.5 rounded-xl transition flex items-center gap-2 shadow-sm"
+                >
+                  <i className="fa-solid fa-plus"></i>
+                  Yeni Danışan Ekle
+                </button>
+              </div>
+            </div>
+
+            {/* TAB 1: DASHBOARD & ANALİTİK */}
+            {activeTab === 'dashboard' && !selectedStudent && (
+              <div>
+                {/* 4 KPI Kartı */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+                  <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                    <div>
+                      <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Kayıtlı Çocuklar</p>
+                      <h3 className="text-3xl font-extrabold text-slate-900 mt-1">{dashboard?.summary?.total_students || students.length}</h3>
+                      <p className="text-xs text-emerald-600 font-semibold mt-1">Aktif Takipte</p>
+                    </div>
+                    <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-xl">
+                      <i className="fa-solid fa-users"></i>
+                    </div>
+                  </div>
+
+                  <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                    <div>
+                      <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Tamamlanan Seanslar</p>
+                      <h3 className="text-3xl font-extrabold text-slate-900 mt-1">{dashboard?.summary?.total_sessions || 20}</h3>
+                      <p className="text-xs text-blue-600 font-semibold mt-1">Bu Ay +12 Seans</p>
+                    </div>
+                    <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-xl">
+                      <i className="fa-solid fa-calendar-check"></i>
+                    </div>
+                  </div>
+
+                  <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                    <div>
+                      <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Ortalama Artikülasyon</p>
+                      <h3 className="text-3xl font-extrabold text-slate-900 mt-1">%{dashboard?.summary?.overall_accuracy || 81.4}</h3>
+                      <p className="text-xs text-emerald-600 font-semibold mt-1">▲ %6.2 Gelişim</p>
+                    </div>
+                    <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-xl">
+                      <i className="fa-solid fa-wave-square"></i>
+                    </div>
+                  </div>
+
+                  <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                    <div>
+                      <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Klinik Protokol</p>
+                      <h3 className="text-base font-bold text-slate-800 mt-1">Bengisu vd. (2020)</h3>
+                      <p className="text-xs text-slate-500 font-medium mt-1">20 Fonem Hiyerarşisi</p>
+                    </div>
+                    <div className="w-12 h-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center text-xl">
+                      <i className="fa-solid fa-book-medical"></i>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Grafikler Alanı */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+                  <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm lg:col-span-2">
+                    <div className="flex items-center justify-between mb-4">
+                      <div>
+                        <h4 className="text-base font-bold text-slate-900">Fonem Bazlı Artikülasyon Başarı Dağılımı</h4>
+                        <p className="text-xs text-slate-500">Çocukların hedef seslerdeki doğruluk oranları</p>
+                      </div>
+                      <span className="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-lg">Chart.js Motoru</span>
+                    </div>
+                    <div className="h-64">
+                      <canvas ref={phonemeChartRef}></canvas>
+                    </div>
+                  </div>
+
+                  <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <div className="flex items-center justify-between mb-4">
+                      <div>
+                        <h4 className="text-base font-bold text-slate-900">Sık Karşılaşılan Hata Türleri</h4>
+                        <p className="text-xs text-slate-500">Klinik hata sınıflandırması</p>
+                      </div>
+                    </div>
+                    <div className="h-64 flex items-center justify-center">
+                      <canvas ref={errorChartRef}></canvas>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Son Tamamlanan Seanslar Tablosu */}
+                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                  <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+                    <div>
+                      <h4 className="font-bold text-slate-900 text-base">Son Gerçekleşen Terapi Seansları</h4>
+                      <p className="text-xs text-slate-500">Mobil uygulamadan anlık olarak iletilen seans logları</p>
+                    </div>
+                  </div>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left text-sm">
+                      <thead className="bg-slate-50 text-slate-600 uppercase text-[10px] font-extrabold tracking-wider border-b border-slate-200">
+                        <tr>
+                          <th className="px-6 py-3">Danışan Çocuk</th>
+                          <th className="px-6 py-3">Çalışılan Fonem</th>
+                          <th className="px-6 py-3">Seans Süresi</th>
+                          <th className="px-6 py-3">Artikülasyon Başarısı</th>
+                          <th className="px-6 py-3">Tarih</th>
+                          <th className="px-6 py-3 text-right">Aksiyonlar</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100">
+                        {dashboard?.recent_sessions?.map(sess => (
+                          <tr key={sess.id} className="hover:bg-slate-50/80 transition">
+                            <td className="px-6 py-4 font-bold text-slate-900 flex items-center gap-2">
+                              <span className="text-xl">{sess.avatar || '👦'}</span>
+                              {sess.full_name}
+                            </td>
+                            <td className="px-6 py-4 font-extrabold text-blue-600">/{sess.phoneme}/ Sesi</td>
+                            <td className="px-6 py-4 text-slate-600 font-medium">{sess.duration_minutes} Dakika</td>
+                            <td className="px-6 py-4">
+                              <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${sess.accuracy_score >= 80 ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}`}>
+                                %{Math.round(sess.accuracy_score)} Başarı
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 text-xs text-slate-500">{sess.completed_at?.split(' ')[0]}</td>
+                            <td className="px-6 py-4 text-right space-x-2">
+                              <button
+                                onClick={() => setShareModalStudent({ id: sess.id, full_name: sess.full_name, avatar: sess.avatar, target_phonemes: `/${sess.phoneme}/` })}
+                                className="text-xs font-bold text-emerald-600 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-2.5 py-1.5 rounded-lg transition"
+                                title="Veliye WhatsApp / Bağlantı Linki Gönder"
+                              >
+                                <i className="fa-solid fa-share-nodes mr-1"></i>
+                                Link Gönder
+                              </button>
+                              <button
+                                onClick={() => { fetchStudentDetail(sess.id); setActiveTab('students'); }}
+                                className="text-xs font-bold text-blue-600 hover:text-blue-800 transition"
+                              >
+                                İncele →
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* TAB 2: DANIŞANLAR LİSTESİ */}
+            {activeTab === 'students' && (
+              <div>
+                {selectedStudent && studentDetail ? (
+                  // ── ÖĞRENCİ DETAY VE RESMİ RAPOR SAYFASI ───────────────────────
+                  <div className="space-y-6">
+                    {/* Üst Geri ve Yazdır Çubuğu */}
+                    <div className="flex items-center justify-between no-print">
+                      <button
+                        onClick={() => setSelectedStudent(null)}
+                        className="text-xs font-bold text-slate-600 hover:text-slate-900 flex items-center gap-2"
+                      >
+                        ← Danışanlar Listesine Dön
+                      </button>
+
+                      <div className="flex items-center gap-3">
+                        <button
+                          onClick={() => window.print()}
+                          className="bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition flex items-center gap-2 shadow-sm"
+                        >
+                          <i className="fa-solid fa-print"></i>
+                          Klinik Raporu Yazdır / PDF İndir
+                        </button>
+                        <button
+                          onClick={() => setShareModalStudent(selectedStudent)}
+                          className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition flex items-center gap-2 shadow-sm"
+                        >
+                          <i className="fa-solid fa-share-nodes"></i>
+                          Veliye Link Gönder
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Yazdırma Sırasında Çıkacak Resmi Klinik Başlığı */}
+                    <div className="print-only mb-6 border-b-2 border-slate-800 pb-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h1 className="text-xl font-black text-slate-900">İSTİNYE ÜNİVERSİTESİ DİL VE KONUŞMA MERKEZİ</h1>
+                          <p className="text-xs text-slate-600 font-bold">Klinik Artikülasyon ve Fonolojik Gelişim Raporu</p>
+                        </div>
+                        <div className="text-right text-xs">
+                          <p className="font-bold">Tarih: {new Date().toLocaleDateString('tr-TR')}</p>
+                          <p className="text-slate-500">Protokol: Bengisu vd. (2020)</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Hasta Kimlik Kartı */}
+                    <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                      <div className="flex items-center gap-4">
+                        <div className="text-5xl bg-blue-50 p-3 rounded-2xl border border-blue-100">
+                          {selectedStudent.avatar}
+                        </div>
+                        <div>
+                          <h2 className="text-2xl font-extrabold text-slate-900">{selectedStudent.full_name}</h2>
+                          <p className="text-xs text-slate-500 font-medium mt-0.5">Yaş: {selectedStudent.age} • Klinik Tanı: <span className="font-bold text-slate-700">{selectedStudent.diagnosis}</span></p>
+                          <div className="flex items-center gap-2 mt-2">
+                            <span className="text-xs font-extrabold bg-blue-100 text-blue-700 px-2.5 py-0.5 rounded-md">Hedef Sesler: {selectedStudent.target_phonemes}</span>
+                            <span className="text-xs font-extrabold bg-amber-100 text-amber-800 px-2.5 py-0.5 rounded-md">⭐ {selectedStudent.total_stars} Yıldız</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="text-right">
+                        <p className="text-xs text-slate-400 font-bold uppercase">Genel Artikülasyon Başarısı</p>
+                        <h3 className="text-4xl font-black text-emerald-600 mt-1">%{selectedStudent.overall_accuracy}</h3>
+                      </div>
+                    </div>
+
+                    {/* Terapist Klinik Not & Ev Ödevi Ekleme Alanı */}
+                    <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm no-print">
+                      <h4 className="font-bold text-slate-900 text-sm mb-2 flex items-center gap-2">
+                        <i className="fa-solid fa-pen-to-square text-blue-600"></i>
+                        Yeni Klinik Not & Ev Ödevi Tanımla
+                      </h4>
+                      <form onSubmit={handleAddClinicalNote} className="flex gap-3">
+                        <input
+                          type="text"
+                          required
+                          value={clinicalNoteInput}
+                          onChange={e => setClinicalNoteInput(e.target.value)}
+                          placeholder="Örn: Bu hafta /r/ sesinin CVC hecelerine ağırlık verilsin. Günde 10 dk pratik ödevi."
+                          className="flex-1 px-4 py-2.5 text-xs rounded-xl border border-slate-300 focus:outline-none focus:border-blue-500"
+                        />
+                        <button
+                          type="submit"
+                          disabled={isSavingNote}
+                          className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition flex items-center gap-1.5 shadow-sm whitespace-nowrap"
+                        >
+                          <i className="fa-solid fa-check"></i>
+                          {isSavingNote ? 'Kaydediliyor...' : 'Notu Kaydet'}
+                        </button>
+                      </form>
+                    </div>
+
+                    {/* Bu Öğrencinin Seans Geçmişi */}
+                    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                      <div className="px-6 py-4 border-b border-slate-200">
+                        <h4 className="font-bold text-slate-900 text-base">Klinik Seans Geçmişi ve Notlar</h4>
+                      </div>
+                      <div className="divide-y divide-slate-100">
+                        {studentDetail.sessions.map((s, idx) => (
+                          <div key={s.id} className="p-5 hover:bg-slate-50 transition flex items-center justify-between">
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs font-extrabold bg-slate-100 px-2 py-0.5 rounded text-slate-700">Seans #{studentDetail.sessions.length - idx}</span>
+                                <span className="text-sm font-bold text-blue-600">/{s.phoneme}/ Sesi Çalışması</span>
+                                <span className="text-xs text-slate-400">• {s.completed_at}</span>
+                              </div>
+                              <p className="text-xs text-slate-600 mt-1.5 italic">"{s.therapist_note || 'Düzenli klinik egzersiz tamamlandı.'}"</p>
+                            </div>
+                            <div className="text-right">
+                              <span className="text-base font-extrabold text-emerald-600">%{Math.round(s.accuracy_score)}</span>
+                              <p className="text-[10px] text-slate-400 font-semibold">{s.words_correct}/{s.words_attempted} Doğru Sözcük</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Yazdırma Sırasında İmza Bloğu */}
+                    <div className="print-only mt-12 pt-8 border-t border-slate-300 flex justify-between items-center text-xs">
+                      <div>
+                        <p className="font-bold">Kurum Onayı:</p>
+                        <p className="text-slate-500">İstinye Üniversitesi DKT Kliniği</p>
+                      </div>
+                      <div className="text-center">
+                        <p className="font-bold">Terapist İmzası:</p>
+                        <p className="mt-8 font-semibold">Doç. Dr. Emir Seyyedabbasi</p>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  // ── DANIŞAN LİSTESİ + ARAMA & FİLTRE ÇUBUĞU ─────────────────────
+                  <div>
+                    {/* Arama ve Filtre Kontrolleri */}
+                    <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm mb-6 flex flex-col md:flex-row items-center justify-between gap-4">
+                      {/* Arama Inputu */}
+                      <div className="relative w-full md:w-80">
+                        <span className="absolute left-3.5 top-2.5 text-slate-400 text-sm">
+                          <i className="fa-solid fa-magnifying-glass"></i>
+                        </span>
+                        <input
+                          type="text"
+                          value={searchQuery}
+                          onChange={e => setSearchQuery(e.target.value)}
+                          placeholder="Danışan adı veya tanı ara..."
+                          className="w-full pl-10 pr-4 py-2 text-xs rounded-xl border border-slate-300 focus:outline-none focus:border-blue-500 transition"
+                        />
+                      </div>
+
+                      {/* Fonem Filtre Butonları */}
+                      <div className="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0">
+                        <span className="text-xs font-bold text-slate-500 mr-1 whitespace-nowrap">Filtre:</span>
+                        {['ALL', '/r/', '/k/', '/s/', '/p/'].map(f => (
+                          <button
+                            key={f}
+                            onClick={() => setFilterPhoneme(f)}
+                            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition whitespace-nowrap ${filterPhoneme === f ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+                          >
+                            {f === 'ALL' ? 'Tümü' : f}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Danışan Kartları Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                      {filteredStudents.map(std => (
+                        <div
+                          key={std.id}
+                          className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-blue-400 hover:shadow-md transition flex flex-col justify-between relative group"
+                        >
+                          {/* Silme İkonu */}
+                          <button
+                            onClick={(e) => handleDeleteStudent(e, std.id, std.full_name)}
+                            className="absolute top-4 right-4 text-slate-300 hover:text-red-500 transition opacity-0 group-hover:opacity-100"
+                            title="Danışanı Sil"
+                          >
+                            <i className="fa-solid fa-trash-can text-sm"></i>
+                          </button>
+
+                          <div onClick={() => fetchStudentDetail(std.id)} className="cursor-pointer">
+                            <div className="flex items-center justify-between mb-3 pr-6">
+                              <span className="text-3xl bg-slate-50 p-2 rounded-xl border border-slate-100">{std.avatar}</span>
+                              <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">
+                                %{std.overall_accuracy} Başarı
+                              </span>
+                            </div>
+                            <h4 className="text-base font-bold text-slate-900">{std.full_name}</h4>
+                            <p className="text-xs text-slate-500 mt-0.5">Yaş: {std.age} • {std.session_count || 5} Seans</p>
+                            <p className="text-xs text-slate-600 font-medium mt-2 line-clamp-1">{std.diagnosis}</p>
+                            <div className="mt-2 text-xs font-extrabold text-blue-600">Hedef: {std.target_phonemes}</div>
+                          </div>
+
+                          {/* Alt Aksiyon Butonları: Veliye Link Gönder & Rapor */}
+                          <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                            <button
+                              onClick={(e) => { e.stopPropagation(); setShareModalStudent(std); }}
+                              className="text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-3 py-1.5 rounded-xl transition flex items-center gap-1.5"
+                            >
+                              <i className="fa-solid fa-share-nodes"></i>
+                              Link Gönder
+                            </button>
+                            <button
+                              onClick={() => fetchStudentDetail(std.id)}
+                              className="text-xs font-bold text-blue-600 hover:text-blue-800 transition"
+                            >
+                              Raporu Gör →
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+
+                      {filteredStudents.length === 0 && (
+                        <div className="col-span-full py-12 text-center text-slate-400">
+                          <i className="fa-solid fa-user-slash text-4xl mb-3"></i>
+                          <p className="text-sm font-bold">Aramanıza uygun danışan bulunamadı.</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* 🔗 VELİYE BAĞLANTI LİNKİ & QR KOD PAYLAŞIM MODALI */}
+          {shareModalStudent && (
+            <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 no-print">
+              <div className="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 animate-in fade-in zoom-in duration-200">
+                <div className="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
+                  <div className="flex items-center gap-3">
+                    <span className="text-3xl p-1 bg-emerald-50 rounded-xl">{shareModalStudent.avatar || '👦'}</span>
+                    <div>
+                      <h3 className="text-base font-extrabold text-slate-900">Veliye Terapi Linki Gönder</h3>
+                      <p className="text-xs text-slate-500 font-medium">{shareModalStudent.full_name} için Otomatik Eşleşme</p>
+                    </div>
+                  </div>
+                  <button onClick={() => setShareModalStudent(null)} className="w-8 h-8 rounded-full bg-slate-100 text-slate-400 hover:text-slate-700 flex items-center justify-center">✕</button>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="bg-blue-50 border border-blue-200 rounded-2xl p-3.5 flex items-start gap-3">
+                    <span className="text-blue-600 text-lg">💡</span>
+                    <p className="text-xs text-blue-800 leading-relaxed font-medium">
+                      Veli bu bağlantıya tıkladığında veya telefonunun kamerasıyla QR kodu okuttuğunda <strong>hiçbir şifre girmeden</strong> doğrudan {shareModalStudent.full_name} profiline bağlanır; evde yaptığı tüm ses pratikleri anında bu paneldeki grafiğinize yansır.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col items-center justify-center p-4 bg-slate-50 rounded-2xl border border-slate-200">
+                    <img
+                      src={`https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(getMagicLink(shareModalStudent))}`}
+                      alt="Terapi QR Kodu"
+                      className="w-40 h-40 rounded-xl shadow-sm bg-white p-2 border border-slate-200"
+                    />
+                    <p className="text-[11px] font-bold text-slate-500 mt-2">
+                      📲 Veli bu QR kodu telefon kamerasıyla okutabilir
+                    </p>
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-bold text-slate-700 block mb-1">Doğrudan Terapi Linki:</label>
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="text"
+                        readOnly
+                        value={getMagicLink(shareModalStudent)}
+                        className="w-full px-3 py-2 text-xs rounded-xl bg-slate-100 border border-slate-300 text-slate-700 font-mono select-all focus:outline-none"
+                      />
+                      <button
+                        onClick={() => copyToClipboard(getMagicLink(shareModalStudent))}
+                        className={`px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap ${isCopied ? 'bg-emerald-600 text-white' : 'bg-slate-800 hover:bg-slate-900 text-white'}`}
+                      >
+                        <i className={`fa-solid ${isCopied ? 'fa-check' : 'fa-copy'}`}></i>
+                        {isCopied ? 'Kopyalandı!' : 'Kopyala'}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="pt-2">
+                    <a
+                      href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`Merhaba! Doç. Dr. Emir Seyyedabbasi tarafından Ses Yolunda Eğlence platformunda ${shareModalStudent.full_name} için konuşma terapisi egzersizleri tanımlanmıştır. Çocuğunuzun seanslarına şifresiz ve anında başlamak için lütfen şu bağlantıya tıklayın:\n\n${getMagicLink(shareModalStudent)}`)}`}
+                      target="_blank"
+                      className="w-full py-3 bg-[#25D366] hover:bg-[#1EBE5D] text-white font-extrabold text-xs rounded-xl transition flex items-center justify-center gap-2 shadow-md shadow-emerald-500/20"
+                    >
+                      <i className="fa-brands fa-whatsapp text-lg"></i>
+                      Veliye WhatsApp ile Gönder
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Yeni Öğrenci Ekle Modal */}
+          {isAddStudentOpen && (
+            <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 no-print">
+              <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-bold text-slate-900">➕ Yeni Danışan Çocuk Ekle</h3>
+                  <button onClick={() => setIsAddStudentOpen(false)} className="text-slate-400 hover:text-slate-600">✕</button>
+                </div>
+                <form onSubmit={handleAddStudent} className="space-y-4">
+                  <div>
+                    <label className="text-xs font-bold text-slate-700 block mb-1">Çocuğun Adı Soyadı</label>
+                    <input
+                      type="text"
+                      required
+                      value={newStudent.full_name}
+                      onChange={e => setNewStudent({...newStudent, full_name: e.target.value})}
+                      placeholder="Örn: Mehmet Akif"
+                      className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-xs font-bold text-slate-700 block mb-1">Yaş</label>
+                      <input
+                        type="number"
+                        min="3"
+                        max="14"
+                        value={newStudent.age}
+                        onChange={e => setNewStudent({...newStudent, age: parseInt(e.target.value) || 6})}
+                        className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:border-blue-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-bold text-slate-700 block mb-1">Avatar</label>
+                      <select
+                        value={newStudent.avatar}
+                        onChange={e => setNewStudent({...newStudent, avatar: e.target.value})}
+                        className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:border-blue-500"
+                      >
+                        <option value="👦">👦 Erkek Çocuk</option>
+                        <option value="👧">👧 Kız Çocuk</option>
+                        <option value="🦁">🦁 Aslan</option>
+                        <option value="🐼">🐼 Panda</option>
+                        <option value="🚀">🚀 Roket</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-xs font-bold text-slate-700 block mb-1">Klinik Tanı</label>
+                    <input
+                      type="text"
+                      value={newStudent.diagnosis}
+                      onChange={e => setNewStudent({...newStudent, diagnosis: e.target.value})}
+                      placeholder="Örn: /r/ Sesletim Güçlüğü"
+                      className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs font-bold text-slate-700 block mb-1">Hedef Fonemler</label>
+                    <input
+                      type="text"
+                      value={newStudent.target_phonemes}
+                      onChange={e => setNewStudent({...newStudent, target_phonemes: e.target.value})}
+                      placeholder="Örn: /r/, /s/"
+                      className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+                  <div className="flex space-x-3 pt-3">
+                    <button
+                      type="button"
+                      onClick={() => setIsAddStudentOpen(false)}
+                      className="flex-1 py-2.5 rounded-xl border border-slate-300 text-sm font-bold text-slate-600 hover:bg-slate-50 transition"
+                    >
+                      Vazgeç
+                    </button>
+                    <button
+                      type="submit"
+                      className="flex-1 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-md shadow-blue-500/20 transition"
+                    >
+                      Danışanı Kaydet
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>

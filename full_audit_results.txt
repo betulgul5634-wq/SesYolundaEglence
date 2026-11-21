@@ -1,0 +1,713 @@
+
+==================== STAGE 1: /p/ (sound_p) ====================
+  [wordsMiddle] Ispanak: not_in_dict
+  [wordsEnding] Baroskop: not_in_dict
+  [wordsEnding] Çinekop: not_in_dict
+  [words3Syllables] Ispanak: not_in_dict
+  [words3Syllables] Baroskop: not_in_dict
+  [words3Syllables] Çinekop: not_in_dict
+  [PHRASE TYPO?] "Padişahın pelerini" -> unknown: ['Padişahın']
+  [PHRASE TYPO?] "Palyaçonun pantolonu" -> unknown: ['Palyaçonun']
+  [PHRASE TYPO?] "Süpürgenin sapı" -> unknown: ['Süpürgenin']
+  [PHRASE TYPO?] "Kepek şampuanı" -> unknown: ['şampuanı']
+  [PHRASE TYPO?] "Şampiyonun kupası" -> unknown: ['Şampiyonun']
+  [STUCK APOSTROPHE] "Polat pazartesi Paris'teydi." -> match: Paris'teydi
+  [SENTENCE TYPO?] "Pencerenin pervazı pislenmiş." -> unknown: ['pervazı']
+  [SENTENCE TYPO?] "Patatesçi patatesleri paketledi." -> unknown: ['paketledi']
+  [SENTENCE TYPO?] "Patlıcanlı pirinç pilavı pişirelim." -> unknown: ['pilavı', 'pişirelim']
+  [SENTENCE TYPO?] "Postacının pantolonu poşetteymiş." -> unknown: ['Postacının', 'poşetteymiş']
+  [SENTENCE TYPO?] "Pidecideki peynirli pide pahalıydı." -> unknown: ['Pidecideki']
+  [SENTENCE TYPO?] "Pizzacı pizza pişirmekten pişmandı." -> unknown: ['pişirmekten', 'pişmandı']
+  [SENTENCE TYPO?] "Palyaçonun Pahalı pabuçları pulluydu." -> unknown: ['Palyaçonun', 'pabuçları', 'pulluydu']
+  [SENTENCE TYPO?] "Penceredeki papağan perdeyi parçaladı." -> unknown: ['Penceredeki']
+  [SENTENCE TYPO?] "Pelin peynirli poğaçayı Pervin'le paylaştı." -> unknown: ['poğaçayı']
+  [SENTENCE TYPO?] "Pazarlamacı Pervin Pırıltılı penyeleri pazarladı." -> unknown: ['penyeleri', 'pazarladı']
+  [SENTENCE TYPO?] "Perşembe pazarındaki Pazarcı pırasaları poşetledi." -> unknown: ['pazarındaki', 'pırasaları', 'poşetledi']
+  [SENTENCE TYPO?] "Pamuklu pazen pijamasının pantolonunu pembeydi." -> unknown: ['pijamasının', 'pembeydi']
+  [STUCK APOSTROPHE] "Recep İpek'iöptü." -> match: İpek'iöptü
+  [SENTENCE TYPO?] "Recep İpek'iöptü." -> unknown: ["İpek'iöptü"]
+  [SENTENCE TYPO?] "Serap yaprakları süpürdü." -> unknown: ['süpürdü']
+
+==================== STAGE 2: /b/ (sound_b) ====================
+  [wordsBeginning] Harap: no_b
+  [words2Syllables] Harap: no_b
+  [PHRASE TYPO?] "Bebeğin biberonu" -> unknown: ['biberonu']
+  [PHRASE TYPO?] "Abajurun kablosu" -> unknown: ['Abajurun']
+  [SENTENCE TYPO?] "Bej bluzuma bal bulaştı." -> unknown: ['bluzuma']
+  [SENTENCE TYPO?] "Burak berberde bitlendi." -> unknown: ['berberde', 'bitlendi']
+  [SENTENCE TYPO?] "Bebek biberonu boşalttı." -> unknown: ['biberonu']
+  [SENTENCE TYPO?] "Boza bardaklarını bulamadık." -> unknown: ['bardaklarını']
+  [STUCK APOSTROPHE] "Bülent Banu'nun bisikletine bindi." -> match: Banu'nun
+  [SENTENCE TYPO?] "Bülent Banu'nun bisikletine bindi." -> unknown: ['bisikletine']
+  [SENTENCE TYPO?] "Babaannem bileziklerini bana bıraktı." -> unknown: ['Babaannem', 'bileziklerini']
+  [SENTENCE TYPO?] "Benim bütün balıklarım birbirine benzer." -> unknown: ['balıklarım']
+  [SENTENCE TYPO?] "Berna bakır boncuklarını bahçede buldu." -> unknown: ['boncuklarını']
+  [SENTENCE TYPO?] "Büyükbabam banyonun borularını boyadı." -> unknown: ['borularını', 'boyadı']
+  [SENTENCE TYPO?] "Lavabodaki sabunu bitirdim." -> unknown: ['Lavabodaki']
+  [SENTENCE TYPO?] "Berberde torbasını kaybetti." -> unknown: ['Berberde']
+  [SENTENCE TYPO?] "Ebru kitabi pembeye boyadı." -> unknown: ['pembeye', 'boyadı']
+
+==================== STAGE 3: /t/ (sound_t) ====================
+  [PHRASE TYPO?] "Tahtanın tebeşiri" -> unknown: ['tebeşiri']
+  [SENTENCE TYPO?] "Tuba tayin tüylerini taradı." -> unknown: ['taradı']
+  [SENTENCE TYPO?] "Timsah taşın tepesindeydi." -> unknown: ['tepesindeydi']
+  [SENTENCE TYPO?] "Teoman terziyi tanıyamamış." -> unknown: ['terziyi']
+  [SENTENCE TYPO?] "Temel tarlanın taşlarını topladı." -> unknown: ['tarlanın']
+  [SENTENCE TYPO?] "Tahtanın tebeşirleri turuncuydu." -> unknown: ['tebeşirleri']
+  [SENTENCE TYPO?] "Taner terasın tentesini temizledi." -> unknown: ['terasın', 'tentesini']
+  [SENTENCE TYPO?] "Tarçınlı turtalar tatlı tabağındaydı." -> unknown: ['turtalar']
+  [SENTENCE TYPO?] "Tülay'in teyzesinin tarhanası tazeydi." -> unknown: ['teyzesinin', 'tarhanası', 'tazeydi']
+  [SENTENCE TYPO?] "Tahtanın tebeşiri bitmiş." -> unknown: ['tebeşiri']
+  [SENTENCE TYPO?] "Titiz terzi pantolonları ütüledi." -> unknown: ['ütüledi']
+
+==================== STAGE 4: /d/ (sound_d) ====================
+  [wordsEnding] Ud: not_in_dict
+  [words1Syllable] Ud: not_in_dict
+  [PHRASE TYPO?] "Damla'nın dayısı" -> unknown: ['dayısı']
+  [PHRASE TYPO?] "Düğündeki davulcu" -> unknown: ['Düğündeki']
+  [PHRASE TYPO?] "Bidonun dibi" -> unknown: ['Bidonun']
+  [PHRASE TYPO?] "Bademin tadı" -> unknown: ['Bademin']
+  [SENTENCE TYPO?] "Damla dikiş diker." -> unknown: ['diker']
+  [SENTENCE TYPO?] "Dantelli düğmeleri diktiler." -> unknown: ['diktiler']
+  [SENTENCE TYPO?] "Dam durup dururken delindi." -> unknown: ['delindi']
+  [SENTENCE TYPO?] "Dedem denizaltıyla dolaşmış." -> unknown: ['denizaltıyla']
+  [SENTENCE TYPO?] "Duru derste defterlerini düşürdü." -> unknown: ['defterlerini']
+  [SENTENCE TYPO?] "Okulda fındıkla badem yedim." -> unknown: ['fındıkla']
+  [STUCK APOSTROPHE] "Ferda'nın hediyesini beğendim." -> match: Ferda'nın
+
+==================== STAGE 5: /k/ (sound_k) ====================
+  [wordsEnding] Ispanak: not_in_dict
+  [words3Syllables] Ispanak: not_in_dict
+  [PHRASE TYPO?] "Kaplumbağanın kabuğu" -> unknown: ['Kaplumbağanın']
+  [PHRASE TYPO?] "İpek bayrak" -> unknown: ['İpek']
+  [SENTENCE TYPO?] "Kasap kepenkleri kaldırdı." -> unknown: ['kepenkleri']
+  [SENTENCE TYPO?] "Küçük kız kerevizi kaşıkladı." -> unknown: ['kerevizi', 'kaşıkladı']
+  [SENTENCE TYPO?] "Kıvırcık koyun kavunu kokladı." -> unknown: ['kavunu', 'kokladı']
+  [SENTENCE TYPO?] "Kaplan koruda kanguruyu kovalıyor." -> unknown: ['koruda', 'kanguruyu']
+  [SENTENCE TYPO?] "Köpek kokarcanın kuyruğunu kokladı." -> unknown: ['kokarcanın', 'kokladı']
+  [SENTENCE TYPO?] "Küçük kız akşam bakla ayıkladı." -> unknown: ['ayıkladı']
+  [SENTENCE TYPO?] "Büyük saksıda Menekşe ekiliymiş." -> unknown: ['saksıda', 'ekiliymiş']
+
+==================== STAGE 6: /g/ (sound_g) ====================
+  [wordsBeginning] Gökbilim: not_in_dict
+  [words3Syllables] Gökbilim: not_in_dict
+  [PHRASE TYPO?] "Gemi güvertesi" -> unknown: ['güvertesi']
+  [PHRASE TYPO?] "Penguenin rengi" -> unknown: ['Penguenin']
+  [SENTENCE TYPO?] "Gökhan güllaç getirmiş." -> unknown: ['Gökhan']
+  [SENTENCE TYPO?] "Gelenler göbekli gorile gülüyor." -> unknown: ['gorile']
+  [STUCK APOSTROPHE] "Gülay Gaziantep'egezmeye gitti." -> match: Gaziantep'egezmeye
+  [SENTENCE TYPO?] "Gülay Gaziantep'egezmeye gitti." -> unknown: ['Gülay']
+  [SENTENCE TYPO?] "Garson gevrek galetaları getiriyor." -> unknown: ['galetaları']
+  [SENTENCE TYPO?] "Gazeteciler Girne'ye geziye gittiler." -> unknown: ["Girne'ye"]
+  [SENTENCE TYPO?] "Kavgacı garson kızgınmış." -> unknown: ['kızgınmış']
+
+==================== STAGE 7: /f/ (sound_f) ====================
+  [wordsEnding] Kaf: not_in_dict
+  [words1Syllable] Kaf: not_in_dict
+  [PHRASE TYPO?] "Fenerin fiyatı" -> unknown: ['Fenerin']
+  [PHRASE TYPO?] "Fen fakultesi" -> unknown: ['fakultesi']
+  [PHRASE TYPO?] "Falcinin fincanı" -> unknown: ['Falcinin']
+  [PHRASE TYPO?] "Farklı fotoğraf cl" -> unknown: ['cl']
+  [PHRASE TYPO?] "Feribotun filikası" -> unknown: ['Feribotun', 'filikası']
+  [PHRASE TYPO?] "Fransizfaytoncu" -> unknown: ['Fransizfaytoncu']
+  [SENTENCE TYPO?] "Ferhat fikrayl fısıldadı." -> unknown: ['fikrayl']
+  [SENTENCE TYPO?] "Fındık fıstık faydalıdır." -> unknown: ['faydalıdır']
+  [SENTENCE TYPO?] "Filmin finali fiyaskoydu." -> unknown: ['fiyaskoydu']
+  [SENTENCE TYPO?] "Futbolcunun fiyatı fazlaydı." -> unknown: ['Futbolcunun']
+  [SENTENCE TYPO?] "Fikret fiyakalı futbolcudur." -> unknown: ['futbolcudur']
+  [SENTENCE TYPO?] "Fatsalı Fatih fazla fanatikti." -> unknown: ['fanatikti']
+  [SENTENCE TYPO?] "Faik Fransa'da faytoncuydu." -> unknown: ['faytoncuydu']
+  [SENTENCE TYPO?] "Fevzi fenerin fitilini fisekledi." -> unknown: ['fenerin', 'fitilini', 'fisekledi']
+  [SENTENCE TYPO?] "Fillerle farelerin fiziği farklidir." -> unknown: ['Fillerle', 'farklidir']
+  [STUCK APOSTROPHE] "Fas'ta fakirlik Fransa'Dan fazladir." -> match: Fransa'Dan
+  [SENTENCE TYPO?] "Fas'ta fakirlik Fransa'Dan fazladir." -> unknown: ['fazladir']
+  [SENTENCE TYPO?] "Funda fayanslari fircayla fircaladi." -> unknown: ['fayanslari', 'fircayla', 'fircaladi']
+  [SENTENCE TYPO?] "Fantastik filmler film festivalindeydi." -> unknown: ['festivalindeydi']
+  [SENTENCE TYPO?] "Fatma fincan fabrikasinda fenalasti." -> unknown: ['fabrikasinda', 'fenalasti']
+  [SENTENCE TYPO?] "Fenerli futbolcunun formasi fosforluydu." -> unknown: ['futbolcunun', 'formasi', 'fosforluydu']
+  [SENTENCE TYPO?] "Fotoğrafçı Fransız futbolculari fotografadi." -> unknown: ['futbolculari', 'fotografadi']
+  [SENTENCE TYPO?] "Efe Sefa'ya ofkelendi." -> unknown: ['ofkelendi']
+  [SENTENCE TYPO?] "Efatun eşofman ufalmış." -> unknown: ['Efatun']
+  [STUCK APOSTROPHE] "Elif Büfe'nin köftesi nefistir." -> match: Büfe'nin
+  [SENTENCE TYPO?] "Elif Büfe'nin köftesi nefistir." -> unknown: ['nefistir']
+  [SENTENCE TYPO?] "Raftaki çarşafı naftalinledi." -> unknown: ['Raftaki', 'çarşafı', 'naftalinledi']
+  [SENTENCE TYPO?] "Sedefin kaftani defoluymuş." -> unknown: ['Sedefin', 'kaftani', 'defoluymuş']
+  [SENTENCE TYPO?] "Lütfen sınıfta fısıldamayınız." -> unknown: ['fısıldamayınız']
+  [SENTENCE TYPO?] "Fasulyeyle köfteler sofradaydı." -> unknown: ['Fasulyeyle', 'köfteler', 'sofradaydı']
+  [SENTENCE TYPO?] "Defne teneffüste sınıftan fırladı." -> unknown: ['teneffüste']
+  [SENTENCE TYPO?] "Fuardaki fırfırlı carsafiar kadifeydi." -> unknown: ['Fuardaki', 'carsafiar', 'kadifeydi']
+  [SENTENCE TYPO?] "Defterdeki tuhaf tariflerle zayıfladı." -> unknown: ['Defterdeki', 'tariflerle', 'zayıfladı']
+  [SENTENCE TYPO?] "Fırıncı Enfes şeftalili puflarını fırınladı." -> unknown: ['puflarını', 'fırınladı']
+  [STUCK APOSTROPHE] "Arif Fenerbahce'nin fanatik taraftaridir." -> match: Fenerbahce'nin
+  [SENTENCE TYPO?] "Arif Fenerbahce'nin fanatik taraftaridir." -> unknown: ["Fenerbahce'nin", 'taraftaridir']
+  [SENTENCE TYPO?] "Müfettiş sınıfta fisildayanlari affetmedi." -> unknown: ['fisildayanlari', 'affetmedi']
+  [SENTENCE TYPO?] "Bufenin mutfağındaki se Fin kıya feti tuha fti." -> unknown: ['Bufenin', 'feti', 'tuha', 'fti']
+  [SENTENCE TYPO?] "Şeref haftaya Afyon'da fizik konferansinda." -> unknown: ['konferansinda']
+
+==================== STAGE 8: /v/ (sound_v) ====================
+  [wordsBeginning] Tun: no_v
+  [wordsBeginning] Alet: no_v
+  [wordsBeginning] Knilcim: no_v, not_in_dict
+  [wordsBeginning] Eldnen: no_v, not_in_dict
+  [wordsBeginning] Lacnert: no_v, not_in_dict
+  [wordsBeginning] Anoz: no_v, not_in_dict
+  [words1Syllable] Tun: no_v
+  [words2Syllables] Alet: no_v
+  [words2Syllables] Knilcim: no_v, not_in_dict
+  [words2Syllables] Eldnen: no_v, not_in_dict
+  [words2Syllables] Lacnert: no_v, not_in_dict
+  [words2Syllables] Anoz: no_v, not_in_dict
+  [PHRASE TYPO?] "Vananın vidası" -> unknown: ['Vananın', 'vidası']
+  [PHRASE TYPO?] "Vagondaki varil" -> unknown: ['Vagondaki']
+  [PHRASE TYPO?] "Vefa'nin vazosu" -> unknown: ['vazosu']
+  [PHRASE TYPO?] "Volkanin videosu" -> unknown: ['Volkanin']
+  [PHRASE TYPO?] "Verda'nin Vosvosu" -> unknown: ['Vosvosu']
+  [PHRASE TYPO?] "Vatandaşlık vazifesi" -> unknown: ['vazifesi']
+  [PHRASE TYPO?] "Duvar çivisi" -> unknown: ['çivisi']
+  [PHRASE TYPO?] "Lavabodaki kova" -> unknown: ['Lavabodaki']
+  [PHRASE TYPO?] "Tavadaki mücver" -> unknown: ['Tavadaki']
+  [PHRASE TYPO?] "Volkan'in manavı" -> unknown: ['manavı']
+  [SENTENCE TYPO?] "Veysel vanayi vidaladı." -> unknown: ['vanayi', 'vidaladı']
+  [SENTENCE TYPO?] "Vapurun vıncı vitesliydi." -> unknown: ['Vapurun', 'vitesliydi']
+  [STUCK APOSTROPHE] "Volkan Vural'nvelisiymis." -> match: Vural'nvelisiymis
+  [SENTENCE TYPO?] "Vedat'in valizi vagondaydi." -> unknown: ['vagondaydi']
+  [SENTENCE TYPO?] "Voleybolcu Vildan vedalasti." -> unknown: ['vedalasti']
+  [STUCK APOSTROPHE] "Verda vazoyu Vahit'everdi." -> match: Vahit'everdi
+  [SENTENCE TYPO?] "Vapurda voleybolcular vardı." -> unknown: ['Vapurda', 'voleybolcular']
+  [SENTENCE TYPO?] "Vapurdaki valizde vişne varmış." -> unknown: ['Vapurdaki', 'valizde']
+  [SENTENCE TYPO?] "Valilik vatandasa vize vermedi." -> unknown: ['vatandasa']
+  [SENTENCE TYPO?] "Vilayetin vestiyerinde varil vardı." -> unknown: ['Vilayetin', 'vestiyerinde']
+  [SENTENCE TYPO?] "Vural valizini vestiyere vermedi." -> unknown: ['vestiyere']
+  [SENTENCE TYPO?] "Volkan vasitalari valeye verecek." -> unknown: ['vasitalari', 'valeye']
+  [SENTENCE TYPO?] "Devin evi maviydi." -> unknown: ['maviydi']
+  [SENTENCE TYPO?] "Seval tavsana havuç Verdi." -> unknown: ['tavsana']
+  [SENTENCE TYPO?] "Sevimli güvercin civcivi kovaladi." -> unknown: ['civcivi', 'kovaladi']
+  [SENTENCE TYPO?] "Davulcu davula kuvvetlice vurdu." -> unknown: ['davula']
+  [SENTENCE TYPO?] "Manavda vitaminli meyveler vardı." -> unknown: ['Manavda']
+  [SENTENCE TYPO?] "Evdeki davette tavuklu pilav vard." -> unknown: ['davette', 'vard']
+  [SENTENCE TYPO?] "Cuvaldaki cevizleri havanda dovdu." -> unknown: ['Cuvaldaki', 'cevizleri', 'dovdu']
+  [SENTENCE TYPO?] "Zavallievcil hayvanlar savunmasizdi." -> unknown: ['Zavallievcil', 'savunmasizdi']
+  [SENTENCE TYPO?] "Kavgacı Avni vazoyu duvara savurdu." -> unknown: ['savurdu']
+  [SENTENCE TYPO?] "Tuvaletteki lavabonun vidası gevşemiş." -> unknown: ['Tuvaletteki', 'vidası']
+  [SENTENCE TYPO?] "Deve kervaninda kahve cuvallari vardı." -> unknown: ['kervaninda', 'cuvallari']
+  [SENTENCE TYPO?] "Canavar duvardaki cerceveyi ceviriverdi." -> unknown: ['cerceveyi', 'ceviriverdi']
+  [SENTENCE TYPO?] "Lacivert eldiveniyle suiveterini vestiyere Verdi." -> unknown: ['eldiveniyle', 'suiveterini', 'vestiyere']
+  [SENTENCE TYPO?] "Sevgi lavabodaki ayva ve visneyi tavaya koyuverdi." -> unknown: ['lavabodaki', 'visneyi', 'tavaya', 'koyuverdi']
+
+==================== STAGE 9: /s/ (sound_s) ====================
+  [wordsBeginning] Şen: no_s
+  [wordsBeginning] Şok: no_s
+  [wordsBeginning] Baş: no_s
+  [wordsBeginning] Kuş: no_s
+  [wordsBeginning] Şiş: no_s
+  [wordsBeginning] Taş: no_s
+  [wordsBeginning] Yaş: no_s
+  [wordsMiddle] Ispanak: not_in_dict
+  [wordsEnding] Marakas: not_in_dict
+  [wordsEnding] Erciyes: not_in_dict
+  [words1Syllable] Şen: no_s
+  [words1Syllable] Şok: no_s
+  [words1Syllable] Baş: no_s
+  [words1Syllable] Kuş: no_s
+  [words1Syllable] Şiş: no_s
+  [words1Syllable] Taş: no_s
+  [words1Syllable] Yaş: no_s
+  [words3Syllables] Ispanak: not_in_dict
+  [words3Syllables] Marakas: not_in_dict
+  [words3Syllables] Erciyes: not_in_dict
+  [PHRASE TYPO?] "Mısır püskülü" -> unknown: ['püskülü']
+  [SENTENCE TYPO?] "Sebze soteyi severim." -> unknown: ['soteyi']
+  [SENTENCE TYPO?] "Sinem sarı silgiyi sakladı." -> unknown: ['silgiyi']
+  [SENTENCE TYPO?] "Sokaktaki sincaplar sahipsizdi." -> unknown: ['sahipsizdi']
+  [SENTENCE TYPO?] "Saçma sözler söylemek serbestti." -> unknown: ['serbestti']
+  [SENTENCE TYPO?] "Selin saksıdaki sardunyaları suladı." -> unknown: ['saksıdaki', 'sardunyaları', 'suladı']
+  [SENTENCE TYPO?] "Sarı saclı sporcu sahada sakatlandı." -> unknown: ['sakatlandı']
+  [SENTENCE TYPO?] "Semizotu, soğan, sarımsak sepetteydi." -> unknown: ['Semizotu', 'sepetteydi']
+  [SENTENCE TYPO?] "Serseri sürücü sokakta subaya saldırdı." -> unknown: ['subaya']
+  [SENTENCE TYPO?] "Bakımsız bisiklet paslandı." -> unknown: ['paslandı']
+  [SENTENCE TYPO?] "Mesut teneffüste hastalandı." -> unknown: ['teneffüste']
+  [SENTENCE TYPO?] "Pasaklı Sibel salonu pisletti." -> unknown: ['pisletti']
+  [SENTENCE TYPO?] "Asli siyah paltosunu askıya astı." -> unknown: ['paltosunu']
+  [SENTENCE TYPO?] "Esin eski elbiselerini eskiciye sattı." -> unknown: ['eskiciye']
+
+==================== STAGE 10: /z/ (sound_z) ====================
+  [wordsMiddle] Kizilay: not_in_dict
+  [wordsEnding] Onsekiz: not_in_dict
+  [words3Syllables] Kizilay: not_in_dict
+  [words3Syllables] Onsekiz: not_in_dict
+  [PHRASE TYPO?] "Zavall zebra" -> unknown: ['Zavall']
+  [PHRASE TYPO?] "Zeytinlikteki zeytin" -> unknown: ['Zeytinlikteki']
+  [PHRASE TYPO?] "Kizin mizikasi" -> unknown: ['mizikasi']
+  [PHRASE TYPO?] "Kuzunun gozu" -> unknown: ['Kuzunun', 'gozu']
+  [SENTENCE TYPO?] "Zafer zıpzıp zıpladı." -> unknown: ['zıpladı']
+  [SENTENCE TYPO?] "Zerrin zarfı zamkladı." -> unknown: ['zamkladı']
+  [STUCK APOSTROPHE] "Zehra'yla Zerrin zekidir." -> match: Zehra'yla
+  [SENTENCE TYPO?] "Zarif zambak zedelendi." -> unknown: ['zedelendi']
+  [STUCK APOSTROPHE] "Zeytin'izehirli zannettim." -> match: Zeytin'izehirli
+  [SENTENCE TYPO?] "Ziya zorlanarak zayifladi." -> unknown: ['zayifladi']
+  [SENTENCE TYPO?] "Zafer zinciri zimparaladi." -> unknown: ['zimparaladi']
+  [SENTENCE TYPO?] "Zarfı zimbayla zimbaladi." -> unknown: ['zimbayla', 'zimbaladi']
+  [SENTENCE TYPO?] "Zebrayla zurafalar zayifti." -> unknown: ['Zebrayla', 'zurafalar', 'zayifti']
+  [SENTENCE TYPO?] "Zeliha zamaninda. ziyafetteydi." -> unknown: ['zamaninda', 'ziyafetteydi']
+  [SENTENCE TYPO?] "Zeynep zaman zaman zirvalar." -> unknown: ['zirvalar']
+  [SENTENCE TYPO?] "Zeytinyağlı zencefil zararsizdir." -> unknown: ['zararsizdir']
+  [SENTENCE TYPO?] "Zengin ziyaretciyi Ziya zannettim." -> unknown: ['ziyaretciyi']
+  [SENTENCE TYPO?] "Zehirli zakkum zurafayi zehirledi." -> unknown: ['zurafayi']
+  [SENTENCE TYPO?] "Zeynep zıplayarak zayıflayacağını zannetti." -> unknown: ['zannetti']
+  [SENTENCE TYPO?] "Uzaya fuzeyle gidebiliriz." -> unknown: ['fuzeyle']
+  [SENTENCE TYPO?] "Terzi teyze komsumuzdur." -> unknown: ['komsumuzdur']
+  [SENTENCE TYPO?] "Ozgurun kuzeni muzisyendi." -> unknown: ['Ozgurun', 'muzisyendi']
+  [SENTENCE TYPO?] "Gamze'yi yazliktan taniyoruz." -> unknown: ['yazliktan', 'taniyoruz']
+  [SENTENCE TYPO?] "Hızlı yüzücü havuzda yuzdu." -> unknown: ['yuzdu']
+  [SENTENCE TYPO?] "Bazen müze gezmeyi ozlerim." -> unknown: ['ozlerim']
+  [SENTENCE TYPO?] "Pazardaki taze sebzeler azalmış." -> unknown: ['Pazardaki']
+  [SENTENCE TYPO?] "Yazın hepimiz denizde egleniriz." -> unknown: ['egleniriz']
+  [SENTENCE TYPO?] "Kuzenimle büzlü gazoza bayiliriz." -> unknown: ['gazoza', 'bayiliriz']
+  [SENTENCE TYPO?] "Taze bezelyeler kırmızı kavanozdaydi." -> unknown: ['bezelyeler', 'kavanozdaydi']
+  [SENTENCE TYPO?] "Pazarlari teyzemle zeytinli pizza pisiririz." -> unknown: ['Pazarlari', 'teyzemle', 'pisiririz']
+  [SENTENCE TYPO?] "Nezihe kizina kiraz, Üzüm, karpuz hazirlad." -> unknown: ['kizina', 'hazirlad']
+  [SENTENCE TYPO?] "Zafer izlediği yazarin gazetedeki yazilarini ozetledi." -> unknown: ['yazarin', 'yazilarini', 'ozetledi']
+
+==================== STAGE 11: /ş/ (sound_ş) ====================
+  [wordsBeginning] İns: no_ş, not_in_dict
+  [wordsBeginning] Ka: no_ş
+  [wordsBeginning] Ye: no_ş
+  [wordsBeginning] Sil: no_ş
+  [wordsBeginning] Ellibes: no_ş, not_in_dict
+  [wordsBeginning] Otuzbes: no_ş, not_in_dict
+  [wordsBeginning] Yetmisbes: no_ş, not_in_dict
+  [wordsBeginning] Sirine: no_ş, not_in_dict
+  [words1Syllable] İns: no_ş, not_in_dict
+  [words1Syllable] Ka: no_ş
+  [words1Syllable] Ye: no_ş
+  [words1Syllable] Sil: no_ş
+  [words3Syllables] Ellibes: no_ş, not_in_dict
+  [words3Syllables] Otuzbes: no_ş, not_in_dict
+  [words3Syllables] Yetmisbes: no_ş, not_in_dict
+  [words3Syllables] Sirine: no_ş, not_in_dict
+  [PHRASE TYPO?] "Sarkill senlik" -> unknown: ['Sarkill']
+  [PHRASE TYPO?] "sasl şempanze" -> unknown: ['sasl']
+  [PHRASE TYPO?] "Solendeki sarkicl" -> unknown: ['Solendeki', 'sarkicl']
+  [PHRASE TYPO?] "samatacl şövalye" -> unknown: ['samatacl']
+  [PHRASE TYPO?] "sampiyonun sovu" -> unknown: ['sampiyonun', 'sovu']
+  [PHRASE TYPO?] "Kış gunesi" -> unknown: ['gunesi']
+  [PHRASE TYPO?] "Telaşlı ascl" -> unknown: ['ascl']
+  [PHRASE TYPO?] "Ayşe'nin kardesi" -> unknown: ['kardesi']
+  [PHRASE TYPO?] "Arkadasimin kalemtirasl" -> unknown: ['Arkadasimin', 'kalemtirasl']
+  [STUCK APOSTROPHE] "Şam şekeri Şam'dadir." -> match: Şam'dadir
+  [SENTENCE TYPO?] "şişko şempanze şirindi." -> unknown: ['şirindi']
+  [SENTENCE TYPO?] "şampiyon Şeniz şımarıktı." -> unknown: ['şımarıktı']
+  [SENTENCE TYPO?] "Sengül sohreti sarkiciydi." -> unknown: ['sohreti', 'sarkiciydi']
+  [SENTENCE TYPO?] "şapkalı şerif samataciydi." -> unknown: ['samataciydi']
+  [STUCK APOSTROPHE] "sirinler sirine'yle sakalasti." -> match: sirine'yle
+  [SENTENCE TYPO?] "sirinler sirine'yle sakalasti." -> unknown: ['sirinler', "sirine'yle", 'sakalasti']
+  [STUCK APOSTROPHE] "Sengül'usan şöhret sasirtti." -> match: Sengül'usan
+  [SENTENCE TYPO?] "Sengül'usan şöhret sasirtti." -> unknown: ['sasirtti']
+  [SENTENCE TYPO?] "sampiyonun sovu sahaneydi." -> unknown: ['sampiyonun', 'sovu', 'sahaneydi']
+  [SENTENCE TYPO?] "solendeki şaklaban sapkaliydi." -> unknown: ['solendeki', 'sapkaliydi']
+  [STUCK APOSTROPHE] "sominenin sekli Şenay'isasirtmisti." -> match: Şenay'isasirtmisti
+  [SENTENCE TYPO?] "sominenin sekli Şenay'isasirtmisti." -> unknown: ['sominenin']
+  [STUCK APOSTROPHE] "şule'nin sekerleri sekerlikteymis." -> match: şule'nin
+  [SENTENCE TYPO?] "şule'nin sekerleri sekerlikteymis." -> unknown: ['sekerleri', 'sekerlikteymis']
+  [SENTENCE TYPO?] "şahane samdanlar sovalyenindi." -> unknown: ['samdanlar', 'sovalyenindi']
+  [SENTENCE TYPO?] "şekerli şeftali serbeti sismanlatir." -> unknown: ['serbeti', 'sismanlatir']
+  [SENTENCE TYPO?] "şaşı şempanze sSirin şule'yi sasirtti." -> unknown: ['sSirin', 'sasirtti']
+  [SENTENCE TYPO?] "Şöhretli şarkıcı sehirdekileri senlendirdi." -> unknown: ['sehirdekileri', 'senlendirdi']
+  [SENTENCE TYPO?] "Başarıl kisiler caliskandir." -> unknown: ['kisiler', 'caliskandir']
+  [SENTENCE TYPO?] "Basimdaki şapka kusluydu." -> unknown: ['Basimdaki', 'kusluydu']
+  [SENTENCE TYPO?] "Asagidaki komşu aşırı neselidir." -> unknown: ['Asagidaki', 'neselidir']
+  [SENTENCE TYPO?] "Arkadasimin Yeşil tisortu yırtılmış." -> unknown: ['Arkadasimin', 'tisortu']
+  [SENTENCE TYPO?] "Akşam kuslarin otusu coskuluydu." -> unknown: ['kuslarin', 'otusu', 'coskuluydu']
+  [SENTENCE TYPO?] "Dişlek tavşan kosede kasiniyordu." -> unknown: ['kosede', 'kasiniyordu']
+  [SENTENCE TYPO?] "Enistem görüşmeyeli şişmanlamış." -> unknown: ['Enistem']
+  [SENTENCE TYPO?] "sovalyenin sakalari basimizi sisirdi." -> unknown: ['sovalyenin', 'sakalari', 'basimizi', 'sisirdi']
+  [SENTENCE TYPO?] "Kardesime kreste sekilleri ogretmisler." -> unknown: ['Kardesime', 'kreste', 'sekilleri', 'ogretmisler']
+  [SENTENCE TYPO?] "Ayşe düşünce basini tasa çarpmış." -> unknown: ['basini']
+  [SENTENCE TYPO?] "Şampiyon kosucunun sortu kirmiziymis." -> unknown: ['kosucunun', 'sortu', 'kirmiziymis']
+  [SENTENCE TYPO?] "Yaristaki yarismacilar yavaş kosuyordu." -> unknown: ['Yaristaki', 'yarismacilar', 'kosuyordu']
+  [SENTENCE TYPO?] "sampiyonlar yarista pes pese dizilmisti." -> unknown: ['sampiyonlar', 'yarista', 'pese', 'dizilmisti']
+  [SENTENCE TYPO?] "Şımarık Ayşe arkadasinin pesinden kostu." -> unknown: ['arkadasinin', 'pesinden', 'kostu']
+  [SENTENCE TYPO?] "Kumaşçı yıpranmış kumaslari asagidaki koseye koymustu." -> unknown: ['kumaslari', 'asagidaki', 'koseye', 'koymustu']
+
+==================== STAGE 12: /j/ (sound_j) ====================
+  [PHRASE TYPO?] "Jale'nin jetonu" -> unknown: ['jetonu']
+  [PHRASE TYPO?] "Jaguar'in janti" -> unknown: ['janti']
+  [PHRASE TYPO?] "Jülide'nin jesti" -> unknown: ['jesti']
+  [PHRASE TYPO?] "Jelibonun jolesi" -> unknown: ['Jelibonun', 'jolesi']
+  [PHRASE TYPO?] "Jandarmanin jileti" -> unknown: ['Jandarmanin', 'jileti']
+  [PHRASE TYPO?] "Judocularin jübilesi" -> unknown: ['Judocularin', 'jübilesi']
+  [PHRASE TYPO?] "Jamaikal jimnastikçi" -> unknown: ['Jamaikal']
+  [PHRASE TYPO?] "Ojeli Tijen" -> unknown: ['Tijen']
+  [PHRASE TYPO?] "Sarjl abajur" -> unknown: ['Sarjl']
+  [PHRASE TYPO?] "Enerj masaji" -> unknown: ['Enerj', 'masaji']
+  [PHRASE TYPO?] "Japon makyaji" -> unknown: ['makyaji']
+  [PHRASE TYPO?] "Jiletin ambalaji" -> unknown: ['Jiletin', 'ambalaji']
+  [PHRASE TYPO?] "Ajanin ajandasi" -> unknown: ['Ajanin', 'ajandasi']
+  [SENTENCE TYPO?] "Jokeyin jübilesi jestti." -> unknown: ['Jokeyin', 'jübilesi', 'jestti']
+  [SENTENCE TYPO?] "Jöleli jön jenerikteydi." -> unknown: ['jenerikteydi']
+  [STUCK APOSTROPHE] "Jale'nin jilesi jarseydi." -> match: Jale'nin
+  [SENTENCE TYPO?] "Jale'nin jilesi jarseydi." -> unknown: ['jilesi', 'jarseydi']
+  [SENTENCE TYPO?] "Jöleli jandarma judocuydu." -> unknown: ['judocuydu']
+  [SENTENCE TYPO?] "Jetin jeneratoru jetonludur." -> unknown: ['Jetin', 'jeneratoru', 'jetonludur']
+  [SENTENCE TYPO?] "Jumbo jambonlar jelatinliydi." -> unknown: ['jambonlar', 'jelatinliydi']
+  [STUCK APOSTROPHE] "Janset Japonlarla Jüpiter'deydi." -> match: Jüpiter'deydi
+  [SENTENCE TYPO?] "Janset Japonlarla Jüpiter'deydi." -> unknown: ['Janset', 'Japonlarla']
+  [SENTENCE TYPO?] "Jülide Jamaika'da jimnastikciydi." -> unknown: ['jimnastikciydi']
+  [SENTENCE TYPO?] "Jokey Jale jimnastik jurisindeydi." -> unknown: ['jurisindeydi']
+  [SENTENCE TYPO?] "Judocu jelatinsiz jetonlari jelatinledi." -> unknown: ['jelatinsiz', 'jetonlari', 'jelatinledi']
+  [STUCK APOSTROPHE] "Jamaika'daki jokey Japon jetindeydi." -> match: Jamaika'daki
+  [SENTENCE TYPO?] "Jamaika'daki jokey Japon jetindeydi." -> unknown: ['jetindeydi']
+  [STUCK APOSTROPHE] "Jülide'nin Jaguar'inin jantlari janjanliydi." -> match: Jülide'nin
+  [SENTENCE TYPO?] "Jülide'nin Jaguar'inin jantlari janjanliydi." -> unknown: ['jantlari', 'janjanliydi']
+  [SENTENCE TYPO?] "Nejat'in projesi stratejiktir." -> unknown: ["Nejat'in", 'stratejiktir']
+  [SENTENCE TYPO?] "Tijen psikoloji stajindaymis." -> unknown: ['Tijen', 'stajindaymis']
+  [SENTENCE TYPO?] "Drajelerin gramaji orijinaldir." -> unknown: ['Drajelerin', 'gramaji', 'orijinaldir']
+  [SENTENCE TYPO?] "Bagajin ambalaji garajda mı?" -> unknown: ['Bagajin', 'ambalaji']
+  [STUCK APOSTROPHE] "Ajda'nin alerjisi pijamadanmis." -> match: Ajda'nin
+  [SENTENCE TYPO?] "Ajda'nin alerjisi pijamadanmis." -> unknown: ['pijamadanmis']
+  [SENTENCE TYPO?] "Stajyer ferforjeleri montajladl." -> unknown: ['ferforjeleri', 'montajladl']
+  [SENTENCE TYPO?] "Bej ojemle rujum bagajdaymis." -> unknown: ['ojemle', 'rujum', 'bagajdaymis']
+  [STUCK APOSTROPHE] "Ejderhalı pjamalar Müjde'ninmis." -> match: Müjde'ninmis
+  [SENTENCE TYPO?] "Ejderhalı pjamalar Müjde'ninmis." -> unknown: ['pjamalar']
+  [SENTENCE TYPO?] "Müjdat'in dublaj ajansı pasajdadir." -> unknown: ['pasajdadir']
+  [SENTENCE TYPO?] "Vidanjorler lojmanin garajindadir." -> unknown: ['Vidanjorler', 'lojmanin', 'garajindadir']
+  [SENTENCE TYPO?] "Kolejdeki deterjanlar hijyenik midir?" -> unknown: ['Kolejdeki', 'deterjanlar']
+  [SENTENCE TYPO?] "Sosyoloji arkeolojiden avantajlidir." -> unknown: ['arkeolojiden', 'avantajlidir']
+  [SENTENCE TYPO?] "Roportaji ajansa mesajla mujdelediler." -> unknown: ['Roportaji', 'mujdelediler']
+  [SENTENCE TYPO?] "Ajandadaki mesajlar ajanin santajiymis." -> unknown: ['Ajandadaki', 'ajanin', 'santajiymis']
+  [STUCK APOSTROPHE] "Enerji masajinin orijinali Nijerya'daki plajlardadir." -> match: Nijerya'daki
+  [SENTENCE TYPO?] "Enerji masajinin orijinali Nijerya'daki plajlardadir." -> unknown: ['masajinin', 'plajlardadir']
+
+==================== STAGE 13: /h/ (sound_h) ====================
+  [wordsBeginning] Civan: no_h
+  [wordsBeginning] Livan: no_h, not_in_dict
+  [wordsBeginning] Hoscakal: not_in_dict
+  [wordsMiddle] Ihlamur: not_in_dict
+  [wordsEnding] Padissah: not_in_dict
+  [wordsEnding] Bah: not_in_dict
+  [words1Syllable] Bah: not_in_dict
+  [words2Syllables] Civan: no_h
+  [words2Syllables] Livan: no_h, not_in_dict
+  [words3Syllables] Padissah: not_in_dict
+  [words3Syllables] Hoscakal: not_in_dict
+  [words3Syllables] Ihlamur: not_in_dict
+  [PHRASE TYPO?] "Havuzdaki havlu" -> unknown: ['Havuzdaki']
+  [PHRASE TYPO?] "Hastalık hastas" -> unknown: ['hastas']
+  [PHRASE TYPO?] "Sahanda şehriye" -> unknown: ['Sahanda']
+  [PHRASE TYPO?] "Baharatlı la hmacun" -> unknown: ['hmacun']
+  [PHRASE TYPO?] "Sehpadaki tahtakurusu" -> unknown: ['Sehpadaki', 'tahtakurusu']
+  [SENTENCE TYPO?] "Handan Hanım hıçkırdı." -> unknown: ['hıçkırdı']
+  [SENTENCE TYPO?] "Helikopter hizla havalandi." -> unknown: ['hizla', 'havalandi']
+  [SENTENCE TYPO?] "Halit hirsizlari hemen hakladi." -> unknown: ['Halit', 'hirsizlari', 'hakladi']
+  [SENTENCE TYPO?] "Hastanedeki hemşire hatallydi." -> unknown: ['hatallydi']
+  [SENTENCE TYPO?] "Halam helvayi hemen hazirladi." -> unknown: ['helvayi', 'hazirladi']
+  [SENTENCE TYPO?] "Hülya halam havuzda hastalandi." -> unknown: ['hastalandi']
+  [SENTENCE TYPO?] "Halidaki hediyelerin hangisi hafif?" -> unknown: ['Halidaki', 'hediyelerin']
+  [SENTENCE TYPO?] "Heyecanlı Halil hirkasini hirpaladi." -> unknown: ['hirkasini', 'hirpaladi']
+  [SENTENCE TYPO?] "Hamaktaki Hasan herseyden habersizdi." -> unknown: ['Hamaktaki', 'herseyden', 'habersizdi']
+  [SENTENCE TYPO?] "Hakim hileci haydutlarin hepsini hapsetti." -> unknown: ['haydutlarin', 'hapsetti']
+  [SENTENCE TYPO?] "Hizmetliler havasız hangari hizla havalandirdilar." -> unknown: ['Hizmetliler', 'hangari', 'hizla', 'havalandirdilar']
+  [SENTENCE TYPO?] "Hekimler, hemsireler ve hastabakicilar hastanedeydi." -> unknown: ['Hekimler', 'hemsireler', 'hastabakicilar', 'hastanedeydi']
+  [SENTENCE TYPO?] "Nahit tenhada horluyordu." -> unknown: ['Nahit', 'tenhada']
+  [SENTENCE TYPO?] "Pahalı Mücevher sahteymis." -> unknown: ['sahteymis']
+  [STUCK APOSTROPHE] "Sabiha'nin anahtari siyahti." -> match: Sabiha'nin
+  [SENTENCE TYPO?] "Sabiha'nin anahtari siyahti." -> unknown: ['anahtari', 'siyahti']
+  [SENTENCE TYPO?] "Baharatlı yahni muhtesemdi." -> unknown: ['muhtesemdi']
+  [SENTENCE TYPO?] "Bahcedeki kahvaltı harikaydi." -> unknown: ['Bahcedeki', 'harikaydi']
+  [SENTENCE TYPO?] "Baharda havalar hep ferahtir." -> unknown: ['ferahtir']
+  [SENTENCE TYPO?] "Sehpayi tahtakurusu mahvetmiş." -> unknown: ['Sehpayi', 'tahtakurusu']
+  [SENTENCE TYPO?] "Saliha Taha'ya ehliyetini hatirlatti." -> unknown: ['hatirlatti']
+  [SENTENCE TYPO?] "Bahcivanin tohumlari bahcedeydi." -> unknown: ['Bahcivanin', 'tohumlari', 'bahcedeydi']
+  [SENTENCE TYPO?] "ihtiyar hokkabazin hikayesi tuhaft." -> unknown: ['hokkabazin', 'tuhaft']
+  [SENTENCE TYPO?] "Sahandaki lahana Serhat'in hakkidir." -> unknown: ['Sahandaki', 'hakkidir']
+  [SENTENCE TYPO?] "Sihirli ejderhanin hikayesi heyecanliydi." -> unknown: ['ejderhanin', 'heyecanliydi']
+  [SENTENCE TYPO?] "Sihirbazin kahkahasi hepimizi rahatlatti." -> unknown: ['Sihirbazin', 'kahkahasi', 'rahatlatti']
+  [SENTENCE TYPO?] "Ahmet yemekhanede kahvaltı hazirladi." -> unknown: ['hazirladi']
+
+==================== STAGE 14: /ç/ (sound_ç) ====================
+  [wordsBeginning] Ving: no_ç, not_in_dict
+  [wordsBeginning] Hing: no_ç, not_in_dict
+  [wordsBeginning] Ding: no_ç
+  [wordsBeginning] Tung: no_ç
+  [wordsBeginning] Cigkofte: no_ç, not_in_dict
+  [words1Syllable] Ving: no_ç, not_in_dict
+  [words1Syllable] Hing: no_ç, not_in_dict
+  [words1Syllable] Ding: no_ç
+  [words1Syllable] Tung: no_ç
+  [words3Syllables] Cigkofte: no_ç, not_in_dict
+  [PHRASE TYPO?] "Cayirdaki çimen" -> unknown: ['Cayirdaki']
+  [PHRASE TYPO?] "Caydanliktaki çay" -> unknown: ['Caydanliktaki']
+  [PHRASE TYPO?] "Sağ fircas" -> unknown: ['fircas']
+  [PHRASE TYPO?] "Mızıkçı Tugce" -> unknown: ['Tugce']
+  [PHRASE TYPO?] "Palyaconun sacl" -> unknown: ['Palyaconun', 'sacl']
+  [SENTENCE TYPO?] "Çilekler çürük çıktı." -> unknown: ['Çilekler']
+  [SENTENCE TYPO?] "Çukur ganak gatladi." -> unknown: ['ganak', 'gatladi']
+  [SENTENCE TYPO?] "Çekiçle civiyi caktim." -> unknown: ['civiyi', 'caktim']
+  [SENTENCE TYPO?] "Çiftçi ciftlikte calisiyor." -> unknown: ['ciftlikte', 'calisiyor']
+  [SENTENCE TYPO?] "Carsida cantam galindi." -> unknown: ['Carsida', 'cantam', 'galindi']
+  [SENTENCE TYPO?] "Çetin camasirlari calkaladi." -> unknown: ['camasirlari', 'calkaladi']
+  [SENTENCE TYPO?] "Cicekcideki cicekler cogaldi." -> unknown: ['Cicekcideki', 'cicekler', 'cogaldi']
+  [SENTENCE TYPO?] "Cantasindaki çakmağı cakti." -> unknown: ['Cantasindaki', 'cakti']
+  [SENTENCE TYPO?] "Çağla çocuğun çorabını gekti." -> unknown: ['gekti']
+  [SENTENCE TYPO?] "Camasirin gamurunu gitiledim." -> unknown: ['Camasirin', 'gamurunu', 'gitiledim']
+  [STUCK APOSTROPHE] "Çalışkan Çağdaş Çiğdem'icalistirdl." -> match: Çiğdem'icalistirdl
+  [SENTENCE TYPO?] "Çöpçü copleri carsidan çuvalla cgikard." -> unknown: ['copleri', 'carsidan', 'cgikard']
+  [SENTENCE TYPO?] "Cikolatalar çocuğun gekmecesinden çıktı." -> unknown: ['Cikolatalar', 'gekmecesinden']
+  [SENTENCE TYPO?] "Suç lu bekçi kacti." -> unknown: ['kacti']
+  [SENTENCE TYPO?] "Burç in kraliçe secildi." -> unknown: ['secildi']
+  [SENTENCE TYPO?] "Orc un üç üşü kaç irdi." -> unknown: ['Orc', 'irdi']
+  [SENTENCE TYPO?] "Sağ ina çekirge sıç Radi." -> unknown: ['ina']
+  [SENTENCE TYPO?] "inatçı kecicayira kact." -> unknown: ['kecicayira', 'kact']
+  [SENTENCE TYPO?] "Üç serçe agactan üç tu." -> unknown: ['agactan']
+  [SENTENCE TYPO?] "Seçil Açelya'ya borç landi." -> unknown: ['landi']
+  [SENTENCE TYPO?] "Palyaço üç urtma üç Urdu." -> unknown: ['urtma']
+  [SENTENCE TYPO?] "Ayca üç akta hiç iç ki icmedi." -> unknown: ['akta', 'icmedi']
+  [SENTENCE TYPO?] "Bahc edeki ağaç lar cic ek aç ti." -> unknown: ['Bahc', 'edeki', 'cic']
+  [SENTENCE TYPO?] "Sevinç reçelli pogacalarl secti." -> unknown: ['pogacalarl', 'secti']
+  [SENTENCE TYPO?] "Bahc ivan bahc edeki cimleri bicti." -> unknown: ['Bahc', 'bahc', 'edeki', 'cimleri', 'bicti']
+  [SENTENCE TYPO?] "Tarc inli iç ecekler fic inin iç indeydi." -> unknown: ['Tarc', 'ecekler', 'fic', 'indeydi']
+  [SENTENCE TYPO?] "Kuc UK gocuk recetedeki ilaclari iç ti." -> unknown: ['Kuc', 'recetedeki', 'ilaclari']
+  [STUCK APOSTROPHE] "Fenerbahce'nin maç ikac kaç sonuç landi?" -> match: Fenerbahce'nin
+  [SENTENCE TYPO?] "Fenerbahce'nin maç ikac kaç sonuç landi?" -> unknown: ["Fenerbahce'nin", 'ikac', 'landi']
+
+==================== STAGE 15: /c/ (sound_c) ====================
+  [wordsBeginning] Çam: no_c
+  [wordsBeginning] Çan: no_c
+  [words1Syllable] Çam: no_c
+  [words1Syllable] Çan: no_c
+  [PHRASE TYPO?] "Cırt cirtl cep" -> unknown: ['cirtl']
+  [PHRASE TYPO?] "Cadinin cuppesi" -> unknown: ['Cadinin', 'cuppesi']
+  [PHRASE TYPO?] "Cumhuriyet coskusu" -> unknown: ['coskusu']
+  [PHRASE TYPO?] "incir agacl" -> unknown: ['agacl']
+  [PHRASE TYPO?] "Birinci yarismacl" -> unknown: ['yarismacl']
+  [PHRASE TYPO?] "Ocaktaki tencere" -> unknown: ['Ocaktaki']
+  [SENTENCE TYPO?] "Çan'la Cem cesurdur." -> unknown: ['cesurdur']
+  [SENTENCE TYPO?] "Cici Cemre cıvıl cıvıldı." -> unknown: ['cıvıldı']
+  [SENTENCE TYPO?] "Ceren cumartesi costu." -> unknown: ['costu']
+  [SENTENCE TYPO?] "Cihan cezveleri cilaladi." -> unknown: ['cezveleri', 'cilaladi']
+  [SENTENCE TYPO?] "Camdan cama cevapladl." -> unknown: ['cevapladl']
+  [SENTENCE TYPO?] "Ceketinin cebi cirtcirtlydl." -> unknown: ['cirtcirtlydl']
+  [SENTENCE TYPO?] "Cimcime Canan cesaretlidir." -> unknown: ['cesaretlidir']
+  [SENTENCE TYPO?] "Civardaki caddeler canlandi." -> unknown: ['caddeler', 'canlandi']
+  [SENTENCE TYPO?] "Civcivler civarda civildiyordu." -> unknown: ['Civcivler', 'civildiyordu']
+  [SENTENCE TYPO?] "Cırlayan circirbocegi canliydi." -> unknown: ['circirbocegi', 'canliydi']
+  [SENTENCE TYPO?] "Cambaz cafcaflı caddeyi costurdu." -> unknown: ['costurdu']
+  [SENTENCE TYPO?] "Ceyda cumhuriyet coskusuyla costu." -> unknown: ['coskusuyla', 'costu']
+  [SENTENCE TYPO?] "Cenkin cebindeki cetvel Cemilinmis." -> unknown: ['Cenkin', 'Cemilinmis']
+  [STUCK APOSTROPHE] "Cevizler Cansu'nun ceketinin cebinde." -> match: Cansu'nun
+  [SENTENCE TYPO?] "Cevizler Cansu'nun ceketinin cebinde." -> unknown: ['Cevizler']
+  [SENTENCE TYPO?] "Cengiz camcinin camlarini cilalamadigindan cezaliydi." -> unknown: ['camcinin', 'camlarini', 'cilalamadigindan', 'cezaliydi']
+  [STUCK APOSTROPHE] "Ece'nin çanı acidi." -> match: Ece'nin
+  [SENTENCE TYPO?] "Ece'nin çanı acidi." -> unknown: ['acidi']
+  [SENTENCE TYPO?] "Çocuk cekmeceyi açacak." -> unknown: ['cekmeceyi']
+  [SENTENCE TYPO?] "Boyacı bacayi boyayacak." -> unknown: ['bacayi']
+  [SENTENCE TYPO?] "Vicdanlı amca çocuğa acidi." -> unknown: ['acidi']
+  [SENTENCE TYPO?] "Eczacinin ilacı eczanededir." -> unknown: ['Eczacinin', 'eczanededir']
+  [STUCK APOSTROPHE] "inci'nin bacağı karincalandi." -> match: inci'nin
+  [SENTENCE TYPO?] "inci'nin bacağı karincalandi." -> unknown: ['karincalandi']
+  [SENTENCE TYPO?] "Nurcan amcasini arayacak." -> unknown: ['amcasini']
+  [SENTENCE TYPO?] "Naci amcanin lahmacunu acıydı." -> unknown: ['amcanin', 'lahmacunu']
+  [SENTENCE TYPO?] "Acayip bilmeceyi cevaplayamadi." -> unknown: ['bilmeceyi', 'cevaplayamadi']
+
+==================== STAGE 16: /m/ (sound_m) ====================
+  [wordsBeginning] Aç: no_m
+  [wordsBeginning] Yağ: no_m
+  [wordsBeginning] Mur: not_in_dict
+  [wordsBeginning] Ke: no_m
+  [wordsBeginning] Mik: not_in_dict
+  [wordsMiddle] Temizz: not_in_dict
+  [wordsEnding] Pantomim: not_in_dict
+  [words1Syllable] Aç: no_m
+  [words1Syllable] Yağ: no_m
+  [words1Syllable] Mur: not_in_dict
+  [words1Syllable] Ke: no_m
+  [words1Syllable] Mik: not_in_dict
+  [words2Syllables] Temizz: not_in_dict
+  [words3Syllables] Pantomim: not_in_dict
+  [PHRASE TYPO?] "Mutfak masasl" -> unknown: ['masasl']
+  [PHRASE TYPO?] "Metrodaki mizikacl" -> unknown: ['Metrodaki', 'mizikacl']
+  [PHRASE TYPO?] "Muzisyenin mandolini" -> unknown: ['Muzisyenin', 'mandolini']
+  [PHRASE TYPO?] "Çam ormani" -> unknown: ['ormani']
+  [PHRASE TYPO?] "Susamll simit" -> unknown: ['Susamll']
+  [PHRASE TYPO?] "Temmuz aksaml" -> unknown: ['aksaml']
+  [STUCK APOSTROPHE] "Melda'nin maskesi matraktı." -> match: Melda'nin
+  [SENTENCE TYPO?] "Melda'nin maskesi matraktı." -> unknown: ["Melda'nin", 'matraktı']
+  [STUCK APOSTROPHE] "Masadaki makas Mert'inmiş." -> match: Mert'inmiş
+  [SENTENCE TYPO?] "Meltem'in montu masadaydi." -> unknown: ['masadaydi']
+  [SENTENCE TYPO?] "Minderdeki minikler meshurdur." -> unknown: ['Minderdeki', 'minikler', 'meshurdur']
+  [SENTENCE TYPO?] "Meydandaki menekseler mordu." -> unknown: ['Meydandaki', 'menekseler', 'mordu']
+  [SENTENCE TYPO?] "Mehmet'in mendili mutfaktaymis." -> unknown: ['mutfaktaymis']
+  [SENTENCE TYPO?] "Mikroskop meraklı mucidinmis." -> unknown: ['mucidinmis']
+  [SENTENCE TYPO?] "Mehtap mesleğinden memnundu." -> unknown: ['memnundu']
+  [STUCK APOSTROPHE] "Miray'nmuhallebisi mukemmeldir." -> match: Miray'nmuhallebisi
+  [SENTENCE TYPO?] "Miray'nmuhallebisi mukemmeldir." -> unknown: ['mukemmeldir']
+  [SENTENCE TYPO?] "Mutfağımızın masasi memerdendir." -> unknown: ['masasi', 'memerdendir']
+  [SENTENCE TYPO?] "Makarnacinin makarnalari mantarliydi." -> unknown: ['Makarnacinin', 'makarnalari', 'mantarliydi']
+  [SENTENCE TYPO?] "Mutfaktaki masanin musambasi maviydi." -> unknown: ['masanin', 'musambasi', 'maviydi']
+  [SENTENCE TYPO?] "Minik Mırnav mutfak masasinda mirildandi." -> unknown: ['masasinda', 'mirildandi']
+  [SENTENCE TYPO?] "Mahallemizdeki manavinin meyveleri meshurdur." -> unknown: ['Mahallemizdeki', 'manavinin', 'meshurdur']
+  [SENTENCE TYPO?] "Sevimli Selim emziğini emdi." -> unknown: ['emdi']
+  [STUCK APOSTROPHE] "Benim kedimin ismi Lokum'dur." -> match: Lokum'dur
+  [SENTENCE TYPO?] "Benim kedimin ismi Lokum'dur." -> unknown: ['kedimin']
+  [SENTENCE TYPO?] "Elmas madenini işletmek masraflydi." -> unknown: ['madenini', 'masraflydi']
+  [SENTENCE TYPO?] "Masamdaki tükenmez kalemler kimin?" -> unknown: ['Masamdaki']
+  [SENTENCE TYPO?] "Adam kamyonunu kirmiziya boyamış." -> unknown: ['kirmiziya']
+  [SENTENCE TYPO?] "Kumarbaz adam tembellikten sismanladi." -> unknown: ['tembellikten', 'sismanladi']
+  [SENTENCE TYPO?] "Meyve suyumu kamisla icmeye bayilirim." -> unknown: ['suyumu', 'kamisla', 'icmeye', 'bayilirim']
+  [SENTENCE TYPO?] "Kemal'in mahallesindeki cimenler temizdi." -> unknown: ['mahallesindeki', 'cimenler']
+  [SENTENCE TYPO?] "Ormanimizdaki camlar müthiş kokmaktadir." -> unknown: ['Ormanimizdaki', 'kokmaktadir']
+  [SENTENCE TYPO?] "Dilimledigin salamlari makarnaya katmalisin." -> unknown: ['Dilimledigin', 'salamlari', 'makarnaya', 'katmalisin']
+  [SENTENCE TYPO?] "Geminin kamarasindan manzarayl seyrettim." -> unknown: ['kamarasindan', 'manzarayl']
+  [SENTENCE TYPO?] "Annem yemediğim kuruyemisleri cantamdan çıkarmış." -> unknown: ['kuruyemisleri', 'cantamdan']
+  [SENTENCE TYPO?] "Komik adam kambur numarasi yapmaya calismaktaydi." -> unknown: ['numarasi', 'calismaktaydi']
+  [SENTENCE TYPO?] "Çamurlanan ustumuzu samanliktaki samanlarla temizledik." -> unknown: ['ustumuzu', 'samanliktaki', 'samanlarla']
+
+==================== STAGE 17: /n/ (sound_n) ====================
+  [wordsMiddle] Ispanak: not_in_dict
+  [wordsEnding] İnnin: not_in_dict
+  [words2Syllables] İnnin: not_in_dict
+  [words3Syllables] Ispanak: not_in_dict
+  [PHRASE TYPO?] "Nişan nezlesi" -> unknown: ['nezlesi']
+  [PHRASE TYPO?] "Nehirdeki nilüfer" -> unknown: ['Nehirdeki']
+  [PHRASE TYPO?] "Ninemin nasihatleri" -> unknown: ['nasihatleri']
+  [PHRASE TYPO?] "Sineğin kanadi" -> unknown: ['kanadi']
+  [PHRASE TYPO?] "Esnaf lokantasi" -> unknown: ['lokantasi']
+  [PHRASE TYPO?] "Kapinin mandalı" -> unknown: ['Kapinin']
+  [PHRASE TYPO?] "Kadinin eldiveni" -> unknown: ['Kadinin']
+  [PHRASE TYPO?] "Lahana tenceresi" -> unknown: ['tenceresi']
+  [PHRASE TYPO?] "Bebeğin biberonu" -> unknown: ['biberonu']
+  [PHRASE TYPO?] "Gergedanin boynuzu" -> unknown: ['Gergedanin']
+  [PHRASE TYPO?] "Lunaparktaki salıncak" -> unknown: ['Lunaparktaki']
+  [SENTENCE TYPO?] "Naneli nohut nefisti." -> unknown: ['nefisti']
+  [SENTENCE TYPO?] "Narin nilüfer nehirdeydi." -> unknown: ['nehirdeydi']
+  [SENTENCE TYPO?] "Nohut nerede nemlendi?" -> unknown: ['nemlendi']
+  [SENTENCE TYPO?] "Nezih nisaninda neseliydi." -> unknown: ['nisaninda', 'neseliydi']
+  [SENTENCE TYPO?] "Neriman'in nisanlisi nankordu." -> unknown: ['nisanlisi', 'nankordu']
+  [STUCK APOSTROPHE] "Nazan'nnevresimleri nemliydi." -> match: Nazan'nnevresimleri
+  [SENTENCE TYPO?] "Nazan'nnevresimleri nemliydi." -> unknown: ['nemliydi']
+  [STUCK APOSTROPHE] "Nil Nehri'ndeki niluferler nefisti." -> match: Nehri'ndeki
+  [SENTENCE TYPO?] "Nil Nehri'ndeki niluferler nefisti." -> unknown: ['niluferler', 'nefisti']
+  [SENTENCE TYPO?] "Narin Nedime nikahta nazlandi." -> unknown: ['nikahta', 'nazlandi']
+  [SENTENCE TYPO?] "Nöbetçi Naim nobette neseliydi.." -> unknown: ['nobette', 'neseliydi']
+  [SENTENCE TYPO?] "Nihan'in nikahi neseyle noktalandi." -> unknown: ['nikahi', 'neseyle', 'noktalandi']
+  [SENTENCE TYPO?] "Nalan'in notlarinin neticesi negatifti." -> unknown: ['notlarinin', 'neticesi', 'negatifti']
+  [SENTENCE TYPO?] "Nazarlıklı nevresimin numarasi neydi?" -> unknown: ['nevresimin', 'numarasi']
+  [SENTENCE TYPO?] "Neriman'la Naim Niğde'de nisanlandilar." -> unknown: ['nisanlandilar']
+  [SENTENCE TYPO?] "Nazlı nakarattaki notalari numaralandirdi." -> unknown: ['nakarattaki', 'notalari', 'numaralandirdi']
+  [STUCK APOSTROPHE] "Nakliyeci Nevşehir'den Niğde'ye naylonlari nakletti." -> match: Nevşehir'den
+  [SENTENCE TYPO?] "Nakliyeci Nevşehir'den Niğde'ye naylonlari nakletti." -> unknown: ['naylonlari', 'nakletti']
+  [SENTENCE TYPO?] "Kadinin eldiveni delindi." -> unknown: ['Kadinin', 'delindi']
+  [SENTENCE TYPO?] "Lunaparkta salıncağa bindik." -> unknown: ['Lunaparkta']
+  [SENTENCE TYPO?] "Kumanda pencerenin onundeydi." -> unknown: ['onundeydi']
+  [SENTENCE TYPO?] "Aslan, yavrularinin yanina uzandi." -> unknown: ['yavrularinin', 'yanina', 'uzandi']
+  [SENTENCE TYPO?] "Gezinti teknesiyle denizde dolandi." -> unknown: ['teknesiyle', 'dolandi']
+  [SENTENCE TYPO?] "Kenan cantasini dukkanda unuttu." -> unknown: ['cantasini', 'dukkanda']
+  [SENTENCE TYPO?] "Koyunlar cimenlerin tadını begendi." -> unknown: ['cimenlerin', 'begendi']
+  [SENTENCE TYPO?] "Korsan kancasiyla sandala tutundu." -> unknown: ['kancasiyla', 'sandala', 'tutundu']
+  [SENTENCE TYPO?] "Ersan arkadasini kuzeniyle tanistirdi." -> unknown: ['arkadasini', 'kuzeniyle', 'tanistirdi']
+  [SENTENCE TYPO?] "Gelin dugunde tanidiklariyla eglendi." -> unknown: ['dugunde', 'tanidiklariyla', 'eglendi']
+  [SENTENCE TYPO?] "Sandiktan çıkan altinlari görünce sevindi." -> unknown: ['Sandiktan', 'altinlari']
+  [SENTENCE TYPO?] "Geminin yaninda yüzen balina kocamand." -> unknown: ['kocamand']
+  [SENTENCE TYPO?] "Bahçıvan tunelin sonunda kamyondan indi." -> unknown: ['tunelin']
+  [SENTENCE TYPO?] "Annem tavsanin yanağına burnuyla dokundu." -> unknown: ['tavsanin']
+  [SENTENCE TYPO?] "Oyuncu penguen kayanin arkasina saklandl." -> unknown: ['kayanin', 'arkasina', 'saklandl']
+
+==================== STAGE 18: /l/ (sound_l) ====================
+  [PHRASE TYPO?] "Bavulun kilidi" -> unknown: ['Bavulun']
+  [PHRASE TYPO?] "Mahalle bakkali" -> unknown: ['bakkali']
+  [SENTENCE TYPO?] "Lila lamba lekelendi." -> unknown: ['lekelendi']
+  [STUCK APOSTROPHE] "Lütfü'nun lisesi Laleli'de." -> match: Lütfü'nun
+  [SENTENCE TYPO?] "Lütfü'nun lisesi Laleli'de." -> unknown: ["Lütfü'nun"]
+  [STUCK APOSTROPHE] "Levent'elazimlik lazım." -> match: Levent'elazimlik
+  [SENTENCE TYPO?] "Legeni lavaboda lifledim." -> unknown: ['Legeni', 'lifledim']
+  [SENTENCE TYPO?] "Lokantanin lambasi lostu." -> unknown: ['Lokantanin', 'lambasi', 'lostu']
+  [SENTENCE TYPO?] "Lüks limuzin luzumsuzdu." -> unknown: ['luzumsuzdu']
+  [STUCK APOSTROPHE] "Lale'nin lokumu lavantalı." -> match: Lale'nin
+  [SENTENCE TYPO?] "Lale'nin lokumu lavantalı." -> unknown: ['lokumu']
+  [SENTENCE TYPO?] "Lokomotifteki lamba lekeli." -> unknown: ['Lokomotifteki']
+  [SENTENCE TYPO?] "Leman'in limonatasi lezizdi." -> unknown: ['limonatasi', 'lezizdi']
+  [SENTENCE TYPO?] "Lahmacun limonla lezzetlendi." -> unknown: ['lezzetlendi']
+  [SENTENCE TYPO?] "Latif'in lahanasina limon lazım." -> unknown: ['lahanasina']
+  [STUCK APOSTROPHE] "Laleli'deki lüks lokantanin lokumu limonlu." -> match: Laleli'deki
+  [SENTENCE TYPO?] "Laleli'deki lüks lokantanin lokumu limonlu." -> unknown: ['lokantanin', 'lokumu']
+  [SENTENCE TYPO?] "Kelebek hizla kanatlandi.." -> unknown: ['hizla', 'kanatlandi']
+  [SENTENCE TYPO?] "Bakkaldan leblebi aldim." -> unknown: ['Bakkaldan']
+  [SENTENCE TYPO?] "Elini mendille temizledi." -> unknown: ['mendille']
+  [SENTENCE TYPO?] "Valizde altı gözlük bulundu." -> unknown: ['Valizde']
+  [SENTENCE TYPO?] "Ali ilaç alıp koltukta dinlendi." -> unknown: ['dinlendi']
+  [SENTENCE TYPO?] "Okul önlüğümü halam almisti." -> unknown: ['almisti']
+  [SENTENCE TYPO?] "Kelebek desenli elbise guzeldi." -> unknown: ['guzeldi']
+  [STUCK APOSTROPHE] "Ali'nin eline çilekli çikolata bulasti." -> match: Ali'nin
+  [SENTENCE TYPO?] "Ali'nin eline çilekli çikolata bulasti." -> unknown: ['bulasti']
+  [SENTENCE TYPO?] "Elbisem kola dökülünce lekelendi." -> unknown: ['lekelendi']
+  [STUCK APOSTROPHE] "Ela'nin elbisesinde şeftali lekesi kaldi." -> match: Ela'nin
+  [SENTENCE TYPO?] "Ela'nin elbisesinde şeftali lekesi kaldi." -> unknown: ['elbisesinde']
+  [SENTENCE TYPO?] "Melis desenli kalemini koltuğun altinda buldu." -> unknown: ['Melis']
+  [STUCK APOSTROPHE] "Tatilde babamla İstanbul'ubisikletle dolaşmak guzeldi." -> match: İstanbul'ubisikletle
+  [SENTENCE TYPO?] "Tatilde babamla İstanbul'ubisikletle dolaşmak guzeldi." -> unknown: ["İstanbul'ubisikletle", 'guzeldi']
+
+==================== STAGE 19: /r/ (sound_r) ====================
+  [wordsEnding] Pîr: not_in_dict
+  [PHRASE TYPO?] "Rujun rengi" -> unknown: ['Rujun']
+  [PHRASE TYPO?] "Rıza'nın raketi" -> unknown: ['raketi']
+  [PHRASE TYPO?] "Reisin romanı" -> unknown: ['Reisin']
+  [PHRASE TYPO?] "Recep'in ranzası" -> unknown: ['ranzası']
+  [PHRASE TYPO?] "Rehberin raporu" -> unknown: ['Rehberin']
+  [PHRASE TYPO?] "Ressamın rozeti" -> unknown: ['Ressamın']
+  [SENTENCE TYPO?] "Reha ruhen rahatsızdı." -> unknown: ['rahatsızdı']
+  [SENTENCE TYPO?] "Rıza revirde refakatçidir." -> unknown: ['refakatçidir']
+  [STUCK APOSTROPHE] "Rana'nın ruju rengarenk." -> match: Rana'nın
+  [SENTENCE TYPO?] "Rana'nın ruju rengarenk." -> unknown: ['ruju']
+  [STUCK APOSTROPHE] "Reha'nın ranzası renksizdi." -> match: Reha'nın
+  [SENTENCE TYPO?] "Reha'nın ranzası renksizdi." -> unknown: ['ranzası', 'renksizdi']
+  [SENTENCE TYPO?] "Ressam romanı resmetti." -> unknown: ['resmetti']
+  [SENTENCE TYPO?] "Revirdeki ranza rahatmış." -> unknown: ['Revirdeki', 'rahatmış']
+  [SENTENCE TYPO?] "Rus restoranı ruhsatsızmış." -> unknown: ['ruhsatsızmış']
+  [SENTENCE TYPO?] "Fenerbahçe rakibini korkuttu." -> unknown: ['Fenerbahçe']
+  [SENTENCE TYPO?] "Berna revire merhemi götürdü." -> unknown: ['merhemi']
+  [SENTENCE TYPO?] "Karateci boksöre karsı cesurdu." -> unknown: ['boksöre']
+
+==================== STAGE 20: /y/ (sound_y) ====================
+  [wordsBeginning] Mid: no_y, not_in_dict
+  [wordsBeginning] Yetmisbes: not_in_dict
+  [wordsEnding] Danistay: not_in_dict
+  [wordsEnding] Sayistay: not_in_dict
+  [words1Syllable] Mid: no_y, not_in_dict
+  [words3Syllables] Danistay: not_in_dict
+  [words3Syllables] Sayistay: not_in_dict
+  [words3Syllables] Yetmisbes: not_in_dict
+  [PHRASE TYPO?] "Yeşim'in yuzu" -> unknown: ['yuzu']
+  [PHRASE TYPO?] "Yengeç yuvasi" -> unknown: ['yuvasi']
+  [PHRASE TYPO?] "Yengemin yazisI" -> unknown: ['Yengemin', 'yazisI']
+  [PHRASE TYPO?] "Boy aynas" -> unknown: ['aynas']
+  [PHRASE TYPO?] "Koyunun tuyu" -> unknown: ['Koyunun', 'tuyu']
+  [PHRASE TYPO?] "Yüzücü mayosu" -> unknown: ['mayosu']
+  [SENTENCE TYPO?] "Yigitin yeğeni yuzbasiyd." -> unknown: ['Yigitin', 'yuzbasiyd']
+  [SENTENCE TYPO?] "Yasin yuvada yemiş yedi." -> unknown: ['yuvada']
+  [SENTENCE TYPO?] "Yeşim yeni yatağında yatt." -> unknown: ['yatt']
+  [SENTENCE TYPO?] "Yonca yaziyi yamuk yazdi." -> unknown: ['yaziyi', 'yazdi']
+  [SENTENCE TYPO?] "Yankesici yetmiş yasindaydi." -> unknown: ['yasindaydi']
+  [SENTENCE TYPO?] "Yandaki yapımcı yabanciydi." -> unknown: ['yabanciydi']
+  [SENTENCE TYPO?] "Yusuf yüzbaşı yemeğe yetisti." -> unknown: ['yetisti']
+  [SENTENCE TYPO?] "Yeşim'in yengesi yabanciydi." -> unknown: ['yengesi', 'yabanciydi']
+  [SENTENCE TYPO?] "Yunus'un Yakut yüzüğü yeniydi." -> unknown: ['yeniydi']
+  [SENTENCE TYPO?] "Yakup'un yatag yanginda yandi." -> unknown: ["Yakup'un", 'yatag', 'yanginda', 'yandi']
+  [SENTENCE TYPO?] "Yeni yonetmenin yapimi yetismedi." -> unknown: ['yonetmenin', 'yapimi', 'yetismedi']
+  [SENTENCE TYPO?] "Yağız'in yatağındaki yastık yumusakti." -> unknown: ['yumusakti']
+  [SENTENCE TYPO?] "Yeteneksiz Yaman yatakhanede yoktu." -> unknown: ['yatakhanede']
+  [SENTENCE TYPO?] "Yasemin"in yengesi Yavuz'un yatağını yaptı." -> unknown: ['yengesi']
+  [SENTENCE TYPO?] "Maya yuvada sayı saydi." -> unknown: ['yuvada', 'saydi']
+  [SENTENCE TYPO?] "Ayca yuzicu mayosunu giydi." -> unknown: ['yuzicu', 'mayosunu']
+  [SENTENCE TYPO?] "Ayşe oyuncak ayisini kaybetti." -> unknown: ['ayisini']
+  [SENTENCE TYPO?] "Duygu ve Yonca oyun oynadi." -> unknown: ['oynadi']
+  [SENTENCE TYPO?] "Büyük kaplyi beyaza boyadim." -> unknown: ['kaplyi', 'boyadim']
+  [SENTENCE TYPO?] "Ayşe hikaye yazmayi deneyecek." -> unknown: ['yazmayi']
+  [SENTENCE TYPO?] "Yiğit yüksek yamacta kayak kaydi." -> unknown: ['yamacta', 'kaydi']
+  [SENTENCE TYPO?] "Gaye kaygan yuzeyde kayak yaptı." -> unknown: ['yuzeyde']
+  [SENTENCE TYPO?] "Zayıf subayin yeni ayakkabisi siyahti." -> unknown: ['subayin', 'ayakkabisi', 'siyahti']
+  [SENTENCE TYPO?] "Boyacı büyük odayi pembeye boyadi." -> unknown: ['odayi', 'pembeye', 'boyadi']
+  [STUCK APOSTROPHE] "Beyza'nin yük kamyonunu koyu maviydi." -> match: Beyza'nin
+  [SENTENCE TYPO?] "Beyza'nin yük kamyonunu koyu maviydi." -> unknown: ['maviydi']
+  [SENTENCE TYPO?] "Yengemin yemekte giydiği kıyafet yeniydi." -> unknown: ['Yengemin', 'yeniydi']
+  [SENTENCE TYPO?] "Aydan teyzesinin yaptığı yemeği ayakta yedi." -> unknown: ['teyzesinin']
+  [SENTENCE TYPO?] "Ayhan dayanıksız binayi yıkıp yeniden yaptı." -> unknown: ['binayi']

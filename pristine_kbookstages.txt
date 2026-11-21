@@ -1,0 +1,551 @@
+final List<SoundStage> kBookStages = [
+  // ─────────────────────────────────────────────────────────────────────────
+  // 1. /p/ SESİ TEK BAŞINA (Kitap sf. 11 - 19)
+  // ─────────────────────────────────────────────────────────────────────────
+  SoundStage(
+    id: 'sound_p',
+    phoneme: '/p/',
+    soundLetter: 'P',
+    categoryTitle: 'Çift Dudak Patlamalı (Ötümsüz)',
+    emoji: '👄',
+    colorHex: 0xFFE53935,
+    articulationHint: 'Dudaklarını birbirine sıkıca bastır, havanın birikmesini sağla ve aniden "P" diyerek dudaklarını patlat!',
+    unlockedLevelIndex: 1, // Demo için ilk aşama açık
+    starsCollected: 3,
+    content: SingleSoundLevel(
+      syllables: [
+        'pı', 'pi', 'ıp', 'ip',
+        'pa', 'pe', 'ap', 'ep',
+        'po', 'pö', 'op', 'öp',
+        'pu', 'pü', 'up', 'üp',
+        'ıpı', 'ipi', 'pıp', 'pip',
+        'apa', 'epe', 'pap', 'pep',
+        'opo', 'öpö', 'pop', 'pöp',
+        'upu', 'üpü', 'pup', 'püp',
+      ],
+      wordsBeginning: [
+        'Pes', 'Pim', 'Pak', 'Pin', 'Pür', 'Pas', 'Pis', 'Pat', 'Pot', 'Pay', 'Park',
+        'Palto', 'Pide', 'Pasta', 'Patlak', 'Peynir', 'Perde', 'Pergel', 'Pilav', 'Para', 'Pizza', 'Panda', 'Pota', 'Parmak', 'Pamuk', 'Pudra', 'Paten', 'Piknik', 'Pedal', 'Polis', 'Pilot',
+        'Pencere', 'Patlıcan', 'Palmiye', 'Palyaço', 'Portakal', 'Pantolon', 'Paraşüt', 'Pastırma', 'Pastane', 'Pelerin', 'Peçete', 'Pırasa', 'Pinokyo', 'Piramit', 'Pirzola', 'Piyano', 'Poğaça', 'Porselen', 'Pusula', 'Papatya'
+      ],
+      wordsMiddle: [
+        'Sepet', 'Çapa', 'Depo', 'Hapis', 'Japon', 'Kapan', 'Köpek', 'Kupa', 'Kaplan', 'Yaprak',
+        'Rampa', 'Sehpa', 'Sopa', 'Şapka', 'Topuk', 'Vapur', 'Topaç', 'Zeplin', 'Küpe', 'Tepsi',
+        'Ahtapot', 'Apolet', 'Kelepçe', 'Apartman', 'Ispanak', 'Yapışkan', 'Kapalı', 'Hoparlör', 'Şempanze', 'Kapüşon', 'Kerpeten', 'Diploma', 'Leopar', 'Opera', 'Öpücük', 'Papağan', 'Süpürge', 'Şampiyon', 'Şampuan', 'Kapuska'
+      ],
+      wordsEnding: [
+        'Bip', 'Çap', 'Çip', 'Çöp', 'Dip', 'Hap', 'Hop', 'Kep', 'Küp', 'Turp', 'Çırp', 'Sarp', 'Çarp', 'Kalp',
+        'Akrep', 'Cevap', 'Çorap', 'Dolap', 'Garip', 'Hesap', 'Kalıp', 'Kebap', 'Kulüp', 'Mağlup', 'Maytap', 'Kitap', 'Salep', 'Sahip', 'Pikap', 'Sincap', 'Şarap', 'Şurup', 'Mektup', 'Ketçap',
+        'Antilop', 'Baroskop', 'Gardırop', 'Lolipop', 'Mikroskop', 'Mürekkep', 'Çinekop', 'Periskop', 'Teleskop'
+      ],
+      phrases: [
+        'Pullu palto', 'Pembe pike', 'Peynirli pide', 'Plastik poşet', 'Pilavlık pirinç',
+        'Pahalı pabuç', 'Pembe panter', 'Pedallı piyano', 'Patlıcanlı pilav', 'Püsküllü perde',
+        'Patates püresi', 'Portakallı pasta', 'Pazartesi pazarı', 'Padişahın pelerini', 'Palyaçonun pantolonu',
+        'Kalpli şapka', 'Kayıp kitap', 'Kapalı kapı', 'Zıplayan top', 'Kaptan pilot',
+        'Piknik sepeti', 'Polis köpeği', 'Topal sincap', 'Hesaplı kasap', 'Kaplama küpe',
+        'Kapüşonlu palto', 'Ponponlu çorap', 'Süpürgenin sapı', 'Kepek şampuanı', 'Şampiyonun kupası'
+      ],
+      sentences: [
+        'Pelin\'in perdeleri püsküllü.',
+        'Polat pazartesi Paris\'teydi.',
+        'Pencerenin pervazı pislenmiş.',
+        'Patatesçi patatesleri paketledi.',
+        'Patlıcanlı pirinç pilavı pişirelim.',
+        'Postacının pantolonu poşetteymiş.',
+        'Pidecideki peynirli pide pahalıydı.',
+        'Pizzacı pizza pişirmekten pişmandı.',
+        'Palyaçonun pahalı pabuçları pulluydu.',
+        'Prensesin pırlantası pırıl pırıl parlıyordu.',
+        'Penceredeki papağan perdeyi parçaladı.',
+        'Pelin peynirli poğaçayı Pervin\'le paylaştı.',
+        'Pazarlamacı Pervin pırıltılı penyeleri pazarladı.',
+        'Perşembe pazarındaki pazarcı pırasaları poşetledi.',
+        'Pamuklu pazen pijamasının pantolonunu pembeydi.',
+        'Recep İpek\'i öptü.',
+        'Serpil ıspanak pişirdi.',
+        'Serap yaprakları süpürdü.',
+        'Dolaptaki çorapları toparladım.',
+        'Parktaki köpek plastik topu kaptı.'
+      ],
+      storyTitle: 'Pazar Sabahı ve Kırpık',
+      storyContent:
+          'Pazar sabahları köpeğim Kırpık sayesinde erkenden kalkarım. O benim yanıma gelip yanaklarımı yalar ve ben şıp diye gözümü açıveririm. Kahvaltı için birlikte krep yapıp tepsiye koyarız. Yanına güzel bir peynir tabağı ve portakal suyuyla kahvaltımız hazır olur. Kahvaltımızı yapıp topladıktan sonra pazar yürüyüşümüzü yapmak üzere Pendik\'teki piknik alanına gideriz. Yürüyüşün ardından Kırpık ve ben, arkadaşım Poyraz\'la buluşup pinpon oynarız. Kırpık kayıp topları bulma konusunda asla pes etmez. Bu da bizim işimizi pek kolaylaştırır. Pilimiz bitinceye kadar orada kalıp sonrasında soluğu Pastacı Pelin\'in pastanesinde alırız. Oraya her pazar kalpli pasta yemeye gideriz. Pelin\'in Pastanesi\'ndeki pikapta plak çalar ve enerji depolarız.\n\nPastacı Pelin\'in pastanesinin bir yanında pideci diğer yanında da kebapçı vardır. Buralara uğramadan doğrudan eve gitmek acayip bir irade gerektirir. Bazen de pastaneden çıkışta doğrudan karşıdaki kitapçıya gidebilirsek kitaplar sayesinde pideler ve kebapları düşünmekten kurtulabiliriz. Eve vardığımızda kapıyı bacayı kapatıp perdeleri çekince, artık yorgunluktan bitap bir halde pazar dinlencesini bitirmiş oluruz.',
+    ),
+  ),
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // 2. /b/ SESİ TEK BAŞINA (Kitap sf. 20 - 27)
+  // ─────────────────────────────────────────────────────────────────────────
+  SoundStage(
+    id: 'sound_b',
+    phoneme: '/b/',
+    soundLetter: 'B',
+    categoryTitle: 'Çift Dudak Patlamalı (Ötümlü)',
+    emoji: '🎈',
+    colorHex: 0xFF00897B,
+    articulationHint: 'Dudaklarını birbirine kapatırken ses tellerini titreştir, ardından dudaklarını aralayarak "B" sesini ver!',
+    unlockedLevelIndex: 0,
+    starsCollected: 0,
+    content: SingleSoundLevel(
+      syllables: [
+        'bı', 'bi', 'ba', 'be',
+        'bo', 'bö', 'bu', 'bü',
+        'ıbı', 'ibi', 'aba', 'ebe',
+        'obo', 'öbö', 'ubu', 'übü',
+        'bıbı', 'bibi', 'baba', 'bebe',
+        'bobo', 'böbö', 'bubu', 'bübü',
+      ],
+      wordsBeginning: [
+        'Bağ', 'Bak', 'Bal', 'Bit', 'Biz', 'Bol', 'Boş', 'Bot', 'Boy', 'Böl', 'Bul', 'But', 'Buz',
+        'Balık', 'Balkon', 'Bardak', 'Bıçak', 'Bahçe', 'Balon', 'Bavul', 'Bayrak', 'Burun', 'Böcek', 'Bilet', 'Bıyık', 'Bacak', 'Bulut', 'Boncuk', 'Börek', 'Bilek', 'Baca', 'Baston', 'Benzin',
+        'Bilezik', 'Bisküvi', 'Bulaşık', 'Balıkçı', 'Balina', 'Balerin', 'Bezelye', 'Büyüteç', 'Bisiklet', 'Basamak', 'Barınak', 'Bedava', 'Benzinci', 'Bulmaca', 'Bataklık', 'Bağırsak', 'Börekçi', 'Bikini', 'Baklava', 'Biberon'
+      ],
+      wordsMiddle: [
+        'Lamba', 'Çorba', 'Tablo', 'Göbek', 'Sabah', 'Zebra', 'Abla', 'Sabun', 'Tabak', 'Robot',
+        'Sebze', 'Kabuk', 'Soba', 'Albüm', 'Kebap', 'İbik', 'Pembe', 'Kibrit', 'Zımba', 'Torba',
+        'Araba', 'Kelebek', 'Abajur', 'Tabure', 'Kumbara', 'Otobüs', 'Tebeşir', 'Elbise', 'Tabela', 'Kurbağa', 'Darbuka', 'Kulübe', 'Sabunluk', 'Fabrika', 'Tabanca', 'Voleybol', 'Mobilya', 'Kaburga', 'Köstebek', 'Hamburger'
+      ],
+      wordsEnding: [
+        'Cebinde', 'Sabah', 'Harap'
+      ],
+      phrases: [
+        'Bir bahçe', 'Bol bilezik', 'Boş bavul', 'Beş bebek', 'Bordo bere',
+        'Bayat börek', 'Ballı bisküvi', 'Balıkçı bıçağı', 'Başka balerin', 'Beyaz bayrak',
+        'Büyük burunlu', 'Bozuk barbunya', 'Benim bardağım', 'Boğanın boynuzu', 'Bebeğin biberonu',
+        'Sabırlı abla', 'Kitabın kabı', 'Çabuk çorba', 'Elbise torbası', 'Sebzeli kebap',
+        'Kabarık elbise', 'Arabanın teybi', 'Fabrikanın sahibi', 'Ebru\'nun tabağı', 'Pembe kumbara',
+        'Kalabalık otobüs', 'Rutubetli kulübe', 'Abajurun kablosu', 'Yabancı voleybolcu', 'Buzdolabındaki kurabiye'
+      ],
+      sentences: [
+        'Babam bagaja baktı.',
+        'Bej bluzuma bal bulaştı.',
+        'Burak berberde bitlendi.',
+        'Bebek biberonu boşalttı.',
+        'Berrin\'in bilgisayarı bozuldu.',
+        'Boza bardaklarını bulamadık.',
+        'Bugün boşu boşuna bekledim.',
+        'Bülent Banu\'nun bisikletine bindi.',
+        'Babaannem bileziklerini bana bıraktı.',
+        'Benim bütün balıklarım birbirine benzer.',
+        'Berna bakır boncuklarını bahçede buldu.',
+        'Büyükbabam banyonun borularını boyadı.',
+        'Bahçeye boş, beyaz bir bardak bırakmışlar.',
+        'Bütün bahar boyunca başladığım boyayı bitiremedim.',
+        'Bebek beşiğinde baygın baygın uyudu.',
+        'Sabah otobüs kalabalıktı.',
+        'Sebzeli kebaba bayılırım.',
+        'Lavabodaki sabunu bitirdim.',
+        'Berberde torbasını kaybetti.',
+        'Ebru kitabı pembeye boyadı.'
+      ],
+      storyTitle: 'Babam ve Ben Bot Yolculuğunda',
+      storyContent:
+          'Babam ve ben birazdan kalkacak olan bota binmek zorundaydık. Ancak yol boyunca ardı ardına gelen şanssızlıklar bizi bezdirmişti. Önce benzinimizin bitmesi, akabinde arabanın bozulması bota yetişmemizi zorlaştırmıştı. Bu yüzden daha en başından bu yolculuk berbat bir hal almıştı. Bisikletle yolculuk beni cezbetse de babamın bacağındaki problem nedeniyle bundan vazgeçmiştik. Böylece bitmek bilmeyen kabus gibi bir bot yolculuğu başlamıştı.\n\nBir saat, iki saat, üç saat derken beş saat bitivermişti. Bu yolculuk bizi bıktırmıştı. Yolculuk boyunca bulanık bir su, berbat bir menü bizi bekliyordu. Beklemiş biber kızartması, balık buğulama ve bir de böğürtlenli bozuk bir pasta bu berbat yolculuğun tuzu biberi oldu.',
+    ),
+  ),
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // 3. /t/ SESİ TEK BAŞINA (Kitap sf. 29 - 37)
+  // ─────────────────────────────────────────────────────────────────────────
+  SoundStage(
+    id: 'sound_t',
+    phoneme: '/t/',
+    soundLetter: 'T',
+    categoryTitle: 'Diş Yuvasıl Patlamalı (Ötümsüz)',
+    emoji: '🦷',
+    colorHex: 0xFF1976D2,
+    articulationHint: 'Dilinin ucunu üst dişlerinin hemen arkasındaki diş etine (yuvasına) sıkıca daya ve havayı patlatarak "T" de!',
+    unlockedLevelIndex: 0,
+    starsCollected: 0,
+    content: SingleSoundLevel(
+      syllables: [
+        'tı', 'ti', 'ıt', 'it',
+        'ta', 'te', 'at', 'et',
+        'to', 'tö', 'ot', 'öt',
+        'tu', 'tü', 'ut', 'üt',
+        'ıtı', 'iti', 'tıt', 'tit',
+        'ata', 'ete', 'tat', 'tet',
+        'oto', 'ötö', 'tot', 'töt',
+        'utu', 'ütü', 'tut', 'tüt',
+      ],
+      wordsBeginning: [
+        'Taç', 'Tam', 'Tan', 'Tas', 'Taş', 'Tay', 'Tef', 'Tel', 'Ten', 'Ter', 'Tez', 'Tır', 'Tip', 'Turp', 'Test', 'Tayt',
+        'Tavşan', 'Tava', 'Teras', 'Tarla', 'Tenis', 'Torba', 'Tepsi', 'Tuğla', 'Tarih', 'Tasma', 'Timsah', 'Tamir', 'Tespih', 'Tepe', 'Törpü', 'Termos', 'Tablo', 'Topaç', 'Tavla', 'Traş',
+        'Tencere', 'Tabure', 'Tabanca', 'Tebeşir', 'Tarhana', 'Testere', 'Turuncu', 'Talebe', 'Tansiyon', 'Telefon', 'Tiyatro', 'Tedavi', 'Terazi', 'Tabela', 'Tercüman', 'Tereyağ', 'Tecrübe', 'Tuvalet', 'Tamirat', 'Taraftar'
+      ],
+      wordsMiddle: [
+        'Motor', 'Futbol', 'Jeton', 'Sütun', 'Panter', 'Ateş', 'Martı', 'Petrol', 'Çanta', 'Fayton', 'Pasta', 'Tartı', 'Palto', 'Tahta', 'Tatlı', 'Paten', 'Olta', 'Mantar', 'Zeytin', 'Çatı',
+        'Anahtar', 'Yumurta', 'Pantolon', 'Salata', 'Limonata', 'Domates', 'Papatya', 'Aseton', 'Otobüs', 'Dijital', 'Peçete', 'Matara', 'Gazete', 'Şeftali', 'Patates', 'Fatura', 'Pastırma', 'Uçurtma', 'Patlıcan', 'Ahtapot'
+      ],
+      wordsEnding: [
+        'Bat', 'Bit', 'Bot', 'But', 'Çit', 'Pot', 'Çat', 'Git', 'Dut', 'Jet', 'Sert', 'Şart', 'Büst', 'Dart', 'Mest', 'Set', 'Süt', 'Sat', 'Mat', 'Şut', 'Tat', 'Yat', 'Yut', 'Zıt', 'Tut', 'Hat', 'Mart', 'Sırt', 'Alt', 'Pert',
+        'Bulut', 'İcat', 'Palet', 'Gofret', 'Nohut', 'Jilet', 'Saat', 'Bilet', 'Sepet', 'Pilot', 'Anıt', 'Taşıt', 'Simit', 'Armut', 'Halat', 'Robot', 'Damat', 'Poşet', 'Yoğurt', 'Alet',
+        'Paraşüt', 'Hayalet', 'Seyahat', 'Parazit', 'Apolet', 'Ehliyet', 'Palamut', 'Marifet', 'Ziyaret', 'Dinamit', 'Nasihat', 'Adalet', 'Zarafet', 'İşaret', 'Piramit', 'Talimat', 'Labirent', 'Sefalet', 'Ziyafet', 'Marmelat'
+      ],
+      phrases: [
+        'Titiz terzi', 'Tozlu tarla', 'Tenis topu', 'Tarihi tiyatro', 'Tüylü tavşan',
+        'Tahta tabure', 'Telsiz telefon', 'Tunuslu turist', 'Temiz tencere', 'Turuncu tabela',
+        'Telefonun tuşu', 'Tahtanın tebeşiri', 'Tereyağlı tarhana', 'Tecrübeli tercüman', 'Televizyon tamircisi',
+        'Etli türlü', 'Sütlü tatlı', 'Futbol topu', 'Dantel örtü', 'Taze gofret',
+        'Penaltı atışı', 'Şeftalili turta', 'Lacivert şort', 'Yatağın altı', 'Ütülü pantolon'
+      ],
+      sentences: [
+        'Tuba tayın tüylerini taradı.',
+        'Timsah taşın tepesindeydi.',
+        'Teoman terziyi tanıyamamış.',
+        'Temel tarlanın taşlarını topladı.',
+        'Tahtanın tebeşirleri turuncuydu.',
+        'Taner terasın tentesini temizledi.',
+        'Timuçin\'in tedavisi tamamlandı.',
+        'Tarçınlı turtalar tatlı tabağındaydı.',
+        'Tayfun\'la Timur tatilde tanışmışlar.',
+        'Tülay\'ın teyzesinin tarhanası tazeydi.',
+        'Turuncu topum patladı.',
+        'Tahtanın tebeşiri bitmiş.',
+        'Metin salata tabağını taşıdı.',
+        'Tatlıcı Ümit\'in sütlacı lezzetli.',
+        'Titiz terzi pantolonları ütüledi.'
+      ],
+      storyTitle: 'Tuba\'nın Uçurtma Sevdası',
+      storyContent:
+          'Tuba haftalardır uçurtma uçurabileceği bir havayı bekliyordu. Tevfik Dede\'si pazartesi günü için ona söz vermişti. O gün kahvaltılarını erkenden yapıp tramvayla Tınaztepe\'nin eteklerine kadar gittiler. Tuba tramvaydan iner inmez sırt çantasından timsah motifli turuncu uçurtmasını çıkarttı. Burada bir taraftan rüzgar tatlı tatlı esiyor bir taraftan da güneşin ışıkları tenini ısıtıyordu. Tam da uçurtma uçurma havasıydı doğrusu. Tutku dolu bu uçurtma uçurma isteği Tuba kadar Tevfik Dede\'sini de etkiliyordu. Tevfik Dede, torunu ne isterse yerine getiriyor, birlikte o tepe senin bu tepe benim diyerek dolaşıyorlardı.',
+    ),
+  ),
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // 4. /d/ SESİ TEK BAŞINA (Kitap sf. 38 - 45)
+  // ─────────────────────────────────────────────────────────────────────────
+  SoundStage(
+    id: 'sound_d',
+    phoneme: '/d/',
+    soundLetter: 'D',
+    categoryTitle: 'Diş Yuvasıl Patlamalı (Ötümlü)',
+    emoji: '🚪',
+    colorHex: 0xFF0288D1,
+    articulationHint: 'Dilinin ucunu üst diş yuvasına dokundur, ses tellerin titresin ve güçlüce "D" de!',
+    unlockedLevelIndex: 0,
+    starsCollected: 0,
+    content: SingleSoundLevel(
+      syllables: [
+        'dı', 'di', 'ıd', 'id',
+        'da', 'de', 'ad', 'ed',
+        'do', 'dö', 'od', 'öd',
+        'du', 'dü', 'ud', 'üd',
+        'ıdı', 'idi', 'dıd', 'did',
+        'ada', 'ede', 'dad', 'ded',
+        'odo', 'ödö', 'dod', 'död',
+        'udu', 'üdü', 'dud', 'düd',
+      ],
+      wordsBeginning: [
+        'Dal', 'Dam', 'Dar', 'Dağ', 'Dans', 'Dev', 'Del', 'Dem', 'Din', 'Dik', 'Dip', 'Diz', 'Dil', 'Dol', 'Dört', 'Dert', 'Doy', 'Doz', 'Dön', 'Dök', 'Dut', 'Dul', 'Dur', 'Diş', 'Duş', 'Duy', 'Dün', 'Ders', 'Düz', 'Düş', 'Dinç', 'Dost',
+        'Dolap', 'Doktor', 'Duman', 'Delik', 'Dolma', 'Dükkan', 'Dirsek', 'Dosya', 'Düğme', 'Damla', 'Davul', 'Dayı', 'Döner', 'Defter', 'Duvar', 'Deniz', 'Diken', 'Direk', 'Dişçi', 'Damat',
+        'Dinozor', 'Domates', 'Danışma', 'Darbuka', 'Davlumbaz', 'Davulcu', 'Define', 'Değirmen', 'Deterjan', 'Dilenci', 'Daktilo', 'Dondurma', 'Düzine', 'Dönerci', 'Dakika', 'Dinamit', 'Dikkatli', 'Daire', 'Dağınık', 'Diploma'
+      ],
+      wordsMiddle: [
+        'Mandal', 'Vida', 'Adam', 'Kadın', 'Sandal', 'Bardak', 'Minder', 'Ada', 'Pide', 'Kedi', 'Bidon', 'Perde', 'Hindi', 'Mide', 'Badem', 'Çadır', 'Cüzdan', 'Hardal', 'Yıldız', 'Radyo',
+        'Çekirdek', 'Çaydanlık', 'Arkadaş', 'Eldiven', 'Karides', 'Bilardo', 'Koridor', 'Sandalet', 'Maydanoz', 'Jandarma', 'Sandalye', 'Fırıldak', 'Kaydırak', 'Hediye', 'Kumanda', 'Madalya', 'Kaldırım', 'Merdiven', 'Oduncu', 'Yıldırım'
+      ],
+      wordsEnding: [
+        'Ad', 'Ud', 'Had'
+      ],
+      phrases: [
+        'Dans dersi', 'Dolu dolap', 'Deli Davut', 'Derin deniz', 'Dağınık daire',
+        'Dönme dolap', 'Dokuz dakika', 'Dört domates', 'Dikkatsiz dişçi', 'Düğün dernek',
+        'Değerli doktor', 'Dantelli düğme', 'Damla\'nın dayısı', 'Dükkandaki dilenci', 'Düğündeki davulcu',
+        'Bordo çadır', 'Aydınlık oda', 'Bidonun dibi', 'Bademin tadı', 'Eda\'nın dedesi',
+        'Kadının eldiveni', 'Dedemin arkadaşı', 'Yerdeki kumanda', 'Caddedeki adam', 'Seda\'nın hediyesi'
+      ],
+      sentences: [
+        'Damla dikiş diker.',
+        'Dedektif dükkanı dolaştı.',
+        'Dantelli düğmeleri diktiler.',
+        'Derya dört dadı değiştirdi.',
+        'Doktorun dediklerini duydu.',
+        'Didem dans dersinde düştü.',
+        'Dam durup dururken delindi.',
+        'Dedem denizaltıyla dolaşmış.',
+        'Duru derste defterlerini düşürdü.',
+        'Dolaptaki dondurmayı döktüm.',
+        'Cevdet ödevini bitirdi.',
+        'Jandarma düdük çaldı.',
+        'Okulda fındıkla badem yedim.',
+        'Ferda\'nın hediyesini beğendim.',
+        'Vedat cüzdanını evde bulamadı.'
+      ],
+      storyTitle: 'Doruk ve Dönerci Davut Amca',
+      storyContent:
+          'Doruk okuldan çıktıktan sonra bir dönerci dükkanında çalışıyordu. Bu dükkan civardaki en tanınmış dönerci dükkanıydı. Dükkanın başında da Davut Amca vardı. Doruk\'un babası oğlunun Davut Amca\'dan dönercilik işini öğrenmesini istiyordu. Doruk ise döner yapımından çok döner yemekle meşguldü. Dönerini bitirdikten sonra dükkanın yanındaki dondurmacıdan dondurma almayı da ihmal etmezdi. Dükkandan çıkıp eve giderken denize doğru inen dar yoldan yürümeye bayılırdı.',
+    ),
+  ),
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // 5. /k/ SESİ TEK BAŞINA (Kitap sf. 47 - 55)
+  // ─────────────────────────────────────────────────────────────────────────
+  SoundStage(
+    id: 'sound_k',
+    phoneme: '/k/',
+    soundLetter: 'K',
+    categoryTitle: 'Yumuşak Damak Patlamalı (Ötümsüz)',
+    emoji: '🦜',
+    colorHex: 0xFF2E7D32,
+    articulationHint: 'Dilinin arka sırtını yumuşak damağına doğru yukarı kaldır, havayı durdur ve ani bir "K" sesiyle bırak!',
+    unlockedLevelIndex: 0,
+    starsCollected: 0,
+    content: SingleSoundLevel(
+      syllables: [
+        'kı', 'ki', 'ık', 'ik',
+        'ka', 'ke', 'ak', 'ek',
+        'ko', 'kö', 'ok', 'ök',
+        'ku', 'kü', 'uk', 'ük',
+        'ıkı', 'iki', 'kık', 'kik',
+        'aka', 'eke', 'kak', 'kek',
+        'oko', 'ökö', 'kok', 'kök',
+        'uku', 'ükü', 'kuk', 'kük',
+      ],
+      wordsBeginning: [
+        'Kaç', 'Kan', 'Kar', 'Kas', 'Kaş', 'Kaz', 'Kel', 'Kes', 'Kıl', 'Kır', 'Kalp', 'Kask', 'Kız', 'Kep', 'Kış', 'Kir',
+        'Kolye', 'Kafes', 'Kalem', 'Kamyon', 'Kaplan', 'Karga', 'Karpuz', 'Kebap', 'Keçi', 'Kedi', 'Kemer', 'Kemik', 'Kılıf', 'Kardeş', 'Kilim', 'Kiraz', 'Korsan', 'Koyun', 'Köpek', 'Kuzu',
+        'Kadayıf', 'Kahraman', 'Kaldırım', 'Kanguru', 'Kapıcı', 'Karagöz', 'Karanfil', 'Karavan', 'Karınca', 'Kurbağa', 'Kumbara', 'Kelepçe', 'Kırlangıç', 'Kırmızı', 'Kocaman', 'Kereviz', 'Körebe', 'Kumanda', 'Kuaför', 'Kulübe'
+      ],
+      wordsMiddle: [
+        'Akşam', 'Alkış', 'Asker', 'Balkon', 'Baykuş', 'Çekiç', 'Diken', 'Dikiş', 'Dükkan', 'Ekmek', 'Fakir', 'Fıkra', 'Hakem', 'Halka', 'Leke', 'Lokma', 'Makas', 'Akrep', 'Okul', 'Şapka',
+        'Akvaryum', 'Arkadaş', 'Baklava', 'Balıkçı', 'Bisküvi', 'Çekirge', 'Çekmece', 'Dakika', 'Fabrika', 'Gökyüzü', 'İlkbahar', 'Makarna', 'Menekşe', 'Mikrofon', 'Mikroskop', 'Oklava', 'Pinokyo', 'Saklambaç', 'Saksafon', 'Yapışkan'
+      ],
+      wordsEnding: [
+        'Bak', 'Çak', 'Çek', 'Çık', 'Çok', 'Dik', 'Dök', 'Fok', 'Gök', 'Hak', 'Çark', 'Kırk', 'Fark', 'Kürk', 'Halk', 'Bük', 'Yok', 'Yük', 'Sök', 'Şık', 'Şok', 'Yak', 'Yık', 'Renk', 'Bank', 'Kek', 'Kök', 'Park', 'Sirk', 'Aşk',
+        'Açık', 'Ayak', 'Balık', 'Bardak', 'Leylek', 'Bebek', 'Boncuk', 'Böcek', 'Çiçek', 'Çilek', 'Çocuk', 'Dudak', 'Düdük', 'Emzik', 'Fındık', 'Geyik', 'Gözlük', 'Işık', 'Uçak', 'Yüksek',
+        'Açacak', 'Aydınlık', 'Bademcik', 'Bilezik', 'Bulaşık', 'Çaydanlık', 'Çekecek', 'Çekirdek', 'Çıngırak', 'Dinamik', 'Fırıldak', 'Ispanak', 'Kaydırak', 'Kelebek', 'Kozalak', 'Hıçkırık', 'Oyuncak', 'Kırkayak', 'Mercimek', 'Şekerlik'
+      ],
+      phrases: [
+        'Kapalı kapı', 'Kara karga', 'Küçük küpe', 'Kepçe kulak', 'Kınalı kuzu',
+        'Kızgın köpek', 'Keskin koku', 'Kırmızı kalem', 'Kiralık konak', 'Kokulu karanfil',
+        'Kedinin kuyruğu', 'Kahraman kadın', 'Kalabalık kasaba', 'Kahverengi kazak', 'Kaplumbağanın kabuğu',
+        'Açık fikirli', 'Balık kılçığı', 'Akıllı çocuk', 'İpek bayrak', 'Büyük köprü',
+        'Islak gömlek', 'Benekli inek', 'Şeker fabrikası', 'Çanak çömlek', 'Açık çekmece'
+      ],
+      sentences: [
+        'Köpek kediyi kovaladı.',
+        'Kasap kepenkleri kaldırdı.',
+        'Kuş karşı kaldırıma kondu.',
+        'Küçük kız kerevizi kaşıkladı.',
+        'Kedi kafesin kapısını kapadı.',
+        'Kızgın kadın kumandayı kırdı.',
+        'Kıvırcık koyun kavunu kokladı.',
+        'Karşı komşu kapısının kilidini kırdı.',
+        'Kaplan koruda kanguruyu kovalıyor.',
+        'Köpek kokarcanın kuyruğunu kokladı.',
+        'Okulda kimse yokmuş.',
+        'Köylü yokuş yukarı çıkmış.',
+        'Küçük kız akşam bakla ayıkladı.',
+        'Büyük saksıda menekşe ekiliymiş.',
+        'Bekir dükkanda arkadaşını bekledi.'
+      ],
+      storyTitle: 'Kerem Okulun Son Günü',
+      storyContent:
+          'Kerem okulun son günü karnesini alacaktı. Kerem ve arkadaşları karne günü için uzun süredir plan yapıyordu. Önce okulda bir kermes yapmayı düşündüler. Arkasından bu fikirden vazgeçip pikniğe gitmeye karar verdiler. Karne günü geldiğinde herkes piknik sepetlerini getirdi. Kerem\'in piknik sepetinde kola, sakız, çilekli şeker, börek, kızarmış köfte ve karpuz vardı. Kerem\'in en yakın arkadaşı Kerim\'in piknik sepetinde ise kakaolu kek, makarna, kiraz, erik, çikolata ve portakal suyu vardı.',
+    ),
+  ),
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // 6. /g/ SESİ TEK BAŞINA (Kitap sf. 56 - 63)
+  // ─────────────────────────────────────────────────────────────────────────
+  SoundStage(
+    id: 'sound_g',
+    phoneme: '/g/',
+    soundLetter: 'G',
+    categoryTitle: 'Yumuşak Damak Patlamalı (Ötümlü)',
+    emoji: '🍇',
+    colorHex: 0xFF558B2F,
+    articulationHint: 'Dilinin arkasını damağına bastırırken ses tellerini titreştir ve tok bir "G" sesi çıkar!',
+    unlockedLevelIndex: 0,
+    starsCollected: 0,
+    content: SingleSoundLevel(
+      syllables: [
+        'gı', 'gi', 'ıg', 'ig',
+        'ga', 'ge', 'ag', 'eg',
+        'go', 'gö', 'og', 'ög',
+        'gu', 'gü', 'ug', 'üg',
+        'ıgı', 'igi', 'gıg', 'gig',
+        'aga', 'ege', 'gag', 'geg',
+        'ogo', 'ögö', 'gog', 'gög',
+        'ugu', 'ügü', 'gug', 'güg',
+      ],
+      wordsBeginning: [
+        'Gür', 'Gar', 'Gam', 'Gaz', 'Gel', 'Geç', 'Gez', 'Gir', 'Giy', 'Giz', 'Genç', 'Golf', 'Gol', 'Gök', 'Göz', 'Göl', 'Gör', 'Güç', 'Gül', 'Gün', 'Güm', 'Güz', 'Gem', 'Göç',
+        'Gezgin', 'Gelin', 'Garson', 'Gofret', 'Gece', 'Gözlük', 'Gümüş', 'Garaj', 'Gemi', 'Gömlek', 'Gölge', 'Güzel', 'Gezi', 'Göbek', 'Geyik', 'Gaga', 'Gazoz', 'Güneş', 'Gerçek', 'Goril',
+        'Gazete', 'Gelinlik', 'Gezegen', 'Geveze', 'Göbekli', 'Gecelik', 'Güvercin', 'Gemici', 'Gariban', 'Güzellik', 'Gözleme', 'Giyecek', 'Görüntü', 'Güvenlik', 'Gökbilim', 'Gelincik', 'Gargara', 'Gürültü', 'Görevli', 'Gösteri'
+      ],
+      wordsMiddle: [
+        'Yorgan', 'Sargı', 'Çizgi', 'Karga', 'Üçgen', 'Örgü', 'Vagon', 'Yengeç', 'Sünger', 'Silgi', 'Zengin', 'Rüzgar', 'Kargo', 'Mangal', 'Bagaj', 'Virgül', 'Yoga', 'Pergel', 'Bulgur', 'Mango',
+        'Süpürge', 'Kırlangıç', 'Penguen', 'Otogar', 'Magazin', 'Amigo', 'Kanguru', 'Şırınga', 'Piyango', 'Çekirge', 'Yörünge', 'Marangoz', 'Karagöz', 'Omurga', 'Çıngırak', 'Kaburga', 'Salyangoz', 'Hamburger', 'Solungaç'
+      ],
+      wordsEnding: [
+        'Lig', 'Morg', 'Org', 'Şezlong', 'Bovling', 'Arkeolog', 'Sosyolog', 'Psikolog', 'Monolog', 'Ürolog', 'Katalog', 'Zoolog', 'Patolog', 'Biyolog'
+      ],
+      phrases: [
+        'Gizli görev', 'Güzel gece', 'Güneşli gün', 'Gazlı gazoz', 'Geniş garaj',
+        'Geçersiz gol', 'Gri gökyüzü', 'Genç gezgin', 'Göbekli goril', 'Garip garson',
+        'Güvenli geçit', 'Gümüş gözlük', 'Gevrek galeta', 'Güneş gözlüğü', 'Gemi güvertesi',
+        'Üzgün Ezgi', 'Üçgen silgi', 'Saygılı Ege', 'Grip salgını', 'Çizgili yorgan',
+        'Yorgun Özge', 'Rüzgarlı bölge', 'Özgür\'ün gitarı', 'Müge\'nin giysisi', 'Penguenin rengi'
+      ],
+      sentences: [
+        'Galip göle girecek.',
+        'Gökhan güllaç getirmiş.',
+        'Gölgeler gece görünmez.',
+        'Gelenler göbekli gorile gülüyor.',
+        'Gemici gemiye geç gelecekmiş.',
+        'Gezerken gözüne güneş girmiş.',
+        'Gülay Gaziantep\'e gezmeye gitti.',
+        'Garson gevrek galetaları getiriyor.',
+        'Gizem geçen gece Gaye\'yi görmüş.',
+        'Gazeteciler Girne\'ye geziye gittiler.',
+        'Bugün gençlerin günü.',
+        'Engin üzgün görünüyor.',
+        'Kavgacı garson kızgınmış.',
+        'Sergen yorgun gözüküyor.',
+        'Bugün gazeteleri Ege getirmiş.'
+      ],
+      storyTitle: 'Gizem ile Genco\'nun Gezisi',
+      storyContent:
+          'Gizem ile Genco gezmeyi çok severlerdi. Hep tatillerde annelerine gezmeye gitmek istediklerini söylerlerdi. Anneleri onları bazen güzel güllerin, lalelerin, karanfillerin olduğu bahçelere götürürdü. Bazen ise gergedanların, zürafaların, su aygırlarının, geyiklerin olduğu hayvanat bahçelerine götürürdü.\n\nUzun tatillerde ise uçağa binip başka ülkeleri gezmeye giderlerdi. Uçağa binmek onları heyecanlandırırdı. Gökyüzüne çıktıklarında uçaktan dışarı bakmayı severlerdi.',
+    ),
+  ),
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // 7. /s/ SESİ TEK BAŞINA (Kitap sf. 85 - 93)
+  // ─────────────────────────────────────────────────────────────────────────
+  SoundStage(
+    id: 'sound_s',
+    phoneme: '/s/',
+    soundLetter: 'S',
+    categoryTitle: 'Diş Yuvasıl Sürtünmeli (Ötümsüz)',
+    emoji: '🐍',
+    colorHex: 0xFF009688,
+    articulationHint: 'Dişlerini hafifçe birbirine yaklaştır, dilinin ucunu dişlerinin arkasında tutarak havayı tıpkı bir yılan gibi "Ssss" diye sızdır!',
+    unlockedLevelIndex: 0,
+    starsCollected: 0,
+    content: SingleSoundLevel(
+      syllables: [
+        'sı', 'si', 'ıs', 'is',
+        'sa', 'se', 'as', 'es',
+        'so', 'sö', 'os', 'ös',
+        'su', 'sü', 'us', 'üs',
+        'ısı', 'isi', 'sıs', 'sis',
+        'asa', 'ese', 'sas', 'ses',
+        'oso', 'ösö', 'sos', 'sös',
+        'usu', 'üsü', 'sus', 'süs',
+      ],
+      wordsBeginning: [
+        'Sap', 'Saç', 'Saf', 'Sağ', 'Sar', 'Sal', 'Seç', 'Say', 'Sel', 'Ser', 'Sen', 'Set', 'Sık', 'Sert', 'Sır', 'Sil', 'Sur', 'Sim', 'Sor', 'Sok', 'Sol', 'Som', 'Son', 'Sök', 'Suç', 'Söz', 'Sirk', 'Sırt',
+        'Saat', 'Sabun', 'Sekiz', 'Salam', 'Simit', 'Soğan', 'Sincap', 'Sakız', 'Sinek', 'Saman', 'Serçe', 'Sandık', 'Sapan', 'Saray', 'Sarı', 'Satır', 'Sepet', 'Siyah', 'Silgi', 'Sütlaç',
+        'Sigara', 'Salata', 'Süpürge', 'Sabunluk', 'Solucan', 'Sandalye', 'Salıncak', 'Sürahi', 'Safari', 'Sivilce', 'Salyangoz', 'Satıcı', 'Sarımsak', 'Sürücü', 'Saklambaç', 'Saksafon', 'Saksağan', 'Süveter', 'Sevimli', 'Sekreter'
+      ],
+      wordsMiddle: [
+        'Mısır', 'Asker', 'Musluk', 'Pasta', 'Kaset', 'Lastik', 'Yastık', 'Timsah', 'Fıstık', 'Taksi', 'Aslan', 'Hasta', 'Basket', 'Misket', 'Kasap', 'Maske', 'Tepsi', 'Baston', 'Yüksek', 'Masal',
+        'Bisiklet', 'Asansör', 'Elbise', 'Fasulye', 'Aspirin', 'Basamak', 'Basketbol', 'Testere', 'Eskici', 'Kestane', 'Postacı', 'Yarasa', 'Fesleğen', 'Bisküvi', 'Pırasa', 'Gösteri', 'Hastane', 'Ispanak', 'İstakoz', 'Pusula'
+      ],
+      wordsEnding: [
+        'Bas', 'Fas', 'Has', 'His', 'Kas', 'Kes', 'Kıs', 'Kus', 'Küs', 'Mis', 'Pes', 'Ters', 'Mars', 'Kars', 'Pus', 'Rus', 'Ses', 'Sis', 'Sus', 'Süs', 'Tas', 'Tos', 'Yas', 'Pas', 'Pis', 'Ders', 'Burs', 'Kurs',
+        'Yunus', 'Polis', 'Makas', 'Atlas', 'Vites', 'Kümes', 'Tenis', 'Kafes', 'Nergis', 'Kalas', 'Kaktüs', 'Elips', 'Elmas', 'Nefes', 'Hapis', 'Paspas', 'Termos', 'Hostes', 'Sosis', 'Fayans',
+        'Abaküs', 'Ağustos', 'Albatros', 'Ananas', 'Patates', 'Karides', 'Domates', 'Minibüs', 'Okyanus', 'Mühendis', 'Marakas', 'Mıknatıs', 'Otobüs', 'Prenses', 'Teneffüs', 'Papirüs', 'Konsolos', 'Erciyes', 'Konferans', 'Döpiyes'
+      ],
+      phrases: [
+        'Sıcak süt', 'Sıvı sabun', 'Sivri sinek', 'Salı sabahı', 'Sarı solucan',
+        'Soslu salata', 'Sinirli sürücü', 'Siyah süveter', 'Susamlı simit', 'Soğan sepeti',
+        'Suratsız Sinan', 'Sedefli sandık', 'Sahipsiz sepet', 'Salamlı sandviç', 'Sallanan sandalye',
+        'Eski masa', 'Asker Sinan', 'Kısa mesafe', 'Esmer Esma', 'Askılı elbise',
+        'Mısır püskülü', 'Fıstıklı bisküvi', 'Paslı musluk', 'Hasır iskemle', 'Maskeli süvari'
+      ],
+      sentences: [
+        'Sebze soteyi severim.',
+        'Sinem sarı silgiyi sakladı.',
+        'Sezgin\'in sorusu saçmaydı.',
+        'Sokaktaki sincaplar sahipsizdi.',
+        'Saçma sözler söylemek serbestti.',
+        'Selin saksıdaki sardunyaları suladı.',
+        'Sarı saçlı sporcu sahada sakatlandı.',
+        'Simitçi sokakta sıcak simit satıyordu.',
+        'Semizotu, soğan, sarımsak sepetteydi.',
+        'Serseri sürücü sokakta subaya saldırdı.',
+        'Bakımsız bisiklet paslandı.',
+        'Mesut teneffüste hastalandı.',
+        'Pasaklı Sibel salonu pisletti.',
+        'Aslı siyah paltosunu askıya astı.',
+        'Esin eski elbiselerini eskiciye sattı.'
+      ],
+      storyTitle: 'Seyfi ve Tamir Maceraları',
+      storyContent:
+          'Susuzluktan nefesi kesilmiş bir halde eve geldi Seyfi. Sabahleyin sekizde evden çıktığından beri saatlerdir koşuşturuyordu. Sabah sabah kahvaltıda yediği sarımsaklı sucuklar bütün gün midesini rahatsız etmişti. Bisikletine binip en samimi arkadaşı Osman\'ın lokantasında sade kahvesini içmişti. O sırada Osman\'ın sıkıntılı olduğunu fark etmişti. Osman\'ın sıkıntısı mısır patlatma makinesinin daha ilk saatinde arızalanmış olmasıydı. Tamir işlerinde usta olan Seyfi sorunu hallederek Osman\'ı sevindirdi.',
+    ),
+  ),
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // 8. /r/ SESİ TEK BAŞINA (Kitap sf. 185 - 193)
+  // ─────────────────────────────────────────────────────────────────────────
+  SoundStage(
+    id: 'sound_r',
+    phoneme: '/r/',
+    soundLetter: 'R',
+    categoryTitle: 'Tek Vuruşlu Diş Yuvasıl Akıcı',
+    emoji: '🌀',
+    colorHex: 0xFF6A1B9A,
+    articulationHint: 'Dilinin ucunu üst damağına doğru hafifçe kıvır, hava akımıyla dil ucunu bir kez pırıldatıp "R" de!',
+    unlockedLevelIndex: 0,
+    starsCollected: 0,
+    content: SingleSoundLevel(
+      syllables: [
+        'rı', 'ri', 'ır', 'ir',
+        'ra', 're', 'ar', 'er',
+        'ro', 'rö', 'or', 'ör',
+        'ru', 'rü', 'ur', 'ür',
+        'ırı', 'iri', 'rır', 'rir',
+        'ara', 'ere', 'rar', 'rer',
+        'oro', 'örö', 'ror', 'rör',
+        'uru', 'ürü', 'rur', 'rür',
+      ],
+      wordsBeginning: [
+        'Raf', 'Rap', 'Rast', 'Renk', 'Rest', 'Ring', 'Ruh', 'Ruj', 'Rum', 'Rus', 'Ret', 'Risk',
+        'Rahat', 'Rakam', 'Roka', 'Rakip', 'Rampa', 'Ranza', 'Robot', 'Rüzgar', 'Rapor', 'Rejim', 'Rende', 'Resim', 'Ressam', 'Ritim', 'Roket', 'Roman', 'Rozet', 'Rica', 'Renksiz', 'Raket',
+        'Rafadan', 'Rahibe', 'Randevu', 'Reçete', 'Reçine', 'Rutubet', 'Refakat', 'Referans', 'Rehavet', 'Rejisör', 'Rekabet', 'Rengarenk', 'Restoran', 'Rezene', 'Rezidans', 'Riziko', 'Romancı', 'Romantik', 'Rakipsiz', 'Rodeo'
+      ],
+      wordsMiddle: [
+        'Ağrı', 'Ördek', 'Kürek', 'Çorba', 'Artı', 'Fare', 'Garaj', 'Bere', 'Boru', 'Çerez', 'Dere', 'Burun', 'Fırın', 'Fırça', 'Martı', 'Para', 'Sarı', 'Şarkı', 'Toprak', 'Armut',
+        'Makarna', 'Akarsu', 'Paraşüt', 'Kumbara', 'Zürafa', 'Arkadaş', 'Armağan', 'Aşure', 'Atari', 'Turuncu', 'Merdiven', 'Tencere', 'Karate', 'Karınca', 'Terazi', 'Dondurma', 'Mikrofon', 'Uçurtma', 'Süpürge', 'Araba'
+      ],
+      wordsEnding: [
+        'Zar', 'Bar', 'Bir', 'Bor', 'Çar', 'Dar', 'Dur', 'Zor', 'Far', 'Fer', 'Gar', 'Gür', 'Gör', 'Har', 'Her', 'Kar', 'Kır', 'Kir', 'Kor', 'Kör', 'Kur', 'Kür', 'Mor', 'Nar', 'Pîr', 'Sur',
+        'Ağır', 'Vapur', 'Bahar', 'Bakır', 'Defter', 'Mısır', 'Çadır', 'Sünger', 'Çamur', 'Döner', 'Duvar', 'Fener', 'Gitar', 'Pazar', 'Kömür', 'Katır', 'Sakar', 'Damar', 'Şeker', 'Mantar',
+        'Adaptör', 'Akciğer', 'Abajur', 'Anahtar', 'Antrenör', 'Asansör', 'Hamburger', 'Birdirbir', 'Canavar', 'Çamaşır', 'Haberdar', 'Dinozor', 'Misafir', 'Kafadar', 'Mücevher', 'Matador', 'Muhabir', 'Semaver', 'Tebeşir', 'Kuaför'
+      ],
+      phrases: [
+        'Rahat revir', 'Rujun rengi', 'Robot resim', 'Rus restoranı', 'Roma rakamı',
+        'Roketin rotası', 'Rıza\'nın raketi', 'Reisin romanı', 'Rakipsiz ressam', 'Recep\'in ranzası',
+        'Rehberin raporu', 'Ressamın rozeti', 'Romantik Romeo', 'Rengarenk rende', 'Restorandaki roka',
+        'Mor örtü', 'Zor karar', 'Kara tren', 'Derin dere', 'Sarı kürek',
+        'Kırık bardak', 'Kurak arazi', 'Dört kafadar', 'Arabanın farı', 'Kırmızı biber'
+      ],
+      sentences: [
+        'Roka ve rosto rafta.',
+        'Reha ruhen rahatsızdı.',
+        'Rıdvan raporu reddetti.',
+        'Romen Rus\'un rakibidir.',
+        'Rıza revirde refakatçidir.',
+        'Rana\'nın ruju rengarenk.',
+        'Reha\'nın ranzası renksizdi.',
+        'Ressam romanı resmetti.',
+        'Revirdeki ranza rahatmış.',
+        'Rus restoranı ruhsatsızmış.',
+        'Arabada çamur sıçradı.',
+        'Fenerbahçe rakibini korkuttu.',
+        'Berna revire merhemi götürdü.',
+        'Karateci boksöre karşı cesurdu.',
+        'Kameraman arkadaşını çağırdı.'
+      ],
+      storyTitle: 'Arda ile Bora\'nın Lunapark Günü',
+      storyContent:
+          'Arda ile Bora birbirleriyle iyi anlaşan iki erkek kardeşmiş. Ama bazen yaramazlık yapar annelerini üzerlermiş. Anneleri bir gün onlara; "Eğer bugün uslu durursanız sizi lunaparka götüreceğim" demiş. Arda ile Bora o gün yaramazlık yapmayacaklarına söz vermişler. Gerçekten de sözlerini tutmayı başarmışlar ve anneleri de onları lunaparka götürmüş. Arda ile Bora lunaparkta atlıkarıncaya, yarış arabalarına ve dönme dolaplara binmişler. Çok eğlenmişler. Korku tüneline de girmişler. Yarasalardan, hortlaklardan, kuru kafalardan korkup birbirlerine sarılmışlar.',
+    ),
+  ),
+];

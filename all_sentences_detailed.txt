@@ -1,0 +1,530 @@
+
+==================== STAGE 1: /p/ (sound_p) ====================
+[1] Pelin'in perdeleri püsküllü.
+[2] Polat pazartesi Paris'teydi.
+[3] Pencerenin pervazı pislenmiş.
+[4] Patatesçi patatesleri paketledi.
+[5] Patlıcanlı pirinç pilavı pişirelim.
+[6] Postacının pantolonu poşetteymiş.
+[7] Pidecideki peynirli pide pahalıydı.
+[8] Pizzacı pizza pişirmekten pişmandı.
+[9] Palyaçonun Pahalı pabuçları pulluydu.
+[10] Prensesin pırlantası pırıl pırıl parlıyordu.
+[11] Penceredeki papağan perdeyi parçaladı.
+[12] Pelin peynirli poğaçayı Pervin'le paylaştı.
+[13] Pazarlamacı Pervin Pırıltılı penyeleri pazarladı.
+[14] Perşembe pazarındaki Pazarcı pırasaları poşetledi.
+[15] Pamuklu pazen pijamasının pantolonunu pembeydi.
+[16] Recep İpek'i öptü.
+[17] Serpil ıspanak pişirdi.
+[18] Serap yaprakları süpürdü.
+[19] Dolaptaki çorapları toparladım.
+[20] Parktaki köpek plastik topu kaptı.
+
+==================== STAGE 2: /b/ (sound_b) ====================
+[1] Babam bagaja baktı.
+[2] Bej bluzuma bal bulaştı.
+[3] Burak berberde bitlendi.
+[4] Bebek biberonu boşalttı.
+[5] Berrin'in bilgisayarı bozuldu.
+[6] Boza bardaklarını bulamadık.
+[7] Bugün boşu boşuna bekledim.
+[8] Bülent Banu'nun bisikletine bindi.
+[9] Babaannem bileziklerini bana bıraktı.
+[10] Benim bütün balıklarım birbirine benzer.
+[11] Berna Bakır boncuklarını bahçede buldu.
+[12] Büyükbabam banyonun borularını boyadı.
+[13] Bahçeye boş, beyaz bir bardak bırakmışlar.
+[14] Bütün bahar boyunca başladığım boyayı bitiremedim.
+[15] Bebek beşiğinde baygın baygın uyudu.
+[16] Sabah otobüs kalabalıktı.
+[17] Sebzeli kebaba bayılırım.
+[18] Lavabodaki sabunu bitirdim.
+[19] Berberde torbasını kaybetti.
+[20] Ebru kitabi pembeye boyadı.
+
+==================== STAGE 3: /t/ (sound_t) ====================
+[1] Tuba tayın tüylerini taradı.
+[2] Timsah taşın tepesindeydi.
+[3] Teoman terziyi tanıyamamış.
+[4] Temel tarlanın taşlarını topladı.
+[5] Tahtanın tebeşirleri turuncuydu.
+[6] Taner terasın tentesini temizledi.
+[7] Timuçin'in tedavisi tamamlandı.
+[8] Tarçınlı turtalar tatlı tabağındaydı.
+[9] Tayfun'la Timur tatilde tanışmışlar.
+[10] Tülay'in teyzesinin tarhanası tazeydi.
+[11] Turuncu topum patladı.
+[12] Tahtanın tebeşiri bitmiş.
+[13] Metin salata tabağını taşıdı.
+[14] Tatlıcı Ümit'in sütlacı lezzetli.
+[15] Titiz terzi pantolonları ütüledi.
+
+==================== STAGE 4: /d/ (sound_d) ====================
+[1] Damla dikiş diker.
+[2] Dedektif dükkanı dolaştı.
+[3] Dantelli düğmeleri diktiler.
+[4] Derya dört dadı değiştirdi.
+[5] Doktorun dediklerini duydu.
+[6] Didem dans dersinde düştü.
+[7] Dam durup dururken delindi.
+[8] Dedem denizaltıyla dolaşmış.
+[9] Dürü derste defterlerini düşürdü.
+[10] Dolaptaki dondurmayı döktüm.
+[11] Cevdet ödevini bitirdi.
+[12] Jandarma düdük çaldı.
+[13] Okulda fındıkla Badem yedim.
+[14] Ferda'nın hediyesini beğendim.
+[15] Vedat cüzdanını evde bulamadı.
+
+==================== STAGE 5: /k/ (sound_k) ====================
+[1] Köpek kediyi kovaladı.
+[2] Kasap kepenkleri kaldırdı.
+[3] Kuş karşı kaldırıma kondu.
+[4] Küçük kız kerevizi kaşıkladı.
+[5] Kedi kafesin kapısını kapadı.
+[6] Kızgın Kadın kumandayı kırdı.
+[7] Kıvırcık koyun kavunu kokladı.
+[8] Karşı komşu kapısının kilidini kırdı.
+[9] Kaplan koruda kanguruyu kovalıyor.
+[10] Köpek kokarcanın kuyruğunu kokladı.
+[11] Okulda kimse yokmuş.
+[12] Köylü yokuş yukarı çıkmış.
+[13] Küçük kız akşam bakla ayıkladı.
+[14] Büyük saksıda menekşe ekiliymiş.
+[15] Bekir dükkanda arkadaşını bekledi.
+
+==================== STAGE 6: /g/ (sound_g) ====================
+[1] Galip göle girecek.
+[2] Gökhan güllaç getirmiş.
+[3] Gölgeler gece görünmez.
+[4] Gelenler göbekli gorile gülüyor.
+[5] Gemici gemiye geç gelecekmiş.
+[6] Gezerken gözüne güneş girmiş.
+[7] Gülay Gaziantep'e gezmeye gitti.
+[8] Garson gevrek galetaları getiriyor.
+[9] Gizem geçen gece Gaye'yi görmüş.
+[10] Gazeteciler Girne'ye geziye gittiler.
+[11] Bugün gençlerin günü.
+[12] Engin üzgün görünüyor.
+[13] Kavgacı garson kızgınmış.
+[14] Sergen yorgun gözüküyor.
+[15] Bugün gazeteleri Ege getirmiş.
+
+==================== STAGE 7: /f/ (sound_f) ====================
+[1] Ferhat fıkrayı fısıldadı.
+[2] Fındık fıstık faydalıdır.
+[3] Filmin finali fiyaskoydu.
+[4] Futbolcunun fiyatı fazlaydı.
+[5] Fikret fiyakalı futbolcudur.
+[6] Fatsalı Fatih fazla fanatikti.
+[7] Faik Fransa'da faytoncuydu.
+[8] Fevzi fenerin fitilini fişekledi.
+[9] Fillerle farelerin fiziği farklıdır.
+[10] Fas'ta fakirlik Fransa'dan fazladır.
+[11] Funda fayansları fırçayla fırçaladı.
+[12] Fantastik filmler film festivalindeydi.
+[13] Fatma fincan fabrikasında fenalaştı.
+[14] Fenerli futbolcunun forması fosforluydu.
+[15] Fotoğrafçı Fransız futbolcuları fotoğrafladı.
+[16] Efe Sefa'ya öfkelendi.
+[17] Eflatun eşofman ufalmış.
+[18] Elif Büfe'nin köftesi nefistir.
+[19] Raftaki çarşafı naftalinledi.
+[20] Sedef'in kaftanı defoluymuş.
+[21] Lütfen sınıfta fısıldamayınız.
+[22] Fasulyeyle köfteler sofradaydı.
+[23] Defne teneffüste sınıftan fırladı.
+[24] Fuardaki fırfırlı carsafiar kadifeydi.
+[25] Defterdeki tuhaf tariflerle zayıfladı.
+[26] Fırıncı Enfes şeftalili puflarını fırınladı.
+[27] Arif Fenerbahçe'nin fanatik taraftarıdır.
+[28] Müfettiş sınıfta fısıldayanları affetmedi.
+[29] Büfenin mutfağındaki şefin kıyafeti tuhaftı.
+[30] Şeref haftaya Afyon'da fizik konferansında.
+
+==================== STAGE 8: /v/ (sound_v) ====================
+[1] Vapur vaktinde vardı.
+[2] Veysel vanayı vidaladı.
+[3] Vapurun vinci vitesliydi.
+[4] Vehbi'ye vitamin verdiler.
+[5] Volkan Vural'ın velisiymiş.
+[6] Vedat'ın valizi vagondaydı.
+[7] Voleybolcu Vildan vedalaştı.
+[8] Verda vazoyu Vahit'e verdi.
+[9] Vapurda voleybolcular vardı.
+[10] Vahşi vaşak veterinere verildi.
+[11] Vapurdaki valizde vişne varmış.
+[12] Valilik vatandasa Vize vermedi.
+[13] Vilayetin vestiyerinde varil vardı.
+[14] Vural valizini vestiyere vermedi.
+[15] Volkan vasıtaları valeye verecek.
+[16] Devin evi maviydi.
+[17] Manav meyveleri verdi.
+[18] Seval tavşana havuç verdi.
+[19] Sevimli güvercin civcivi kovaladı.
+[20] Davulcu davula kuvvetlice vurdu.
+[21] Manavda vitaminli meyveler vardı.
+[22] Evdeki davette tavuklu pilav vardı.
+[23] Çuvaldaki cevizleri havanda dövdü.
+[24] Zavallı evcil hayvanlar savunmasızdı.
+[25] Kavgacı Avni vazoyu duvara savurdu.
+[26] Tuvaletteki lavabonun vidası gevşemiş.
+[27] Deve kervanında kahve çuvalları vardı.
+[28] Canavar duvardaki çerçeveyi çeviriverdi.
+[29] Lacivert eldiveniyle süveterini vestiyere verdi.
+[30] Sevgi lavabodaki ayva ve visneyi tavaya koyuverdi.
+
+==================== STAGE 9: /s/ (sound_s) ====================
+[1] Sebze soteyi severim.
+[2] Sinem sarı silgiyi sakladı.
+[3] Sezgin'in sorusu saçmaydı.
+[4] Sokaktaki sincaplar sahipsizdi.
+[5] Saçma sözler söylemek serbestti.
+[6] Selin saksıdaki sardunyaları suladı.
+[7] Sarı saçlı sporcu sahada sakatlandı.
+[8] Simitçi sokakta sıcak simit satıyordu.
+[9] Semizotu, soğan, sarımsak sepetteydi.
+[10] Serseri sürücü sokakta subaya saldırdı.
+[11] Bakımsız bisiklet paslandı.
+[12] Mesut teneffüste hastalandı.
+[13] Pasaklı Sibel salonu pisletti.
+[14] Aşlı siyah paltosunu askıya astı.
+[15] Eşin eski elbiselerini eskiciye sattı.
+
+==================== STAGE 10: /z/ (sound_z) ====================
+[1] Zafer zıpzıp zıpladı.
+[2] Zerrin zarfı zamkladı.
+[3] Zehra'yla Zerrin zekidir.
+[4] Zarif zambak zedelendi.
+[5] Zeytin'i zehirli zannettim.
+[6] Ziya zorlanarak zayifladi.
+[7] Zafer zinciri zimparaladi.
+[8] Zarfı zimbayla zimbaladi.
+[9] Zebrayla zurafalar zayifti.
+[10] Zeliha zamaninda. ziyafetteydi.
+[11] Zeynep zaman zaman zirvalar.
+[12] Zeytinyağlı zencefil zararsizdir.
+[13] Zengin ziyaretciyi Ziya zannettim.
+[14] Zehirli zakkum zurafayi zehirledi.
+[15] Zeynep zıplayarak zayıflayacağını zannetti.
+[16] Uzaya fuzeyle gidebiliriz.
+[17] Terzi teyze komsumuzdur.
+[18] Ozgurun kuzeni muzisyendi.
+[19] Gamze'yi yazliktan taniyoruz.
+[20] Hızlı yüzücü havuzda yuzdu.
+[21] Bazen müze gezmeyi ozlerim.
+[22] Pazardaki Taze sebzeler azalmış.
+[23] Yazın hepimiz denizde egleniriz.
+[24] Kuzenimle büzlü gazoza bayiliriz.
+[25] Güzel gözlü kizin televizyonu bozuldu.
+[26] Taze bezelyeler kırmızı kavanozdaydi.
+[27] Pazarlari teyzemle zeytinli pizza pisiririz.
+[28] Nezihe kizina kiraz, Üzüm, karpuz hazirlad.
+[29] Kırmızı kazaklı kız bazı zamanlar yalnız geziyor.
+[30] Zafer izlediği yazarin gazetedeki yazilarini ozetledi.
+
+==================== STAGE 11: /ş/ (sound_ş) ====================
+[1] Şam şekeri Şam'dadır.
+[2] şişko şempanze şirindi.
+[3] şampiyon Şeniz şımarıktı.
+[4] Sengül sohreti sarkiciydi.
+[5] şapkalı şerif samataciydi.
+[6] Şirinler Şirine'yle şakalaştı.
+[7] Şengül'ü şan şöhret şaşırttı.
+[8] sampiyonun sovu sahaneydi.
+[9] solendeki şaklaban sapkaliydi.
+[10] Şöminenin şekli Şenay'ı şaşırtmıştı.
+[11] Şule'nin şekerleri şekerlikteymiş.
+[12] Şahane samdanlar sovalyenindi.
+[13] şekerli şeftali serbeti sismanlatir.
+[14] şaşı şempanze sSirin şule'yi sasirtti.
+[15] Şöhretli şarkıcı sehirdekileri senlendirdi.
+[16] Başarıl kisiler caliskandir.
+[17] Basimdaki şapka kusluydu.
+[18] Asagidaki komsu aşırı neselidir.
+[19] Arkadasimin yeşil tisortu yırtılmış.
+[20] Akşam kuslarin otusu coskuluydu.
+[21] Dişlek tavşan kosede kasiniyordu.
+[22] Eniştem görüşmeyeli şişmanlamış.
+[23] Şövalyenin şakaları başımızı şişirdi.
+[24] Kardeşime kreşte şekilleri öğretmişler.
+[25] Ayşe düşünce başını taşa çarpmış.
+[26] Şampiyon koşucunun şortu kırmızıymış.
+[27] Yarıştaki yarışmacılar yavaş koşuyordu.
+[28] Şampiyonlar yarışta peş peşe dizilmişti.
+[29] Şımarık Ayşe arkadaşının peşinden koştu.
+[30] Kumaşçı yıpranmış kumaşları aşağıdaki köşeye koymuştu.
+
+==================== STAGE 12: /j/ (sound_j) ====================
+[1] Jet Japonlar'ın mı?
+[2] Jokeyin jübilesi jestti.
+[3] Jöleli jön jenerikteydi.
+[4] Jale'nin jilesi jarseydi.
+[5] Jeolog Jale Japonya'da.
+[6] Jöleli jandarma judocuydu.
+[7] Jetin jeneratörü jetonludur.
+[8] Jumbo jambonlar jelatinliydi.
+[9] Jamaikalı judocu Japonya'da.
+[10] Janset Japonlarla Jüpiter'deydi.
+[11] Jülide Jamaika'da jimnastikçiydi.
+[12] Jokey Jale jimnastik jürisindeydi.
+[13] Judocu jelatinsiz jetonları jelatinledi.
+[14] Jamaika'daki jokey Japon jetindeydi.
+[15] Jülide'nin Jaguar'ının jantları janjanlıydı.
+[16] Nejat'ın projesi stratejiktir.
+[17] Tijen psikoloji stajındaymış.
+[18] Drajelerin gramajı orijinaldir.
+[19] Bagajın ambalajı garajda mı?
+[20] Ajda'nın alerjisi pijamadanmış.
+[21] Stajyer ferforjeleri montajladı.
+[22] Bej ojemle rujum bagajdaymış.
+[23] Ejderhalı pijamalar Müjde'ninmiş.
+[24] Müjdat'ın dublaj ajansı pasajdadır.
+[25] Vidanjörler lojmanın garajındadır.
+[26] Kolejdeki deterjanlar hijyenik midir?
+[27] Sosyoloji arkeolojiden avantajlıdır.
+[28] Röportajı ajansa mesajla müjdelediler.
+[29] Ajandadaki mesajlar ajanın şantajıymış.
+[30] Enerji masajının orijinali Nijerya'daki plajlardadır.
+
+==================== STAGE 13: /h/ (sound_h) ====================
+[1] Hakan hırsızı hatırladı.
+[2] Handan Hanım hıçkırdı.
+[3] Herkesin Hediyesi hazır.
+[4] Helikopter hızla havalandı.
+[5] Halit hırsızları hemen hakladı.
+[6] Hastanedeki hemşire hatalıydı.
+[7] Halam helvayı hemen hazırladı.
+[8] Hülya halam havuzda hastalandı.
+[9] Halıdaki hediyelerin hangisi hafif?
+[10] Heyecanlı Halil hırkasını hırpaladı.
+[11] Hande hayalindeki hikayeyi hatırladı.
+[12] Hamaktaki Hasan her şeyden habersizdi.
+[13] Hâkim hileci haydutların hepsini hapsetti.
+[14] Hizmetliler havasız hangarı hızla havalandırdılar.
+[15] Hekimler, hemşireler ve hastabakıcılar hastanedeydi.
+[16] Nahit tenhada horluyordu.
+[17] Pahalı mücevher sahteymis.
+[18] Sabiha'nın anahtarı siyahtı.
+[19] Baharatlı yahni muhteşemdi.
+[20] Bahçedeki kahvaltı harikaydı.
+[21] Baharda havalar hep ferahtır.
+[22] Kahve bahane Sohbet Şahane.
+[23] Sehpayı tahtakurusu mahvetmiş.
+[24] Saliha Taha'ya ehliyetini hatırlattı.
+[25] Bahçıvanın tohumları bahçedeydi.
+[26] İhtiyar hokkabazın hikâyesi tuhaftı.
+[27] Sahandaki lahana Serhat'ın hakkıdır.
+[28] Sihirli ejderhanın hikâyesi heyecanlıydı.
+[29] Sihirbazın kahkahası hepimizi rahatlattı.
+[30] Ahmet yemekhanede kahvaltı hazırladı.
+
+==================== STAGE 14: /ç/ (sound_ç) ====================
+[1] Çocuk çanı çaldı.
+[2] Çelik çiçek çizdi.
+[3] Çilekler çürük çıktı.
+[4] Çukur çanak çatladı.
+[5] Çekiçle çiviyi çaktım.
+[6] Çiftçi çiftlikte çalışıyor.
+[7] Çarşıda çantam çalındı.
+[8] Çetin çamaşırları çalkaladı.
+[9] Çiçekçideki çiçekler çoğaldı.
+[10] Çantasındaki çakmağı çaktı.
+[11] Çağla çocuğun çorabını çekti.
+[12] Çamaşırın çamurunu çitiledim.
+[13] Çalışkan Çağdaş Çiğdem'i çalıştırdı.
+[14] Çöpçü çöpleri çarşıdan çuvalla çıkardı.
+[15] Çikolatalar çocuğun çekmecesinden çıktı.
+[16] Suçlu bekçi kaçtı.
+[17] Burçin kraliçe seçildi.
+[18] Orc ün üç üşü kaç irdi.
+[19] Saçına çekirge sıçradı.
+[20] İnatçı keçi çayıra kaçtı.
+[21] Üç serçe ağaçtan uçtu.
+[22] Seçil Açelya'ya borçlandı.
+[23] Palyaço uçurtma uçurdu.
+[24] Ayça üç akta hiç iç ki icmedi.
+[25] Bahçedeki ağaçlar çiçek açtı.
+[26] Sevinç reçelli poğaçaları seçti.
+[27] Bahçıvan bahçedeki çimleri biçti.
+[28] Tarçınlı içecekler fıçının içindeydi.
+[29] Kuc UK gocuk recetedeki ilaclari iç ti.
+[30] Fenerbahçe'nin maçı kaç kaç sonuçlandı?
+
+==================== STAGE 15: /c/ (sound_c) ====================
+[1] Can'la Cem cesurdur.
+[2] Cici Cemre cıvıl cıvıldı.
+[3] Ceren cumartesi coştu.
+[4] Cihan cezveleri cilaladı.
+[5] Camdan cama cevapladı.
+[6] Ceketinin cebi cırt cırtlıydı.
+[7] Cimcime Canan cesaretlidir.
+[8] Civardaki caddeler canlandı.
+[9] Civcivler civarda civildiyordu.
+[10] Cırlayan cırcır böceği canlıydı.
+[11] Cambaz cafcaflı caddeyi coşturdu.
+[12] Ceyda cumhuriyet coşkusuyla coştu.
+[13] Cenk'in cebindeki cetvel Cemil'inmiş.
+[14] Cevizler Cansu'nun ceketinin cebinde.
+[15] Çengiz camcinin camlarini cilalamadigindan cezaliydi.
+[16] Ece'nin canı acıdı.
+[17] Sıcak içeceği dökecek.
+[18] Böcek çocuğu ısıracak.
+[19] Burcu pabucunu giyecek.
+[20] Çocuk çekmeceyi açacak.
+[21] Boyacı bacayı boyayacak.
+[22] Gülce cuma gecesi gelecek.
+[23] Karınca ağaca tırmanacak.
+[24] Vicdanlı amca çocuğa acıdı.
+[25] Eczacının ilacı eczanededir.
+[26] İnci'nin bacağı karıncalandı.
+[27] Nurcan amcasini arayacak.
+[28] Naci amcanin lahmacunu acıydı.
+[29] Acayip bilmeceyi cevaplayamadi.
+[30] Çırçır böceği çocuğun avucundaydı.
+
+==================== STAGE 16: /m/ (sound_m) ====================
+[1] Meral'le Murat mutluydu.
+[2] Melda'nın maskesi matraktı.
+[3] Masadaki makas Mert'inmiş.
+[4] Meltem'in montu masadaydi.
+[5] Minderdeki minikler meshurdur.
+[6] Meydandaki menekseler mordu.
+[7] Mehmet'in mendili mutfaktaymis.
+[8] Mikroskop meraklı mucidinmis.
+[9] Mehtap mesleğinden memnundu.
+[10] Miray'ın muhallebisi mükemmeldir.
+[11] Mutfağımızın masasi memerdendir.
+[12] Makarnacinin makarnalari mantarliydi.
+[13] Mutfaktaki masanin musambasi maviydi.
+[14] Minik Mırnav mutfak masasinda mirildandi.
+[15] Mahallemizdeki manavinin meyveleri meshurdur.
+[16] Sevimli Selim emziğini emdi.
+[17] Benim kedimin ismi Lokum'dur.
+[18] Elmas madenini işletmek masraflydi.
+[19] Masamdaki tükenmez kalemler kimin?
+[20] Adam kamyonunu kirmiziya boyamış.
+[21] Kumarbaz adam tembellikten sismanladi.
+[22] Meyve suyumu kamisla icmeye bayilirim.
+[23] Kemal'in mahallesindeki cimenler temizdi.
+[24] Kardesim cebime Pembe kalemler koymuş.
+[25] Ormanimizdaki camlar müthiş kokmaktadir.
+[26] Dilimledigin salamlari makarnaya katmalisin.
+[27] Geminin kamarasindan manzarayl seyrettim.
+[28] Annem yemediğim kuruyemisleri cantamdan çıkarmış.
+[29] Komik adam kambur numarasi yapmaya calismaktaydi.
+[30] Çamurlanan ustumuzu samanliktaki samanlarla temizledik.
+
+==================== STAGE 17: /n/ (sound_n) ====================
+[1] Naneli nohut nefisti.
+[2] Narin nilüfer nehirdeydi.
+[3] Nohut nerede nemlendi?
+[4] Nezih nisaninda neseliydi.
+[5] Neriman'in nisanlisi nankordu.
+[6] Nazan'ın nevresimleri nemliydi.
+[7] Nil Nehri'ndeki nilüferler nefisti.
+[8] Narin nedime nikahta nazlandi.
+[9] Nöbetçi Naim nobette neseliydi..
+[10] Nihan'in nikahi neseyle noktalandi.
+[11] Nalan'in notlarinin neticesi negatifti.
+[12] Nazarlıklı nevresimin numarasi neydi?
+[13] Neriman'la Naim Niğde'de nisanlandilar.
+[14] Nazlı nakarattaki notalari numaralandirdi.
+[15] Nakliyeci Nevşehir'den Niğde'ye naylonları nakletti.
+[16] Kadinin eldiveni delindi.
+[17] Lunaparkta salıncağa bindik.
+[18] Kumanda pencerenin onundeydi.
+[19] Aslan, yavrularinin yanina uzandi.
+[20] Gezinti teknesiyle denizde dolandi.
+[21] Kenan cantasini dukkanda unuttu.
+[22] Koyunlar cimenlerin tadını begendi.
+[23] Korsan kancasiyla sandala tutundu.
+[24] Ersan arkadasini kuzeniyle tanistirdi.
+[25] Gelin dugunde tanidiklariyla eglendi.
+[26] Sandiktan çıkan altinlari görünce sevindi.
+[27] Geminin yaninda yüzen balina kocamand.
+[28] Bahçıvan tunelin sonunda kamyondan indi.
+[29] Annem tavsanin yanağına burnuyla dokundu.
+[30] Oyuncu penguen kayanin arkasina saklandl.
+
+==================== STAGE 18: /l/ (sound_l) ====================
+[1] Lila lamba lekelendi.
+[2] Lütfü'nün lisesi Laleli'de.
+[3] Levent'e lazımlık lazım.
+[4] Limonlu lolipop lezzetli.
+[5] Leğeni lavaboda lifledim.
+[6] Lokantanın lambası loştu.
+[7] Lüks limuzin lüzumsuzdu.
+[8] Lale'nin lokumu lavantalı.
+[9] Lokomotifteki lamba lekeli.
+[10] Leman'ın limonatası lezizdi.
+[11] Lisede Levent'in lakabı Laz'dı.
+[12] Lahmacun limonla lezzetlendi.
+[13] Latif'in lahanasına limon lazım.
+[14] Loş lokantada Lokman'la lafladık.
+[15] Laleli'deki lüks lokantanın lokumu limonlu.
+[16] Kelebek hızla kanatlandı.
+[17] Bakkaldan leblebi aldım.
+[18] Elini mendille temizledi.
+[19] Valizde altı gözlük bulundu.
+[20] Ali ilaç alıp koltukta dinlendi.
+[21] Okul önlüğümü halam almıştı.
+[22] Kelebek desenli elbise güzeldi.
+[23] Bavulu alan hamal otele geldi.
+[24] Cevizli baklava fazla tatlı oldu.
+[25] Ali'nin eline çilekli çikolata bulaştı.
+[26] Elbisem kola dökülünce lekelendi.
+[27] Ela'nın elbisesinde şeftali lekesi kaldı.
+[28] Melis desenli kalemini koltuğun altında buldu.
+[29] Selim'in gömleği ve pantolonu koltuğun altında kaldı.
+[30] Tatilde babamla İstanbul'u bisikletle dolaşmak güzeldi.
+
+==================== STAGE 19: /r/ (sound_r) ====================
+[1] Roka ve rosto rafta.
+[2] Reha ruhen rahatsızdı.
+[3] Rıdvan raporu reddetti.
+[4] Romen Rus'ün rakibidir.
+[5] Rıza revirde refakatçidir.
+[6] Rana'nın ruju rengarenk.
+[7] Reha'nın ranzası renksizdi.
+[8] Ressam romanı resmetti.
+[9] Revirdeki ranza rahatmış.
+[10] Rus restoranı ruhsatsızmış.
+[11] Arabaya çamur sıçradı.
+[12] Fenerbahçe rakibini korkuttu.
+[13] Berna revire merhemi götürdü.
+[14] Karateci boksöre karşı cesurdu.
+[15] Kameraman arkadaşını çağırdı.
+
+==================== STAGE 20: /y/ (sound_y) ====================
+[1] Yavuz yemek yaptı.
+[2] Yiğit'in yeğeni yüzbaşıydı.
+[3] Yasin yuvada yemiş yedi.
+[4] Yeşim yeni yatağında yattı.
+[5] Yonca yazıyı yamuk yazdı.
+[6] Yankesici yetmiş yaşındaydı.
+[7] Yandaki yapımcı yabancıydı.
+[8] Yusuf yüzbaşı yemeğe yetişti.
+[9] Yeşim'in yengesi yabancıydı.
+[10] Yunus'ün yakut yüzüğü yeniydi.
+[11] Yakup'ün yatag yanginda yandi.
+[12] Yeni yönetmenin yapımı yetişmedi.
+[13] Yağız'ın yatağındaki yastık yumuşaktı.
+[14] Yeteneksiz Yaman yatakhanede yoktu.
+[15] Yasemin"in yengesi Yavuz'ün yatağını yaptı.
+[16] Maya yuvada şayi saydi.
+[17] Yabancı uzay deneyi yaptı.
+[18] Ayça yuzicu mayosunu giydi.
+[19] Ayşe oyuncak ayısını kaybetti.
+[20] Duygu ve Yonca oyun oynadı.
+[21] Büyük kapıyı beyaza boyadım.
+[22] Ayşe hikâye yazmayı deneyecek.
+[23] Yiğit yüksek yamaçta kayak kaydı.
+[24] Gaye kaygan yüzeyde kayak yaptı.
+[25] Zayıf subayın yeni ayakkabısı siyahtı.
+[26] Boyacı büyük odayı pembeye boyadı.
+[27] Beyza'nın yük kamyonu koyu maviydi.
+[28] Yengemin yemekte giydiği kıyafet yeniydi.
+[29] Aydan teyzesinin yaptığı yemeği ayakta yedi.
+[30] Ayhan dayanıksız binayı yıkıp yeniden yaptı.

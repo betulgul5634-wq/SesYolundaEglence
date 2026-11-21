@@ -1,0 +1,567 @@
+import 'dart:convert';
+// ignore: avoid_web_libraries_in_flutter, deprecated_member_use
+import 'dart:html' as html;
+import 'package:flutter/foundation.dart';
+import 'student_profile.dart';
+
+class PhonemeStat {
+  final String phoneme;
+  int totalAttempts;
+  int correctAttempts;
+  int initialAttempts;
+  int initialCorrect;
+  int medialAttempts;
+  int medialCorrect;
+  int finalAttempts;
+  int finalCorrect;
+
+  PhonemeStat({
+    required this.phoneme,
+    this.totalAttempts = 0,
+    this.correctAttempts = 0,
+    this.initialAttempts = 0,
+    this.initialCorrect = 0,
+    this.medialAttempts = 0,
+    this.medialCorrect = 0,
+    this.finalAttempts = 0,
+    this.finalCorrect = 0,
+  });
+
+  int get accuracyPercentage =>
+      totalAttempts == 0 ? 0 : ((correctAttempts / totalAttempts) * 100).round();
+
+  int get initialAccuracy =>
+      initialAttempts == 0 ? 0 : ((initialCorrect / initialAttempts) * 100).round();
+
+  int get medialAccuracy =>
+      medialAttempts == 0 ? 0 : ((medialCorrect / medialAttempts) * 100).round();
+
+  int get finalAccuracy =>
+      finalAttempts == 0 ? 0 : ((finalCorrect / finalAttempts) * 100).round();
+}
+
+class RewardState extends ChangeNotifier {
+  static final RewardState _instance = RewardState._internal();
+  factory RewardState() => _instance;
+
+  RewardState._internal() {
+    _initSampleTherapyStats();
+    _loadFromLocalStorage();
+  }
+
+  String _studentName = 'Can';
+  String _parentEmail = 'veli@gmail.com';
+  String _therapistEmail = 'dkt@klinik.com';
+  String _activeProfileId = 'profile_1';
+  final List<StudentProfile> _profiles = [];
+
+  String get studentName => _studentName;
+  String get parentEmail => _parentEmail;
+  String get therapistEmail => _therapistEmail;
+  String get activeProfileId => _activeProfileId;
+  List<StudentProfile> get profiles => List.unmodifiable(_profiles);
+
+  void setParentEmail(String email) {
+    _parentEmail = email.trim();
+    notifyListeners();
+  }
+
+  void setTherapistEmail(String email) {
+    _therapistEmail = email.trim();
+    notifyListeners();
+  }
+
+  void switchStudent(String profileId) {
+    if (_profiles.isEmpty) return;
+    // 1. Mevcut aktif profilin verilerini güncelle
+    final currentIdx = _profiles.indexWhere((p) => p.id == _activeProfileId);
+    if (currentIdx != -1) {
+      _profiles[currentIdx]
+        ..gems = _gems
+        ..hearts = _hearts
+        ..totalStars = _totalStars
+        ..xp = _xp
+        ..avatar = _activeAvatar
+        ..name = _studentName
+        ..activeCharacterId = _activeCharacterId
+        ..equippedHat = _equippedHat
+        ..equippedProp = _equippedProp
+        ..stageStars = Map.from(_stageStars);
+    }
+
+    // 2. Yeni profile geç
+    final newP = _profiles.firstWhere((p) => p.id == profileId, orElse: () => _profiles.first);
+    _activeProfileId = newP.id;
+    _studentName = newP.name;
+    _gems = newP.gems;
+    _hearts = newP.hearts;
+    _totalStars = newP.totalStars;
+    _xp = newP.xp;
+    _activeAvatar = newP.avatar;
+    _activeCharacterId = newP.activeCharacterId;
+    _equippedHat = newP.equippedHat;
+    _equippedProp = newP.equippedProp;
+    _stageStars.clear();
+    _stageStars.addAll(newP.stageStars);
+
+    _saveToLocalStorage();
+    notifyListeners();
+  }
+
+  void addStudent(String name, String avatar) {
+    final newId = 'profile_${DateTime.now().millisecondsSinceEpoch}';
+    final newProfile = StudentProfile(
+      id: newId,
+      name: name.trim().isEmpty ? 'Yeni Öğrenci' : name.trim(),
+      avatar: avatar,
+      gems: 150,
+      hearts: 5,
+      totalStars: 0,
+      xp: 0,
+    );
+    _profiles.add(newProfile);
+    switchStudent(newId);
+  }
+
+  void setStudentName(String name) {
+    if (name.trim().isEmpty) return;
+    _studentName = name.trim();
+    final currentIdx = _profiles.indexWhere((p) => p.id == _activeProfileId);
+    if (currentIdx != -1) {
+      _profiles[currentIdx].name = _studentName;
+    }
+    _saveToLocalStorage();
+    notifyListeners();
+  }
+
+  void deleteStudent(String profileId) {
+    if (_profiles.length <= 1) return; // En az bir profil kalmalı
+    _profiles.removeWhere((p) => p.id == profileId);
+    if (_activeProfileId == profileId) {
+      switchStudent(_profiles.first.id);
+    } else {
+      _saveToLocalStorage();
+      notifyListeners();
+    }
+  }
+
+  void _loadFromLocalStorage() {
+    if (!kIsWeb) return;
+    try {
+      final storage = html.window.localStorage;
+      if (storage.containsKey('sye_profiles')) {
+        final raw = storage['sye_profiles'];
+        if (raw != null && raw.isNotEmpty) {
+          final list = jsonDecode(raw) as List;
+          _profiles.clear();
+          for (final item in list) {
+            _profiles.add(StudentProfile.fromJson(item));
+          }
+        }
+      }
+      if (_profiles.isEmpty) {
+        _profiles.add(StudentProfile(
+          id: 'profile_1',
+          name: 'Can',
+          avatar: '👦',
+          gems: _gems,
+          hearts: _hearts,
+          totalStars: _totalStars,
+          xp: _xp,
+          stageStars: Map.from(_stageStars),
+        ));
+      }
+      if (storage.containsKey('sye_active_profile_id')) {
+        _activeProfileId = storage['sye_active_profile_id'] ?? _profiles.first.id;
+      }
+      if (storage.containsKey('sye_student_name')) {
+        _studentName = storage['sye_student_name'] ?? _studentName;
+      }
+      if (storage.containsKey('sye_gems')) {
+        _gems = int.tryParse(storage['sye_gems'] ?? '') ?? _gems;
+      }
+      if (storage.containsKey('sye_hearts')) {
+        _hearts = int.tryParse(storage['sye_hearts'] ?? '') ?? _hearts;
+      }
+      if (storage.containsKey('sye_stars')) {
+        _totalStars = int.tryParse(storage['sye_stars'] ?? '') ?? _totalStars;
+      }
+      if (storage.containsKey('sye_xp')) {
+        _xp = int.tryParse(storage['sye_xp'] ?? '') ?? _xp;
+      }
+      if (storage.containsKey('sye_active_avatar')) {
+        _activeAvatar = storage['sye_active_avatar'] ?? _activeAvatar;
+      }
+      if (storage.containsKey('sye_active_char_name')) {
+        _activeCharacterName = storage['sye_active_char_name'] ?? _activeCharacterName;
+      }
+      if (storage.containsKey('sye_active_char_id')) {
+        _activeCharacterId = storage['sye_active_char_id'] ?? _activeCharacterId;
+      }
+      if (storage.containsKey('sye_unlocked_chars')) {
+        final raw = storage['sye_unlocked_chars'];
+        if (raw != null && raw.isNotEmpty) {
+          final list = jsonDecode(raw);
+          if (list is List) {
+            _unlockedCharacters.addAll(list.map((e) => e.toString()));
+          }
+        }
+      }
+      if (storage.containsKey('sye_equipped_hat')) {
+        _equippedHat = storage['sye_equipped_hat'];
+      }
+      if (storage.containsKey('sye_equipped_glasses')) {
+        _equippedGlasses = storage['sye_equipped_glasses'];
+      }
+      if (storage.containsKey('sye_equipped_prop')) {
+        _equippedProp = storage['sye_equipped_prop'];
+      }
+      if (storage.containsKey('sye_equipped_pet')) {
+        _equippedPet = storage['sye_equipped_pet'];
+      }
+      if (storage.containsKey('sye_unlocked_acc')) {
+        final raw = storage['sye_unlocked_acc'];
+        if (raw != null && raw.isNotEmpty) {
+          final list = jsonDecode(raw);
+          if (list is List) {
+            _unlockedAccessories.addAll(list.map((e) => e.toString()));
+          }
+        }
+      }
+      if (storage.containsKey('sye_stage_stars')) {
+        final raw = storage['sye_stage_stars'];
+        if (raw != null && raw.isNotEmpty) {
+          final map = jsonDecode(raw);
+          if (map is Map) {
+            map.forEach((k, v) {
+              _stageStars[k.toString()] = int.tryParse(v.toString()) ?? 0;
+            });
+          }
+        }
+      }
+      if (storage.containsKey('sye_world_theme')) {
+        _worldTheme = storage['sye_world_theme'] ?? _worldTheme;
+      }
+    } catch (e) {
+      debugPrint('LocalStorage okuma hatası: $e');
+    }
+  }
+
+  void _saveToLocalStorage() {
+    if (!kIsWeb) return;
+    try {
+      final storage = html.window.localStorage;
+      // Aktif profilin anlık durumunu senkronize et
+      final activeIdx = _profiles.indexWhere((p) => p.id == _activeProfileId);
+      if (activeIdx != -1) {
+        _profiles[activeIdx]
+          ..gems = _gems
+          ..hearts = _hearts
+          ..totalStars = _totalStars
+          ..xp = _xp
+          ..avatar = _activeAvatar
+          ..name = _studentName
+          ..activeCharacterId = _activeCharacterId
+          ..equippedHat = _equippedHat
+          ..equippedProp = _equippedProp
+          ..stageStars = Map.from(_stageStars);
+      }
+      storage['sye_profiles'] = jsonEncode(_profiles.map((p) => p.toJson()).toList());
+      storage['sye_active_profile_id'] = _activeProfileId;
+      storage['sye_student_name'] = _studentName;
+      storage['sye_gems'] = _gems.toString();
+      storage['sye_hearts'] = _hearts.toString();
+      storage['sye_stars'] = _totalStars.toString();
+      storage['sye_xp'] = _xp.toString();
+      storage['sye_active_avatar'] = _activeAvatar;
+      storage['sye_active_char_name'] = _activeCharacterName;
+      storage['sye_active_char_id'] = _activeCharacterId;
+      storage['sye_unlocked_chars'] = jsonEncode(_unlockedCharacters.toList());
+      if (_equippedHat != null) storage['sye_equipped_hat'] = _equippedHat!;
+      if (_equippedGlasses != null) storage['sye_equipped_glasses'] = _equippedGlasses!;
+      if (_equippedProp != null) storage['sye_equipped_prop'] = _equippedProp!;
+      if (_equippedPet != null) storage['sye_equipped_pet'] = _equippedPet!;
+      storage['sye_unlocked_acc'] = jsonEncode(_unlockedAccessories.toList());
+      storage['sye_stage_stars'] = jsonEncode(_stageStars);
+      storage['sye_world_theme'] = _worldTheme;
+    } catch (e) {
+      debugPrint('LocalStorage yazma hatası: $e');
+    }
+  }
+
+  int _gems = 260;             // Mücevherler/Elmaslar
+  int _hearts = 5;             // Canlar (Maks: 5)
+  final int _streakDays = 4;   // Günlük seri (gün)
+  int _totalStars = 14;        // Toplam toplanan yıldız
+  int _xp = 420;               // Deneyim puanı
+
+  final Set<String> _unlockedBadges = {'ilk_adim', 'kelime_avcisi', 'ses_kesfi', 'yildiz_koleksiyoncusu'};
+  String _activeAvatar = '👦';
+  String _activeCharacterName = 'SÜPER KAHRAMAN CAN';
+  String _activeCharacterId = 'char_skater_can';
+  final Set<String> _unlockedCharacters = {'char_skater_can', 'char_ninja', 'char_dino'};
+
+  // 🛍️ Gardırop & Aksesuarlar
+  String? _equippedHat = '👑';
+  String? _equippedGlasses;
+  String? _equippedProp = '🛹';
+  String? _equippedPet = '🐶';
+  final Set<String> _unlockedAccessories = {'hat_crown', 'prop_skateboard', 'hat_cap'};
+
+  // 📖 Çıkartma Albümü
+  final Set<String> _unlockedStickers = {
+    'pasta', 'panda', 'kedi', 'balon', 'roket', 'aslan', 'elma', 'araba', 'peynir', 'robot'
+  };
+
+  // 🎡 Şans Çarkıfeleği Günlük Durumu
+  bool _spinWheelAvailable = true;
+
+  // 🌌 Dinamik Dünya Teması: 'day', 'night', 'candy', 'ocean'
+  String _worldTheme = 'day';
+  String get worldTheme => _worldTheme;
+  void setWorldTheme(String theme) {
+    _worldTheme = theme;
+    _saveToLocalStorage();
+    notifyListeners();
+  }
+
+  // Seviye Yıldız İlerlemesi: id -> 1, 2, 3 yıldız
+  final Map<String, int> _stageStars = {
+    'sound_p': 3,
+    'sound_b': 3,
+    'sound_m': 3,
+    'sound_n': 2,
+    'sound_r': 1,
+  };
+
+  // Klinik Terapist / Ebeveyn İstatistikleri
+  final Map<String, PhonemeStat> _phonemeStats = {};
+
+  int get gems => _gems;
+  int get hearts => _hearts;
+  int get streakDays => _streakDays;
+  int get totalStars => _totalStars;
+  int get xp => _xp;
+  Set<String> get unlockedBadges => _unlockedBadges;
+  String get activeAvatar => _activeAvatar;
+  String get activeCharacterName => _activeCharacterName;
+  String get activeCharacterId => _activeCharacterId;
+  Set<String> get unlockedCharacters => _unlockedCharacters;
+  Map<String, PhonemeStat> get phonemeStats => _phonemeStats;
+
+  String? get equippedHat => _equippedHat;
+  String? get equippedGlasses => _equippedGlasses;
+  String? get equippedProp => _equippedProp;
+  String? get equippedPet => _equippedPet;
+  Set<String> get unlockedAccessories => _unlockedAccessories;
+  Set<String> get unlockedStickers => _unlockedStickers;
+  bool get spinWheelAvailable => _spinWheelAvailable;
+
+  int getStageStars(String stageId) => _stageStars[stageId] ?? 0;
+
+  void setStageStars(String stageId, int stars) {
+    if ((_stageStars[stageId] ?? 0) < stars) {
+      _stageStars[stageId] = stars;
+      _saveToLocalStorage();
+      notifyListeners();
+    }
+  }
+
+  void equipCharacter(String charId, String name, String emoji) {
+    _activeAvatar = emoji;
+    _activeCharacterName = name;
+    _activeCharacterId = charId;
+    _unlockedCharacters.add(charId);
+    _saveToLocalStorage();
+    notifyListeners();
+  }
+
+  void unlockCharacter(String charId) {
+    _unlockedCharacters.add(charId);
+    _saveToLocalStorage();
+    notifyListeners();
+  }
+
+  bool isCharacterUnlocked(String charId) => _unlockedCharacters.contains(charId);
+
+  // Aksesuar Satın Alma ve Kuşanma
+  bool buyAndEquipAccessory({
+    required String itemId,
+    required String category, // 'hat', 'glasses', 'prop'
+    required String emoji,
+    required int gemCost,
+  }) {
+    if (_gems >= gemCost && !_unlockedAccessories.contains(itemId)) {
+      _gems -= gemCost;
+      _unlockedAccessories.add(itemId);
+      equipAccessory(category, emoji);
+      _saveToLocalStorage();
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
+
+  void equipAccessory(String category, String? emoji) {
+    if (category == 'hat') _equippedHat = emoji;
+    if (category == 'glasses') _equippedGlasses = emoji;
+    if (category == 'prop') _equippedProp = emoji;
+    if (category == 'pet') _equippedPet = emoji;
+    _saveToLocalStorage();
+    notifyListeners();
+  }
+
+  bool isAccessoryUnlocked(String itemId) => _unlockedAccessories.contains(itemId);
+
+  void unlockSticker(String stickerId) {
+    _unlockedStickers.add(stickerId.toLowerCase().trim());
+    _saveToLocalStorage();
+    notifyListeners();
+  }
+
+  bool isStickerUnlocked(String stickerId) =>
+      _unlockedStickers.contains(stickerId.toLowerCase().trim());
+
+  void claimSpinWheel() {
+    _spinWheelAvailable = false;
+    _saveToLocalStorage();
+    notifyListeners();
+  }
+
+  void addReward({required int earnedStars, required int earnedXp, required int earnedGems}) {
+    _totalStars += earnedStars;
+    _xp += earnedXp;
+    _gems += earnedGems;
+    if (_totalStars >= 10 && !_unlockedBadges.contains('yildiz_koleksiyoncusu')) {
+      _unlockedBadges.add('yildiz_koleksiyoncusu');
+    }
+    _saveToLocalStorage();
+    notifyListeners();
+  }
+
+  void loseHeart() {
+    if (_hearts > 0) {
+      _hearts--;
+      _saveToLocalStorage();
+      notifyListeners();
+    }
+  }
+
+  void refillHearts() {
+    if (_gems >= 50 && _hearts < 5) {
+      _gems -= 50;
+      _hearts = 5;
+      _saveToLocalStorage();
+      notifyListeners();
+    }
+  }
+
+  /// Artikülasyon denemesini pozisyonuna ve sesine göre anlık kaydeder
+  void recordAttempt({
+    required String phoneme,
+    required String position, // 'Başta', 'Ortada', 'Sonda', 'Cümle', 'Hikaye'
+    required bool isCorrect,
+  }) {
+    final cleanP = phoneme.replaceAll('/', '').trim().toUpperCase();
+    if (!_phonemeStats.containsKey(cleanP)) {
+      _phonemeStats[cleanP] = PhonemeStat(phoneme: cleanP);
+    }
+
+    final stat = _phonemeStats[cleanP]!;
+    stat.totalAttempts++;
+    if (isCorrect) stat.correctAttempts++;
+
+    final posLower = position.toLowerCase();
+    if (posLower.contains('baş')) {
+      stat.initialAttempts++;
+      if (isCorrect) stat.initialCorrect++;
+    } else if (posLower.contains('orta')) {
+      stat.medialAttempts++;
+      if (isCorrect) stat.medialCorrect++;
+    } else if (posLower.contains('son')) {
+      stat.finalAttempts++;
+      if (isCorrect) stat.finalCorrect++;
+    }
+
+    notifyListeners();
+  }
+
+  int get totalPracticedAttempts {
+    int sum = 0;
+    for (final s in _phonemeStats.values) {
+      sum += s.totalAttempts;
+    }
+    return sum;
+  }
+
+  int get totalPracticedSuccesses {
+    int sum = 0;
+    for (final s in _phonemeStats.values) {
+      sum += s.correctAttempts;
+    }
+    return sum;
+  }
+
+  int get overallAccuracy {
+    if (totalPracticedAttempts == 0) return 0;
+    return ((totalPracticedSuccesses / totalPracticedAttempts) * 100).round();
+  }
+
+  void _initSampleTherapyStats() {
+    _phonemeStats['P'] = PhonemeStat(
+      phoneme: 'P',
+      totalAttempts: 18,
+      correctAttempts: 16,
+      initialAttempts: 8,
+      initialCorrect: 8,
+      medialAttempts: 6,
+      medialCorrect: 5,
+      finalAttempts: 4,
+      finalCorrect: 3,
+    );
+    _phonemeStats['B'] = PhonemeStat(
+      phoneme: 'B',
+      totalAttempts: 15,
+      correctAttempts: 14,
+      initialAttempts: 8,
+      initialCorrect: 8,
+      medialAttempts: 7,
+      medialCorrect: 6,
+      finalAttempts: 0,
+      finalCorrect: 0,
+    );
+    _phonemeStats['M'] = PhonemeStat(
+      phoneme: 'M',
+      totalAttempts: 12,
+      correctAttempts: 11,
+      initialAttempts: 5,
+      initialCorrect: 5,
+      medialAttempts: 4,
+      medialCorrect: 4,
+      finalAttempts: 3,
+      finalCorrect: 2,
+    );
+    _phonemeStats['N'] = PhonemeStat(
+      phoneme: 'N',
+      totalAttempts: 14,
+      correctAttempts: 11,
+      initialAttempts: 6,
+      initialCorrect: 5,
+      medialAttempts: 5,
+      medialCorrect: 4,
+      finalAttempts: 3,
+      finalCorrect: 2,
+    );
+    _phonemeStats['R'] = PhonemeStat(
+      phoneme: 'R',
+      totalAttempts: 20,
+      correctAttempts: 13,
+      initialAttempts: 8,
+      initialCorrect: 6,
+      medialAttempts: 7,
+      medialCorrect: 4,
+      finalAttempts: 5,
+      finalCorrect: 3,
+    );
+  }
+}

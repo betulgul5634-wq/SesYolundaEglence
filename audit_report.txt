@@ -1,0 +1,1064 @@
+
+==================== STAGE /p/ ====================
+  Item: Padişahın pelerini
+    -> Typos: ['Padişahın']
+  Item: Palyaçonun pantolonu
+    -> Typos: ['Palyaçonun']
+  Item: Süpürgenin sapı
+    -> Typos: ['Süpürgenin']
+  Item: Kepek şampuanı
+    -> Typos: ['şampuanı']
+  Item: Şampiyonun kupası
+    -> Typos: ['Şampiyonun']
+  Item: Polat pazartesi Paris'teydi.
+    -> Typos: ['teydi']
+  Item: Pencerenin pervazı pislenmiş.
+    -> Typos: ['pervazı']
+  Item: Patatesçi patatesleri paketledi.
+    -> Typos: ['paketledi']
+  Item: Patlıcanlı pirinç pilavı pişirelim.
+    -> Typos: ['pilavı', 'pişirelim']
+  Item: Postacının pantolonu poşetteymiş.
+    -> Typos: ['Postacının', 'poşetteymiş']
+  Item: Pidecideki peynirli pide pahalıydı.
+    -> Typos: ['Pidecideki']
+  Item: Pizzacı pizza pişirmekten pişmandı.
+    -> Typos: ['pişirmekten', 'pişmandı']
+  Item: Palyaçonun Pahalı pabuçları pulluydu.
+    -> Typos: ['Palyaçonun', 'pabuçları', 'pulluydu']
+  Item: Penceredeki papağan perdeyi parçaladı.
+    -> Typos: ['Penceredeki']
+  Item: Pelin peynirli poğaçayı Pervin'le paylaştı.
+    -> Typos: ['poğaçayı']
+  Item: Pazarlamacı Pervin Pırıltılı penyeleri pazarladı.
+    -> Typos: ['penyeleri', 'pazarladı']
+  Item: Perşembe pazarındaki pazarcı pırasaları poşetledi.
+    -> Typos: ['pazarındaki', 'pırasaları', 'poşetledi']
+  Item: Pamuklu pazen pijamasının pantolonunu pembeydi.
+    -> Typos: ['pijamasının', 'pembeydi']
+  Item: Recep İpek'iöptü.
+    -> Typos: ['iöptü']
+  Item: Serap yaprakları süpürdü.
+    -> Typos: ['süpürdü']
+
+==================== STAGE /b/ ====================
+  Item: Bebeğin biberonu
+    -> Typos: ['biberonu']
+  Item: Abajurun kablosu
+    -> Typos: ['Abajurun']
+  Item: Bej bluzuma bal bulaştı.
+    -> Typos: ['bluzuma']
+  Item: Burak berberde bitlendi.
+    -> Typos: ['berberde', 'bitlendi']
+  Item: Bebek biberonu boşalttı.
+    -> Typos: ['biberonu']
+  Item: Boza bardaklarını bulamadık.
+    -> Typos: ['bardaklarını']
+  Item: Bülent Banu'nun bisikletine bindi.
+    -> Typos: ['bisikletine']
+  Item: Babaannem bileziklerini bana bıraktı.
+    -> Typos: ['Babaannem', 'bileziklerini']
+  Item: Benim bütün balıklarım birbirine benzer.
+    -> Typos: ['balıklarım']
+  Item: Berna bakır boncuklarını bahçede buldu.
+    -> Typos: ['boncuklarını']
+  Item: Büyükbabam banyonun borularını boyadı.
+    -> Typos: ['borularını', 'boyadı']
+  Item: Lavabodaki sabunu bitirdim.
+    -> Typos: ['Lavabodaki']
+  Item: Berberde torbasını kaybetti.
+    -> Typos: ['Berberde']
+  Item: Ebru kitabı pembeye boyadı.
+    -> Typos: ['pembeye', 'boyadı']
+
+==================== STAGE /t/ ====================
+  Item: Tahtanın tebeşiri
+    -> Typos: ['tebeşiri']
+  Item: Tuba tayın tüylerini taradı.
+    -> Typos: ['taradı']
+  Item: Timsah taşın tepesindeydi.
+    -> Typos: ['tepesindeydi']
+  Item: Teoman terziyi tanıyamamış.
+    -> Typos: ['terziyi']
+  Item: Temel tarlanın taşlarını topladı.
+    -> Typos: ['tarlanın']
+  Item: Tahtanın tebeşirleri turuncuydu.
+    -> Typos: ['tebeşirleri']
+  Item: Taner terasın tentesini temizledi.
+    -> Typos: ['terasın', 'tentesini']
+  Item: Tarçınlı turtalar tatlı tabağındaydı.
+    -> Typos: ['turtalar']
+  Item: Tülay'in teyzesinin tarhanası tazeydi.
+    -> Typos: ['teyzesinin', 'tarhanası', 'tazeydi']
+  Item: Tahtanın tebeşiri bitmiş.
+    -> Typos: ['tebeşiri']
+  Item: Titiz terzi pantolonları ütüledi.
+    -> Typos: ['ütüledi']
+
+==================== STAGE /d/ ====================
+  Item: Damla'nın dayısı
+    -> Typos: ['dayısı']
+  Item: Düğündeki davulcu
+    -> Typos: ['Düğündeki']
+  Item: Bidonun dibi
+    -> Typos: ['Bidonun']
+  Item: Bademin tadı
+    -> Typos: ['Bademin']
+  Item: Damla dikiş diker.
+    -> Typos: ['diker']
+  Item: Dantelli düğmeleri diktiler.
+    -> Typos: ['diktiler']
+  Item: Dam durup dururken delindi.
+    -> Typos: ['delindi']
+  Item: Dedem denizaltıyla dolaşmış.
+    -> Typos: ['denizaltıyla']
+  Item: Duru derste defterlerini düşürdü.
+    -> Typos: ['defterlerini']
+  Item: Okulda fındıkla badem yedim.
+    -> Typos: ['fındıkla']
+
+==================== STAGE /k/ ====================
+  Item: Kaplumbağanın kabuğu
+    -> Typos: ['Kaplumbağanın']
+  Item: Kasap kepenkleri kaldırdı.
+    -> Typos: ['kepenkleri']
+  Item: Küçük kız kerevizi kaşıkladı.
+    -> Typos: ['kerevizi', 'kaşıkladı']
+  Item: Kıvırcık koyun kavunu kokladı.
+    -> Typos: ['kavunu', 'kokladı']
+  Item: Kaplan koruda kanguruyu kovalıyor.
+    -> Typos: ['koruda', 'kanguruyu']
+  Item: Köpek kokarcanın kuyruğunu kokladı.
+    -> Typos: ['kokarcanın', 'kokladı']
+  Item: Küçük kız akşam bakla ayıkladı.
+    -> Typos: ['ayıkladı']
+  Item: Büyük saksıda Menekşe ekiliymiş.
+    -> Typos: ['saksıda', 'ekiliymiş']
+
+==================== STAGE /g/ ====================
+  Item: Gemi güvertesi
+    -> Typos: ['güvertesi']
+  Item: Penguenin rengi
+    -> Typos: ['Penguenin']
+  Item: Gökhan güllaç getirmiş.
+    -> Typos: ['Gökhan']
+  Item: Gelenler göbekli gorile gülüyor.
+    -> Typos: ['gorile']
+  Item: Gülay Gaziantep'egezmeye gitti.
+    -> Typos: ['Gülay', 'egezmeye']
+  Item: Garson gevrek galetaları getiriyor.
+    -> Typos: ['galetaları']
+  Item: Gazeteciler Girne'ye geziye gittiler.
+    -> Typos: ['Girne']
+  Item: Kavgacı garson kızgınmış.
+    -> Typos: ['kızgınmış']
+
+==================== STAGE /f/ ====================
+  Item: Fenerin fiyatı
+    -> Typos: ['Fenerin']
+  Item: Fen fakultesi
+    -> Typos: ['fakultesi']
+  Item: Falcinin fincanı
+    -> Typos: ['Falcinin']
+  Item: Farklı fotoğraf cl
+    -> Typos: ['cl']
+  Item: Feribotun filikası
+    -> Typos: ['Feribotun', 'filikası']
+  Item: Fransizfaytoncu
+    -> Typos: ['Fransizfaytoncu']
+  Item: Ferhat fikrayl fısıldadı.
+    -> Typos: ['fikrayl']
+  Item: Fındık fıstık faydalıdır.
+    -> Typos: ['faydalıdır']
+  Item: Filmin finali fiyaskoydu.
+    -> Typos: ['fiyaskoydu']
+  Item: Futbolcunun fiyatı fazlaydı.
+    -> Typos: ['Futbolcunun']
+  Item: Fikret fiyakalı futbolcudur.
+    -> Typos: ['futbolcudur']
+  Item: Fatsalı Fatih fazla fanatikti.
+    -> Typos: ['fanatikti']
+  Item: Faik Fransa'da faytoncuydu.
+    -> Typos: ['faytoncuydu']
+  Item: Fevzi fenerin fitilini fisekledi.
+    -> Typos: ['fenerin', 'fitilini', 'fisekledi']
+  Item: Fillerle farelerin fiziği farklidir.
+    -> Typos: ['Fillerle', 'farklidir']
+  Item: Fas'ta fakirlik Fransa'Dan fazladir.
+    -> Typos: ['fazladir']
+  Item: Funda fayanslari fircayla fircaladi.
+    -> Typos: ['fayanslari', 'fircayla', 'fircaladi']
+  Item: Fantastik filmler film festivalindeydi.
+    -> Typos: ['festivalindeydi']
+  Item: Fatma fincan fabrikasinda fenalasti.
+    -> Typos: ['fabrikasinda', 'fenalasti']
+  Item: Fenerli futbolcunun formasi fosforluydu.
+    -> Typos: ['futbolcunun', 'formasi', 'fosforluydu']
+  Item: Fotoğrafçı Fransız futbolculari fotografadi.
+    -> Typos: ['futbolculari', 'fotografadi']
+  Item: Efe Sefa'ya ofkelendi.
+    -> Typos: ['ofkelendi']
+  Item: Efatun eşofman ufalmış.
+    -> Typos: ['Efatun']
+  Item: Elif Büfe'nin köftesi nefistir.
+    -> Typos: ['nefistir']
+  Item: Raftaki çarşafı naftalinledi.
+    -> Typos: ['Raftaki', 'çarşafı', 'naftalinledi']
+  Item: Sedefin kaftani defoluymuş.
+    -> Typos: ['Sedefin', 'kaftani', 'defoluymuş']
+  Item: Lütfen sınıfta fısıldamayınız.
+    -> Typos: ['fısıldamayınız']
+  Item: Fasulyeyle köfteler sofradaydı.
+    -> Typos: ['Fasulyeyle', 'köfteler', 'sofradaydı']
+  Item: Defne teneffüste sınıftan fırladı.
+    -> Typos: ['teneffüste']
+  Item: Fuardaki fırfırlı çarşaflar kadifeydi.
+    -> Typos: ['Fuardaki', 'kadifeydi']
+  Item: Defterdeki tuhaf tariflerle zayıfladı.
+    -> Typos: ['Defterdeki', 'tariflerle', 'zayıfladı']
+  Item: Fırıncı enfes şeftalili puflarını fırınladı.
+    -> Typos: ['puflarını', 'fırınladı']
+  Item: Arif Fenerbahce'nin fanatik taraftaridir.
+    -> Typos: ['Fenerbahce', 'taraftaridir']
+  Item: Müfettiş sınıfta fisildayanlari affetmedi.
+    -> Typos: ['fisildayanlari', 'affetmedi']
+  Item: Bufenin mutfağındaki se Fin kıya feti tuha fti.
+    -> Typos: ['Bufenin', 'feti', 'tuha', 'fti']
+  Item: Şeref haftaya Afyon'da fizik konferansinda.
+    -> Typos: ['konferansinda']
+
+==================== STAGE /v/ ====================
+  Item: Vananın vidası
+    -> Typos: ['Vananın', 'vidası']
+  Item: Vagondaki varil
+    -> Typos: ['Vagondaki']
+  Item: Vefa'nin vazosu
+    -> Typos: ['vazosu']
+  Item: Volkanin videosu
+    -> Typos: ['Volkanin']
+  Item: Verda'nin Vosvosu
+    -> Typos: ['Vosvosu']
+  Item: Vatandaşlık vazifesi
+    -> Typos: ['vazifesi']
+  Item: Duvar çivisi
+    -> Typos: ['çivisi']
+  Item: Lavabodaki Kova
+    -> Typos: ['Lavabodaki']
+  Item: Tavadaki mücver
+    -> Typos: ['Tavadaki']
+  Item: Volkan'in manavı
+    -> Typos: ['manavı']
+  Item: Veysel vanayi vidaladı.
+    -> Typos: ['vanayi', 'vidaladı']
+  Item: Vapurun vıncı vitesliydi.
+    -> Typos: ['Vapurun', 'vitesliydi']
+  Item: Volkan Vural'nvelisiymis.
+    -> Typos: ['nvelisiymis']
+  Item: Vedat'in valizi vagondaydi.
+    -> Typos: ['vagondaydi']
+  Item: Voleybolcu Vildan vedalasti.
+    -> Typos: ['vedalasti']
+  Item: Verda vazoyu Vahit'everdi.
+    -> Typos: ['everdi']
+  Item: Vapurda voleybolcular vardı.
+    -> Typos: ['Vapurda', 'voleybolcular']
+  Item: Vapurdaki valizde vişne varmış.
+    -> Typos: ['Vapurdaki', 'valizde']
+  Item: Valilik vatandasa vize vermedi.
+    -> Typos: ['vatandasa']
+  Item: Vilayetin vestiyerinde varil vardı.
+    -> Typos: ['Vilayetin', 'vestiyerinde']
+  Item: Vural valizini vestiyere vermedi.
+    -> Typos: ['vestiyere']
+  Item: Volkan vasitalari valeye verecek.
+    -> Typos: ['vasitalari', 'valeye']
+  Item: Devin evi maviydi.
+    -> Typos: ['maviydi']
+  Item: Seval tavsana havuç Verdi.
+    -> Typos: ['tavsana']
+  Item: Sevimli güvercin civcivi kovaladi.
+    -> Typos: ['civcivi', 'kovaladi']
+  Item: Davulcu davula kuvvetlice vurdu.
+    -> Typos: ['davula']
+  Item: Manavda vitaminli meyveler vardı.
+    -> Typos: ['Manavda']
+  Item: Evdeki davette tavuklu pilav vard.
+    -> Typos: ['davette', 'vard']
+  Item: Cuvaldaki cevizleri havanda dovdu.
+    -> Typos: ['Cuvaldaki', 'cevizleri', 'dovdu']
+  Item: Zavallievcil hayvanlar savunmasizdi.
+    -> Typos: ['Zavallievcil', 'savunmasizdi']
+  Item: Kavgacı Avni vazoyu duvara savurdu.
+    -> Typos: ['savurdu']
+  Item: Tuvaletteki lavabonun vidası gevşemiş.
+    -> Typos: ['Tuvaletteki', 'vidası']
+  Item: Deve kervaninda kahve cuvallari vardı.
+    -> Typos: ['kervaninda', 'cuvallari']
+  Item: Canavar duvardaki cerceveyi ceviriverdi.
+    -> Typos: ['cerceveyi', 'ceviriverdi']
+  Item: Lacivert eldiveniyle suiveterini vestiyere Verdi.
+    -> Typos: ['eldiveniyle', 'suiveterini', 'vestiyere']
+  Item: Sevgi lavabodaki ayva ve visneyi tavaya koyuverdi.
+    -> Typos: ['lavabodaki', 'visneyi', 'tavaya', 'koyuverdi']
+
+==================== STAGE /s/ ====================
+  Item: Mısır püskülü
+    -> Typos: ['püskülü']
+  Item: Sebze soteyi severim.
+    -> Typos: ['soteyi']
+  Item: Sinem sarı silgiyi sakladı.
+    -> Typos: ['silgiyi']
+  Item: Sokaktaki sincaplar sahipsizdi.
+    -> Typos: ['sahipsizdi']
+  Item: Saçma sözler söylemek serbestti.
+    -> Typos: ['serbestti']
+  Item: Selin saksıdaki sardunyaları suladı.
+    -> Typos: ['saksıdaki', 'sardunyaları', 'suladı']
+  Item: Sarı saclı sporcu sahada sakatlandı.
+    -> Typos: ['sakatlandı']
+  Item: Semizotu, soğan, sarımsak sepetteydi.
+    -> Typos: ['Semizotu', 'sepetteydi']
+  Item: Serseri sürücü sokakta subaya saldırdı.
+    -> Typos: ['subaya']
+  Item: Bakımsız bisiklet paslandı.
+    -> Typos: ['paslandı']
+  Item: Mesut teneffüste hastalandı.
+    -> Typos: ['teneffüste']
+  Item: Pasaklı Sibel salonu pisletti.
+    -> Typos: ['pisletti']
+  Item: Aslı siyah paltosunu askıya astı.
+    -> Typos: ['paltosunu']
+  Item: Esin eski elbiselerini eskiciye sattı.
+    -> Typos: ['eskiciye']
+
+==================== STAGE /z/ ====================
+  Item: Zavall zebra
+    -> Typos: ['Zavall']
+  Item: Zeytinlikteki zeytin
+    -> Typos: ['Zeytinlikteki']
+  Item: Kizin mizikasi
+    -> Typos: ['mizikasi']
+  Item: Kuzunun gozu
+    -> Typos: ['Kuzunun', 'gozu']
+  Item: Zafer zıpzıp zıpladı.
+    -> Typos: ['zıpladı']
+  Item: Zerrin zarfı zamkladı.
+    -> Typos: ['zamkladı']
+  Item: Zarif zambak zedelendi.
+    -> Typos: ['zedelendi']
+  Item: Zeytin'izehirli zannettim.
+    -> Typos: ['izehirli']
+  Item: Ziya zorlanarak zayifladi.
+    -> Typos: ['zayifladi']
+  Item: Zafer zinciri zimparaladi.
+    -> Typos: ['zimparaladi']
+  Item: Zarfı zimbayla zimbaladi.
+    -> Typos: ['zimbayla', 'zimbaladi']
+  Item: Zebrayla zurafalar zayifti.
+    -> Typos: ['Zebrayla', 'zurafalar', 'zayifti']
+  Item: Zeliha zamaninda. ziyafetteydi.
+    -> Typos: ['zamaninda', 'ziyafetteydi']
+  Item: Zeynep zaman zaman zirvalar.
+    -> Typos: ['zirvalar']
+  Item: Zeytinyağlı zencefil zararsizdir.
+    -> Typos: ['zararsizdir']
+  Item: Zengin ziyaretciyi Ziya zannettim.
+    -> Typos: ['ziyaretciyi']
+  Item: Zehirli zakkum zurafayi zehirledi.
+    -> Typos: ['zurafayi']
+  Item: Zeynep zıplayarak zayıflayacağını zannetti.
+    -> Typos: ['zannetti']
+  Item: Uzaya fuzeyle gidebiliriz.
+    -> Typos: ['fuzeyle']
+  Item: Terzi teyze komsumuzdur.
+    -> Typos: ['komsumuzdur']
+  Item: Ozgurun kuzeni muzisyendi.
+    -> Typos: ['Ozgurun', 'muzisyendi']
+  Item: Gamze'yi yazliktan taniyoruz.
+    -> Typos: ['yazliktan', 'taniyoruz']
+  Item: Hızlı yüzücü havuzda yuzdu.
+    -> Typos: ['yuzdu']
+  Item: Bazen müze gezmeyi ozlerim.
+    -> Typos: ['ozlerim']
+  Item: Pazardaki taze sebzeler azalmış.
+    -> Typos: ['Pazardaki']
+  Item: Yazın hepimiz denizde egleniriz.
+    -> Typos: ['egleniriz']
+  Item: Kuzenimle buzlu gazoza bayiliriz.
+    -> Typos: ['gazoza', 'bayiliriz']
+  Item: Taze bezelyeler kırmızı kavanozdaydi.
+    -> Typos: ['bezelyeler', 'kavanozdaydi']
+  Item: Pazarlari teyzemle zeytinli pizza pisiririz.
+    -> Typos: ['Pazarlari', 'teyzemle', 'pisiririz']
+  Item: Nezihe kizina kiraz, Üzüm, karpuz hazirlad.
+    -> Typos: ['kizina', 'hazirlad']
+  Item: Zafer izlediği yazarin gazetedeki yazilarini ozetledi.
+    -> Typos: ['yazarin', 'yazilarini', 'ozetledi']
+
+==================== STAGE /ş/ ====================
+  Item: Sarkill Şenlik
+    -> Typos: ['Sarkill']
+  Item: sasl şempanze
+    -> Typos: ['sasl']
+  Item: Solendeki sarkicl
+    -> Typos: ['Solendeki', 'sarkicl']
+  Item: samatacl şövalye
+    -> Typos: ['samatacl']
+  Item: sampiyonun sovu
+    -> Typos: ['sampiyonun', 'sovu']
+  Item: Kış gunesi
+    -> Typos: ['gunesi']
+  Item: Telaşlı ascl
+    -> Typos: ['ascl']
+  Item: Güneş Isini
+    -> Typos: ['Isini']
+  Item: Ayşe'nin kardesi
+    -> Typos: ['kardesi']
+  Item: Arkadasimin kalemtirasl
+    -> Typos: ['Arkadasimin', 'kalemtirasl']
+  Item: Şam şekeri Şam'dadir.
+    -> Typos: ['dadir']
+  Item: şişko şempanze şirindi.
+    -> Typos: ['şirindi']
+  Item: şampiyon Şeniz şımarıktı.
+    -> Typos: ['şımarıktı']
+  Item: Sengül sohreti sarkiciydi.
+    -> Typos: ['sohreti', 'sarkiciydi']
+  Item: şapkalı Şerif samataciydi.
+    -> Typos: ['samataciydi']
+  Item: sirinler sirine'yle sakalasti.
+    -> Typos: ['sirinler', 'sirine', 'sakalasti']
+  Item: Sengül'usan şöhret sasirtti.
+    -> Typos: ['sasirtti']
+  Item: sampiyonun sovu sahaneydi.
+    -> Typos: ['sampiyonun', 'sovu', 'sahaneydi']
+  Item: solendeki şaklaban sapkaliydi.
+    -> Typos: ['solendeki', 'sapkaliydi']
+  Item: sominenin sekli Şenay'isasirtmisti.
+    -> Typos: ['sominenin', 'isasirtmisti']
+  Item: şule'nin sekerleri sekerlikteymis.
+    -> Typos: ['sekerleri', 'sekerlikteymis']
+  Item: şahane samdanlar sovalyenindi.
+    -> Typos: ['samdanlar', 'sovalyenindi']
+  Item: şekerli şeftali serbeti sismanlatir.
+    -> Typos: ['serbeti', 'sismanlatir']
+  Item: şaşı şempanze sSirin şule'yi sasirtti.
+    -> Typos: ['sSirin', 'sasirtti']
+  Item: Şöhretli şarkıcı sehirdekileri senlendirdi.
+    -> Typos: ['sehirdekileri', 'senlendirdi']
+  Item: Başarıl kisiler caliskandir.
+    -> Typos: ['kisiler', 'caliskandir']
+  Item: Basimdaki şapka kusluydu.
+    -> Typos: ['Basimdaki', 'kusluydu']
+  Item: Asagidaki komsu aşırı neselidir.
+    -> Typos: ['Asagidaki', 'neselidir']
+  Item: Arkadasimin Yeşil tisortu yırtılmış.
+    -> Typos: ['Arkadasimin', 'tisortu']
+  Item: Akşam kuslarin otusu coskuluydu.
+    -> Typos: ['kuslarin', 'otusu', 'coskuluydu']
+  Item: Dişlek tavşan kosede kasiniyordu.
+    -> Typos: ['kosede', 'kasiniyordu']
+  Item: Enistem görüşmeyeli şişmanlamış.
+    -> Typos: ['Enistem']
+  Item: sovalyenin sakalari basimizi sisirdi.
+    -> Typos: ['sovalyenin', 'sakalari', 'basimizi', 'sisirdi']
+  Item: Kardesime kreste sekilleri ogretmisler.
+    -> Typos: ['Kardesime', 'kreste', 'sekilleri', 'ogretmisler']
+  Item: Ayşe düşünce basini tasa çarpmış.
+    -> Typos: ['basini']
+  Item: Şampiyon kosucunun sortu kirmiziymis.
+    -> Typos: ['kosucunun', 'sortu', 'kirmiziymis']
+  Item: Yaristaki yarismacilar yavaş kosuyordu.
+    -> Typos: ['Yaristaki', 'yarismacilar', 'kosuyordu']
+  Item: sampiyonlar yarista pes pese dizilmisti.
+    -> Typos: ['sampiyonlar', 'yarista', 'pese', 'dizilmisti']
+  Item: Şımarık Ayşe arkadasinin pesinden kostu.
+    -> Typos: ['arkadasinin', 'pesinden', 'kostu']
+  Item: Kumaşçı yıpranmış kumaslari asagidaki koseye koymustu.
+    -> Typos: ['kumaslari', 'asagidaki', 'koseye', 'koymustu']
+
+==================== STAGE /j/ ====================
+  Item: Jale'nin jetonu
+    -> Typos: ['jetonu']
+  Item: Jaguar'in janti
+    -> Typos: ['janti']
+  Item: Jülide'nin jesti
+    -> Typos: ['jesti']
+  Item: Jelibonun jolesi
+    -> Typos: ['Jelibonun', 'jolesi']
+  Item: Jandarmanin jileti
+    -> Typos: ['Jandarmanin', 'jileti']
+  Item: Judocularin jübilesi
+    -> Typos: ['Judocularin', 'jübilesi']
+  Item: Jamaikal jimnastikçi
+    -> Typos: ['Jamaikal']
+  Item: Ojeli Tijen
+    -> Typos: ['Tijen']
+  Item: Sarjl abajur
+    -> Typos: ['Sarjl']
+  Item: Enerj masaji
+    -> Typos: ['Enerj', 'masaji']
+  Item: Japon makyaji
+    -> Typos: ['makyaji']
+  Item: Jiletin ambalaji
+    -> Typos: ['Jiletin', 'ambalaji']
+  Item: Ajanin ajandasi
+    -> Typos: ['Ajanin', 'ajandasi']
+  Item: Jokeyin jübilesi jestti.
+    -> Typos: ['Jokeyin', 'jübilesi', 'jestti']
+  Item: Jöleli jön jenerikteydi.
+    -> Typos: ['jenerikteydi']
+  Item: Jale'nin jilesi jarseydi.
+    -> Typos: ['jilesi', 'jarseydi']
+  Item: Jöleli jandarma judocuydu.
+    -> Typos: ['judocuydu']
+  Item: Jetin jeneratoru jetonludur.
+    -> Typos: ['Jetin', 'jeneratoru', 'jetonludur']
+  Item: Jumbo jambonlar jelatinliydi.
+    -> Typos: ['jambonlar', 'jelatinliydi']
+  Item: Janset Japonlarla Jüpiter'deydi.
+    -> Typos: ['Janset', 'Japonlarla']
+  Item: Jülide Jamaika'da jimnastikciydi.
+    -> Typos: ['jimnastikciydi']
+  Item: Jokey Jale jimnastik jurisindeydi.
+    -> Typos: ['jurisindeydi']
+  Item: Judocu jelatinsiz jetonlari jelatinledi.
+    -> Typos: ['jelatinsiz', 'jetonlari', 'jelatinledi']
+  Item: Jamaika'daki jokey Japon jetindeydi.
+    -> Typos: ['jetindeydi']
+  Item: Jülide'nin Jaguar'inin jantlari janjanliydi.
+    -> Typos: ['jantlari', 'janjanliydi']
+  Item: Nejat'in projesi stratejiktir.
+    -> Typos: ['Nejat', 'stratejiktir']
+  Item: Tijen psikoloji stajindaymis.
+    -> Typos: ['Tijen', 'stajindaymis']
+  Item: Drajelerin gramaji orijinaldir.
+    -> Typos: ['Drajelerin', 'gramaji', 'orijinaldir']
+  Item: Bagajin ambalaji garajda mi?
+    -> Typos: ['Bagajin', 'ambalaji']
+  Item: Ajda'nin alerjisi pijamadanmis.
+    -> Typos: ['pijamadanmis']
+  Item: Stajyer ferforjeleri montajladl.
+    -> Typos: ['ferforjeleri', 'montajladl']
+  Item: Bej ojemle rujum bagajdaymis.
+    -> Typos: ['ojemle', 'rujum', 'bagajdaymis']
+  Item: Ejderhalı pjamalar Müjde'ninmis.
+    -> Typos: ['pjamalar', 'ninmis']
+  Item: Müjdat'in dublaj ajansı pasajdadir.
+    -> Typos: ['pasajdadir']
+  Item: Vidanjorler lojmanin garajindadir.
+    -> Typos: ['Vidanjorler', 'lojmanin', 'garajindadir']
+  Item: Kolejdeki deterjanlar hijyenik midir?
+    -> Typos: ['Kolejdeki', 'deterjanlar']
+  Item: Sosyoloji arkeolojiden avantajlidir.
+    -> Typos: ['arkeolojiden', 'avantajlidir']
+  Item: Roportaji ajansa mesajla mujdelediler.
+    -> Typos: ['Roportaji', 'mujdelediler']
+  Item: Ajandadaki mesajlar ajanin santajiymis.
+    -> Typos: ['Ajandadaki', 'ajanin', 'santajiymis']
+  Item: Enerji masajinin orijinali Nijerya'daki plajlardadir.
+    -> Typos: ['masajinin', 'plajlardadir']
+
+==================== STAGE /h/ ====================
+  Item: Havuzdaki havlu
+    -> Typos: ['Havuzdaki']
+  Item: Hastalık hastas
+    -> Typos: ['hastas']
+  Item: Sahanda şehriye
+    -> Typos: ['Sahanda']
+  Item: Baharatlı la hmacun
+    -> Typos: ['hmacun']
+  Item: Sehpadaki tahtakurusu
+    -> Typos: ['Sehpadaki', 'tahtakurusu']
+  Item: Handan Hanım hıçkırdı.
+    -> Typos: ['hıçkırdı']
+  Item: Helikopter hizla havalandi.
+    -> Typos: ['hizla', 'havalandi']
+  Item: Halit hirsizlari hemen hakladi.
+    -> Typos: ['Halit', 'hirsizlari', 'hakladi']
+  Item: Hastanedeki hemşire hatallydi.
+    -> Typos: ['hatallydi']
+  Item: Halam helvayi hemen hazirladi.
+    -> Typos: ['helvayi', 'hazirladi']
+  Item: Hülya halam havuzda hastalandi.
+    -> Typos: ['hastalandi']
+  Item: Halidaki hediyelerin hangisi hafif?
+    -> Typos: ['Halidaki', 'hediyelerin']
+  Item: Heyecanlı Halil hirkasini hirpaladi.
+    -> Typos: ['hirkasini', 'hirpaladi']
+  Item: Hamaktaki Hasan herseyden habersizdi.
+    -> Typos: ['Hamaktaki', 'herseyden', 'habersizdi']
+  Item: Hakim hileci haydutlarin hepsini hapsetti.
+    -> Typos: ['haydutlarin', 'hapsetti']
+  Item: Hizmetliler havasız hangari hizla havalandirdilar.
+    -> Typos: ['Hizmetliler', 'hangari', 'hizla', 'havalandirdilar']
+  Item: Hekimler, hemsireler ve hastabakicilar hastanedeydi.
+    -> Typos: ['Hekimler', 'hemsireler', 'hastabakicilar', 'hastanedeydi']
+  Item: Nahit tenhada horluyordu.
+    -> Typos: ['Nahit', 'tenhada']
+  Item: Pahalı Mücevher sahteymis.
+    -> Typos: ['sahteymis']
+  Item: Sabiha'nin anahtari siyahti.
+    -> Typos: ['anahtari', 'siyahti']
+  Item: Baharatlı yahni muhtesemdi.
+    -> Typos: ['muhtesemdi']
+  Item: Bahcedeki kahvaltı harikaydi.
+    -> Typos: ['Bahcedeki', 'harikaydi']
+  Item: Baharda havalar hep ferahtir.
+    -> Typos: ['ferahtir']
+  Item: Sehpayi tahtakurusu mahvetmiş.
+    -> Typos: ['Sehpayi', 'tahtakurusu']
+  Item: Saliha Taha'ya ehliyetini hatirlatti.
+    -> Typos: ['hatirlatti']
+  Item: Bahcivanin tohumlari bahcedeydi.
+    -> Typos: ['Bahcivanin', 'tohumlari', 'bahcedeydi']
+  Item: ihtiyar hokkabazin hikayesi tuhaft.
+    -> Typos: ['hokkabazin', 'tuhaft']
+  Item: Sahandaki lahana Serhat'in hakkidir.
+    -> Typos: ['Sahandaki', 'hakkidir']
+  Item: Sihirli ejderhanin hikayesi heyecanliydi.
+    -> Typos: ['ejderhanin', 'heyecanliydi']
+  Item: Sihirbazin kahkahasi hepimizi rahatlatti.
+    -> Typos: ['Sihirbazin', 'kahkahasi', 'rahatlatti']
+  Item: Ahmet yemekhanede kahvaltı hazirladi.
+    -> Typos: ['hazirladi']
+
+==================== STAGE /ç/ ====================
+  Item: Cayirdaki çimen
+    -> Typos: ['Cayirdaki']
+  Item: Caydanliktaki çay
+    -> Typos: ['Caydanliktaki']
+  Item: Sağ fircas
+    -> Typos: ['fircas']
+  Item: Mızıkçı Tugce
+    -> Typos: ['Tugce']
+  Item: Palyaconun sacl
+    -> Typos: ['Palyaconun', 'sacl']
+  Item: Çilekler çürük çıktı.
+    -> Typos: ['Çilekler']
+  Item: Çukur ganak gatladi.
+    -> Typos: ['ganak', 'gatladi']
+  Item: Çekiçle civiyi caktim.
+    -> Typos: ['civiyi', 'caktim']
+  Item: Çiftçi ciftlikte calisiyor.
+    -> Typos: ['ciftlikte', 'calisiyor']
+  Item: Carsida cantam galindi.
+    -> Typos: ['Carsida', 'cantam', 'galindi']
+  Item: Çetin camasirlari calkaladi.
+    -> Typos: ['camasirlari', 'calkaladi']
+  Item: Cicekcideki cicekler cogaldi.
+    -> Typos: ['Cicekcideki', 'cicekler', 'cogaldi']
+  Item: Cantasindaki çakmağı cakti.
+    -> Typos: ['Cantasindaki', 'cakti']
+  Item: Çağla çocuğun çorabını gekti.
+    -> Typos: ['gekti']
+  Item: Camasirin gamurunu gitiledim.
+    -> Typos: ['Camasirin', 'gamurunu', 'gitiledim']
+  Item: Çalışkan Çağdaş Çiğdem'icalistirdl.
+    -> Typos: ['icalistirdl']
+  Item: Copçu copleri carsidan çuvalla cgikard.
+    -> Typos: ['copleri', 'carsidan', 'cgikard']
+  Item: Cikolatalar çocuğun gekmecesinden çıktı.
+    -> Typos: ['Cikolatalar', 'gekmecesinden']
+  Item: Suç lu bekçi kacti.
+    -> Typos: ['kacti']
+  Item: Burç in kraliçe secildi.
+    -> Typos: ['secildi']
+  Item: Orc UN üç üşü kaç irdi.
+    -> Typos: ['Orc', 'irdi']
+  Item: Sağ ina çekirge sıç Radi.
+    -> Typos: ['ina']
+  Item: inatçı kecicayira kact.
+    -> Typos: ['kecicayira', 'kact']
+  Item: Üç serçe agactan üç tu.
+    -> Typos: ['agactan']
+  Item: Seçil Açelya'ya borç landi.
+    -> Typos: ['landi']
+  Item: Palyaço üç urtma üç Urdu.
+    -> Typos: ['urtma']
+  Item: Ayca üç akta hiç iç ki icmedi.
+    -> Typos: ['akta', 'icmedi']
+  Item: Bahc edeki ağaç lar cic ek aç ti.
+    -> Typos: ['Bahc', 'edeki', 'cic']
+  Item: Sevinç reçelli pogacalarl secti.
+    -> Typos: ['pogacalarl', 'secti']
+  Item: Bahc ivan bahc edeki cimleri bicti.
+    -> Typos: ['Bahc', 'bahc', 'edeki', 'cimleri', 'bicti']
+  Item: Tarc inli iç ecekler fic inin iç indeydi.
+    -> Typos: ['Tarc', 'ecekler', 'fic', 'indeydi']
+  Item: Kuc UK göçük recetedeki ilaclari iç ti.
+    -> Typos: ['Kuc', 'recetedeki', 'ilaclari']
+  Item: Fenerbahce'nin maç ikac kaç sonuç landi?
+    -> Typos: ['Fenerbahce', 'ikac', 'landi']
+
+==================== STAGE /c/ ====================
+  Item: Cırt cirtl cep
+    -> Typos: ['cirtl']
+  Item: Cadinin cuppesi
+    -> Typos: ['Cadinin', 'cuppesi']
+  Item: Cumhuriyet coskusu
+    -> Typos: ['coskusu']
+  Item: incir agacl
+    -> Typos: ['agacl']
+  Item: Birinci yarismacl
+    -> Typos: ['yarismacl']
+  Item: Ocaktaki tencere
+    -> Typos: ['Ocaktaki']
+  Item: Çan'la Cem cesurdur.
+    -> Typos: ['cesurdur']
+  Item: Cici Cemre cıvıl cıvıldı.
+    -> Typos: ['cıvıldı']
+  Item: Ceren cumartesi costu.
+    -> Typos: ['costu']
+  Item: Cihan cezveleri cilaladi.
+    -> Typos: ['cezveleri', 'cilaladi']
+  Item: Camdan cama cevapladl.
+    -> Typos: ['cevapladl']
+  Item: Ceketinin cebi cirtcirtlydl.
+    -> Typos: ['cirtcirtlydl']
+  Item: Cimcime Canan cesaretlidir.
+    -> Typos: ['cesaretlidir']
+  Item: Civardaki caddeler canlandi.
+    -> Typos: ['caddeler', 'canlandi']
+  Item: Civcivler civarda civildiyordu.
+    -> Typos: ['Civcivler', 'civildiyordu']
+  Item: Cırlayan circirbocegi canliydi.
+    -> Typos: ['circirbocegi', 'canliydi']
+  Item: Cambaz cafcaflı caddeyi costurdu.
+    -> Typos: ['costurdu']
+  Item: Ceyda cumhuriyet coskusuyla costu.
+    -> Typos: ['coskusuyla', 'costu']
+  Item: Cenkin cebindeki cetvel Cemilinmis.
+    -> Typos: ['Cenkin', 'Cemilinmis']
+  Item: Cevizler Cansu'nun ceketinin cebinde.
+    -> Typos: ['Cevizler']
+  Item: Cengiz camcinin camlarini cilalamadigindan cezaliydi.
+    -> Typos: ['camcinin', 'camlarini', 'cilalamadigindan', 'cezaliydi']
+  Item: Ece'nin çanı acidi.
+    -> Typos: ['acidi']
+  Item: Çocuk cekmeceyi açacak.
+    -> Typos: ['cekmeceyi']
+  Item: Boyacı bacayi boyayacak.
+    -> Typos: ['bacayi']
+  Item: Vicdanlı amca çocuğa acidi.
+    -> Typos: ['acidi']
+  Item: Eczacinin ilacı eczanededir.
+    -> Typos: ['Eczacinin', 'eczanededir']
+  Item: inci'nin bacağı karincalandi.
+    -> Typos: ['karincalandi']
+  Item: Nurcan amcasini arayacak.
+    -> Typos: ['amcasini']
+  Item: Naci amcanin lahmacunu acıydı.
+    -> Typos: ['amcanin', 'lahmacunu']
+  Item: Acayip bilmeceyi cevaplayamadi.
+    -> Typos: ['bilmeceyi', 'cevaplayamadi']
+
+==================== STAGE /m/ ====================
+  Item: Mutfak masasl
+    -> Typos: ['masasl']
+  Item: Metrodaki mizikacl
+    -> Typos: ['Metrodaki', 'mizikacl']
+  Item: Muzisyenin mandolini
+    -> Typos: ['Muzisyenin', 'mandolini']
+  Item: Çam ormani
+    -> Typos: ['ormani']
+  Item: Susamll simit
+    -> Typos: ['Susamll']
+  Item: Temmuz aksaml
+    -> Typos: ['aksaml']
+  Item: Melda'nin maskesi matraktı.
+    -> Typos: ['Melda', 'matraktı']
+  Item: Meltem'in montu masadaydi.
+    -> Typos: ['masadaydi']
+  Item: Minderdeki minikler meshurdur.
+    -> Typos: ['Minderdeki', 'minikler', 'meshurdur']
+  Item: Meydandaki menekseler mordu.
+    -> Typos: ['Meydandaki', 'menekseler', 'mordu']
+  Item: Mehmet'in mendili mutfaktaymis.
+    -> Typos: ['mutfaktaymis']
+  Item: Mikroskop meraklı mucidinmis.
+    -> Typos: ['mucidinmis']
+  Item: Mehtap mesleğinden memnundu.
+    -> Typos: ['memnundu']
+  Item: Miray'nmuhallebisi mukemmeldir.
+    -> Typos: ['nmuhallebisi', 'mukemmeldir']
+  Item: Mutfağımızın masasi memerdendir.
+    -> Typos: ['masasi', 'memerdendir']
+  Item: Makarnacinin makarnalari mantarliydi.
+    -> Typos: ['Makarnacinin', 'makarnalari', 'mantarliydi']
+  Item: Mutfaktaki masanin musambasi maviydi.
+    -> Typos: ['masanin', 'musambasi', 'maviydi']
+  Item: Minik Mırnav mutfak masasinda mirildandi.
+    -> Typos: ['masasinda', 'mirildandi']
+  Item: Mahallemizdeki manavinin meyveleri meshurdur.
+    -> Typos: ['Mahallemizdeki', 'manavinin', 'meshurdur']
+  Item: Sevimli Selim emziğini emdi.
+    -> Typos: ['emdi']
+  Item: Benim kedimin ismi Lokum'dur.
+    -> Typos: ['kedimin']
+  Item: Elmas madenini işletmek masraflydi.
+    -> Typos: ['madenini', 'masraflydi']
+  Item: Masamdaki tükenmez kalemler kimin?
+    -> Typos: ['Masamdaki']
+  Item: Adam kamyonunu kirmiziya boyamış.
+    -> Typos: ['kirmiziya']
+  Item: Kumarbaz adam tembellikten sismanladi.
+    -> Typos: ['tembellikten', 'sismanladi']
+  Item: Meyve suyumu kamisla icmeye bayilirim.
+    -> Typos: ['suyumu', 'kamisla', 'icmeye', 'bayilirim']
+  Item: Kemal'in mahallesindeki cimenler temizdi.
+    -> Typos: ['mahallesindeki', 'cimenler']
+  Item: Ormanimizdaki camlar müthiş kokmaktadir.
+    -> Typos: ['Ormanimizdaki', 'kokmaktadir']
+  Item: Dilimledigin salamlari makarnaya katmalisin.
+    -> Typos: ['Dilimledigin', 'salamlari', 'makarnaya', 'katmalisin']
+  Item: Geminin kamarasindan manzarayl seyrettim.
+    -> Typos: ['kamarasindan', 'manzarayl']
+  Item: Annem yemediğim kuruyemisleri cantamdan çıkarmış.
+    -> Typos: ['kuruyemisleri', 'cantamdan']
+  Item: Komik adam kambur numarasi yapmaya calismaktaydi.
+    -> Typos: ['numarasi', 'calismaktaydi']
+  Item: Çamurlanan ustumuzu samanliktaki samanlarla temizledik.
+    -> Typos: ['ustumuzu', 'samanliktaki', 'samanlarla']
+
+==================== STAGE /n/ ====================
+  Item: Nişan nezlesi
+    -> Typos: ['nezlesi']
+  Item: Nehirdeki nilüfer
+    -> Typos: ['Nehirdeki']
+  Item: Ninemin nasihatleri
+    -> Typos: ['nasihatleri']
+  Item: Sineğin kanadi
+    -> Typos: ['kanadi']
+  Item: Esnaf lokantasi
+    -> Typos: ['lokantasi']
+  Item: Kapinin mandalı
+    -> Typos: ['Kapinin']
+  Item: Kadinin eldiveni
+    -> Typos: ['Kadinin']
+  Item: Lahana tenceresi
+    -> Typos: ['tenceresi']
+  Item: Bebeğin biberonu
+    -> Typos: ['biberonu']
+  Item: Gergedanin boynuzu
+    -> Typos: ['Gergedanin']
+  Item: Lunaparktaki salıncak
+    -> Typos: ['Lunaparktaki']
+  Item: Naneli nohut nefisti.
+    -> Typos: ['nefisti']
+  Item: Narin nilüfer nehirdeydi.
+    -> Typos: ['nehirdeydi']
+  Item: Nohut nerede nemlendi?
+    -> Typos: ['nemlendi']
+  Item: Nezih nisaninda neseliydi.
+    -> Typos: ['nisaninda', 'neseliydi']
+  Item: Neriman'in nisanlisi nankordu.
+    -> Typos: ['nisanlisi', 'nankordu']
+  Item: Nazan'nnevresimleri nemliydi.
+    -> Typos: ['nnevresimleri', 'nemliydi']
+  Item: Nil Nehri'ndeki niluferler nefisti.
+    -> Typos: ['niluferler', 'nefisti']
+  Item: Narin Nedime nikahta nazlandi.
+    -> Typos: ['nikahta', 'nazlandi']
+  Item: Nöbetçi Naim nobette neseliydi..
+    -> Typos: ['nobette', 'neseliydi']
+  Item: Nihan'in nikahi neseyle noktalandi.
+    -> Typos: ['nikahi', 'neseyle', 'noktalandi']
+  Item: Nalan'in notlarinin neticesi negatifti.
+    -> Typos: ['notlarinin', 'neticesi', 'negatifti']
+  Item: Nazarlıklı nevresimin numarasi neydi?
+    -> Typos: ['nevresimin', 'numarasi']
+  Item: Neriman'la Naim Niğde'de nisanlandilar.
+    -> Typos: ['nisanlandilar']
+  Item: Nazlı nakarattaki notalari numaralandirdi.
+    -> Typos: ['nakarattaki', 'notalari', 'numaralandirdi']
+  Item: Nakliyeci Nevşehir'den Niğde'ye naylonlari nakletti.
+    -> Typos: ['naylonlari', 'nakletti']
+  Item: Kadinin eldiveni delindi.
+    -> Typos: ['Kadinin', 'delindi']
+  Item: Lunaparkta salıncağa bindik.
+    -> Typos: ['Lunaparkta']
+  Item: Kumanda pencerenin onundeydi.
+    -> Typos: ['onundeydi']
+  Item: Aslan, yavrularinin yanina uzandi.
+    -> Typos: ['yavrularinin', 'yanina', 'uzandi']
+  Item: Gezinti teknesiyle denizde dolandi.
+    -> Typos: ['teknesiyle', 'dolandi']
+  Item: Kenan cantasini dukkanda unuttu.
+    -> Typos: ['cantasini', 'dukkanda']
+  Item: Koyunlar cimenlerin tadını begendi.
+    -> Typos: ['cimenlerin', 'begendi']
+  Item: Korsan kancasiyla sandala tutundu.
+    -> Typos: ['kancasiyla', 'sandala', 'tutundu']
+  Item: Erşan arkadasini kuzeniyle tanistirdi.
+    -> Typos: ['arkadasini', 'kuzeniyle', 'tanistirdi']
+  Item: Gelin dugunde tanidiklariyla eglendi.
+    -> Typos: ['dugunde', 'tanidiklariyla', 'eglendi']
+  Item: Sandiktan çıkan altinlari görünce sevindi.
+    -> Typos: ['Sandiktan', 'altinlari']
+  Item: Geminin yaninda yüzen balina kocamand.
+    -> Typos: ['kocamand']
+  Item: Bahçıvan tunelin sonunda kamyondan indi.
+    -> Typos: ['tunelin']
+  Item: Annem tavsanin yanağına burnuyla dokundu.
+    -> Typos: ['tavsanin']
+  Item: Oyuncu penguen kayanin arkasina saklandl.
+    -> Typos: ['kayanin', 'arkasina', 'saklandl']
+
+==================== STAGE /l/ ====================
+  Item: Bavulun kilidi
+    -> Typos: ['Bavulun']
+  Item: Mahalle bakkali
+    -> Typos: ['bakkali']
+  Item: Lila lamba lekelendi.
+    -> Typos: ['lekelendi']
+  Item: Lütfü'nun lisesi Laleli'de.
+    -> Typos: ['Lütfü']
+  Item: Levent'elazimlik lazım.
+    -> Typos: ['elazimlik']
+  Item: Legeni lavaboda lifledim.
+    -> Typos: ['Legeni', 'lifledim']
+  Item: Lokantanin lambasi lostu.
+    -> Typos: ['Lokantanin', 'lambasi', 'lostu']
+  Item: Lüks limuzin luzumsuzdu.
+    -> Typos: ['luzumsuzdu']
+  Item: Lale'nin lokumu lavantalı.
+    -> Typos: ['lokumu']
+  Item: Lokomotifteki lamba lekeli.
+    -> Typos: ['Lokomotifteki']
+  Item: Leman'in limonatasi lezizdi.
+    -> Typos: ['limonatasi', 'lezizdi']
+  Item: Lahmacun limonla lezzetlendi.
+    -> Typos: ['lezzetlendi']
+  Item: Latif'in lahanasina limon lazım.
+    -> Typos: ['lahanasina']
+  Item: Laleli'deki lüks lokantanin lokumu limonlu.
+    -> Typos: ['lokantanin', 'lokumu']
+  Item: Kelebek hizla kanatlandi..
+    -> Typos: ['hizla', 'kanatlandi']
+  Item: Bakkaldan leblebi aldim.
+    -> Typos: ['Bakkaldan']
+  Item: Elini mendille temizledi.
+    -> Typos: ['mendille']
+  Item: Valizde altı gözlük bulundu.
+    -> Typos: ['Valizde']
+  Item: Ali ilaç alıp koltukta dinlendi.
+    -> Typos: ['dinlendi']
+  Item: Okul önlüğümü halam almisti.
+    -> Typos: ['almisti']
+  Item: Kelebek desenli elbise guzeldi.
+    -> Typos: ['guzeldi']
+  Item: Ali'nin eline çilekli çikolata bulasti.
+    -> Typos: ['bulasti']
+  Item: Elbisem kola dökülünce lekelendi.
+    -> Typos: ['lekelendi']
+  Item: Ela'nin elbisesinde şeftali lekesi kaldi.
+    -> Typos: ['elbisesinde']
+  Item: Melis desenli kalemini koltuğun altinda buldu.
+    -> Typos: ['Melis']
+  Item: Tatilde babamla İstanbul'ubisikletle dolaşmak guzeldi.
+    -> Typos: ['ubisikletle', 'guzeldi']
+
+==================== STAGE /r/ ====================
+  Item: Rujun rengi
+    -> Typos: ['Rujun']
+  Item: Rıza'nın raketi
+    -> Typos: ['raketi']
+  Item: Reisin romanı
+    -> Typos: ['Reisin']
+  Item: Recep'in ranzası
+    -> Typos: ['ranzası']
+  Item: Rehberin raporu
+    -> Typos: ['Rehberin']
+  Item: Ressamın rozeti
+    -> Typos: ['Ressamın']
+  Item: Reha ruhen rahatsızdı.
+    -> Typos: ['rahatsızdı']
+  Item: Rıza revirde refakatçidir.
+    -> Typos: ['refakatçidir']
+  Item: Rana'nın ruju rengarenk.
+    -> Typos: ['ruju']
+  Item: Reha'nın ranzası renksizdi.
+    -> Typos: ['ranzası', 'renksizdi']
+  Item: Ressam romanı resmetti.
+    -> Typos: ['resmetti']
+  Item: Revirdeki ranza rahatmış.
+    -> Typos: ['Revirdeki', 'rahatmış']
+  Item: Rus restoranı ruhsatsızmış.
+    -> Typos: ['ruhsatsızmış']
+  Item: Fenerbahçe rakibini korkuttu.
+    -> Typos: ['Fenerbahçe']
+  Item: Berna revire merhemi götürdü.
+    -> Typos: ['merhemi']
+  Item: Karateci boksöre karşı cesurdu.
+    -> Typos: ['boksöre']
+
+==================== STAGE /y/ ====================
+  Item: Yeşim'in yuzu
+    -> Typos: ['yuzu']
+  Item: Yengeç yuvasi
+    -> Typos: ['yuvasi']
+  Item: Yengemin yazisI
+    -> Typos: ['Yengemin', 'yazisI']
+  Item: Boy aynas
+    -> Typos: ['aynas']
+  Item: Koyunun tuyu
+    -> Typos: ['Koyunun', 'tuyu']
+  Item: Yüzücü mayosu
+    -> Typos: ['mayosu']
+  Item: Yigitin yeğeni yuzbasiyd.
+    -> Typos: ['Yigitin', 'yuzbasiyd']
+  Item: Yaşın yuvada yemiş yedi.
+    -> Typos: ['yuvada']
+  Item: Yeşim yeni yatağında yatt.
+    -> Typos: ['yatt']
+  Item: Yonca yaziyi yamuk yazdi.
+    -> Typos: ['yaziyi', 'yazdi']
+  Item: Yankesici yetmiş yasindaydi.
+    -> Typos: ['yasindaydi']
+  Item: Yandaki yapımcı yabanciydi.
+    -> Typos: ['yabanciydi']
+  Item: Yusuf yüzbaşı yemeğe yetisti.
+    -> Typos: ['yetisti']
+  Item: Yeşim'in yengesi yabanciydi.
+    -> Typos: ['yengesi', 'yabanciydi']
+  Item: Yunus'UN Yakut yüzüğü yeniydi.
+    -> Typos: ['yeniydi']
+  Item: Yakup'UN yatag yanginda yandi.
+    -> Typos: ['Yakup', 'yatag', 'yanginda', 'yandi']
+  Item: Yeni yonetmenin yapimi yetismedi.
+    -> Typos: ['yonetmenin', 'yapimi', 'yetismedi']
+  Item: Yağız'in yatağındaki yastık yumusakti.
+    -> Typos: ['yumusakti']
+  Item: Yeteneksiz Yaman yatakhanede yoktu.
+    -> Typos: ['yatakhanede']
+  Item: Yasemin"in yengesi Yavuz'UN yatağını yaptı.
+    -> Typos: ['yengesi']
+  Item: Maya yuvada sayı saydi.
+    -> Typos: ['yuvada', 'saydi']
+  Item: Ayca yuzicu mayosunu giydi.
+    -> Typos: ['yuzicu', 'mayosunu']
+  Item: Ayşe oyuncak ayisini kaybetti.
+    -> Typos: ['ayisini']
+  Item: Duygu ve Yonca oyun oynadi.
+    -> Typos: ['oynadi']
+  Item: Büyük kaplyi beyaza boyadim.
+    -> Typos: ['kaplyi', 'boyadim']
+  Item: Ayşe hikaye yazmayi deneyecek.
+    -> Typos: ['yazmayi']
+  Item: Yiğit yüksek yamacta kayak kaydi.
+    -> Typos: ['yamacta', 'kaydi']
+  Item: Gaye kaygan yuzeyde kayak yaptı.
+    -> Typos: ['yuzeyde']
+  Item: Zayıf subayin yeni ayakkabisi siyahti.
+    -> Typos: ['subayin', 'ayakkabisi', 'siyahti']
+  Item: Boyacı büyük odayi pembeye boyadi.
+    -> Typos: ['odayi', 'pembeye', 'boyadi']
+  Item: Beyza'nin yük kamyonunu koyu maviydi.
+    -> Typos: ['maviydi']
+  Item: Yengemin yemekte giydiği kıyafet yeniydi.
+    -> Typos: ['Yengemin', 'yeniydi']
+  Item: Aydan teyzesinin yaptığı yemeği ayakta yedi.
+    -> Typos: ['teyzesinin']
+  Item: Ayhan dayanıksız binayi yıkıp yeniden yaptı.
+    -> Typos: ['binayi']
