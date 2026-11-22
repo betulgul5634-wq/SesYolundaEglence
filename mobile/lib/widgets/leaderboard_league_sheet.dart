@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/reward_state.dart';
 import '../services/sound_effects_service.dart';
+import '../services/therapist_state_service.dart';
 
 class _LeagueUser {
   final String name;
@@ -190,6 +191,117 @@ class LeaderboardLeagueSheet extends StatelessWidget {
             child: const Text('Evet, Ligi Sıfırla', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
           ),
         ],
+      ),
+    );
+  }
+
+  void _showAddStudentDialog(BuildContext context, RewardState rewardState) {
+    final sfx = SoundEffectsService();
+    sfx.playPopSound();
+    final nameController = TextEditingController();
+    String selectedAvatar = '👧';
+    const avatars = ['👦', '👧', '🧒', '🦁', '🐼', '🐱', '🚀', '🦄', '⚽', '🎨'];
+
+    showDialog(
+      context: context,
+      builder: (ctx) => StatefulBuilder(
+        builder: (context, setModalState) => AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+          title: const Row(
+            children: [
+              Text('➕', style: TextStyle(fontSize: 24)),
+              SizedBox(width: 10),
+              Text(
+                'Lige Gerçek Danışan Ekle',
+                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
+              ),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Danışanın / Çocuğun Adı:',
+                style: TextStyle(fontWeight: FontWeight.w800, fontSize: 12.5, color: Color(0xFF37474F)),
+              ),
+              const SizedBox(height: 6),
+              TextField(
+                controller: nameController,
+                autofocus: true,
+                decoration: InputDecoration(
+                  hintText: 'Örn: Kerem, Ayşe, Mehmet...',
+                  filled: true,
+                  fillColor: const Color(0xFFF5F5F5),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide.none,
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                ),
+              ),
+              const SizedBox(height: 14),
+              const Text(
+                'Profil Simgesi Seç:',
+                style: TextStyle(fontWeight: FontWeight.w800, fontSize: 12.5, color: Color(0xFF37474F)),
+              ),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: avatars.map((av) {
+                  final isSelected = av == selectedAvatar;
+                  return InkWell(
+                    onTap: () {
+                      setModalState(() => selectedAvatar = av);
+                      sfx.playPopSound();
+                    },
+                    borderRadius: BorderRadius.circular(12),
+                    child: Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: isSelected ? const Color(0xFFE8F5E9) : const Color(0xFFF5F5F5),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: isSelected ? const Color(0xFF4CAF50) : Colors.transparent,
+                          width: 2,
+                        ),
+                      ),
+                      child: Text(av, style: const TextStyle(fontSize: 24)),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text('İptal', style: TextStyle(fontWeight: FontWeight.bold)),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final name = nameController.text.trim();
+                if (name.isNotEmpty) {
+                  rewardState.addStudent(name, selectedAvatar);
+                  sfx.playSuccessDing();
+                  Navigator.pop(ctx);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('🎉 $name başarıyla gerçek lige eklendi!'),
+                      backgroundColor: const Color(0xFF2E7D32),
+                    ),
+                  );
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF1E88E5),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+              ),
+              child: const Text('Kaydet ve Ekle', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -411,151 +523,60 @@ class LeaderboardLeagueSheet extends StatelessWidget {
         final userXp = rewardState.xp;
         final currentTier = getLeagueForXp(userXp);
 
-        // Lig rakiplerinin XP'lerini dinamik olarak kalibre et:
-        // Eğer kullanıcı 0 XP ise (sıfırlandıysa veya yeni haftaya başlandıysa), lig tertemizdir (herkes 0 XP).
-        final List<_LeagueUser> competitors;
-        if (userXp == 0) {
-          competitors = [
-            _LeagueUser(
-              name: '${rewardState.studentName} (Sen)',
-              avatar: rewardState.activeAvatar,
-              xp: 0,
-              isCurrentUser: true,
-              badge: 'Yeni Başlayan 🌱',
-            ),
-            _LeagueUser(
-              name: 'Kerem E.',
-              avatar: '🚀👦',
-              xp: 0,
-              badge: 'Hazır 🎯',
-            ),
-            _LeagueUser(
-              name: 'Elif Su',
-              avatar: '🐱👧',
-              xp: 0,
-              badge: 'Hazır 🎯',
-            ),
-            _LeagueUser(
-              name: 'Robotik',
-              avatar: '🤖',
-              xp: 0,
-              badge: 'Beklemede 💤',
-            ),
-            _LeagueUser(
-              name: 'Aslan Ali',
-              avatar: '🦁',
-              xp: 0,
-              badge: 'Beklemede 💤',
-            ),
-            _LeagueUser(
-              name: 'Zeynep K.',
-              avatar: '🦄👧',
-              xp: 0,
-              badge: 'Beklemede 💤',
-            ),
-            _LeagueUser(
-              name: 'Mert B.',
-              avatar: '🦖👦',
-              xp: 0,
-              badge: 'Beklemede 💤',
-            ),
-            _LeagueUser(
-              name: 'Selin Y.',
-              avatar: '🦩👧',
-              xp: 0,
-              badge: 'Beklemede 💤',
-            ),
-            _LeagueUser(
-              name: 'Kaan T.',
-              avatar: '🐼👦',
-              xp: 0,
-              badge: 'Beklemede 💤',
-            ),
-            _LeagueUser(
-              name: 'Duru A.',
-              avatar: '🌸👧',
-              xp: 0,
-              badge: 'Beklemede 💤',
-            ),
-          ];
-        } else {
-          final double base = userXp.toDouble();
-          competitors = [
-            _LeagueUser(
-              name: 'Kerem E.',
-              avatar: '🚀👦',
-              xp: (base * 1.15).round() + 5,
-              badge: 'Hızlı Okur',
-            ),
-            _LeagueUser(
-              name: 'Elif Su',
-              avatar: '🐱👧',
-              xp: (base * 1.05).round() + 2,
-              badge: 'Ses Avcısı',
-            ),
-            _LeagueUser(
-              name: '${rewardState.studentName} (Sen)',
-              avatar: rewardState.activeAvatar,
-              xp: userXp,
-              isCurrentUser: true,
-              badge: rewardState.streakDays >= 3
-                  ? '🔥 ${rewardState.streakDays} Gün Serisi'
-                  : 'Yükselen Yıldız ⭐',
-            ),
-            _LeagueUser(
-              name: 'Robotik',
-              avatar: '🤖',
-              xp: (base * 0.90).round(),
-              badge: 'Tekno Ses',
-            ),
-            _LeagueUser(
-              name: 'Aslan Ali',
-              avatar: '🦁',
-              xp: (base * 0.80).round(),
-              badge: 'Kükreyen',
-            ),
-            _LeagueUser(
-              name: 'Zeynep K.',
-              avatar: '🦄👧',
-              xp: (base * 0.70).round(),
-              badge: 'Masalcı',
-            ),
-            _LeagueUser(
-              name: 'Mert B.',
-              avatar: '🦖👦',
-              xp: (base * 0.55).round(),
-              badge: 'Dinozor',
-            ),
-            _LeagueUser(
-              name: 'Selin Y.',
-              avatar: '🦩👧',
-              xp: (base * 0.40).round(),
-              badge: 'Flamingo',
-            ),
-            _LeagueUser(
-              name: 'Kaan T.',
-              avatar: '🐼👦',
-              xp: (base * 0.25).round(),
-              badge: 'Panda',
-            ),
-            _LeagueUser(
-              name: 'Duru A.',
-              avatar: '🌸👧',
-              xp: (base * 0.10).round(),
-              badge: 'Çiçek',
-            ),
-          ];
-        }
+        // 🏆 GERÇEK KLİNİK VE ÖĞRENCİ VERİLERİ (SAHTE/BOT VERİ İÇERMEZ)
+        final dktService = TherapistStateService();
+        final List<_LeagueUser> competitors = [];
+        final Set<String> registeredNames = {};
 
-        // Varsa diğer gerçek öğrenci profillerini de yarışmaya dahil et
+        // 1. Aktif Öğrenci (Kendisi)
+        competitors.add(
+          _LeagueUser(
+            name: '${rewardState.studentName} (Sen)',
+            avatar: rewardState.activeAvatar,
+            xp: userXp,
+            isCurrentUser: true,
+            badge: rewardState.streakDays >= 3
+                ? '🔥 ${rewardState.streakDays} Gün Serisi'
+                : (userXp > 0 ? 'Yükselen Yıldız ⭐' : 'Yeni Başlayan 🌱'),
+          ),
+        );
+        registeredNames.add(rewardState.studentName.trim().toLowerCase());
+
+        // 2. Uygulamada veli veya terapist tarafından oluşturulan diğer gerçek öğrenci profilleri
         for (final p in rewardState.profiles) {
-          if (p.id != rewardState.activeProfileId && p.name.trim().isNotEmpty) {
+          final clean = p.name.trim().toLowerCase();
+          if (p.id != rewardState.activeProfileId && clean.isNotEmpty && !registeredNames.contains(clean)) {
+            registeredNames.add(clean);
             competitors.add(
               _LeagueUser(
                 name: p.name,
                 avatar: p.avatar,
                 xp: p.xp,
-                badge: 'Klinik Arkadaşı 🤝',
+                badge: p.xp > 0 ? 'Klinik Danışanı 🎯' : 'Kayıtlı Öğrenci 🌱',
+              ),
+            );
+          }
+        }
+
+        // 3. DKT Kliniğinde kayıtlı gerçek danışan çocuklar (Örn: Ali Kaya, Zeynep Su)
+        for (final st in dktService.students) {
+          final sName = (st['name'] as String? ?? '').trim();
+          final clean = sName.toLowerCase();
+          final activeName = rewardState.studentName.trim().toLowerCase();
+          if (clean.isNotEmpty &&
+              !registeredNames.contains(clean) &&
+              !clean.contains(activeName) &&
+              !activeName.contains(clean)) {
+            registeredNames.add(clean);
+            final accuracy = (st['accuracy'] as num?)?.toDouble() ?? 0.0;
+            final sessionsCount = (st['sessions_count'] as int?) ?? 0;
+            final realXp = ((accuracy * sessionsCount) / 10).round() * 10;
+            competitors.add(
+              _LeagueUser(
+                name: sName,
+                avatar: st['avatar'] as String? ?? '🧒',
+                xp: realXp,
+                badge: sessionsCount > 0 ? '$sessionsCount Seans Tamamlandı' : 'Klinik Danışanı 🤝',
               ),
             );
           }
@@ -869,7 +890,7 @@ class LeaderboardLeagueSheet extends StatelessWidget {
                       onTap: () => _showResetLeagueDialog(context, rewardState),
                       borderRadius: BorderRadius.circular(18),
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
                         decoration: BoxDecoration(
                           color: const Color(0xFFFFF3E0),
                           borderRadius: BorderRadius.circular(18),
@@ -878,14 +899,35 @@ class LeaderboardLeagueSheet extends StatelessWidget {
                         child: const Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(Icons.restart_alt_rounded, color: Color(0xFFE65100), size: 20),
+                            Icon(Icons.restart_alt_rounded, color: Color(0xFFE65100), size: 18),
                             SizedBox(width: 4),
-                            Text('Ligi Sıfırla', style: TextStyle(color: Color(0xFFE65100), fontWeight: FontWeight.w900, fontSize: 13)),
+                            Text('Sıfırla', style: TextStyle(color: Color(0xFFE65100), fontWeight: FontWeight.w900, fontSize: 12.5)),
                           ],
                         ),
                       ),
                     ),
-                    const SizedBox(width: 10),
+                    const SizedBox(width: 8),
+                    InkWell(
+                      onTap: () => _showAddStudentDialog(context, rewardState),
+                      borderRadius: BorderRadius.circular(18),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFE1F5FE),
+                          borderRadius: BorderRadius.circular(18),
+                          border: Border.all(color: const Color(0xFF81D4FA)),
+                        ),
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.person_add_rounded, color: Color(0xFF0288D1), size: 18),
+                            SizedBox(width: 4),
+                            Text('Danışan Ekle', style: TextStyle(color: Color(0xFF0288D1), fontWeight: FontWeight.w900, fontSize: 12.5)),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
                     Expanded(
                       child: ElevatedButton.icon(
                         onPressed: () {
