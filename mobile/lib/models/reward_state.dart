@@ -258,6 +258,9 @@ class RewardState extends ChangeNotifier {
       if (storage.containsKey('sye_world_theme')) {
         _worldTheme = storage['sye_world_theme'] ?? _worldTheme;
       }
+      if (storage.containsKey('sye_last_spin_date')) {
+        _lastSpinDate = storage['sye_last_spin_date'];
+      }
       if (storage.containsKey('sye_quest_date')) {
         _questDate = storage['sye_quest_date'];
         _questWordsCount = int.tryParse(storage['sye_quest_words'] ?? '') ?? 0;
@@ -319,6 +322,7 @@ class RewardState extends ChangeNotifier {
       storage['sye_world_theme'] = _worldTheme;
       storage['sye_streak_days'] = _streakDays.toString();
       if (_lastPracticeDate != null) storage['sye_last_practice_date'] = _lastPracticeDate!;
+      if (_lastSpinDate != null) storage['sye_last_spin_date'] = _lastSpinDate!;
       storage['sye_practiced_dates'] = jsonEncode(_practicedDates.toList());
       if (_questDate != null) storage['sye_quest_date'] = _questDate!;
       storage['sye_quest_words'] = _questWordsCount.toString();
@@ -335,9 +339,43 @@ class RewardState extends ChangeNotifier {
   int _hearts = 5;             // Canlar (Maks: 5)
   int _streakDays = 1;         // Günlük seri (gün)
   String? _lastPracticeDate;
+  String? _lastSpinDate;
   final Set<String> _practicedDates = {};
   int _totalStars = 14;        // Toplam toplanan yıldız
   int _xp = 420;               // Deneyim puanı
+
+  // 🎡 Şans Çarkıfeleği Günlük Durumu
+  bool get isDailyFreeSpinAvailable {
+    final today = _formatDate(DateTime.now());
+    return _lastSpinDate != today;
+  }
+
+  void recordDailyFreeSpin() {
+    _lastSpinDate = _formatDate(DateTime.now());
+    _saveToLocalStorage();
+    notifyListeners();
+  }
+
+  bool spendGemsForSpin(int gemCost) {
+    if (_gems >= gemCost) {
+      _gems -= gemCost;
+      _saveToLocalStorage();
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
+
+  void unlockAndEquipFree({
+    required String itemId,
+    required String category,
+    required String emoji,
+  }) {
+    _unlockedAccessories.add(itemId);
+    equipAccessory(category, emoji);
+    _saveToLocalStorage();
+    notifyListeners();
+  }
 
   // 🎯 Günlük Görevler (Duolingo Tarzı Canlı Takip)
   String? _questDate;
