@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:html' as html;
 import 'package:flutter/foundation.dart';
 import 'student_profile.dart';
+import '../services/therapist_state_service.dart';
 
 class PhonemeStat {
   final String phoneme;
@@ -762,6 +763,16 @@ class RewardState extends ChangeNotifier {
       stat.finalAttempts++;
       if (isCorrect) stat.finalCorrect++;
     }
+
+    try {
+      TherapistStateService().recordSession(
+        studentName: _studentName,
+        phoneme: cleanP,
+        accuracy: stat.accuracyPercentage.toDouble(),
+        wordsCorrect: stat.correctAttempts,
+        wordsAttempted: stat.totalAttempts,
+      );
+    } catch (_) {}
 
     notifyListeners();
   }

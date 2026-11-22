@@ -815,6 +815,22 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                 label: const Text('Çıkış', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.redAccent)),
               ),
               const SizedBox(width: 8),
+              // Haritaya Geç Butonu
+              ElevatedButton.icon(
+                onPressed: () {
+                  _sfx.playPopSound();
+                  Navigator.pop(context);
+                },
+                icon: const Icon(Icons.map_rounded, size: 16, color: Colors.white),
+                label: const Text('Oyun Haritasına Geç 🎮', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: Colors.white)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF0284C7),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  elevation: 0,
+                ),
+              ),
+              const SizedBox(width: 8),
               // Pencereyi Kapat
               IconButton(
                 onPressed: () => Navigator.pop(context),
@@ -1404,6 +1420,39 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
               label: const Text('Danışan Kodu Ver', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.white)),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF2E7D32),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+            ),
+            const SizedBox(width: 8),
+            ElevatedButton.icon(
+              onPressed: () {
+                _sfx.playSuccessDing();
+                final studentFirstName = std['name'].toString().split(' ').first;
+                _dkt.switchActiveStudentInRewardState(studentFirstName);
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Row(
+                      children: [
+                        const Text('🎮', style: TextStyle(fontSize: 20)),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            '${std['name']} aktif edildi! Haritada ${std['target_phonemes']} sesleri çalışılabilir.',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                    backgroundColor: const Color(0xFF16A34A),
+                    duration: const Duration(seconds: 4),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.play_circle_fill_rounded, size: 16, color: Colors.white),
+              label: const Text('Haritada Başla 🚀', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 12, color: Colors.white)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF16A34A),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
             ),

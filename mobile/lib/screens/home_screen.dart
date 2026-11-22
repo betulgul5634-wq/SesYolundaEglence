@@ -1,5 +1,7 @@
 import '../widgets/subway_character_hub_dialog.dart';
 import '../widgets/student_profiles_dialog.dart';
+import '../widgets/therapist_portal_dialog.dart';
+import '../services/therapist_state_service.dart';
 import 'package:flutter/material.dart';
 import '../data/sound_groups_data.dart';
 import '../models/sound_group.dart';
@@ -23,7 +25,12 @@ import '../services/sound_effects_service.dart';
 
 /// Anasayfa — Duolingo Tarzı 3D Macera Haritası & Kitap Bölümlendirmeli Ses Seçimi
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final bool openTherapistPortalOnStart;
+
+  const HomeScreen({
+    super.key,
+    this.openTherapistPortalOnStart = false,
+  });
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -32,6 +39,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late List<SoundStage> _stages;
   final RewardState _rewardState = RewardState();
+  final TherapistStateService _therapistState = TherapistStateService();
   final AudioSpeechService _audioService = AudioSpeechService();
   late AnimationController _mascotBounceController;
   late Animation<double> _mascotBounce;
@@ -104,6 +112,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             backgroundColor: const Color(0xFF2E7D32),
             duration: const Duration(seconds: 6),
             behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+
+      if (widget.openTherapistPortalOnStart) {
+        showDialog(
+          context: context,
+          builder: (_) => TherapistPortalDialog(
+            initialLoggedIn: _therapistState.isLoggedIn,
           ),
         );
       }
@@ -603,8 +620,75 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ),
                 const SizedBox(width: 8),
 
+                // 🗣️ / 👨‍⚕️ DKT Portalı & Girişi Butonu (Giriş ile Tam Entegre)
+                ListenableBuilder(
+                  listenable: _therapistState,
+                  builder: (context, _) {
+                    final isLoggedIn = _therapistState.isLoggedIn;
+                    final name = _therapistState.therapistName;
+                    final displayName = isLoggedIn
+                        ? (name.startsWith('Uzm.') ? name : 'DKT: $name')
+                        : 'DKT Girişi';
 
-
+                    return InkWell(
+                      onTap: () {
+                        _sfx.playPopSound();
+                        showDialog(
+                          context: context,
+                          builder: (_) => TherapistPortalDialog(
+                            initialLoggedIn: isLoggedIn,
+                          ),
+                        );
+                      },
+                      borderRadius: BorderRadius.circular(16),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: isLoggedIn ? const Color(0xFFE0F2FE) : const Color(0xFFF0F9FF),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: isLoggedIn ? const Color(0xFF0284C7) : const Color(0xFF38BDF8),
+                            width: 1.5,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: isLoggedIn ? const Color(0x250284C7) : const Color(0x10000000),
+                              blurRadius: 4,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(isLoggedIn ? '👨‍⚕️' : '🗣️', style: const TextStyle(fontSize: 15)),
+                            const SizedBox(width: 5),
+                            Text(
+                              displayName,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                                fontSize: 11.5,
+                                color: isLoggedIn ? const Color(0xFF0369A1) : const Color(0xFF0284C7),
+                              ),
+                            ),
+                            if (isLoggedIn) ...[
+                              const SizedBox(width: 6),
+                              Container(
+                                width: 8,
+                                height: 8,
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFF10B981),
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(width: 8),
                 InkWell(
                   onTap: () {
                     _sfx.playPopSound();

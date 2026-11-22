@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/reward_state.dart';
 import '../services/sound_effects_service.dart';
-import '../widgets/therapist_portal_dialog.dart';
 import '../services/therapist_state_service.dart';
 import 'home_screen.dart';
 
@@ -693,9 +692,11 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
 
                           Navigator.pop(ctx);
                           _sfx.playVictoryFanfare();
-                          showDialog(
-                            context: context,
-                            builder: (_) => const TherapistPortalDialog(),
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const HomeScreen(openTherapistPortalOnStart: true),
+                            ),
                           );
                         },
                         style: ElevatedButton.styleFrom(
@@ -774,9 +775,11 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
               InkWell(
                 onTap: () {
                   Navigator.pop(ctx);
-                  showDialog(
-                    context: context,
-                    builder: (_) => const TherapistPortalDialog(initialLoggedIn: false),
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const HomeScreen(openTherapistPortalOnStart: true),
+                    ),
                   );
                 },
                 borderRadius: BorderRadius.circular(18),

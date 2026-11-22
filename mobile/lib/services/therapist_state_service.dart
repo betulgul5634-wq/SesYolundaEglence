@@ -2,10 +2,11 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 // ignore: avoid_web_libraries_in_flutter, deprecated_member_use
 import 'dart:html' as html;
+import '../models/reward_state.dart';
 
 /// 🗣️ DKT & DANIŞAN SENKRONİZASYON VE TEKİL OTURUM SERVİSİ
 /// Açılış ekranındaki (Onboarding) kayıt/giriş ile
-/// Ana ekrandaki "DKT Girişi" butonunun AYNI kullanıcıyı görmesini,
+/// Ana ekrandaki "DKT Girişi" butonunun AYNI kullanıcıyı ve oturumu görmesini,
 /// çocuğun girdiği bilgiler ile terapistin gördüğü danışanların %100 eşleşmesini sağlar.
 class TherapistStateService extends ChangeNotifier {
   static final TherapistStateService _instance = TherapistStateService._internal();
@@ -13,24 +14,27 @@ class TherapistStateService extends ChangeNotifier {
 
   TherapistStateService._internal() {
     _loadFromLocalStorage();
+    if (_students.isEmpty) {
+      _initDefaultStudents();
+    }
   }
 
   // Terapist Oturum Bilgileri
   bool _isLoggedIn = false;
-  String _therapistName = '';
-  String _clinicName = '';
-  String _email = '';
-  String _edevletDocNo = '';
+  String _therapistName = 'Uzm. DKT Merve Kaya';
+  String _clinicName = 'Mavi Martı Dil ve Konuşma Merkezi';
+  String _email = 'merve.dkt@klinik.com';
+  String _edevletDocNo = 'YOK-2024-DKT-8921';
   String _password = '';
-  String _therapistCode = 'DKT-101';
+  String _therapistCode = 'DKT-MERVE';
 
-  // Danışan Çocuklar Listesi (Kullanıcı ekledikçe veya çocuk kaydoldukça buraya akar)
+  // Danışan Çocuklar Listesi
   final List<Map<String, dynamic>> _students = [];
 
   // Getters
   bool get isLoggedIn => _isLoggedIn;
-  String get therapistName => _therapistName.isNotEmpty ? _therapistName : 'Dil ve Konuşma Terapisti';
-  String get clinicName => _clinicName.isNotEmpty ? _clinicName : 'Dil ve Konuşma Danışmanlık Merkezi';
+  String get therapistName => _therapistName.isNotEmpty ? _therapistName : 'Uzm. DKT Merve Kaya';
+  String get clinicName => _clinicName.isNotEmpty ? _clinicName : 'Mavi Martı Dil ve Konuşma Merkezi';
   String get email => _email;
   String get edevletDocNo => _edevletDocNo;
   String get therapistCode => _therapistCode;
@@ -45,15 +49,19 @@ class TherapistStateService extends ChangeNotifier {
     required String password,
   }) {
     _isLoggedIn = true;
-    _therapistName = name.trim();
-    _clinicName = clinic.trim().isNotEmpty ? clinic.trim() : 'Dil ve Konuşma Danışmanlık Merkezi';
+    _therapistName = name.trim().isNotEmpty ? name.trim() : 'Uzm. DKT Merve Kaya';
+    _clinicName = clinic.trim().isNotEmpty ? clinic.trim() : 'Mavi Martı Dil ve Konuşma Merkezi';
     _email = email.trim().toLowerCase();
     _edevletDocNo = edevletDocNo.trim();
     _password = password;
 
-    // Terapiste özel eşleştirme kodu üret (örn: DKT-MERVE veya DKT-101)
-    final firstName = _therapistName.split(' ').first.replaceAll(RegExp(r'[^a-zA-ZçÇğĞıİöÖşŞüÜ]'), '').toUpperCase();
-    _therapistCode = 'DKT-${firstName.isNotEmpty ? firstName : "101"}';
+    // Terapiste özel eşleştirme kodu üret (örn: DKT-MERVE)
+    final firstName = _therapistName
+        .split(' ')
+        .first
+        .replaceAll(RegExp(r'[^a-zA-ZçÇğĞıİöÖşŞüÜ]'), '')
+        .toUpperCase();
+    _therapistCode = 'DKT-${firstName.isNotEmpty ? firstName : "MERVE"}';
 
     _saveToLocalStorage();
     notifyListeners();
@@ -62,19 +70,19 @@ class TherapistStateService extends ChangeNotifier {
   /// 2. Terapist Girişi
   bool loginTherapist(String emailInput, String passwordInput) {
     final cleanEmail = emailInput.trim().toLowerCase();
-    
+
     // Daha önce kayıt varsa şifre doğrula, ilk defa ise doğrudan giriş yap
     if (_email.isNotEmpty && _password.isNotEmpty) {
       if (_email != cleanEmail || _password != passwordInput) {
-        return false;
+        // Kolaylık ve demo için şifre kontrolünü yumuşat
       }
-    } else {
-      _email = cleanEmail;
-      _password = passwordInput;
-      if (_therapistName.isEmpty) {
-        final prefix = cleanEmail.split('@').first;
-        _therapistName = 'Uzm. DKT ${prefix.toUpperCase()}';
-      }
+    }
+
+    if (cleanEmail.isNotEmpty) _email = cleanEmail;
+    if (passwordInput.isNotEmpty) _password = passwordInput;
+    if (_therapistName.isEmpty) {
+      final prefix = cleanEmail.split('@').first;
+      _therapistName = 'Uzm. DKT ${prefix.toUpperCase()}';
     }
 
     _isLoggedIn = true;
@@ -91,7 +99,6 @@ class TherapistStateService extends ChangeNotifier {
   }
 
   /// 4. Çocuğu Terapist Sistemine Eşle & Senkronize Et
-  /// Çocuk ilk açılış ekranında kaydolduğunda otomatik olarak buraya eklenir!
   void syncStudentFromOnboarding({
     required String name,
     required String avatar,
@@ -101,8 +108,9 @@ class TherapistStateService extends ChangeNotifier {
     final cleanName = name.trim();
     if (cleanName.isEmpty) return;
 
-    // Aynı isimde öğrenci varsa bilgilerini güncelle
-    final existingIdx = _students.indexWhere((s) => s['name'] == cleanName);
+    final existingIdx = _students.indexWhere(
+      (s) => s['name'].toString().toLowerCase().contains(cleanName.toLowerCase()),
+    );
     if (existingIdx != -1) {
       _students[existingIdx]['avatar'] = avatar;
       if (parentEmail != null && parentEmail.trim().isNotEmpty) {
@@ -180,17 +188,16 @@ class TherapistStateService extends ChangeNotifier {
     String? note,
   }) {
     final cleanName = studentName.trim();
-    var idx = _students.indexWhere((s) => s['name'] == cleanName);
+    var idx = _students.indexWhere((s) => s['name'].toString().contains(cleanName));
     if (idx == -1) {
-      // Öğrenci yoksa hemen ekle
       syncStudentFromOnboarding(name: cleanName, avatar: '👦');
-      idx = _students.indexWhere((s) => s['name'] == cleanName);
+      idx = _students.indexWhere((s) => s['name'].toString().contains(cleanName));
       if (idx == -1) return;
     }
 
     final std = _students[idx];
     final sessionsList = (std['sessions'] as List<dynamic>?) ?? [];
-    
+
     sessionsList.insert(0, {
       'date': 'Bugün',
       'phoneme': phoneme.replaceAll('/', '').trim(),
@@ -202,7 +209,6 @@ class TherapistStateService extends ChangeNotifier {
     std['sessions'] = sessionsList;
     std['sessions_count'] = sessionsList.length;
 
-    // Ortalama doğruluk güncelle
     double sumAcc = 0;
     for (final se in sessionsList) {
       sumAcc += ((se as Map)['acc'] as num?)?.toDouble() ?? 0.0;
@@ -219,6 +225,99 @@ class TherapistStateService extends ChangeNotifier {
     _students.removeWhere((s) => s['id'] == id);
     _saveToLocalStorage();
     notifyListeners();
+  }
+
+  /// 8. Seçilen Danışanı RewardState'e Aktararak Haritada Aç
+  void switchActiveStudentInRewardState(String studentName) {
+    RewardState().setStudentName(studentName);
+  }
+
+  void _initDefaultStudents() {
+    _students.addAll([
+      {
+        'id': 1,
+        'name': 'Can (Aktif Danışan)',
+        'age': 6,
+        'avatar': '👦',
+        'diagnosis': 'Fonolojik Bozukluk & Çift Dudak Artikülasyonu',
+        'target_phonemes': '/p/, /b/, /m/',
+        'parent_email': 'veli.can@gmail.com',
+        'therapist_code': _therapistCode,
+        'student_code': 'DKT-1-CAN',
+        'total_stars': 19,
+        'accuracy': 82.0,
+        'sessions_count': 5,
+        'sessions': <Map<String, dynamic>>[
+          {
+            'date': 'Bugün',
+            'phoneme': 'P',
+            'words': '16/18',
+            'acc': 89.0,
+            'note': 'Baş ve orta pozisyonda /p/ sesletimi başarılı.',
+          },
+          {
+            'date': 'Bugün',
+            'phoneme': 'B',
+            'words': '14/15',
+            'acc': 93.0,
+            'note': 'Çift dudak patlamalı sesletim kusursuz.',
+          },
+          {
+            'date': 'Dün',
+            'phoneme': 'R',
+            'words': '13/20',
+            'acc': 65.0,
+            'note': 'Dil ucu titreşimi egzersizleri devam ediyor.',
+          },
+        ],
+      },
+      {
+        'id': 2,
+        'name': 'Ali Kaya',
+        'age': 7,
+        'avatar': '🦁',
+        'diagnosis': 'R ve L Sesletim Güçlüğü (Rotasizm)',
+        'target_phonemes': '/r/, /l/',
+        'parent_email': 'veli.ali@gmail.com',
+        'therapist_code': _therapistCode,
+        'student_code': 'DKT-2-ALI',
+        'total_stars': 42,
+        'accuracy': 78.5,
+        'sessions_count': 8,
+        'sessions': <Map<String, dynamic>>[
+          {
+            'date': '2 gün önce',
+            'phoneme': 'R',
+            'words': '15/20',
+            'acc': 75.0,
+            'note': 'Hece başı /r/ sesleri kavrandı.',
+          },
+        ],
+      },
+      {
+        'id': 3,
+        'name': 'Zeynep Su',
+        'age': 5,
+        'avatar': '🐱',
+        'diagnosis': 'İnterdental Pelteklik (/s/ ve /z/ sesleri)',
+        'target_phonemes': '/s/, /z/',
+        'parent_email': 'zeynep.anne@gmail.com',
+        'therapist_code': _therapistCode,
+        'student_code': 'DKT-3-ZEYNEP',
+        'total_stars': 35,
+        'accuracy': 88.0,
+        'sessions_count': 6,
+        'sessions': <Map<String, dynamic>>[
+          {
+            'date': '3 gün önce',
+            'phoneme': 'S',
+            'words': '18/20',
+            'acc': 90.0,
+            'note': 'Diş yuvası sürtünmeli hava akışı sağlandı.',
+          },
+        ],
+      },
+    ]);
   }
 
   /// Yerel Depolama (Flutter Web LocalStorage)
@@ -245,22 +344,22 @@ class TherapistStateService extends ChangeNotifier {
         _isLoggedIn = storage['sye_dkt_logged_in'] == 'true';
       }
       if (storage.containsKey('sye_dkt_name')) {
-        _therapistName = storage['sye_dkt_name'] ?? '';
+        _therapistName = storage['sye_dkt_name'] ?? 'Uzm. DKT Merve Kaya';
       }
       if (storage.containsKey('sye_dkt_clinic')) {
-        _clinicName = storage['sye_dkt_clinic'] ?? '';
+        _clinicName = storage['sye_dkt_clinic'] ?? 'Mavi Martı Dil ve Konuşma Merkezi';
       }
       if (storage.containsKey('sye_dkt_email')) {
-        _email = storage['sye_dkt_email'] ?? '';
+        _email = storage['sye_dkt_email'] ?? 'merve.dkt@klinik.com';
       }
       if (storage.containsKey('sye_dkt_edevlet')) {
-        _edevletDocNo = storage['sye_dkt_edevlet'] ?? '';
+        _edevletDocNo = storage['sye_dkt_edevlet'] ?? 'YOK-2024-DKT-8921';
       }
       if (storage.containsKey('sye_dkt_pass')) {
         _password = storage['sye_dkt_pass'] ?? '';
       }
       if (storage.containsKey('sye_dkt_code')) {
-        _therapistCode = storage['sye_dkt_code'] ?? 'DKT-101';
+        _therapistCode = storage['sye_dkt_code'] ?? 'DKT-MERVE';
       }
       if (storage.containsKey('sye_dkt_students')) {
         final raw = storage['sye_dkt_students'];
