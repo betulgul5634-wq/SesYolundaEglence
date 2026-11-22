@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../models/reward_state.dart';
 import '../models/student_profile.dart';
 import '../services/sound_effects_service.dart';
+import '../services/therapist_state_service.dart';
+import 'therapist_portal_dialog.dart';
 
 /// 👥 ÖĞRENCİ VE ÇOCUK PROFİLLERİ YÖNETİM MERKEZİ (KLİNİK & AİLE SİSTEMİ)
 /// Terapistlerin ve velilerin farklı çocukların artikülasyon ilerlemelerini,
@@ -223,6 +225,35 @@ class _StudentProfilesDialogState extends State<StudentProfilesDialog> {
                   style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13.5),
                 ),
                 onPressed: _showAddStudentDialog,
+              ),
+            ),
+            const SizedBox(height: 8),
+
+            // DKT Klinik Portalı ve Gelişim Karnesi
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: () {
+                  _sfx.playPopSound();
+                  Navigator.pop(context);
+                  showDialog(
+                    context: context,
+                    builder: (_) => TherapistPortalDialog(
+                      initialLoggedIn: TherapistStateService().isLoggedIn,
+                    ),
+                  );
+                },
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: const Color(0xFF0284C7),
+                  side: const BorderSide(color: Color(0xFF38BDF8), width: 1.5),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  padding: const EdgeInsets.symmetric(vertical: 11),
+                ),
+                icon: const Icon(Icons.medical_services_outlined, size: 18),
+                label: const Text(
+                  'DKT Klinik Portalı & Gelişim Karnesi 📋',
+                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 12),
+                ),
               ),
             ),
           ],
