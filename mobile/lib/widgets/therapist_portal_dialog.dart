@@ -1824,15 +1824,18 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                         ElevatedButton(
                           onPressed: () {
                             rewardState.clearTherapyStats();
+                            rewardState.resetLeagueAndXp();
+                            _dkt.clearStudentSessions(currentStudent['id']);
                             final sessList = (currentStudent['sessions'] as List?) ?? [];
                             sessList.clear();
                             currentStudent['accuracy'] = 0.0;
                             currentStudent['sessions_count'] = 0;
+                            currentStudent['total_stars'] = 0;
                             Navigator.pop(dCtx);
                             setState(() {});
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                content: Text('🗑️ Karne verileri başarıyla sıfırlandı ve temizlendi!'),
+                                content: Text('🗑️ Karne ve lig puanı verileri başarıyla sıfırlandı ve temizlendi!'),
                                 backgroundColor: Color(0xFFDC2626),
                               ),
                             );

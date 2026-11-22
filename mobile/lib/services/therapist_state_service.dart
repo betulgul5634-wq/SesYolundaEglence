@@ -227,7 +227,32 @@ class TherapistStateService extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// 8. Seçilen Danışanı RewardState'e Aktararak Haritada Aç
+  /// 8. Danışanın Karne ve Seans Verilerini Sıfırla
+  void clearStudentSessions(dynamic studentId) {
+    final idx = _students.indexWhere((s) => s['id'] == studentId);
+    if (idx != -1) {
+      _students[idx]['sessions'] = <Map<String, dynamic>>[];
+      _students[idx]['accuracy'] = 0.0;
+      _students[idx]['sessions_count'] = 0;
+      _students[idx]['total_stars'] = 0;
+      _saveToLocalStorage();
+      notifyListeners();
+    }
+  }
+
+  /// 9. Tüm Danışanların Seans Verilerini Sıfırla
+  void resetAllStudentsData() {
+    for (final s in _students) {
+      s['sessions'] = <Map<String, dynamic>>[];
+      s['accuracy'] = 0.0;
+      s['sessions_count'] = 0;
+      s['total_stars'] = 0;
+    }
+    _saveToLocalStorage();
+    notifyListeners();
+  }
+
+  /// 10. Seçilen Danışanı RewardState'e Aktararak Haritada Aç
   void switchActiveStudentInRewardState(String studentName) {
     RewardState().setStudentName(studentName);
   }
@@ -244,32 +269,10 @@ class TherapistStateService extends ChangeNotifier {
         'parent_email': 'veli.can@gmail.com',
         'therapist_code': _therapistCode,
         'student_code': 'DKT-1-CAN',
-        'total_stars': 19,
-        'accuracy': 82.0,
-        'sessions_count': 5,
-        'sessions': <Map<String, dynamic>>[
-          {
-            'date': 'Bugün',
-            'phoneme': 'P',
-            'words': '16/18',
-            'acc': 89.0,
-            'note': 'Baş ve orta pozisyonda /p/ sesletimi başarılı.',
-          },
-          {
-            'date': 'Bugün',
-            'phoneme': 'B',
-            'words': '14/15',
-            'acc': 93.0,
-            'note': 'Çift dudak patlamalı sesletim kusursuz.',
-          },
-          {
-            'date': 'Dün',
-            'phoneme': 'R',
-            'words': '13/20',
-            'acc': 65.0,
-            'note': 'Dil ucu titreşimi egzersizleri devam ediyor.',
-          },
-        ],
+        'total_stars': 0,
+        'accuracy': 0.0,
+        'sessions_count': 0,
+        'sessions': <Map<String, dynamic>>[],
       },
       {
         'id': 2,
@@ -281,18 +284,10 @@ class TherapistStateService extends ChangeNotifier {
         'parent_email': 'veli.ali@gmail.com',
         'therapist_code': _therapistCode,
         'student_code': 'DKT-2-ALI',
-        'total_stars': 42,
-        'accuracy': 78.5,
-        'sessions_count': 8,
-        'sessions': <Map<String, dynamic>>[
-          {
-            'date': '2 gün önce',
-            'phoneme': 'R',
-            'words': '15/20',
-            'acc': 75.0,
-            'note': 'Hece başı /r/ sesleri kavrandı.',
-          },
-        ],
+        'total_stars': 0,
+        'accuracy': 0.0,
+        'sessions_count': 0,
+        'sessions': <Map<String, dynamic>>[],
       },
       {
         'id': 3,
@@ -304,18 +299,10 @@ class TherapistStateService extends ChangeNotifier {
         'parent_email': 'zeynep.anne@gmail.com',
         'therapist_code': _therapistCode,
         'student_code': 'DKT-3-ZEYNEP',
-        'total_stars': 35,
-        'accuracy': 88.0,
-        'sessions_count': 6,
-        'sessions': <Map<String, dynamic>>[
-          {
-            'date': '3 gün önce',
-            'phoneme': 'S',
-            'words': '18/20',
-            'acc': 90.0,
-            'note': 'Diş yuvası sürtünmeli hava akışı sağlandı.',
-          },
-        ],
+        'total_stars': 0,
+        'accuracy': 0.0,
+        'sessions_count': 0,
+        'sessions': <Map<String, dynamic>>[],
       },
     ]);
   }

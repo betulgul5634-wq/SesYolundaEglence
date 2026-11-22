@@ -227,7 +227,21 @@ class RewardState extends ChangeNotifier {
         _totalStars = int.tryParse(storage['sye_stars'] ?? '') ?? _totalStars;
       }
       if (storage.containsKey('sye_xp')) {
-        _xp = int.tryParse(storage['sye_xp'] ?? '') ?? _xp;
+        final parsed = int.tryParse(storage['sye_xp'] ?? '') ?? _xp;
+        // Eski sahte/mock başlangıç puanlarını (420 veya 300) temizle
+        if (parsed == 420 || parsed == 300) {
+          _xp = 0;
+          storage['sye_xp'] = '0';
+        } else {
+          _xp = parsed;
+        }
+      }
+      if (_profiles.isNotEmpty) {
+        for (final p in _profiles) {
+          if (p.xp == 420 || p.xp == 300) {
+            p.xp = 0;
+          }
+        }
       }
       if (storage.containsKey('sye_active_avatar')) {
         _activeAvatar = storage['sye_active_avatar'] ?? _activeAvatar;
@@ -403,8 +417,8 @@ class RewardState extends ChangeNotifier {
   String? _lastPracticeDate;
   String? _lastSpinDate;
   final Set<String> _practicedDates = {};
-  int _totalStars = 14;        // Toplam toplanan yıldız
-  int _xp = 420;               // Deneyim puanı
+  int _totalStars = 0;        // Toplam toplanan yıldız
+  int _xp = 0;                // Deneyim puanı (Sıfırdan temiz başlar)
 
   // 🎡 Şans Çarkıfeleği Günlük Durumu
   bool get isDailyFreeSpinAvailable {
@@ -842,6 +856,48 @@ class RewardState extends ChangeNotifier {
   /// Klinik fonem artikülasyon verilerini sıfırlar ve temizler
   void clearTherapyStats() {
     _phonemeStats.clear();
+    _saveToLocalStorage();
+    notifyListeners();
+  }
+
+  /// Lig sıralaması ve XP puanını sıfırlar (Bronz Ligi 0 XP'ye döner)
+  void resetLeagueAndXp() {
+    _xp = 0;
+    for (final p in _profiles) {
+      p.xp = 0;
+    }
+    if (kIsWeb) {
+      try {
+        html.window.localStorage['sye_xp'] = '0';
+        html.window.localStorage['sye_profiles'] = jsonEncode(_profiles.map((p) => p.toJson()).toList());
+      } catch (_) {}
+    }
+    _saveToLocalStorage();
+    notifyListeners();
+  }
+
+  /// Tüm ilerlemeyi temiz başlangıç için sıfırlar
+  void resetAllData() {
+    _xp = 0;
+    _totalStars = 0;
+    _streakDays = 1;
+    _gems = 150;
+    _phonemeStats.clear();
+    _stageStars.clear();
+    for (final p in _profiles) {
+      p.xp = 0;
+      p.totalStars = 0;
+      p.gems = 150;
+      p.stageStars.clear();
+    }
+    if (kIsWeb) {
+      try {
+        html.window.localStorage['sye_xp'] = '0';
+        html.window.localStorage['sye_stars'] = '0';
+        html.window.localStorage.remove('sye_phoneme_stats');
+        html.window.localStorage['sye_profiles'] = jsonEncode(_profiles.map((p) => p.toJson()).toList());
+      } catch (_) {}
+    }
     _saveToLocalStorage();
     notifyListeners();
   }

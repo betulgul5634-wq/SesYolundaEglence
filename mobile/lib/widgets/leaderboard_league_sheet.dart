@@ -145,6 +145,55 @@ class LeaderboardLeagueSheet extends StatelessWidget {
     }
   }
 
+  void _showResetLeagueDialog(BuildContext context, RewardState rewardState) {
+    final sfx = SoundEffectsService();
+    sfx.playPopSound();
+    showDialog(
+      context: context,
+      builder: (dCtx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        title: const Row(
+          children: [
+            Icon(Icons.restart_alt_rounded, color: Colors.deepOrange, size: 28),
+            SizedBox(width: 8),
+            Text('Lig Puanlarını Sıfırla', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18)),
+          ],
+        ),
+        content: const Text(
+          'Haftalık lig puanlarını ve sıralamayı sıfırlamak istiyor musunuz?\n\n'
+          'Puanınız 0 XP olacak ve Bronz Ligi\'ne (Seviye 1) dönerek tertemiz bir başlangıç yapacaksınız.',
+          style: TextStyle(fontSize: 13.5, height: 1.4),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dCtx),
+            child: const Text('İptal', style: TextStyle(fontWeight: FontWeight.bold)),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              rewardState.resetLeagueAndXp();
+              sfx.playSuccessSound();
+              Navigator.pop(dCtx);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('🔄 Lig puanları ve sıralaması sıfırlandı! Bronz Ligi 0 XP ile temiz başlangıç yapıldı.'),
+                  backgroundColor: Color(0xFFE65100),
+                  duration: Duration(seconds: 3),
+                ),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFE65100),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            ),
+            child: const Text('Evet, Ligi Sıfırla', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _showAllLeaguesDialog(BuildContext context, RewardState rewardState, LeagueTier currentTier) {
     final sfx = SoundEffectsService();
     sfx.playPopSound();
@@ -362,74 +411,141 @@ class LeaderboardLeagueSheet extends StatelessWidget {
         final userXp = rewardState.xp;
         final currentTier = getLeagueForXp(userXp);
 
-        // Sanal ve gerçek lig rakiplerinin XP'lerini lig kademesine göre kalibre et
-        final double scale = currentTier.minXp == 0 ? 0.4 : (currentTier.minXp / 300.0);
-
-        final List<_LeagueUser> competitors = [
-          _LeagueUser(
-            name: 'Kerem E.',
-            avatar: '🚀👦',
-            xp: (510 * scale).round(),
-            badge: 'Hızlı Okur',
-          ),
-          _LeagueUser(
-            name: 'Elif Su',
-            avatar: '🐱👧',
-            xp: (470 * scale).round(),
-            badge: 'Ses Avcısı',
-          ),
-          _LeagueUser(
-            name: '${rewardState.studentName} (Sen)',
-            avatar: rewardState.activeAvatar,
-            xp: userXp,
-            isCurrentUser: true,
-            badge: rewardState.streakDays >= 3
-                ? '🔥 ${rewardState.streakDays} Gün Serisi'
-                : 'Yükselen Yıldız ⭐',
-          ),
-          _LeagueUser(
-            name: 'Robotik',
-            avatar: '🤖',
-            xp: (390 * scale).round(),
-            badge: 'Tekno Ses',
-          ),
-          _LeagueUser(
-            name: 'Aslan Ali',
-            avatar: '🦁',
-            xp: (340 * scale).round(),
-            badge: 'Kükreyen',
-          ),
-          _LeagueUser(
-            name: 'Zeynep K.',
-            avatar: '🦄👧',
-            xp: (310 * scale).round(),
-            badge: 'Masalcı',
-          ),
-          _LeagueUser(
-            name: 'Mert B.',
-            avatar: '🦖👦',
-            xp: (260 * scale).round(),
-            badge: 'Dinozor',
-          ),
-          _LeagueUser(
-            name: 'Selin Y.',
-            avatar: '🦩👧',
-            xp: (210 * scale).round(),
-            badge: 'Flamingo',
-          ),
-          _LeagueUser(
-            name: 'Kaan T.',
-            avatar: '🐼👦',
-            xp: (170 * scale).round(),
-            badge: 'Panda',
-          ),
-          _LeagueUser(
-            name: 'Duru A.',
-            avatar: '🌸👧',
-            xp: (120 * scale).round(),
-            badge: 'Çiçek',
-          ),
-        ];
+        // Lig rakiplerinin XP'lerini dinamik olarak kalibre et:
+        // Eğer kullanıcı 0 XP ise (sıfırlandıysa veya yeni haftaya başlandıysa), lig tertemizdir (herkes 0 XP).
+        final List<_LeagueUser> competitors;
+        if (userXp == 0) {
+          competitors = [
+            _LeagueUser(
+              name: '${rewardState.studentName} (Sen)',
+              avatar: rewardState.activeAvatar,
+              xp: 0,
+              isCurrentUser: true,
+              badge: 'Yeni Başlayan 🌱',
+            ),
+            _LeagueUser(
+              name: 'Kerem E.',
+              avatar: '🚀👦',
+              xp: 0,
+              badge: 'Hazır 🎯',
+            ),
+            _LeagueUser(
+              name: 'Elif Su',
+              avatar: '🐱👧',
+              xp: 0,
+              badge: 'Hazır 🎯',
+            ),
+            _LeagueUser(
+              name: 'Robotik',
+              avatar: '🤖',
+              xp: 0,
+              badge: 'Beklemede 💤',
+            ),
+            _LeagueUser(
+              name: 'Aslan Ali',
+              avatar: '🦁',
+              xp: 0,
+              badge: 'Beklemede 💤',
+            ),
+            _LeagueUser(
+              name: 'Zeynep K.',
+              avatar: '🦄👧',
+              xp: 0,
+              badge: 'Beklemede 💤',
+            ),
+            _LeagueUser(
+              name: 'Mert B.',
+              avatar: '🦖👦',
+              xp: 0,
+              badge: 'Beklemede 💤',
+            ),
+            _LeagueUser(
+              name: 'Selin Y.',
+              avatar: '🦩👧',
+              xp: 0,
+              badge: 'Beklemede 💤',
+            ),
+            _LeagueUser(
+              name: 'Kaan T.',
+              avatar: '🐼👦',
+              xp: 0,
+              badge: 'Beklemede 💤',
+            ),
+            _LeagueUser(
+              name: 'Duru A.',
+              avatar: '🌸👧',
+              xp: 0,
+              badge: 'Beklemede 💤',
+            ),
+          ];
+        } else {
+          final double base = userXp.toDouble();
+          competitors = [
+            _LeagueUser(
+              name: 'Kerem E.',
+              avatar: '🚀👦',
+              xp: (base * 1.15).round() + 5,
+              badge: 'Hızlı Okur',
+            ),
+            _LeagueUser(
+              name: 'Elif Su',
+              avatar: '🐱👧',
+              xp: (base * 1.05).round() + 2,
+              badge: 'Ses Avcısı',
+            ),
+            _LeagueUser(
+              name: '${rewardState.studentName} (Sen)',
+              avatar: rewardState.activeAvatar,
+              xp: userXp,
+              isCurrentUser: true,
+              badge: rewardState.streakDays >= 3
+                  ? '🔥 ${rewardState.streakDays} Gün Serisi'
+                  : 'Yükselen Yıldız ⭐',
+            ),
+            _LeagueUser(
+              name: 'Robotik',
+              avatar: '🤖',
+              xp: (base * 0.90).round(),
+              badge: 'Tekno Ses',
+            ),
+            _LeagueUser(
+              name: 'Aslan Ali',
+              avatar: '🦁',
+              xp: (base * 0.80).round(),
+              badge: 'Kükreyen',
+            ),
+            _LeagueUser(
+              name: 'Zeynep K.',
+              avatar: '🦄👧',
+              xp: (base * 0.70).round(),
+              badge: 'Masalcı',
+            ),
+            _LeagueUser(
+              name: 'Mert B.',
+              avatar: '🦖👦',
+              xp: (base * 0.55).round(),
+              badge: 'Dinozor',
+            ),
+            _LeagueUser(
+              name: 'Selin Y.',
+              avatar: '🦩👧',
+              xp: (base * 0.40).round(),
+              badge: 'Flamingo',
+            ),
+            _LeagueUser(
+              name: 'Kaan T.',
+              avatar: '🐼👦',
+              xp: (base * 0.25).round(),
+              badge: 'Panda',
+            ),
+            _LeagueUser(
+              name: 'Duru A.',
+              avatar: '🌸👧',
+              xp: (base * 0.10).round(),
+              badge: 'Çiçek',
+            ),
+          ];
+        }
 
         // Varsa diğer gerçek öğrenci profillerini de yarışmaya dahil et
         for (final p in rewardState.profiles) {
@@ -438,15 +554,21 @@ class LeaderboardLeagueSheet extends StatelessWidget {
               _LeagueUser(
                 name: p.name,
                 avatar: p.avatar,
-                xp: p.xp > 0 ? p.xp : (currentTier.minXp + 45),
+                xp: p.xp,
                 badge: 'Klinik Arkadaşı 🤝',
               ),
             );
           }
         }
 
-        // XP'ye göre büyükten küçüğe sırala
-        competitors.sort((a, b) => b.xp.compareTo(a.xp));
+        // XP'ye göre büyükten küçüğe sırala (eşitlikte aktif kullanıcı öncelikli)
+        competitors.sort((a, b) {
+          final comp = b.xp.compareTo(a.xp);
+          if (comp != 0) return comp;
+          if (a.isCurrentUser) return -1;
+          if (b.isCurrentUser) return 1;
+          return 0;
+        });
 
         final userRank = competitors.indexWhere((u) => u.isCurrentUser) + 1;
         final isUserInTop3 = userRank <= 3;
@@ -531,6 +653,13 @@ class LeaderboardLeagueSheet extends StatelessWidget {
                         ],
                       ),
                     ),
+                    Tooltip(
+                      message: 'Lig Puanlarını ve Sıralamayı Sıfırla',
+                      child: IconButton(
+                        icon: const Icon(Icons.restart_alt_rounded, color: Colors.deepOrange),
+                        onPressed: () => _showResetLeagueDialog(context, rewardState),
+                      ),
+                    ),
                     IconButton(
                       icon: const Icon(Icons.close_rounded, color: Colors.grey),
                       onPressed: () => Navigator.pop(context),
@@ -561,11 +690,13 @@ class LeaderboardLeagueSheet extends StatelessWidget {
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
-                        isUserInTop3
-                            ? '🎉 Harika! Şu an #$userRank. sıradasın ve ${currentTier.nextLeagueName}\'ne (${currentTier.nextLeagueEmoji}) terfi bölgesindesin! Ödül: ${currentTier.rewardGems} Elmas 💎'
-                            : (isUserInDanger
-                                ? 'Düşme hattındasın! Alt lige düşmemek için kelime pratikleri yaparak XP topla.'
-                                : 'İlk 3 sıradaki konuşma ustaları ${currentTier.nextLeagueName}\'ne (${currentTier.nextLeagueEmoji}) yükselir ve ${currentTier.rewardGems} Elmas kazanır! (İlk 3 için: $xpNeededForTop3 XP)'),
+                        userXp == 0
+                            ? '🌱 Lig haftası sıfırlandı ve yeni başladı! Henüz puan kazanılmadı. Hemen bir konuşma pratiği yap, ilk XP\'ni kazan ve #1. sıraya yerleş! 🚀'
+                            : (isUserInTop3
+                                ? '🎉 Harika! Şu an #$userRank. sıradasın ve ${currentTier.nextLeagueName}\'ne (${currentTier.nextLeagueEmoji}) terfi bölgesindesin! Ödül: ${currentTier.rewardGems} Elmas 💎'
+                                : (isUserInDanger
+                                    ? 'Düşme hattındasın! Alt lige düşmemek için kelime pratikleri yaparak XP topla.'
+                                    : 'İlk 3 sıradaki konuşma ustaları ${currentTier.nextLeagueName}\'ne (${currentTier.nextLeagueEmoji}) yükselir ve ${currentTier.rewardGems} Elmas kazanır! (İlk 3 için: $xpNeededForTop3 XP)')),
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w800,
@@ -734,6 +865,27 @@ class LeaderboardLeagueSheet extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
+                    InkWell(
+                      onTap: () => _showResetLeagueDialog(context, rewardState),
+                      borderRadius: BorderRadius.circular(18),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFFF3E0),
+                          borderRadius: BorderRadius.circular(18),
+                          border: Border.all(color: const Color(0xFFFFB74D)),
+                        ),
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.restart_alt_rounded, color: Color(0xFFE65100), size: 20),
+                            SizedBox(width: 4),
+                            Text('Ligi Sıfırla', style: TextStyle(color: Color(0xFFE65100), fontWeight: FontWeight.w900, fontSize: 13)),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
                     Expanded(
                       child: ElevatedButton.icon(
                         onPressed: () {
