@@ -2,11 +2,12 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../services/sound_effects_service.dart';
 
-/// 🛹 Subway Surfers Tarzı Canlı Dans Eden & Bacakları Oynayan 3D Karakter Motoru
-/// Karakterler düz kutu veya emoji değil; kafası, gövdesi, sallanan kolları,
-/// ritimle dans edip basan bacakları ve spor ayakkabıları olan zengin animasyonlu bir figürdür!
+/// 🛹 Subway Surfers Tarzı Kusursuz Simetrik & Canlı 3D Karakter Motoru
+/// Karakterler parçalanmış kutu veya asimetrik şekillerden kurtarılmış;
+/// anatomik olarak dengeli, simetrik, canlı göz kırpma ve nefes alma animasyonuna sahip,
+/// oyun kalitesinde vektörel çizimle sunulmuştur!
 class AnimatedDancingCharacter extends StatefulWidget {
-  final String characterId; // 'char_skater_can', 'char_robo_b', 'char_ninja', 'char_prenses', 'char_super_artikulo', 'char_dino', etc.
+  final String characterId; // 'char_skater_can', 'char_robo_b', 'char_ninja', 'char_prenses', 'char_superhero', 'char_dino'
   final double size;
   final bool isDancing;
   final bool showPedestal;
@@ -18,7 +19,7 @@ class AnimatedDancingCharacter extends StatefulWidget {
   const AnimatedDancingCharacter({
     super.key,
     this.characterId = 'char_skater_can',
-    this.size = 140.0,
+    this.size = 150.0,
     this.isDancing = true,
     this.showPedestal = false,
     this.showShadow = true,
@@ -33,7 +34,7 @@ class AnimatedDancingCharacter extends StatefulWidget {
 
 class _AnimatedDancingCharacterState extends State<AnimatedDancingCharacter>
     with TickerProviderStateMixin {
-  late AnimationController _danceController;
+  late AnimationController _idleController;
   late AnimationController _tapReactionController;
   final SoundEffectsService _sfx = SoundEffectsService();
 
@@ -43,36 +44,36 @@ class _AnimatedDancingCharacterState extends State<AnimatedDancingCharacter>
   void initState() {
     super.initState();
 
-    // 1. Canlı Dans & Bacak-Kol Ritim Döngüsü (1100ms - hip-hop temposu)
-    _danceController = AnimationController(
+    // 1. Doğal Nefes Alma & Ritmik Yaylanma Döngüsü (1400ms - Yumuşak ve Akıcı)
+    _idleController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1100),
+      duration: const Duration(milliseconds: 1400),
     );
 
     if (widget.isDancing) {
-      _danceController.repeat();
+      _idleController.repeat();
     }
 
-    // 2. Dokunulduğunda 360° Takla & Dans Zıplaması (650ms)
+    // 2. Dokunulduğunda 360° Takla & Sevinç Zıplaması (600ms)
     _tapReactionController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 650),
+      duration: const Duration(milliseconds: 600),
     );
   }
 
   @override
   void didUpdateWidget(covariant AnimatedDancingCharacter oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.isDancing && !_danceController.isAnimating) {
-      _danceController.repeat();
-    } else if (!widget.isDancing && _danceController.isAnimating) {
-      _danceController.stop();
+    if (widget.isDancing && !_idleController.isAnimating) {
+      _idleController.repeat();
+    } else if (!widget.isDancing && _idleController.isAnimating) {
+      _idleController.stop();
     }
   }
 
   @override
   void dispose() {
-    _danceController.dispose();
+    _idleController.dispose();
     _tapReactionController.dispose();
     super.dispose();
   }
@@ -103,67 +104,54 @@ class _AnimatedDancingCharacterState extends State<AnimatedDancingCharacter>
     return GestureDetector(
       onTap: _handleTap,
       child: AnimatedBuilder(
-        animation: Listenable.merge([_danceController, _tapReactionController]),
+        animation: Listenable.merge([_idleController, _tapReactionController]),
         builder: (context, _) {
-          final t = _danceController.value; // 0.0 -> 1.0
+          final t = _idleController.value;
           final tapProgress = _tapReactionController.value;
 
-          // Ritmik Dans Hesaplamaları
-          final bounceY = math.sin(t * 2 * math.pi) * (s * 0.04); // Gövde yukarı-aşağı yaylanma
-          final bodyTilt = math.sin(t * 2 * math.pi) * 0.06; // Gövde hafif sağa-sola yatma
+          // Ritmik Yumuşak Salınım (Kusursuz Simetrik Dikey Yaylanma)
+          final bounceY = math.sin(t * 2 * math.pi) * (s * 0.04);
+          final breathingScaleY = 1.0 + math.cos(t * 2 * math.pi) * 0.02;
+          final breathingScaleX = 1.0 - math.cos(t * 2 * math.pi) * 0.015;
 
-          // Bacak açıları: Sol ve sağ bacak karşıt fazda ileri-geri ve yukarı dans eder (Subway Surfers koşu/dans ritmi)
-          final leftLegAngle = math.sin(t * 2 * math.pi) * 0.28;
-          final rightLegAngle = -math.sin(t * 2 * math.pi) * 0.28;
-          final leftLegLift = math.max(0.0, -math.sin(t * 2 * math.pi)) * (s * 0.05);
-          final rightLegLift = math.max(0.0, math.sin(t * 2 * math.pi)) * (s * 0.05);
+          // Dokunma zıplaması ve dönüşü
+          final jumpY = tapProgress > 0 ? -math.sin(tapProgress * math.pi) * (s * 0.35) : 0.0;
+          final spinAngle = tapProgress > 0 ? tapProgress * 2 * math.pi : 0.0;
 
-          // Kol açıları: Bacakların tersine karşıt fazda sallanır
-          final leftArmAngle = -math.sin(t * 2 * math.pi) * 0.35 + 0.1;
-          final rightArmAngle = math.sin(t * 2 * math.pi) * 0.35 - 0.1;
-
-          // Dokunma zıplaması & takla
-          final jumpY = tapProgress > 0
-              ? -math.sin(tapProgress * math.pi) * (s * 0.32)
-              : 0.0;
-          final spinAngle = tapProgress > 0
-              ? tapProgress * 2 * math.pi
-              : 0.0;
-
-          // Gölge ölçeği: Zıplayınca gölge küçülür, inince büyür
-          final shadowScale = 1.0 - ((-jumpY - bounceY) / (s * 0.6)).clamp(0.0, 0.5);
+          // Zemin gölgesi ölçeği (Karakter yükseldikçe gölge hafifçe küçülür)
+          final shadowFactor = (1.0 - ((-jumpY - bounceY) / (s * 0.5))).clamp(0.6, 1.1);
 
           return SizedBox(
-            width: s * 1.3,
-            height: s * 1.5,
+            width: s * 1.35,
+            height: s * 1.55,
             child: Stack(
               alignment: Alignment.bottomCenter,
               clipBehavior: Clip.none,
               children: [
-                // 1. ZEMİN PODYUMU (Opsiyonel)
+                // 1. ZEMİN PODYUMU (Simetrik 3D Sahne)
                 if (widget.showPedestal)
                   Positioned(
                     bottom: 0,
-                    child: _buildPodium(s),
+                    child: _buildPodium(s, t),
                   ),
 
-                // 2. DİNAMİK YER GÖLGESİ (Bacakların altında ritimle nefes alır)
+                // 2. YER GÖLGESİ (Podyumun üstünde kusursuz simetrik elips)
                 if (widget.showShadow)
                   Positioned(
-                    bottom: widget.showPedestal ? s * 0.12 : s * 0.04,
+                    bottom: widget.showPedestal ? s * 0.16 : s * 0.04,
                     child: Transform.scale(
-                      scaleX: shadowScale,
-                      scaleY: shadowScale * 0.8,
+                      scaleX: shadowFactor,
+                      scaleY: shadowFactor * 0.8,
                       child: Container(
-                        width: s * 0.65,
-                        height: s * 0.14,
+                        width: s * 0.75,
+                        height: s * 0.16,
                         decoration: BoxDecoration(
-                          color: Colors.black.withAlpha(50),
-                          borderRadius: BorderRadius.all(Radius.elliptical(s * 0.65, s * 0.14)),
+                          color: Colors.black.withAlpha(55),
+                          borderRadius: BorderRadius.all(Radius.elliptical(s * 0.75, s * 0.16)),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withAlpha(40),
-                              blurRadius: 8,
+                              color: Colors.black.withAlpha(45),
+                              blurRadius: 10,
                               spreadRadius: 2,
                             ),
                           ],
@@ -172,27 +160,35 @@ class _AnimatedDancingCharacterState extends State<AnimatedDancingCharacter>
                     ),
                   ),
 
-                // 3. YILDIZ / DOKUNMA EFEKTLERİ
+                // 3. DOKUNMA YILDIZ EFEKTLERİ
                 if (tapProgress > 0.1 && tapProgress < 0.9)
                   Positioned(
-                    top: s * 0.05,
-                    child: const Text('✨⭐🎉', style: TextStyle(fontSize: 22)),
+                    top: s * 0.02,
+                    child: const Text('✨ ⭐ 💫', style: TextStyle(fontSize: 24)),
                   ),
 
-                // 4. ANA DANS EDEN KARAKTER (Tüm uzuvlar burada)
+                // 4. KUSURSUZ SİMETRİK 3D KARAKTER FİGÜRÜ
                 Positioned(
-                  bottom: (widget.showPedestal ? s * 0.14 : s * 0.06) + bounceY + jumpY,
+                  bottom: (widget.showPedestal ? s * 0.18 : s * 0.06) + bounceY + jumpY,
                   child: Transform.rotate(
-                    angle: spinAngle + bodyTilt,
-                    child: _buildCharacterFigure(
-                      s: s,
-                      charId: widget.characterId,
-                      leftLegAngle: leftLegAngle,
-                      rightLegAngle: rightLegAngle,
-                      leftLegLift: leftLegLift,
-                      rightLegLift: rightLegLift,
-                      leftArmAngle: leftArmAngle,
-                      rightArmAngle: rightArmAngle,
+                    angle: spinAngle,
+                    child: Transform.scale(
+                      scaleX: breathingScaleX,
+                      scaleY: breathingScaleY,
+                      alignment: Alignment.bottomCenter,
+                      child: SizedBox(
+                        width: s * 0.95,
+                        height: s * 1.35,
+                        child: CustomPaint(
+                          size: Size(s * 0.95, s * 1.35),
+                          painter: _SymmetricCharacterPainter(
+                            charId: widget.characterId,
+                            isWinking: _isWinking,
+                            customHat: widget.customHat,
+                            customProp: widget.customProp,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -204,735 +200,704 @@ class _AnimatedDancingCharacterState extends State<AnimatedDancingCharacter>
     );
   }
 
-  /// 3D Zemin Podyumu (Subway Surfers Menü Sahnesi Tarzı)
-  Widget _buildPodium(double s) {
+  /// 3D Simetrik Neon Sahne Podyumu
+  Widget _buildPodium(double s, double t) {
+    final glowPulse = 0.5 + 0.5 * math.sin(t * 2 * math.pi);
+
     return Container(
-      width: s * 1.15,
-      height: s * 0.24,
+      width: s * 1.25,
+      height: s * 0.28,
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
+        gradient: const RadialGradient(
+          center: Alignment(0.0, -0.2),
+          radius: 0.9,
           colors: [
-            Color(0xFFFFD54F),
-            Color(0xFFFF9800),
+            Color(0xFFFFF9C4),
+            Color(0xFFFFB300),
             Color(0xFFE65100),
           ],
         ),
-        borderRadius: BorderRadius.all(Radius.elliptical(s * 1.15, s * 0.24)),
-        border: Border.all(color: const Color(0xFFFFF59D), width: 3),
+        borderRadius: BorderRadius.all(Radius.elliptical(s * 1.25, s * 0.28)),
+        border: Border.all(color: const Color(0xFFFFD54F), width: 3.5),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFFF9800).withAlpha(120),
-            blurRadius: 18,
+            color: const Color(0xFFFF9800).withValues(alpha: 0.3 + 0.2 * glowPulse),
+            blurRadius: 16,
             spreadRadius: 3,
             offset: const Offset(0, 4),
           ),
-          BoxShadow(
-            color: Colors.black26,
+          const BoxShadow(
+            color: Colors.black38,
             blurRadius: 10,
-            offset: const Offset(0, 8),
+            offset: Offset(0, 8),
           ),
         ],
       ),
       child: Center(
         child: Container(
-          width: s * 0.9,
-          height: s * 0.14,
+          width: s * 0.95,
+          height: s * 0.16,
           decoration: BoxDecoration(
-            color: const Color(0xFFFFF9C4),
-            borderRadius: BorderRadius.all(Radius.elliptical(s * 0.9, s * 0.14)),
+            color: const Color(0xFFFFFDE7),
+            borderRadius: BorderRadius.all(Radius.elliptical(s * 0.95, s * 0.16)),
+            border: Border.all(color: Colors.white, width: 2),
           ),
           child: const Center(
-            child: Icon(Icons.star_rounded, color: Color(0xFFF57C00), size: 18),
+            child: Icon(Icons.star_rounded, color: Color(0xFFF57C00), size: 22),
           ),
         ),
       ),
     );
-  }
-
-  /// Karakter Figürü (Bacaklar, Gövde, Kollar ve Kafa Katmanları)
-  Widget _buildCharacterFigure({
-    required double s,
-    required String charId,
-    required double leftLegAngle,
-    required double rightLegAngle,
-    required double leftLegLift,
-    required double rightLegLift,
-    required double leftArmAngle,
-    required double rightArmAngle,
-  }) {
-    final style = _getCharacterStyle(charId);
-
-    return SizedBox(
-      width: s * 0.85,
-      height: s * 1.25,
-      child: Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.bottomCenter,
-        children: [
-          // A. PELERİN / KANAT (Varsa gövdenin arkasında dalgalanır)
-          if (style.hasCape)
-            Positioned(
-              top: s * 0.38,
-              child: Transform.rotate(
-                angle: math.sin(_danceController.value * 2 * math.pi) * 0.12,
-                child: Container(
-                  width: s * 0.44,
-                  height: s * 0.48,
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFFE53935), Color(0xFFB71C1C)],
-                    ),
-                    borderRadius: const BorderRadius.vertical(bottom: Radius.circular(16)),
-                    boxShadow: [
-                      BoxShadow(color: Colors.red.withAlpha(80), blurRadius: 6),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-
-          // B. ARKA AKSESUAR (Kaykay, Kılıç vb.)
-          if (style.backProp != null && style.backProp!.isNotEmpty)
-            Positioned(
-              left: -s * 0.08,
-              bottom: s * 0.22,
-              child: Transform.rotate(
-                angle: -0.25,
-                child: Text(style.backProp!, style: TextStyle(fontSize: s * 0.34)),
-              ),
-            ),
-
-          // C. SOL BACAK & AYAKKABI (Dans eden sol bacak)
-          Positioned(
-            left: s * 0.22,
-            bottom: s * 0.04 + leftLegLift,
-            child: Transform.rotate(
-              angle: leftLegAngle,
-              origin: Offset(s * 0.04, 0),
-              child: _buildLeg(
-                s: s,
-                pantColor: style.pantColor,
-                shoeColor: style.shoeColor,
-                shoeTrim: style.shoeTrim,
-                shoeIcon: style.shoeIcon,
-                isLeft: true,
-              ),
-            ),
-          ),
-
-          // D. SAĞ BACAK & AYAKKABI (Dans eden sağ bacak)
-          Positioned(
-            right: s * 0.22,
-            bottom: s * 0.04 + rightLegLift,
-            child: Transform.rotate(
-              angle: rightLegAngle,
-              origin: Offset(s * 0.04, 0),
-              child: _buildLeg(
-                s: s,
-                pantColor: style.pantColor,
-                shoeColor: style.shoeColor,
-                shoeTrim: style.shoeTrim,
-                shoeIcon: style.shoeIcon,
-                isLeft: false,
-              ),
-            ),
-          ),
-
-          // E. SOL KOL & EL (Ritimle sallanır)
-          Positioned(
-            left: s * 0.08,
-            top: s * 0.44,
-            child: Transform.rotate(
-              angle: leftArmAngle,
-              origin: Offset(s * 0.04, 0),
-              child: _buildArm(
-                s: s,
-                sleeveColor: style.jacketColor,
-                skinColor: style.skinColor,
-                heldItem: style.leftHandItem,
-                isLeft: true,
-              ),
-            ),
-          ),
-
-          // F. SAĞ KOL & EL (Ritimle sallanır, prop tutabilir)
-          Positioned(
-            right: s * 0.08,
-            top: s * 0.44,
-            child: Transform.rotate(
-              angle: rightArmAngle,
-              origin: Offset(s * 0.04, 0),
-              child: _buildArm(
-                s: s,
-                sleeveColor: style.jacketColor,
-                skinColor: style.skinColor,
-                heldItem: widget.customProp ?? style.rightHandItem,
-                isLeft: false,
-              ),
-            ),
-          ),
-
-          // G. GÖVDE / CEKET / HOODIE (Subway Surfers sokak stili)
-          Positioned(
-            bottom: s * 0.32,
-            child: _buildTorso(s: s, style: style),
-          ),
-
-          // H. KAFA, SAÇ, ŞAPKA VE İFADELİ YÜZ
-          Positioned(
-            top: s * 0.04,
-            child: _buildHead(s: s, style: style),
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// Dans Eden Bacak ve Özel Spor Ayakkabı (Sneaker)
-  Widget _buildLeg({
-    required double s,
-    required Color pantColor,
-    required Color shoeColor,
-    required Color shoeTrim,
-    required String? shoeIcon,
-    required bool isLeft,
-  }) {
-    final legW = s * 0.12;
-    final legH = s * 0.34;
-
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        // Pantolon / Paça
-        Container(
-          width: legW,
-          height: legH * 0.65,
-          decoration: BoxDecoration(
-            color: pantColor,
-            borderRadius: BorderRadius.circular(legW * 0.3),
-            boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 3)],
-          ),
-        ),
-        // Çorap bandı
-        Container(
-          width: legW * 0.9,
-          height: 3,
-          color: Colors.white,
-        ),
-        // Havalı Spor Ayakkabı (Subway Surfers High-Top Sneaker)
-        Container(
-          width: legW * 1.55,
-          height: legH * 0.42,
-          margin: EdgeInsets.only(left: isLeft ? 0 : 4, right: isLeft ? 4 : 0),
-          decoration: BoxDecoration(
-            color: shoeColor,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(legW * 0.4),
-              topRight: Radius.circular(legW * 0.6),
-              bottomLeft: const Radius.circular(8),
-              bottomRight: const Radius.circular(8),
-            ),
-            border: Border.all(color: shoeTrim, width: 2),
-            boxShadow: [
-              BoxShadow(
-                color: shoeColor.withAlpha(120),
-                blurRadius: 4,
-                offset: const Offset(0, 2),
-              ),
-            ],
-          ),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              // Taban çizgisi
-              Positioned(
-                bottom: 1,
-                child: Container(
-                  width: legW * 1.45,
-                  height: 3,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-              ),
-              if (shoeIcon != null)
-                Text(shoeIcon, style: const TextStyle(fontSize: 9))
-              else
-                // Bağcık detayı
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(width: 4, height: 2, color: Colors.white70),
-                    const SizedBox(width: 2),
-                    Container(width: 4, height: 2, color: Colors.white70),
-                  ],
-                ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  /// Sallanan Kol ve El
-  Widget _buildArm({
-    required double s,
-    required Color sleeveColor,
-    required Color skinColor,
-    required String? heldItem,
-    required bool isLeft,
-  }) {
-    final armW = s * 0.11;
-    final armH = s * 0.34;
-
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        // Kol / Kol Manşeti
-        Container(
-          width: armW,
-          height: armH * 0.7,
-          decoration: BoxDecoration(
-            color: sleeveColor,
-            borderRadius: BorderRadius.circular(armW * 0.35),
-            boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 2)],
-          ),
-        ),
-        // El (Eldivenli veya Ten Rengi)
-        Container(
-          width: armW * 1.1,
-          height: armH * 0.32,
-          decoration: BoxDecoration(
-            color: skinColor,
-            shape: BoxShape.circle,
-            boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 2)],
-          ),
-          child: heldItem != null && heldItem.isNotEmpty
-              ? Center(child: Text(heldItem, style: TextStyle(fontSize: s * 0.22)))
-              : null,
-        ),
-      ],
-    );
-  }
-
-  /// Gövde / Tişört / Ceket Katmanı
-  Widget _buildTorso({required double s, required _CharacterStyle style}) {
-    final torsoW = s * 0.46;
-    final torsoH = s * 0.38;
-
-    return Container(
-      width: torsoW,
-      height: torsoH,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: style.jacketGradient,
-        ),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white.withAlpha(60), width: 1.5),
-        boxShadow: [
-          BoxShadow(
-            color: style.jacketColor.withAlpha(100),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          // Kapüşon ipi veya ceket fermuarı
-          Positioned(
-            top: 0,
-            bottom: 0,
-            child: Container(
-              width: 3,
-              color: Colors.black26,
-            ),
-          ),
-          // Göğüs Amblemi / Logosu
-          Center(
-            child: Container(
-              padding: const EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white.withAlpha(180),
-                boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 3)],
-              ),
-              child: Text(
-                style.emblem,
-                style: TextStyle(fontSize: s * 0.16),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// Kafa, Saç, Şapka ve Yüz İfadesi
-  Widget _buildHead({required double s, required _CharacterStyle style}) {
-    final headSize = s * 0.44;
-
-    return SizedBox(
-      width: headSize * 1.3,
-      height: headSize * 1.25,
-      child: Stack(
-        alignment: Alignment.center,
-        clipBehavior: Clip.none,
-        children: [
-          // 1. Şapka / Taç / Başlık
-          if (widget.customHat != null || style.hatEmoji != null)
-            Positioned(
-              top: -headSize * 0.28,
-              child: Text(
-                widget.customHat ?? style.hatEmoji!,
-                style: TextStyle(fontSize: headSize * 0.65),
-              ),
-            ),
-
-          // 2. Kafa Yuvarlağı
-          Container(
-            width: headSize,
-            height: headSize,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: style.skinColor,
-              border: Border.all(color: Colors.white.withAlpha(90), width: 2),
-              boxShadow: [
-                BoxShadow(
-                  color: style.skinColor.withAlpha(120),
-                  blurRadius: 12,
-                  spreadRadius: 1,
-                ),
-              ],
-            ),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                // Gözler (Canlı Kırpan / Göz Kırpan)
-                Positioned(
-                  top: headSize * 0.28,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Sol Göz
-                      _buildEye(headSize * 0.18, _isWinking ? true : false, style.eyeColor),
-                      SizedBox(width: headSize * 0.16),
-                      // Sağ Göz
-                      _buildEye(headSize * 0.18, false, style.eyeColor),
-                    ],
-                  ),
-                ),
-
-                // Gülümseyen Dudaklar (Artikülasyon / Neşe)
-                Positioned(
-                  bottom: headSize * 0.18,
-                  child: Container(
-                    width: headSize * 0.28,
-                    height: headSize * 0.14,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFD81B60),
-                      borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
-                    ),
-                    child: Align(
-                      alignment: Alignment.topCenter,
-                      child: Container(
-                        width: headSize * 0.2,
-                        height: 3,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-
-                // Yanak allıkları
-                Positioned(
-                  bottom: headSize * 0.24,
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 8,
-                        height: 5,
-                        decoration: BoxDecoration(
-                          color: Colors.pink.withAlpha(80),
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                      SizedBox(width: headSize * 0.44),
-                      Container(
-                        width: 8,
-                        height: 5,
-                        decoration: BoxDecoration(
-                          color: Colors.pink.withAlpha(80),
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // Kulaklık (Skater Can gibi karakterler için)
-          if (style.hasHeadphones)
-            Positioned(
-              bottom: 0,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF212121),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Text('🎧', style: TextStyle(fontSize: 14)),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-
-  /// Canlı Göz Yapısı
-  Widget _buildEye(double eyeSize, bool isWink, Color eyeColor) {
-    if (isWink) {
-      return Container(
-        width: eyeSize,
-        height: 4,
-        decoration: BoxDecoration(
-          color: const Color(0xFF212121),
-          borderRadius: BorderRadius.circular(2),
-        ),
-      );
-    }
-    return Container(
-      width: eyeSize,
-      height: eyeSize * 1.25,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        shape: BoxShape.circle,
-        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 2)],
-      ),
-      child: Center(
-        child: Container(
-          width: eyeSize * 0.65,
-          height: eyeSize * 0.8,
-          decoration: BoxDecoration(
-            color: eyeColor,
-            shape: BoxShape.circle,
-          ),
-          child: Align(
-            alignment: const Alignment(-0.4, -0.4),
-            child: Container(
-              width: 3.5,
-              height: 3.5,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  /// 8 Subway Surfers Karakterinin Görsel Tasarım Haritası
-  _CharacterStyle _getCharacterStyle(String id) {
-    switch (id) {
-      case 'char_robo_b':
-        return _CharacterStyle(
-          name: 'Robo-B',
-          jacketColor: const Color(0xFF00B0FF),
-          jacketGradient: [const Color(0xFF00E5FF), const Color(0xFF0091EA)],
-          pantColor: const Color(0xFF263238),
-          shoeColor: const Color(0xFF00E5FF),
-          shoeTrim: const Color(0xFFFFF176),
-          shoeIcon: '⚡',
-          skinColor: const Color(0xFFCFD8DC),
-          eyeColor: const Color(0xFF00E5FF),
-          hatEmoji: '🤖',
-          emblem: '⚡',
-          leftHandItem: null,
-          rightHandItem: '🔋',
-          backProp: '🚀',
-        );
-
-      case 'char_ninja':
-      case 'char_ninja_shadow':
-        return _CharacterStyle(
-          name: 'Ninja Kaan',
-          jacketColor: const Color(0xFF311B92),
-          jacketGradient: [const Color(0xFF512DA8), const Color(0xFF311B92)],
-          pantColor: const Color(0xFF1A237E),
-          shoeColor: const Color(0xFF212121),
-          shoeTrim: const Color(0xFF7C4DFF),
-          shoeIcon: null,
-          skinColor: const Color(0xFFFFCC80),
-          eyeColor: const Color(0xFF212121),
-          hatEmoji: '🥷',
-          emblem: '⭐',
-          leftHandItem: null,
-          rightHandItem: '🗡️',
-          backProp: '⚔️',
-        );
-
-      case 'char_prenses':
-      case 'char_princess_star':
-        return _CharacterStyle(
-          name: 'Prenses Yıldız',
-          jacketColor: const Color(0xFFE91E63),
-          jacketGradient: [const Color(0xFFFF4081), const Color(0xFFC2185B)],
-          pantColor: const Color(0xFFF8BBD0),
-          shoeColor: const Color(0xFFFF4081),
-          shoeTrim: const Color(0xFFFFD54F),
-          shoeIcon: '✨',
-          skinColor: const Color(0xFFFFE0B2),
-          eyeColor: const Color(0xFF880E4F),
-          hatEmoji: '👑',
-          emblem: '💖',
-          leftHandItem: '🪄',
-          rightHandItem: null,
-          backProp: '🧚',
-        );
-
-      case 'char_superhero':
-      case 'char_super_artikulo':
-        return _CharacterStyle(
-          name: 'Süper Artikülo',
-          jacketColor: const Color(0xFF1565C0),
-          jacketGradient: [const Color(0xFF1E88E5), const Color(0xFF0D47A1)],
-          pantColor: const Color(0xFFD32F2F),
-          shoeColor: const Color(0xFFFFD600),
-          shoeTrim: const Color(0xFFE65100),
-          shoeIcon: '⭐',
-          skinColor: const Color(0xFFFFCC80),
-          eyeColor: const Color(0xFF0D47A1),
-          hatEmoji: '🦸',
-          emblem: 'S',
-          hasCape: true,
-          leftHandItem: null,
-          rightHandItem: '🏆',
-          backProp: null,
-        );
-
-      case 'char_dino':
-        return _CharacterStyle(
-          name: 'Dino Rex',
-          jacketColor: const Color(0xFF43A047),
-          jacketGradient: [const Color(0xFF66BB6A), const Color(0xFF2E7D32)],
-          pantColor: const Color(0xFF2E7D32),
-          shoeColor: const Color(0xFF7CB342),
-          shoeTrim: const Color(0xFFFDD835),
-          shoeIcon: '🦖',
-          skinColor: const Color(0xFFA5D6A7),
-          eyeColor: const Color(0xFF1B5E20),
-          hatEmoji: '🦖',
-          emblem: '🐾',
-          leftHandItem: null,
-          rightHandItem: '🥚',
-          backProp: null,
-        );
-
-      case 'char_korsan':
-        return _CharacterStyle(
-          name: 'Korsan Kaptan',
-          jacketColor: const Color(0xFFB71C1C),
-          jacketGradient: [const Color(0xFFD32F2F), const Color(0xFF880E4F)],
-          pantColor: const Color(0xFF212121),
-          shoeColor: const Color(0xFF4E342E),
-          shoeTrim: const Color(0xFFFFD54F),
-          shoeIcon: null,
-          skinColor: const Color(0xFFFFCC80),
-          eyeColor: const Color(0xFF3E2723),
-          hatEmoji: '🏴‍☠️',
-          emblem: '⚓',
-          leftHandItem: '🦜',
-          rightHandItem: '🗺️',
-          backProp: null,
-        );
-
-      case 'char_astronot':
-        return _CharacterStyle(
-          name: 'Astronot Melis',
-          jacketColor: const Color(0xFFECEFF1),
-          jacketGradient: [const Color(0xFFFFFFFF), const Color(0xFFCFD8DC)],
-          pantColor: const Color(0xFFECEFF1),
-          shoeColor: const Color(0xFF78909C),
-          shoeTrim: const Color(0xFF00E5FF),
-          shoeIcon: '🚀',
-          skinColor: const Color(0xFFFFE0B2),
-          eyeColor: const Color(0xFF1A237E),
-          hatEmoji: '👩‍🚀',
-          emblem: '🪐',
-          leftHandItem: null,
-          rightHandItem: '📡',
-          backProp: '🛰️',
-        );
-
-      case 'char_skater_can':
-      case 'char_skater_jake':
-      default:
-        // Varsayılan: Süper Kaykaycı Can (Subway Surfers Jake Tarzı)
-        return _CharacterStyle(
-          name: 'Kaykaycı Can',
-          jacketColor: const Color(0xFFFF6D00),
-          jacketGradient: [const Color(0xFFFF9100), const Color(0xFFE65100)],
-          pantColor: const Color(0xFF1565C0), // Kot pantolon
-          shoeColor: const Color(0xFFE53935), // Kırmızı sokak sneaker'ı
-          shoeTrim: Colors.white,
-          shoeIcon: null,
-          skinColor: const Color(0xFFFFCC80),
-          eyeColor: const Color(0xFF3E2723),
-          hatEmoji: '🧢', // Yan takılmış kep
-          emblem: '🛹',
-          hasHeadphones: true,
-          leftHandItem: null,
-          rightHandItem: null,
-          backProp: '🛹', // Sırtta veya altta kaykay
-        );
-    }
   }
 }
 
-class _CharacterStyle {
-  final String name;
-  final Color jacketColor;
-  final List<Color> jacketGradient;
-  final Color pantColor;
-  final Color shoeColor;
-  final Color shoeTrim;
-  final String? shoeIcon;
-  final Color skinColor;
-  final Color eyeColor;
-  final String? hatEmoji;
-  final String emblem;
-  final bool hasHeadphones;
-  final bool hasCape;
-  final String? leftHandItem;
-  final String? rightHandItem;
-  final String? backProp;
+/// 🎨 KUSURSUZ SİMETRİK VE OYUN KALİTESİNDE VEKTÖR ÇİZİM MOTORU
+class _SymmetricCharacterPainter extends CustomPainter {
+  final String charId;
+  final bool isWinking;
+  final String? customHat;
+  final String? customProp;
 
-  const _CharacterStyle({
-    required this.name,
-    required this.jacketColor,
-    required this.jacketGradient,
-    required this.pantColor,
-    required this.shoeColor,
-    required this.shoeTrim,
-    required this.shoeIcon,
-    required this.skinColor,
-    required this.eyeColor,
-    required this.hatEmoji,
-    required this.emblem,
-    this.hasHeadphones = false,
-    this.hasCape = false,
-    this.leftHandItem,
-    this.rightHandItem,
-    this.backProp,
+  _SymmetricCharacterPainter({
+    required this.charId,
+    required this.isWinking,
+    this.customHat,
+    this.customProp,
   });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final cx = size.width / 2;
+    final w = size.width;
+    final h = size.height;
+
+    switch (charId) {
+      case 'char_robo_b':
+        _drawRoboB(canvas, cx, w, h);
+        break;
+      case 'char_ninja':
+      case 'char_ninja_shadow':
+        _drawNinja(canvas, cx, w, h);
+        break;
+      case 'char_prenses':
+      case 'char_princess_star':
+        _drawPrincess(canvas, cx, w, h);
+        break;
+      case 'char_superhero':
+      case 'char_super_artikulo':
+        _drawSuperhero(canvas, cx, w, h);
+        break;
+      case 'char_dino':
+        _drawDinoRex(canvas, cx, w, h);
+        break;
+      case 'char_skater_can':
+      default:
+        _drawSkaterCan(canvas, cx, w, h);
+        break;
+    }
+  }
+
+  // ==========================================
+  // 1. 🛹 KAYKAYCI CAN (Subway Surfers Jake Tarzı)
+  // ==========================================
+  void _drawSkaterCan(Canvas canvas, double cx, double w, double h) {
+    // A. ZEMİNDE SİMETRİK KAYKAY (Her iki ayağın altında yatay dengeli durur)
+    final boardY = h * 0.92;
+    final boardW = w * 0.82;
+    final boardH = h * 0.08;
+
+    // Kaykay gölgesi
+    final boardShadow = Paint()..color = Colors.black38;
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromCenter(center: Offset(cx, boardY + 6), width: boardW * 0.95, height: boardH * 0.6),
+        const Radius.circular(8),
+      ),
+      boardShadow,
+    );
+
+    // Kaykay tekerlekleri (Sol ve Sağ simetrik 2 çift tekerlek)
+    final wheelPaint = Paint()..color = const Color(0xFFFF5252);
+    final wheelRim = Paint()..color = Colors.white;
+    for (final wx in [cx - boardW * 0.35, cx + boardW * 0.35]) {
+      canvas.drawCircle(Offset(wx, boardY + 4), 6, wheelPaint);
+      canvas.drawCircle(Offset(wx, boardY + 4), 2.5, wheelRim);
+    }
+
+    // Kaykay Gövdesi (Pro Street Skateboard)
+    final boardPaint = Paint()
+      ..shader = const LinearGradient(
+        colors: [Color(0xFF212121), Color(0xFF424242), Color(0xFF212121)],
+      ).createShader(Rect.fromCenter(center: Offset(cx, boardY), width: boardW, height: boardH));
+
+    final boardRect = RRect.fromRectAndRadius(
+      Rect.fromCenter(center: Offset(cx, boardY), width: boardW, height: boardH),
+      const Radius.circular(10),
+    );
+    canvas.drawRRect(boardRect, boardPaint);
+
+    // Kaykay çift yarış şeridi
+    final stripePaint = Paint()..color = const Color(0xFFFF9100);
+    canvas.drawRect(Rect.fromCenter(center: Offset(cx - 5, boardY), width: 3, height: boardH * 0.8), stripePaint);
+    canvas.drawRect(Rect.fromCenter(center: Offset(cx + 5, boardY), width: 3, height: boardH * 0.8), stripePaint);
+
+    // B. BACAKLAR & SNEAKER AYAKKABILAR (Simetrik yerleşim)
+    final legW = w * 0.14;
+    final legH = h * 0.22;
+    final legY = h * 0.68;
+    final legSpacing = w * 0.16;
+
+    final pantPaint = Paint()
+      ..shader = const LinearGradient(
+        colors: [Color(0xFF1976D2), Color(0xFF0D47A1)],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ).createShader(Rect.fromLTWH(cx - legSpacing - legW, legY, legSpacing * 2 + legW * 2, legH));
+
+    // Sol ve Sağ Kot Bacaklar
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(Rect.fromLTWH(cx - legSpacing - legW / 2, legY, legW, legH), const Radius.circular(8)),
+      pantPaint,
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(Rect.fromLTWH(cx + legSpacing - legW / 2, legY, legW, legH), const Radius.circular(8)),
+      pantPaint,
+    );
+
+    // Kırmızı & Beyaz Street Sneaker Ayakkabılar
+    final shoeY = boardY - 6;
+    final shoeW = legW * 1.35;
+    final shoeH = h * 0.085;
+    final shoePaint = Paint()..color = const Color(0xFFE53935);
+    final solePaint = Paint()..color = Colors.white;
+
+    for (final sx in [cx - legSpacing, cx + legSpacing]) {
+      // Ayakkabı gövdesi
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(sx, shoeY), width: shoeW, height: shoeH), const Radius.circular(7)),
+        shoePaint,
+      );
+      // Beyaz taban
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(sx, shoeY + shoeH * 0.35), width: shoeW * 0.98, height: 4), const Radius.circular(2)),
+        solePaint,
+      );
+      // Burun detayı
+      canvas.drawCircle(Offset(sx + (sx < cx ? -shoeW * 0.3 : shoeW * 0.3), shoeY), 4, solePaint);
+    }
+
+    // C. GÖVDE & CEKET / HOODIE (Kusursuz Simetrik Turuncu Streetwear)
+    final torsoW = w * 0.48;
+    final torsoH = h * 0.34;
+    final torsoY = h * 0.38;
+
+    final jacketPaint = Paint()
+      ..shader = const LinearGradient(
+        colors: [Color(0xFFFF9800), Color(0xFFE65100)],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ).createShader(Rect.fromLTWH(cx - torsoW / 2, torsoY, torsoW, torsoH));
+
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(Rect.fromLTWH(cx - torsoW / 2, torsoY, torsoW, torsoH), const Radius.circular(18)),
+      jacketPaint,
+    );
+
+    // Ceket fermuarı ve orta şerit
+    final zipperPaint = Paint()
+      ..color = Colors.black26
+      ..strokeWidth = 3.0
+      ..style = PaintingStyle.stroke;
+    canvas.drawLine(Offset(cx, torsoY + 4), Offset(cx, torsoY + torsoH - 4), zipperPaint);
+
+    // Göğüs Rozeti (Kaykay Yıldızı Amblemi)
+    final badgeBg = Paint()..color = Colors.white;
+    canvas.drawCircle(Offset(cx, torsoY + torsoH * 0.45), 14, badgeBg);
+    final badgeBorder = Paint()
+      ..color = const Color(0xFFFF9800)
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke;
+    canvas.drawCircle(Offset(cx, torsoY + torsoH * 0.45), 14, badgeBorder);
+
+    // D. KOLLAR & ELLER (Simetrik Doğal Duruş)
+    final armW = w * 0.12;
+    final armH = h * 0.28;
+    final armY = torsoY + 6;
+    final armOffset = torsoW * 0.48;
+
+    final armPaint = Paint()
+      ..shader = const LinearGradient(
+        colors: [Color(0xFFFFA726), Color(0xFFE65100)],
+      ).createShader(Rect.fromLTWH(0, armY, w, armH));
+
+    final skinPaint = Paint()..color = const Color(0xFFFFCC80);
+
+    // Sol ve Sağ Kol
+    for (final isLeft in [true, false]) {
+      final sign = isLeft ? -1 : 1;
+      final ax = cx + sign * (armOffset + armW * 0.4);
+
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(Rect.fromLTWH(ax - armW / 2, armY, armW, armH * 0.75), const Radius.circular(8)),
+        armPaint,
+      );
+      // El yumruğu / eldiven
+      canvas.drawCircle(Offset(ax, armY + armH * 0.8), armW * 0.55, skinPaint);
+    }
+
+    // E. SİMETRİK KULAKLIK (Boyunda asılı)
+    final hpY = torsoY + 4;
+    final hpW = torsoW * 0.75;
+    final hpPaint = Paint()..color = const Color(0xFF263238);
+    // Boyun bandı
+    canvas.drawArc(
+      Rect.fromCenter(center: Offset(cx, hpY), width: hpW, height: 18),
+      0,
+      math.pi,
+      false,
+      Paint()
+        ..color = const Color(0xFF263238)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 5,
+    );
+    // Kulaklık yastıkları
+    canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(cx - hpW * 0.45, hpY + 2), width: 10, height: 14), const Radius.circular(4)), hpPaint);
+    canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(cx + hpW * 0.45, hpY + 2), width: 10, height: 14), const Radius.circular(4)), hpPaint);
+
+    // F. KAFA, ŞAPKA & GÜLEN YÜZ (Kusursuz Simetrik)
+    final headRadius = w * 0.22;
+    final headCenterY = h * 0.24;
+
+    // Yüz Çemberi
+    canvas.drawCircle(Offset(cx, headCenterY), headRadius, skinPaint);
+
+    // Yanak Allıkları
+    final blushPaint = Paint()..color = Colors.pinkAccent.withAlpha(90);
+    canvas.drawCircle(Offset(cx - headRadius * 0.55, headCenterY + 12), 7, blushPaint);
+    canvas.drawCircle(Offset(cx + headRadius * 0.55, headCenterY + 12), 7, blushPaint);
+
+    // Canlı Parlak Gözler
+    _drawPixarEyes(canvas, cx, headCenterY - 4, headRadius * 0.22, isWinking);
+
+    // Sevecen Geniş Gülümseme (Diş ve Dil detaylı)
+    _drawHappyMouth(canvas, cx, headCenterY + 18, headRadius * 0.45);
+
+    // Havalı Sokak Kepi (Geriye/Öne takılmış Kep)
+    final capPaint = Paint()
+      ..shader = const LinearGradient(
+        colors: [Color(0xFF29B6F6), Color(0xFF0288D1)],
+      ).createShader(Rect.fromLTWH(cx - headRadius, headCenterY - headRadius, headRadius * 2, headRadius));
+
+    // Kep Kubbesi
+    canvas.drawArc(
+      Rect.fromCenter(center: Offset(cx, headCenterY - 4), width: headRadius * 2.05, height: headRadius * 1.8),
+      math.pi,
+      math.pi,
+      true,
+      capPaint,
+    );
+    // Kep Siperliği (Sırt veya ön kavis)
+    final visorPaint = Paint()..color = const Color(0xFF01579B);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromCenter(center: Offset(cx, headCenterY - headRadius * 0.8), width: headRadius * 2.2, height: 8),
+        const Radius.circular(4),
+      ),
+      visorPaint,
+    );
+    // Kep Tepe Düğmesi
+    canvas.drawCircle(Offset(cx, headCenterY - headRadius * 0.95), 4, visorPaint);
+  }
+
+  // ==========================================
+  // 2. 🤖 FÜTÜRİSTİK ROBO-B
+  // ==========================================
+  void _drawRoboB(Canvas canvas, double cx, double w, double h) {
+    final metalPaint = Paint()
+      ..shader = const LinearGradient(
+        colors: [Color(0xFF00E5FF), Color(0xFF0091EA), Color(0xFF01579B)],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ).createShader(Rect.fromLTWH(0, 0, w, h));
+
+    final cyanGlow = Paint()..color = const Color(0xFF00E5FF);
+
+    // İyon İtici Ayaklar (Yerden süzülür)
+    final footY = h * 0.88;
+    for (final fx in [cx - w * 0.18, cx + w * 0.18]) {
+      canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(fx, footY), width: w * 0.18, height: h * 0.08), const Radius.circular(8)), metalPaint);
+      // İyon ateşi
+      canvas.drawCircle(Offset(fx, footY + 8), 6, cyanGlow);
+    }
+
+    // Gövde (Titanyum Kasa)
+    final torsoW = w * 0.52;
+    final torsoH = h * 0.36;
+    final torsoY = h * 0.44;
+    canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(cx, torsoY + torsoH / 2), width: torsoW, height: torsoH), const Radius.circular(16)), metalPaint);
+
+    // Göğüs Reaktörü (Ses Dalgası Ekranı)
+    final reactorBg = Paint()..color = const Color(0xFF102027);
+    canvas.drawCircle(Offset(cx, torsoY + torsoH * 0.5), 18, reactorBg);
+    canvas.drawCircle(Offset(cx, torsoY + torsoH * 0.5), 18, Paint()..color = const Color(0xFF00E5FF)..style = PaintingStyle.stroke..strokeWidth = 2.5);
+    // Ses dalgası çizgisi
+    final waveP = Paint()..color = const Color(0xFF00E5FF)..strokeWidth = 2.5..style = PaintingStyle.stroke;
+    final p = Path();
+    p.moveTo(cx - 10, torsoY + torsoH * 0.5);
+    p.lineTo(cx - 5, torsoY + torsoH * 0.5 - 6);
+    p.lineTo(cx, torsoY + torsoH * 0.5 + 6);
+    p.lineTo(cx + 5, torsoY + torsoH * 0.5 - 6);
+    p.lineTo(cx + 10, torsoY + torsoH * 0.5);
+    canvas.drawPath(p, waveP);
+
+    // Kollar
+    for (final sign in [-1, 1]) {
+      final ax = cx + sign * (torsoW * 0.58);
+      canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(ax, torsoY + torsoH * 0.4), width: w * 0.12, height: h * 0.24), const Radius.circular(8)), metalPaint);
+      canvas.drawCircle(Offset(ax, torsoY + torsoH * 0.6), 8, cyanGlow);
+    }
+
+    // Kafa (Kare-Yuvarlak Robot Kafası)
+    final headW = w * 0.46;
+    final headH = h * 0.28;
+    final headY = h * 0.16;
+    canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(cx, headY + headH / 2), width: headW, height: headH), const Radius.circular(14)), metalPaint);
+
+    // Tepe Anteni
+    canvas.drawLine(Offset(cx, headY), Offset(cx, headY - 14), Paint()..color = const Color(0xFF00E5FF)..strokeWidth = 3);
+    canvas.drawCircle(Offset(cx, headY - 14), 6, cyanGlow);
+
+    // LED Vizör (Gözlük Ekranı)
+    final visorBg = Paint()..color = const Color(0xFF001E3C);
+    canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(cx, headY + headH * 0.42), width: headW * 0.78, height: headH * 0.42), const Radius.circular(8)), visorBg);
+    // Parlayan Mavi LED Gözler
+    for (final ex in [cx - headW * 0.22, cx + headW * 0.22]) {
+      canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(ex, headY + headH * 0.42), width: 14, height: 8), const Radius.circular(3)), cyanGlow);
+    }
+  }
+
+  // ==========================================
+  // 3. 🥷 GÖLGE NİNJA KAAN
+  // ==========================================
+  void _drawNinja(Canvas canvas, double cx, double w, double h) {
+    final ninjaDark = Paint()
+      ..shader = const LinearGradient(
+        colors: [Color(0xFF311B92), Color(0xFF1A237E), Color(0xFF0D0D15)],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ).createShader(Rect.fromLTWH(0, 0, w, h));
+
+    final goldPaint = Paint()..color = const Color(0xFFFFD700);
+
+    // Çapraz Kılıçlar (Sırtında simetrik)
+    final swordPaint = Paint()..color = const Color(0xFFB0BEC5)..strokeWidth = 3;
+    canvas.drawLine(Offset(cx - w * 0.35, h * 0.25), Offset(cx + w * 0.35, h * 0.65), swordPaint);
+    canvas.drawLine(Offset(cx + w * 0.35, h * 0.25), Offset(cx - w * 0.35, h * 0.65), swordPaint);
+
+    // Bacaklar & Ninja Çizmeleri
+    final footY = h * 0.88;
+    for (final fx in [cx - w * 0.16, cx + w * 0.16]) {
+      canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(fx, footY), width: w * 0.15, height: h * 0.18), const Radius.circular(6)), ninjaDark);
+      canvas.drawRect(Rect.fromCenter(center: Offset(fx, footY + 4), width: w * 0.14, height: 3), goldPaint);
+    }
+
+    // Gövde & Kuşak
+    final torsoW = w * 0.48;
+    final torsoH = h * 0.34;
+    final torsoY = h * 0.42;
+    canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(cx, torsoY + torsoH / 2), width: torsoW, height: torsoH), const Radius.circular(14)), ninjaDark);
+    // Altın Kuşak
+    canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(cx, torsoY + torsoH * 0.8), width: torsoW * 0.95, height: 8), const Radius.circular(4)), goldPaint);
+
+    // Kollar & Bileklikler
+    for (final sign in [-1, 1]) {
+      final ax = cx + sign * (torsoW * 0.55);
+      canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(ax, torsoY + torsoH * 0.45), width: w * 0.12, height: h * 0.26), const Radius.circular(7)), ninjaDark);
+      canvas.drawCircle(Offset(ax, torsoY + torsoH * 0.6), 5, goldPaint);
+    }
+
+    // Başlık & Ninja Maskesi
+    final headRadius = w * 0.21;
+    final headY = h * 0.25;
+    canvas.drawCircle(Offset(cx, headY), headRadius, ninjaDark);
+
+    // Altın Alın Bandı
+    canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(cx, headY - headRadius * 0.4), width: headRadius * 1.8, height: 10), const Radius.circular(4)), goldPaint);
+    canvas.drawCircle(Offset(cx, headY - headRadius * 0.4), 6, Paint()..color = const Color(0xFFD50000));
+
+    // Göz Açıklığı & Keskin Kararlı Gözler
+    final skinPaint = Paint()..color = const Color(0xFFFFCC80);
+    canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(cx, headY + 2), width: headRadius * 1.3, height: 14), const Radius.circular(4)), skinPaint);
+    _drawPixarEyes(canvas, cx, headY + 2, headRadius * 0.2, isWinking);
+  }
+
+  // ==========================================
+  // 4. 👸 PRENSES YILDIZ
+  // ==========================================
+  void _drawPrincess(Canvas canvas, double cx, double w, double h) {
+    final gownPaint = Paint()
+      ..shader = const LinearGradient(
+        colors: [Color(0xFFFF4081), Color(0xFFE91E63), Color(0xFF880E4F)],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ).createShader(Rect.fromLTWH(0, 0, w, h));
+
+    final skinPaint = Paint()..color = const Color(0xFFFFE0B2);
+    final goldPaint = Paint()..color = const Color(0xFFFFD700);
+
+    // Görkemli Balo Eteği (Simetrik Çan Etek)
+    final skirtPath = Path();
+    skirtPath.moveTo(cx - w * 0.18, h * 0.52);
+    skirtPath.quadraticBezierTo(cx - w * 0.44, h * 0.85, cx - w * 0.4, h * 0.92);
+    skirtPath.quadraticBezierTo(cx, h * 0.95, cx + w * 0.4, h * 0.92);
+    skirtPath.quadraticBezierTo(cx + w * 0.44, h * 0.85, cx + w * 0.18, h * 0.52);
+    skirtPath.close();
+    canvas.drawPath(skirtPath, gownPaint);
+
+    // Etek altın dantel detayı
+    canvas.drawPath(
+      skirtPath,
+      Paint()
+        ..color = const Color(0xFFFFD54F)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 3,
+    );
+
+    // Korse & Üst Beden
+    final torsoW = w * 0.36;
+    final torsoH = h * 0.22;
+    final torsoY = h * 0.36;
+    canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(cx, torsoY + torsoH / 2), width: torsoW, height: torsoH), const Radius.circular(12)), gownPaint);
+
+    // Kollar
+    for (final sign in [-1, 1]) {
+      final ax = cx + sign * (torsoW * 0.65);
+      canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(ax, torsoY + torsoH * 0.45), width: w * 0.1, height: h * 0.22), const Radius.circular(6)), gownPaint);
+      canvas.drawCircle(Offset(ax, torsoY + torsoH * 0.65), 5, skinPaint);
+    }
+
+    // Kafa & Yüz
+    final headRadius = w * 0.21;
+    final headY = h * 0.24;
+    canvas.drawCircle(Offset(cx, headY), headRadius, skinPaint);
+
+    // Saçlar (Simetrik Sarı Bukleler)
+    final hairPaint = Paint()..color = const Color(0xFFFFB300);
+    canvas.drawCircle(Offset(cx - headRadius * 0.85, headY + 2), 12, hairPaint);
+    canvas.drawCircle(Offset(cx + headRadius * 0.85, headY + 2), 12, hairPaint);
+
+    // Gözler & Gülümseme
+    _drawPixarEyes(canvas, cx, headY - 4, headRadius * 0.22, isWinking);
+    _drawHappyMouth(canvas, cx, headY + 16, headRadius * 0.4);
+
+    // Altın Kristal Taç
+    final crownPath = Path();
+    final crownY = headY - headRadius * 0.85;
+    crownPath.moveTo(cx - 24, crownY + 8);
+    crownPath.lineTo(cx - 20, crownY - 14);
+    crownPath.lineTo(cx - 10, crownY);
+    crownPath.lineTo(cx, crownY - 20); // Orta sivri uç
+    crownPath.lineTo(cx + 10, crownY);
+    crownPath.lineTo(cx + 20, crownY - 14);
+    crownPath.lineTo(cx + 24, crownY + 8);
+    crownPath.close();
+    canvas.drawPath(crownPath, goldPaint);
+    canvas.drawCircle(Offset(cx, crownY - 20), 3.5, Paint()..color = const Color(0xFF00E5FF));
+  }
+
+  // ==========================================
+  // 5. 🦸 SÜPER ARTİKÜLO
+  // ==========================================
+  void _drawSuperhero(Canvas canvas, double cx, double w, double h) {
+    final suitPaint = Paint()
+      ..shader = const LinearGradient(
+        colors: [Color(0xFF1E88E5), Color(0xFF0D47A1)],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ).createShader(Rect.fromLTWH(0, 0, w, h));
+
+    final capePaint = Paint()..color = const Color(0xFFD50000);
+    final goldPaint = Paint()..color = const Color(0xFFFFD700);
+    final skinPaint = Paint()..color = const Color(0xFFFFCC80);
+
+    // Kırmızı Pelerin (Gövdenin arkasında simetrik dalgalanır)
+    final capePath = Path();
+    capePath.moveTo(cx - w * 0.26, h * 0.38);
+    capePath.lineTo(cx - w * 0.44, h * 0.88);
+    capePath.quadraticBezierTo(cx, h * 0.92, cx + w * 0.44, h * 0.88);
+    capePath.lineTo(cx + w * 0.26, h * 0.38);
+    capePath.close();
+    canvas.drawPath(capePath, capePaint);
+
+    // Bacaklar & Kırmızı Süper Kahraman Çizmeleri
+    final footY = h * 0.86;
+    for (final fx in [cx - w * 0.16, cx + w * 0.16]) {
+      canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(fx, footY), width: w * 0.15, height: h * 0.2), const Radius.circular(7)), suitPaint);
+      canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(fx, footY + 8), width: w * 0.16, height: h * 0.09), const Radius.circular(5)), capePaint);
+    }
+
+    // Gövde & 'S' Amblemi
+    final torsoW = w * 0.48;
+    final torsoH = h * 0.34;
+    final torsoY = h * 0.4;
+    canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(cx, torsoY + torsoH / 2), width: torsoW, height: torsoH), const Radius.circular(16)), suitPaint);
+
+    // Altın Kemer
+    canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(cx, torsoY + torsoH * 0.85), width: torsoW * 0.95, height: 7), const Radius.circular(3)), goldPaint);
+    canvas.drawCircle(Offset(cx, torsoY + torsoH * 0.85), 6, Paint()..color = const Color(0xFFD50000));
+
+    // Göğüs Kalkanı
+    final shieldPath = Path();
+    final sy = torsoY + torsoH * 0.42;
+    shieldPath.moveTo(cx - 16, sy - 12);
+    shieldPath.lineTo(cx + 16, sy - 12);
+    shieldPath.lineTo(cx + 12, sy + 4);
+    shieldPath.lineTo(cx, sy + 16);
+    shieldPath.lineTo(cx - 12, sy + 4);
+    shieldPath.close();
+    canvas.drawPath(shieldPath, goldPaint);
+
+    // Kollar (Güçlü simetrik duruş)
+    for (final sign in [-1, 1]) {
+      final ax = cx + sign * (torsoW * 0.58);
+      canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(ax, torsoY + torsoH * 0.4), width: w * 0.12, height: h * 0.25), const Radius.circular(7)), suitPaint);
+      canvas.drawCircle(Offset(ax, torsoY + torsoH * 0.6), 8, capePaint);
+    }
+
+    // Kafa & Maske
+    final headRadius = w * 0.21;
+    final headY = h * 0.24;
+    canvas.drawCircle(Offset(cx, headY), headRadius, skinPaint);
+
+    // Gözler & Güvenli Kahraman Gülüşü
+    _drawPixarEyes(canvas, cx, headY - 4, headRadius * 0.22, isWinking);
+    _drawHappyMouth(canvas, cx, headY + 16, headRadius * 0.42);
+
+    // Kahraman Saçı (Siyah Dalgalı)
+    canvas.drawArc(Rect.fromCenter(center: Offset(cx, headY - 8), width: headRadius * 2.1, height: headRadius * 1.5), math.pi, math.pi, true, Paint()..color = const Color(0xFF212121));
+  }
+
+  // ==========================================
+  // 6. 🦖 DİNO REX (Sevimli Dansçı Bebek Dinozor)
+  // ==========================================
+  void _drawDinoRex(Canvas canvas, double cx, double w, double h) {
+    final dinoGreen = Paint()
+      ..shader = const LinearGradient(
+        colors: [Color(0xFF66BB6A), Color(0xFF43A047), Color(0xFF2E7D32)],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ).createShader(Rect.fromLTWH(0, 0, w, h));
+
+    final bellyPaint = Paint()..color = const Color(0xFFC8E6C9);
+    final orangeSpikes = Paint()..color = const Color(0xFFFF9800);
+
+    // Sırt Dikenleri (Kafadan sırta simetrik dizili)
+    for (int i = 0; i < 4; i++) {
+      final spikeY = h * 0.16 + i * 16;
+      final p = Path();
+      p.moveTo(cx - 7, spikeY);
+      p.lineTo(cx, spikeY - 12);
+      p.lineTo(cx + 7, spikeY);
+      p.close();
+      canvas.drawPath(p, orangeSpikes);
+    }
+
+    // Tombik Sevimli Gövde
+    final torsoW = w * 0.58;
+    final torsoH = h * 0.44;
+    final torsoY = h * 0.46;
+    canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(cx, torsoY + torsoH / 2), width: torsoW, height: torsoH), const Radius.circular(24)), dinoGreen);
+
+    // Sarımsı Yumuşak Göbek
+    canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(cx, torsoY + torsoH * 0.55), width: torsoW * 0.6, height: torsoH * 0.65), const Radius.circular(18)), bellyPaint);
+
+    // Sevimli Dino Bacakları & Sneaker Ayakkabıları
+    final footY = h * 0.90;
+    for (final fx in [cx - w * 0.18, cx + w * 0.18]) {
+      canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(fx, footY), width: w * 0.16, height: h * 0.08), const Radius.circular(8)), Paint()..color = const Color(0xFFE53935));
+      canvas.drawCircle(Offset(fx, footY - 4), 6, Paint()..color = Colors.white);
+    }
+
+    // Minik Sevimli Dino Kolları
+    for (final sign in [-1, 1]) {
+      final ax = cx + sign * (torsoW * 0.48);
+      canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(ax, torsoY + torsoH * 0.35), width: w * 0.12, height: h * 0.16), const Radius.circular(8)), dinoGreen);
+    }
+
+    // Sevimli Tombul Dino Kafası
+    final headRadius = w * 0.24;
+    final headY = h * 0.26;
+    canvas.drawCircle(Offset(cx, headY), headRadius, dinoGreen);
+
+    // Kocaman Sevimli Gözler
+    _drawPixarEyes(canvas, cx, headY - 6, headRadius * 0.26, isWinking);
+
+    // Sevimli Gülümseyen Ağız & Minik Sevimli Dişler
+    _drawHappyMouth(canvas, cx, headY + 18, headRadius * 0.45);
+  }
+
+  // ==========================================
+  // ORTAK PARLAK GÖZLER & GÜLÜMSEME ÇİZİMİ
+  // ==========================================
+  void _drawPixarEyes(Canvas canvas, double cx, double eyeY, double eyeRadius, bool isWink) {
+    final eyeSpacing = eyeRadius * 1.6;
+
+    for (final isLeft in [true, false]) {
+      final ex = cx + (isLeft ? -eyeSpacing : eyeSpacing);
+
+      if (isLeft && isWink) {
+        // Göz Kırpma Çizgisi
+        final winkPaint = Paint()
+          ..color = const Color(0xFF212121)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 3.5
+          ..strokeCap = StrokeCap.round;
+        final wp = Path();
+        wp.moveTo(ex - eyeRadius * 0.7, eyeY + 2);
+        wp.quadraticBezierTo(ex, eyeY - 4, ex + eyeRadius * 0.7, eyeY + 2);
+        canvas.drawPath(wp, winkPaint);
+      } else {
+        // Beyaz Göz Küresi
+        canvas.drawCircle(Offset(ex, eyeY), eyeRadius, Paint()..color = Colors.white);
+
+        // Koyu Göz Bebeği
+        canvas.drawCircle(Offset(ex, eyeY), eyeRadius * 0.65, Paint()..color = const Color(0xFF263238));
+
+        // Büyük Parlama (Specular Reflection)
+        canvas.drawCircle(Offset(ex - eyeRadius * 0.22, eyeY - eyeRadius * 0.22), eyeRadius * 0.28, Paint()..color = Colors.white);
+
+        // Küçük Parlama
+        canvas.drawCircle(Offset(ex + eyeRadius * 0.18, eyeY + eyeRadius * 0.18), eyeRadius * 0.12, Paint()..color = Colors.white);
+      }
+    }
+  }
+
+  void _drawHappyMouth(Canvas canvas, double cx, double mouthY, double mouthW) {
+    // Ağız Boşluğu (Gülümseme)
+    final mouthPath = Path();
+    mouthPath.moveTo(cx - mouthW / 2, mouthY);
+    mouthPath.quadraticBezierTo(cx, mouthY + mouthW * 0.75, cx + mouthW / 2, mouthY);
+    mouthPath.close();
+
+    canvas.drawPath(mouthPath, Paint()..color = const Color(0xFFC2185B));
+
+    // Beyaz Diş Çizgisi
+    final teethPath = Path();
+    teethPath.moveTo(cx - mouthW * 0.38, mouthY);
+    teethPath.lineTo(cx + mouthW * 0.38, mouthY);
+    teethPath.lineTo(cx + mouthW * 0.3, mouthY + 5);
+    teethPath.lineTo(cx - mouthW * 0.3, mouthY + 5);
+    teethPath.close();
+    canvas.drawPath(teethPath, Paint()..color = Colors.white);
+
+    // Pembe Dil
+    canvas.drawCircle(Offset(cx, mouthY + mouthW * 0.45), mouthW * 0.22, Paint()..color = const Color(0xFFFF80AB));
+  }
+
+  @override
+  bool shouldRepaint(covariant _SymmetricCharacterPainter oldDelegate) =>
+      oldDelegate.charId != charId ||
+      oldDelegate.isWinking != isWinking ||
+      oldDelegate.customHat != customHat ||
+      oldDelegate.customProp != customProp;
 }
