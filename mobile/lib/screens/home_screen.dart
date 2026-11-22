@@ -1,4 +1,3 @@
-import '../widgets/therapist_portal_dialog.dart';
 import '../widgets/subway_character_hub_dialog.dart';
 import '../widgets/student_profiles_dialog.dart';
 import 'package:flutter/material.dart';
@@ -602,44 +601,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ),
                 const SizedBox(width: 8),
 
-                // 👨‍⚕️ Terapist Girişi & Kayıt Portalı Butonu (Uygulama İçi Tam Entegre)
-                InkWell(
-                  onTap: () {
-                    _sfx.playPopSound();
-                    showDialog(
-                      context: context,
-                      builder: (_) => const TherapistPortalDialog(),
-                    );
-                  },
-                  borderRadius: BorderRadius.circular(16),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE3F2FD),
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: const Color(0xFF1976D2), width: 1.5),
-                      boxShadow: const [
-                        BoxShadow(color: Color(0x15000000), blurRadius: 4, offset: Offset(0, 2)),
-                      ],
-                    ),
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text('🗣️', style: TextStyle(fontSize: 15)),
-                        SizedBox(width: 4),
-                        Text(
-                          'DKT Girişi',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w900,
-                            fontSize: 11.5,
-                            color: Color(0xFF0D47A1),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
+
 
                 InkWell(
                   onTap: () {
