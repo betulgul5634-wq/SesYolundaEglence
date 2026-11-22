@@ -169,97 +169,51 @@ class _InteractiveAvatarWidgetState extends State<InteractiveAvatarWidget>
                     child: const Text('✨⭐✨', style: TextStyle(fontSize: 20)),
                   ),
 
-                // 3. EVCİL HAYVAN / YOLDAŞ (Pet - Sol altta)
-                if (widget.pet != null && widget.pet != '❌' && widget.pet!.isNotEmpty)
+                // 3. EVCİL HAYVAN / YOLDAŞ (Pedestalin yanında yerde duran sevimli dost)
+                if (widget.pet != null &&
+                    widget.pet != '❌' &&
+                    widget.pet != 'pet_none' &&
+                    widget.pet!.isNotEmpty)
                   Positioned(
-                    left: s * 0.02,
-                    bottom: s * 0.12 + (floatOffset * 0.5),
-                    child: Transform.scale(
-                      scale: 0.9,
-                      child: Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white.withValues(alpha: 0.85),
-                          boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 4)],
-                        ),
-                        child: Text(
+                    right: -s * 0.08,
+                    bottom: (widget.showPedestal ? s * 0.06 : s * 0.02) + (floatOffset * 0.4),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
                           widget.pet!,
-                          style: TextStyle(fontSize: s * 0.28),
+                          style: TextStyle(fontSize: s * 0.32, height: 1.0),
                         ),
-                      ),
+                        const SizedBox(height: 1),
+                        Container(
+                          width: s * 0.24,
+                          height: 5,
+                          decoration: BoxDecoration(
+                            color: Colors.black26,
+                            borderRadius: BorderRadius.all(Radius.elliptical(s * 0.24, 5)),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
 
-                // 4. ANA KARAKTER & AKSESUAR KATMANLARI (Dikey hareket ve nefes alma)
+                // 4. ANA KARAKTER & KUSURSUZ KALİBRELİ AKSESUARLAR (Dikey hareket ve zıplama)
                 Transform.translate(
                   offset: Offset(0, floatOffset + jumpOffset),
                   child: Transform.rotate(
                     angle: spinAngle,
                     child: Transform.scale(
                       scale: breathScale,
-                      child: SizedBox(
-                        width: s,
-                        height: s,
-                        child: Stack(
-                          clipBehavior: Clip.none,
-                          alignment: Alignment.center,
-                          children: [
-                            // A) ARKA AKSESUAR (Süpermen Pelerini / Kanat / Kaykay)
-                            if (widget.prop == '🛹')
-                              Positioned(
-                                bottom: -s * 0.02,
-                                child: Transform.rotate(
-                                  angle: -0.12,
-                                  child: Text('🛹', style: TextStyle(fontSize: s * 0.38)),
-                                ),
-                              ),
-
-                            // B) CANLI DANS EDEN SUBWAY SURFERS KARAKTERİ (Bacakları, Kolları & Ayakkabıları Oynar)
-                            Center(
-                              child: AnimatedDancingCharacter(
-                                characterId: _resolveCharacterId(widget.avatar),
-                                size: s * 0.88,
-                                isDancing: widget.animate,
-                                showPedestal: false,
-                                showShadow: false,
-                                customHat: (widget.hat != null && widget.hat != '❌' && widget.hat != 'hat_none') ? widget.hat : null,
-                                customProp: (widget.prop != null && widget.prop != '❌' && widget.prop != 'prop_none') ? widget.prop : null,
-                              ),
-                            ),
-
-                            // C) GÖZLÜK / MASKE (Gözlerin tam hizasına mikro kalibreli oturur)
-                            if (widget.glasses != null &&
-                                widget.glasses != '❌' &&
-                                widget.glasses != 'glass_none' &&
-                                widget.glasses!.isNotEmpty)
-                              Positioned(
-                                top: s * 0.28,
-                                child: _buildCalibratedGlasses(widget.glasses!, s),
-                              ),
-
-                            // D) ŞAPKA / TAÇ / KASK (Kafanın tam tepesine mükemmel oturur)
-                            if (widget.hat != null &&
-                                widget.hat != '❌' &&
-                                widget.hat != 'hat_none' &&
-                                widget.hat!.isNotEmpty)
-                              Positioned(
-                                top: _getHatTopOffset(widget.hat!, s),
-                                child: _buildCalibratedHat(widget.hat!, s),
-                              ),
-
-                            // E) ELDE TUTULAN EŞYA (Sağ el hizası: Asa, Gitar, Kupa)
-                            if (widget.prop != null &&
-                                widget.prop != '❌' &&
-                                widget.prop != 'prop_none' &&
-                                widget.prop != '🛹' &&
-                                widget.prop!.isNotEmpty)
-                              Positioned(
-                                right: -s * 0.06,
-                                bottom: s * 0.16,
-                                child: _buildCalibratedProp(widget.prop!, s),
-                              ),
-                          ],
+                      child: Center(
+                        child: AnimatedDancingCharacter(
+                          characterId: _resolveCharacterId(widget.avatar),
+                          size: s * 0.88,
+                          isDancing: widget.animate,
+                          showPedestal: false,
+                          showShadow: false,
+                          customHat: (widget.hat != null && widget.hat != '❌' && widget.hat != 'hat_none') ? widget.hat : null,
+                          customGlasses: (widget.glasses != null && widget.glasses != '❌' && widget.glasses != 'glass_none') ? widget.glasses : null,
+                          customProp: (widget.prop != null && widget.prop != '❌' && widget.prop != 'prop_none') ? widget.prop : null,
                         ),
                       ),
                     ),
@@ -269,185 +223,6 @@ class _InteractiveAvatarWidgetState extends State<InteractiveAvatarWidget>
             ),
           );
         },
-      ),
-    );
-  }
-
-  // --- HASSAS KALİBRE EDİLMİŞ AKSESUAR YERLEŞTİRİCİLERİ ---
-
-  /// Şapka Yükseklik Kalibrasyonu
-  double _getHatTopOffset(String hat, double s) {
-    if (hat.contains('👑')) return -s * 0.14; // Taç biraz yukarıda parıldar
-    if (hat.contains('🧢')) return -s * 0.06; // Kep alına tam oturur
-    if (hat.contains('🎩')) return -s * 0.16; // Silindir şapka dik durur
-    if (hat.contains('🪖')) return -s * 0.08; // Kask kafayı sarar
-    if (hat.contains('🥳')) return -s * 0.12; // Parti şapkası
-    return -s * 0.10;
-  }
-
-  /// Şapkanın Açı ve Ölçek Kalibrasyonu
-  Widget _buildCalibratedHat(String hat, double s) {
-    double angle = 0.0;
-    double scale = 1.0;
-
-    if (hat.contains('🧢')) {
-      angle = -0.14; // Havalı yan kep duruşu
-      scale = 0.95;
-    } else if (hat.contains('👑')) {
-      scale = 1.05;
-    } else if (hat.contains('🎩')) {
-      angle = 0.08;
-    }
-
-    return Transform.rotate(
-      angle: angle,
-      child: Transform.scale(
-        scale: scale,
-        child: Container(
-          decoration: BoxDecoration(
-            boxShadow: hat.contains('👑')
-                ? [
-                    BoxShadow(
-                      color: Colors.amberAccent.withValues(alpha: 0.6),
-                      blurRadius: 12,
-                      spreadRadius: 2,
-                    )
-                  ]
-                : null,
-          ),
-          child: Text(
-            hat,
-            style: TextStyle(fontSize: s * 0.42, height: 1.0),
-          ),
-        ),
-      ),
-    );
-  }
-
-  /// Gözlüklerin Göz Hizasına Kusursuz Yerleşimi
-  Widget _buildCalibratedGlasses(String glass, double s) {
-    // Özel stilize edilmiş gözlük modelleri veya platform emojisi
-    if (glass.contains('🕶️') || glass == 'glass_sun') {
-      return Container(
-        padding: EdgeInsets.symmetric(horizontal: s * 0.03, vertical: 2),
-        decoration: BoxDecoration(
-          color: const Color(0xFF1A1A1A),
-          borderRadius: BorderRadius.circular(s * 0.08),
-          border: Border.all(color: Colors.amberAccent, width: 1.8),
-          boxShadow: const [BoxShadow(color: Colors.black45, blurRadius: 4, offset: Offset(0, 2))],
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: s * 0.14,
-              height: s * 0.08,
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Container(
-                  width: s * 0.05,
-                  height: 2,
-                  margin: const EdgeInsets.only(top: 2, left: 2),
-                  color: Colors.white70,
-                ),
-              ),
-            ),
-            Container(width: s * 0.04, height: 2, color: Colors.amberAccent),
-            Container(
-              width: s * 0.14,
-              height: s * 0.08,
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Container(
-                  width: s * 0.05,
-                  height: 2,
-                  margin: const EdgeInsets.only(top: 2, left: 2),
-                  color: Colors.white70,
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    } else if (glass.contains('👓') || glass == 'glass_nerd') {
-      return Container(
-        padding: EdgeInsets.symmetric(horizontal: s * 0.02, vertical: 1),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: s * 0.13,
-              height: s * 0.13,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: const Color(0xFFB8860B), width: 2),
-                color: Colors.cyan.withValues(alpha: 0.15),
-              ),
-            ),
-            Container(width: s * 0.03, height: 2, color: const Color(0xFFB8860B)),
-            Container(
-              width: s * 0.13,
-              height: s * 0.13,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: const Color(0xFFB8860B), width: 2),
-                color: Colors.cyan.withValues(alpha: 0.15),
-              ),
-            ),
-          ],
-        ),
-      );
-    } else if (glass.contains('🥽') || glass == 'glass_diver') {
-      return Container(
-        padding: EdgeInsets.symmetric(horizontal: s * 0.04, vertical: 3),
-        decoration: BoxDecoration(
-          color: const Color(0xFF00E676).withValues(alpha: 0.8),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.white, width: 2),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('🥽', style: TextStyle(fontSize: s * 0.28)),
-          ],
-        ),
-      );
-    }
-
-    return Text(glass, style: TextStyle(fontSize: s * 0.32));
-  }
-
-  /// Elde Tutulan Eşyaların Doğal Tutuş Pozisyonu
-  Widget _buildCalibratedProp(String prop, double s) {
-    double angle = 0.15;
-    if (prop.contains('🪄')) angle = 0.35; // Asa öne doğru yönelir
-    if (prop.contains('🎸')) angle = -0.25; // Gitar vücuda çapraz asılır
-    if (prop.contains('🏆')) angle = 0.05;
-
-    return Transform.rotate(
-      angle: angle,
-      child: Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.15),
-              blurRadius: 6,
-              offset: const Offset(2, 2),
-            ),
-          ],
-        ),
-        child: Text(
-          prop,
-          style: TextStyle(fontSize: s * 0.36, height: 1.0),
-        ),
       ),
     );
   }

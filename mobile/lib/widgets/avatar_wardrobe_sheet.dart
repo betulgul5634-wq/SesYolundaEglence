@@ -38,42 +38,68 @@ class _AvatarWardrobeSheetState extends State<AvatarWardrobeSheet> {
     _ShopItem(id: 'hat_none', category: 'hat', name: 'Şapkasız', emoji: '❌', gemPrice: 0),
     _ShopItem(id: 'hat_crown', category: 'hat', name: 'Kral Tacı', emoji: '👑', gemPrice: 100),
     _ShopItem(id: 'hat_cap', category: 'hat', name: 'Havalı Kep', emoji: '🧢', gemPrice: 40),
-    _ShopItem(id: 'hat_wizard', category: 'hat', name: 'Sihirbaz', emoji: '🎩', gemPrice: 80),
-    _ShopItem(id: 'hat_helmet', category: 'hat', name: 'Kask', emoji: '🪖', gemPrice: 120),
-    _ShopItem(id: 'hat_party', category: 'hat', name: 'Parti', emoji: '🥳', gemPrice: 30),
+    _ShopItem(id: 'hat_wizard', category: 'hat', name: 'Sihirbaz Şapkası', emoji: '🎩', gemPrice: 80),
+    _ShopItem(id: 'hat_space', category: 'hat', name: 'Uzay Kaskı', emoji: '🚀', gemPrice: 120),
+    _ShopItem(id: 'hat_knight', category: 'hat', name: 'Kahraman Miğferi', emoji: '🪖', gemPrice: 110),
+    _ShopItem(id: 'hat_party', category: 'hat', name: 'Parti Şapkası', emoji: '🥳', gemPrice: 30),
+    _ShopItem(id: 'hat_pirate', category: 'hat', name: 'Korsan Şapkası', emoji: '🏴‍☠️', gemPrice: 90),
+    _ShopItem(id: 'hat_beanie', category: 'hat', name: 'Kış Beresi', emoji: '🎅', gemPrice: 45),
+    _ShopItem(id: 'hat_dj', category: 'hat', name: 'DJ Kulaklığı', emoji: '🎧', gemPrice: 70),
+    _ShopItem(id: 'hat_cowboy', category: 'hat', name: 'Kovboy Şapkası', emoji: '🤠', gemPrice: 85),
+    _ShopItem(id: 'hat_grad', category: 'hat', name: 'Mezuniyet Kepi', emoji: '🎓', gemPrice: 95),
+    _ShopItem(id: 'hat_flower', category: 'hat', name: 'Çiçek Tacı', emoji: '🌸', gemPrice: 50),
   ];
 
   final List<_ShopItem> _glasses = [
     _ShopItem(id: 'glass_none', category: 'glasses', name: 'Gözlüksüz', emoji: '❌', gemPrice: 0),
-    _ShopItem(id: 'glass_sun', category: 'glasses', name: 'Güneş Gözlüğü', emoji: '🕶️', gemPrice: 50),
-    _ShopItem(id: 'glass_nerd', category: 'glasses', name: 'Bilgin', emoji: '👓', gemPrice: 35),
+    _ShopItem(id: 'glass_sun', category: 'glasses', name: 'Karizma Güneş', emoji: '🕶️', gemPrice: 50),
+    _ShopItem(id: 'glass_nerd', category: 'glasses', name: 'Bilgin Gözlüğü', emoji: '👓', gemPrice: 35),
     _ShopItem(id: 'glass_diver', category: 'glasses', name: 'Dalgıç Maskesi', emoji: '🥽', gemPrice: 60),
+    _ShopItem(id: 'glass_hero', category: 'glasses', name: 'Kahraman Maskesi', emoji: '🦸', gemPrice: 75),
+    _ShopItem(id: 'glass_cyber', category: 'glasses', name: 'Siber Vizör', emoji: '🤖', gemPrice: 90),
+    _ShopItem(id: 'glass_pilot', category: 'glasses', name: 'Retro Havacı', emoji: '🛩️', gemPrice: 65),
+    _ShopItem(id: 'glass_carnival', category: 'glasses', name: 'Karnaval Maskesi', emoji: '🎭', gemPrice: 80),
+    _ShopItem(id: 'glass_funny', category: 'glasses', name: 'Şakacı Dedektif', emoji: '🥸', gemPrice: 40),
   ];
 
   final List<_ShopItem> _props = [
     _ShopItem(id: 'prop_none', category: 'prop', name: 'Aksesuarsız', emoji: '❌', gemPrice: 0),
-    _ShopItem(id: 'prop_skateboard', category: 'prop', name: 'Süper Kaykay', emoji: '🛹', gemPrice: 60),
-    _ShopItem(id: 'prop_wand', category: 'prop', name: 'Sihirli Asa', emoji: '🪄', gemPrice: 75),
-    _ShopItem(id: 'prop_guitar', category: 'prop', name: 'Rock Gitarı', emoji: '🎸', gemPrice: 90),
-    _ShopItem(id: 'prop_trophy', category: 'prop', name: 'Altın Kupa', emoji: '🏆', gemPrice: 110),
+    _ShopItem(id: 'prop_skateboard', category: 'prop', name: 'Altın Turbo Kaykay', emoji: '🛹', gemPrice: 60),
+    _ShopItem(id: 'prop_wand', category: 'prop', name: 'Sihirli Yıldız Asa', emoji: '🪄', gemPrice: 75),
+    _ShopItem(id: 'prop_guitar', category: 'prop', name: 'Alevli Rock Gitarı', emoji: '🎸', gemPrice: 90),
+    _ShopItem(id: 'prop_trophy', category: 'prop', name: 'Şampiyonluk Kupası', emoji: '🏆', gemPrice: 110),
+    _ShopItem(id: 'prop_mic', category: 'prop', name: 'Altın Mikrofon', emoji: '🎤', gemPrice: 65),
+    _ShopItem(id: 'prop_shield', category: 'prop', name: 'Ejderha Kalkanı', emoji: '🛡️', gemPrice: 95),
+    _ShopItem(id: 'prop_palette', category: 'prop', name: 'Ressam Paleti', emoji: '🎨', gemPrice: 55),
+    _ShopItem(id: 'prop_book', category: 'prop', name: 'Büyülü Masal Kitabı', emoji: '📚', gemPrice: 70),
+    _ShopItem(id: 'prop_ball', category: 'prop', name: 'Şampiyon Topu', emoji: '⚽', gemPrice: 45),
+    _ShopItem(id: 'prop_gamepad', category: 'prop', name: 'Pro Oyuncu Kolu', emoji: '🎮', gemPrice: 85),
   ];
 
   final List<_ShopItem> _pets = [
     _ShopItem(id: 'pet_none', category: 'pet', name: 'Yoldaşsız', emoji: '❌', gemPrice: 0),
-    _ShopItem(id: 'pet_dog', category: 'pet', name: 'Sadık Köpecik', emoji: '🐶', gemPrice: 80),
-    _ShopItem(id: 'pet_cat', category: 'pet', name: 'Yumak Kedi', emoji: '🐱', gemPrice: 80),
+    _ShopItem(id: 'pet_dog', category: 'pet', name: 'Sadık Dost Çakıl', emoji: '🐶', gemPrice: 80),
+    _ShopItem(id: 'pet_cat', category: 'pet', name: 'Yumak Pamuk Kedi', emoji: '🐱', gemPrice: 80),
     _ShopItem(id: 'pet_dragon', category: 'pet', name: 'Ateş Ejderhası', emoji: '🐲', gemPrice: 150),
-    _ShopItem(id: 'pet_robot', category: 'pet', name: 'Robot Dost', emoji: '🤖', gemPrice: 130),
+    _ShopItem(id: 'pet_robot', category: 'pet', name: 'Mini Siber Bot', emoji: '🤖', gemPrice: 130),
     _ShopItem(id: 'pet_bunny', category: 'pet', name: 'Pofuduk Tavşan', emoji: '🐰', gemPrice: 70),
+    _ShopItem(id: 'pet_parrot', category: 'pet', name: 'Geveze Papağan', emoji: '🦜', gemPrice: 90),
+    _ShopItem(id: 'pet_fox', category: 'pet', name: 'Zeki Kızıl Tilki', emoji: '🦊', gemPrice: 100),
+    _ShopItem(id: 'pet_unicorn', category: 'pet', name: 'Büyülü Tekboynuz', emoji: '🦄', gemPrice: 140),
+    _ShopItem(id: 'pet_panda', category: 'pet', name: 'Tombul Panda', emoji: '🐼', gemPrice: 110),
+    _ShopItem(id: 'pet_lion', category: 'pet', name: 'Cesur Aslancık', emoji: '🦁', gemPrice: 120),
+    _ShopItem(id: 'pet_penguin', category: 'pet', name: 'Neşeli Penguen', emoji: '🐧', gemPrice: 85),
   ];
 
   final List<_ShopItem> _characters = [
-    _ShopItem(id: 'char_can', category: 'avatar', name: 'Can (Kahraman)', emoji: '👦', gemPrice: 0),
-    _ShopItem(id: 'char_ece', category: 'avatar', name: 'Ece (Kaşif)', emoji: '👧', gemPrice: 0),
-    _ShopItem(id: 'char_ninja', category: 'avatar', name: 'Gölge Ninja', emoji: '🥷', gemPrice: 50),
-    _ShopItem(id: 'char_hero', category: 'avatar', name: 'Süpermen', emoji: '🦸', gemPrice: 80),
-    _ShopItem(id: 'char_astro', category: 'avatar', name: 'Astronot', emoji: '🧑‍🚀', gemPrice: 100),
-    _ShopItem(id: 'char_robot', category: 'avatar', name: 'Siber Bot', emoji: '🤖', gemPrice: 120),
+    _ShopItem(id: 'char_skater_can', category: 'avatar', name: 'Kaykaycı Can', emoji: '👦', gemPrice: 0),
+    _ShopItem(id: 'char_ece', category: 'avatar', name: 'Kaşif Ece', emoji: '👧', gemPrice: 0),
+    _ShopItem(id: 'char_robo_b', category: 'avatar', name: 'Fütüristik Robo-B', emoji: '🤖', gemPrice: 120),
+    _ShopItem(id: 'char_ninja', category: 'avatar', name: 'Gölge Ninja Kaan', emoji: '🥷', gemPrice: 50),
+    _ShopItem(id: 'char_prenses', category: 'avatar', name: 'Prenses Yıldız', emoji: '👸', gemPrice: 90),
+    _ShopItem(id: 'char_superhero', category: 'avatar', name: 'Süper Artikülo', emoji: '🦸', gemPrice: 80),
+    _ShopItem(id: 'char_dino', category: 'avatar', name: 'Dino Rex', emoji: '🦖', gemPrice: 110),
+    _ShopItem(id: 'char_astro', category: 'avatar', name: 'Galaksi Astronotu', emoji: '🧑‍🚀', gemPrice: 100),
   ];
 
   @override
@@ -198,15 +224,15 @@ class _AvatarWardrobeSheetState extends State<AvatarWardrobeSheet> {
                   children: [
                     // Canlı Katmanlı Avatar (Dokunulduğunda zıplar ve takla atar)
                     InteractiveAvatarWidget(
-                      avatar: _rewardState.activeAvatar,
+                      avatar: _rewardState.activeCharacterId,
                       hat: _rewardState.equippedHat,
                       glasses: _rewardState.equippedGlasses,
                       prop: _rewardState.equippedProp,
                       pet: _rewardState.equippedPet,
-                      size: 92,
+                      size: 96,
                       showPedestal: true,
                     ),
-                    const SizedBox(width: 16),
+                    const SizedBox(width: 14),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -215,13 +241,16 @@ class _AvatarWardrobeSheetState extends State<AvatarWardrobeSheet> {
                             _rewardState.activeCharacterName,
                             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Color(0xFF311B92)),
                           ),
-                          const SizedBox(height: 4),
-                          Text(
-                            'Şapka: ${_rewardState.equippedHat ?? "Yok"} | '
-                            'Gözlük: ${_rewardState.equippedGlasses ?? "Yok"}\n'
-                            'Eşya: ${_rewardState.equippedProp ?? "Yok"} | '
-                            'Yoldaş: ${_rewardState.equippedPet ?? "Yok"}',
-                            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Colors.black54, height: 1.4),
+                          const SizedBox(height: 6),
+                          Wrap(
+                            spacing: 6,
+                            runSpacing: 4,
+                            children: [
+                              _buildEquipPill('👑', _rewardState.equippedHat ?? 'Şapkasız'),
+                              _buildEquipPill('🕶️', _rewardState.equippedGlasses ?? 'Gözlüksüz'),
+                              _buildEquipPill('🛹', _rewardState.equippedProp ?? 'Eşyasız'),
+                              _buildEquipPill('🐾', _rewardState.equippedPet ?? 'Yoldaşsız'),
+                            ],
                           ),
                           const SizedBox(height: 8),
                           Container(
@@ -280,15 +309,20 @@ class _AvatarWardrobeSheetState extends State<AvatarWardrobeSheet> {
                     
                     bool isEquipped = false;
                     if (item.category == 'hat') {
-                      isEquipped = _rewardState.equippedHat == (item.emoji == '❌' ? null : item.emoji);
+                      isEquipped = _rewardState.equippedHat == (item.emoji == '❌' ? null : item.emoji) ||
+                          _rewardState.equippedHat == item.id;
                     } else if (item.category == 'glasses') {
-                      isEquipped = _rewardState.equippedGlasses == (item.emoji == '❌' ? null : item.emoji);
+                      isEquipped = _rewardState.equippedGlasses == (item.emoji == '❌' ? null : item.emoji) ||
+                          _rewardState.equippedGlasses == item.id;
                     } else if (item.category == 'prop') {
-                      isEquipped = _rewardState.equippedProp == (item.emoji == '❌' ? null : item.emoji);
+                      isEquipped = _rewardState.equippedProp == (item.emoji == '❌' ? null : item.emoji) ||
+                          _rewardState.equippedProp == item.id;
                     } else if (item.category == 'pet') {
-                      isEquipped = _rewardState.equippedPet == (item.emoji == '❌' ? null : item.emoji);
+                      isEquipped = _rewardState.equippedPet == (item.emoji == '❌' ? null : item.emoji) ||
+                          _rewardState.equippedPet == item.id;
                     } else if (item.category == 'avatar') {
-                      isEquipped = _rewardState.activeAvatar == item.emoji;
+                      isEquipped = _rewardState.activeCharacterId == item.id ||
+                          _rewardState.activeAvatar == item.emoji;
                     }
 
                     return InkWell(
@@ -403,6 +437,33 @@ class _AvatarWardrobeSheetState extends State<AvatarWardrobeSheet> {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildEquipPill(String icon, String label) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+      decoration: BoxDecoration(
+        color: Colors.white.withAlpha(220),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: const Color(0xFFD1C4E9)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(icon, style: const TextStyle(fontSize: 10)),
+          const SizedBox(width: 4),
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 80),
+            child: Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontSize: 9.5, fontWeight: FontWeight.w800, color: Color(0xFF4A148C)),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
