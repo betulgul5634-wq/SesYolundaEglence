@@ -146,6 +146,12 @@ class _ArticulationScreeningDialogState extends State<ArticulationScreeningDialo
       _results[item.phoneme] = res.isMatched;
     });
 
+    _rewardState.recordAttempt(
+      phoneme: item.phoneme,
+      position: 'Başta',
+      isCorrect: res.isMatched,
+    );
+
     if (res.isMatched) {
       _sfx.playSuccessDing();
       _rewardState.unlockSticker(item.word);

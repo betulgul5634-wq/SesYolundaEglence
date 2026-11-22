@@ -39,6 +39,30 @@ class PhonemeStat {
 
   int get finalAccuracy =>
       finalAttempts == 0 ? 0 : ((finalCorrect / finalAttempts) * 100).round();
+
+  Map<String, dynamic> toJson() => {
+    'phoneme': phoneme,
+    'totalAttempts': totalAttempts,
+    'correctAttempts': correctAttempts,
+    'initialAttempts': initialAttempts,
+    'initialCorrect': initialCorrect,
+    'medialAttempts': medialAttempts,
+    'medialCorrect': medialCorrect,
+    'finalAttempts': finalAttempts,
+    'finalCorrect': finalCorrect,
+  };
+
+  factory PhonemeStat.fromJson(Map<String, dynamic> json) => PhonemeStat(
+    phoneme: json['phoneme']?.toString() ?? '',
+    totalAttempts: int.tryParse(json['totalAttempts']?.toString() ?? '') ?? 0,
+    correctAttempts: int.tryParse(json['correctAttempts']?.toString() ?? '') ?? 0,
+    initialAttempts: int.tryParse(json['initialAttempts']?.toString() ?? '') ?? 0,
+    initialCorrect: int.tryParse(json['initialCorrect']?.toString() ?? '') ?? 0,
+    medialAttempts: int.tryParse(json['medialAttempts']?.toString() ?? '') ?? 0,
+    medialCorrect: int.tryParse(json['medialCorrect']?.toString() ?? '') ?? 0,
+    finalAttempts: int.tryParse(json['finalAttempts']?.toString() ?? '') ?? 0,
+    finalCorrect: int.tryParse(json['finalCorrect']?.toString() ?? '') ?? 0,
+  );
 }
 
 class RewardState extends ChangeNotifier {
@@ -46,7 +70,6 @@ class RewardState extends ChangeNotifier {
   factory RewardState() => _instance;
 
   RewardState._internal() {
-    _initSampleTherapyStats();
     _loadFromLocalStorage();
   }
 
@@ -263,6 +286,21 @@ class RewardState extends ChangeNotifier {
           }
         }
       }
+      if (storage.containsKey('sye_phoneme_stats')) {
+        final raw = storage['sye_phoneme_stats'];
+        if (raw != null && raw.isNotEmpty) {
+          final map = jsonDecode(raw);
+          if (map is Map) {
+            _phonemeStats.clear();
+            map.forEach((k, v) {
+              if (v is Map) {
+                _phonemeStats[k.toString()] =
+                    PhonemeStat.fromJson(Map<String, dynamic>.from(v));
+              }
+            });
+          }
+        }
+      }
       if (storage.containsKey('sye_stage_stars')) {
         final raw = storage['sye_stage_stars'];
         if (raw != null && raw.isNotEmpty) {
@@ -339,6 +377,9 @@ class RewardState extends ChangeNotifier {
       storage['sye_unlocked_acc'] = jsonEncode(_unlockedAccessories.toList());
       storage['sye_unlocked_stickers'] = jsonEncode(_unlockedStickers.toList());
       storage['sye_unlocked_badges'] = jsonEncode(_unlockedBadges.toList());
+      final statsMap = <String, dynamic>{};
+      _phonemeStats.forEach((k, v) => statsMap[k] = v.toJson());
+      storage['sye_phoneme_stats'] = jsonEncode(statsMap);
       storage['sye_stage_stars'] = jsonEncode(_stageStars);
       storage['sye_world_theme'] = _worldTheme;
       storage['sye_streak_days'] = _streakDays.toString();
@@ -798,61 +839,10 @@ class RewardState extends ChangeNotifier {
     return ((totalPracticedSuccesses / totalPracticedAttempts) * 100).round();
   }
 
-  void _initSampleTherapyStats() {
-    _phonemeStats['P'] = PhonemeStat(
-      phoneme: 'P',
-      totalAttempts: 18,
-      correctAttempts: 16,
-      initialAttempts: 8,
-      initialCorrect: 8,
-      medialAttempts: 6,
-      medialCorrect: 5,
-      finalAttempts: 4,
-      finalCorrect: 3,
-    );
-    _phonemeStats['B'] = PhonemeStat(
-      phoneme: 'B',
-      totalAttempts: 15,
-      correctAttempts: 14,
-      initialAttempts: 8,
-      initialCorrect: 8,
-      medialAttempts: 7,
-      medialCorrect: 6,
-      finalAttempts: 0,
-      finalCorrect: 0,
-    );
-    _phonemeStats['M'] = PhonemeStat(
-      phoneme: 'M',
-      totalAttempts: 12,
-      correctAttempts: 11,
-      initialAttempts: 5,
-      initialCorrect: 5,
-      medialAttempts: 4,
-      medialCorrect: 4,
-      finalAttempts: 3,
-      finalCorrect: 2,
-    );
-    _phonemeStats['N'] = PhonemeStat(
-      phoneme: 'N',
-      totalAttempts: 14,
-      correctAttempts: 11,
-      initialAttempts: 6,
-      initialCorrect: 5,
-      medialAttempts: 5,
-      medialCorrect: 4,
-      finalAttempts: 3,
-      finalCorrect: 2,
-    );
-    _phonemeStats['R'] = PhonemeStat(
-      phoneme: 'R',
-      totalAttempts: 20,
-      correctAttempts: 13,
-      initialAttempts: 8,
-      initialCorrect: 6,
-      medialAttempts: 7,
-      medialCorrect: 4,
-      finalAttempts: 5,
-      finalCorrect: 3,
-    );
+  /// Klinik fonem artikülasyon verilerini sıfırlar ve temizler
+  void clearTherapyStats() {
+    _phonemeStats.clear();
+    _saveToLocalStorage();
+    notifyListeners();
   }
 }

@@ -1681,11 +1681,11 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
     final stats = rewardState.phonemeStats.values.toList();
     final int overallAcc = isCanOrActive
         ? rewardState.overallAccuracy
-        : ((currentStudent['accuracy'] as num?)?.round() ?? 80);
-    final int totalAttempts = isCanOrActive ? rewardState.totalPracticedAttempts : 60;
-    final int totalSuccess = isCanOrActive ? rewardState.totalPracticedSuccesses : 48;
-    final int stars = isCanOrActive ? rewardState.totalStars : ((currentStudent['total_stars'] as int?) ?? 25);
-    final int streak = isCanOrActive ? rewardState.streakDays : 4;
+        : ((currentStudent['accuracy'] as num?)?.round() ?? 0);
+    final int totalAttempts = isCanOrActive ? rewardState.totalPracticedAttempts : 0;
+    final int totalSuccess = isCanOrActive ? rewardState.totalPracticedSuccesses : 0;
+    final int stars = isCanOrActive ? rewardState.totalStars : ((currentStudent['total_stars'] as int?) ?? 0);
+    final int streak = isCanOrActive ? rewardState.streakDays : 0;
 
     // Pozisyonel toplamlar
     int initAtt = 0, initCorr = 0;
@@ -1701,9 +1701,9 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
       finCorr += s.finalCorrect;
     }
 
-    final initAcc = initAtt == 0 ? 91 : ((initCorr / initAtt) * 100).round();
-    final medAcc = medAtt == 0 ? 79 : ((medCorr / medAtt) * 100).round();
-    final finAcc = finAtt == 0 ? 67 : ((finCorr / finAtt) * 100).round();
+    final initAcc = initAtt == 0 ? 0 : ((initCorr / initAtt) * 100).round();
+    final medAcc = medAtt == 0 ? 0 : ((medCorr / medAtt) * 100).round();
+    final finAcc = finAtt == 0 ? 0 : ((finCorr / finAtt) * 100).round();
 
     return ListView(
       padding: const EdgeInsets.all(24),
@@ -1794,6 +1794,60 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                 label: const Text('Veliye İlet', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5, color: Colors.white)),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF16A34A),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                ),
+              ),
+              const SizedBox(width: 8),
+              // Verileri Sıfırla / Temizle Butonu
+              ElevatedButton.icon(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (dCtx) => AlertDialog(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                      title: const Row(
+                        children: [
+                          Icon(Icons.delete_sweep_rounded, color: Colors.redAccent),
+                          SizedBox(width: 8),
+                          Text('Karne Verilerini Sıfırla', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
+                        ],
+                      ),
+                      content: Text(
+                        '${currentStudent['name']} danışanına ait tüm fonem artikülasyon ve seans denemelerini sıfırlamak istiyor musunuz? Sıfırlandıktan sonra yeni konuşma pratikleri temiz olarak kaydedilecektir.',
+                        style: const TextStyle(fontSize: 13),
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(dCtx),
+                          child: const Text('İptal'),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            rewardState.clearTherapyStats();
+                            final sessList = (currentStudent['sessions'] as List?) ?? [];
+                            sessList.clear();
+                            currentStudent['accuracy'] = 0.0;
+                            currentStudent['sessions_count'] = 0;
+                            Navigator.pop(dCtx);
+                            setState(() {});
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('🗑️ Karne verileri başarıyla sıfırlandı ve temizlendi!'),
+                                backgroundColor: Color(0xFFDC2626),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFDC2626)),
+                          child: const Text('Evet, Sıfırla', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.delete_outline_rounded, size: 16, color: Colors.white),
+                label: const Text('Verileri Sıfırla', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5, color: Colors.white)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFDC2626),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
               ),
@@ -2003,7 +2057,34 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: Color(0xFF1E293B)),
               ),
               const SizedBox(height: 10),
-              ...stats.map((s) {
+              if (stats.isEmpty)
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 36, horizontal: 20),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF8FAFC),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: const Color(0xFFE2E8F0)),
+                  ),
+                  child: const Column(
+                    children: [
+                      Text('🌱', style: TextStyle(fontSize: 42)),
+                      SizedBox(height: 12),
+                      Text(
+                        'Henüz Telaffuz & Sesletim Kaydı Bulunmuyor',
+                        style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15, color: Color(0xFF1E293B)),
+                      ),
+                      SizedBox(height: 6),
+                      Text(
+                        'Danışan haritadaki sesleri veya kelimeleri mikrofona söyledikçe, kelime içi pozisyon analizleri (Başta, Ortada, Sonda) ve artikülasyon başarı grafikleri anlık olarak burada listelenecektir.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 12, color: Color(0xFF64748B), height: 1.4),
+                      ),
+                    ],
+                  ),
+                )
+              else
+                ...stats.map((s) {
                 final acc = s.accuracyPercentage;
                 final Color barColor = acc >= 80 ? const Color(0xFF16A34A) : (acc >= 60 ? const Color(0xFF0284C7) : const Color(0xFFE11D48));
 
