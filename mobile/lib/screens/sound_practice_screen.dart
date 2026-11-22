@@ -22,6 +22,8 @@ import '../utils/word_pictogram_helper.dart';
 import '../widgets/subway_surfers_unlock_dialog.dart';
 import '../widgets/avatar_showcase_widget.dart';
 import '../widgets/parent_report_sheet.dart';
+import '../widgets/hearts_refill_dialog.dart';
+import '../widgets/gems_shop_dialog.dart';
 import '../services/audio_speech_service.dart';
 
 class SoundPracticeScreen extends StatefulWidget {
@@ -202,6 +204,7 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
         stageLevel: stageLevel,
         stageName: stageName,
         onGameWon: () {
+          _rewardState.recordPracticeToday();
           final char = SubwaySurfersUnlockDialog.getCharacterForLevel(stageLevel);
           _rewardState.unlockCharacter(char.id);
           _rewardState.addReward(earnedStars: 2 + stageLevel, earnedXp: 40 * stageLevel, earnedGems: 15 * stageLevel);
@@ -235,9 +238,11 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
         soundTitle: widget.stage.phoneme,
         targetWords: targets,
         onGameWon: () {
+          _rewardState.recordPracticeToday();
+          _rewardState.addReward(earnedStars: 4, earnedXp: 40, earnedGems: 20);
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('🎉 Tebrikler! Tüm hafıza kartlarını eşleştirdin! +4 ⭐'),
+              content: Text('🎉 Tebrikler! Tüm hafıza kartlarını eşleştirdin! +4 ⭐ +20 💎'),
               backgroundColor: Color(0xFF2E7D32),
             ),
           );
@@ -265,9 +270,11 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
         soundTitle: widget.stage.phoneme,
         targetWords: targets,
         onGameWon: () {
+          _rewardState.recordPracticeToday();
+          _rewardState.addReward(earnedStars: 4, earnedXp: 40, earnedGems: 20);
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('🎉 Tebrikler! Hedef sesli balonları patlattın! +4 ⭐'),
+              content: Text('🎉 Tebrikler! Hedef sesli balonları patlattın! +4 ⭐ +20 💎'),
               backgroundColor: Color(0xFF2E7D32),
               behavior: SnackBarBehavior.floating,
             ),
@@ -358,6 +365,8 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
       });
     }
     if (result.isMatched) {
+      _rewardState.recordPracticeToday();
+      _rewardState.gainHeart(1);
       _rewardState.setStageStars(widget.stage.id, (_rewardState.getStageStars(widget.stage.id) + 1).clamp(1, 3));
       _rewardState.addReward(earnedStars: 3, earnedXp: 50, earnedGems: 25);
 
@@ -370,6 +379,7 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
         ),
       );
     } else {
+      _rewardState.loseHeart();
       // Hatalı sesletim: Detaylı klinik artikülasyon ve hata teşhis diyaloğu
       showDialog(
         context: context,
@@ -387,7 +397,14 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
             );
           },
         ),
-      );
+      ).then((_) {
+        if (_rewardState.hearts <= 0 && mounted) {
+          showDialog(
+            context: context,
+            builder: (_) => const HeartsRefillDialog(),
+          );
+        }
+      });
     }
   }
 
@@ -414,6 +431,7 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
   }
 
   void _showStoryEvaluationReport(StoryEvaluationData data, Color primaryColor) {
+    _rewardState.recordPracticeToday();
     if (data.starsEarned > 0) {
       _rewardState.addReward(
         earnedStars: data.starsEarned * 2,
@@ -937,6 +955,73 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
                 ],
               ),
             ),
+          ),
+          // Can & Elmas Canlı İstatistik Göstergesi
+          ListenableBuilder(
+            listenable: _rewardState,
+            builder: (ctx, _) {
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (_) => const HeartsRefillDialog(),
+                      );
+                    },
+                    borderRadius: BorderRadius.circular(14),
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 6),
+                      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.22),
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(color: Colors.white70, width: 1),
+                      ),
+                      child: Row(
+                        children: [
+                          const Text('❤️', style: TextStyle(fontSize: 13)),
+                          const SizedBox(width: 3),
+                          Text(
+                            '${_rewardState.hearts}',
+                            style: const TextStyle(fontWeight: FontWeight.w900, color: Colors.white, fontSize: 12.5),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (_) => const GemsShopDialog(),
+                      );
+                    },
+                    borderRadius: BorderRadius.circular(14),
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 6),
+                      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.22),
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(color: Colors.white70, width: 1),
+                      ),
+                      child: Row(
+                        children: [
+                          const Text('💎', style: TextStyle(fontSize: 13)),
+                          const SizedBox(width: 3),
+                          Text(
+                            '${_rewardState.gems}',
+                            style: const TextStyle(fontWeight: FontWeight.w900, color: Colors.white, fontSize: 12.5),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
           // Çocuğun Kuşandığı Subway Surfers Avatarı
           ListenableBuilder(

@@ -183,6 +183,22 @@ class RewardState extends ChangeNotifier {
       if (storage.containsKey('sye_hearts')) {
         _hearts = int.tryParse(storage['sye_hearts'] ?? '') ?? _hearts;
       }
+      if (storage.containsKey('sye_streak_days')) {
+        _streakDays = int.tryParse(storage['sye_streak_days'] ?? '') ?? _streakDays;
+      }
+      if (storage.containsKey('sye_last_practice_date')) {
+        _lastPracticeDate = storage['sye_last_practice_date'];
+      }
+      if (storage.containsKey('sye_practiced_dates')) {
+        final raw = storage['sye_practiced_dates'];
+        if (raw != null && raw.isNotEmpty) {
+          final list = jsonDecode(raw);
+          if (list is List) {
+            _practicedDates.addAll(list.map((e) => e.toString()));
+          }
+        }
+      }
+      _checkStreakContinuity();
       if (storage.containsKey('sye_stars')) {
         _totalStars = int.tryParse(storage['sye_stars'] ?? '') ?? _totalStars;
       }
@@ -284,14 +300,19 @@ class RewardState extends ChangeNotifier {
       storage['sye_unlocked_acc'] = jsonEncode(_unlockedAccessories.toList());
       storage['sye_stage_stars'] = jsonEncode(_stageStars);
       storage['sye_world_theme'] = _worldTheme;
+      storage['sye_streak_days'] = _streakDays.toString();
+      if (_lastPracticeDate != null) storage['sye_last_practice_date'] = _lastPracticeDate!;
+      storage['sye_practiced_dates'] = jsonEncode(_practicedDates.toList());
     } catch (e) {
       debugPrint('LocalStorage yazma hatası: $e');
     }
   }
 
-  int _gems = 260;             // Mücevherler/Elmaslar
+  int _gems = 300;             // Mücevherler/Elmaslar
   int _hearts = 5;             // Canlar (Maks: 5)
-  final int _streakDays = 4;   // Günlük seri (gün)
+  int _streakDays = 1;         // Günlük seri (gün)
+  String? _lastPracticeDate;
+  final Set<String> _practicedDates = {};
   int _totalStars = 14;        // Toplam toplanan yıldız
   int _xp = 420;               // Deneyim puanı
 
@@ -340,6 +361,8 @@ class RewardState extends ChangeNotifier {
   int get gems => _gems;
   int get hearts => _hearts;
   int get streakDays => _streakDays;
+  String? get lastPracticeDate => _lastPracticeDate;
+  Set<String> get practicedDates => Set.unmodifiable(_practicedDates);
   int get totalStars => _totalStars;
   int get xp => _xp;
   Set<String> get unlockedBadges => _unlockedBadges;
@@ -348,6 +371,80 @@ class RewardState extends ChangeNotifier {
   String get activeCharacterId => _activeCharacterId;
   Set<String> get unlockedCharacters => _unlockedCharacters;
   Map<String, PhonemeStat> get phonemeStats => _phonemeStats;
+
+  void _checkStreakContinuity() {
+    if (_lastPracticeDate == null || _lastPracticeDate!.isEmpty) return;
+    try {
+      final now = DateTime.now();
+      final lastDate = DateTime.tryParse(_lastPracticeDate!);
+      if (lastDate != null) {
+        final diffDays = DateTime(now.year, now.month, now.day)
+            .difference(DateTime(lastDate.year, lastDate.month, lastDate.day))
+            .inDays;
+        if (diffDays > 1) {
+          _streakDays = 0;
+          _saveToLocalStorage();
+        }
+      }
+    } catch (_) {}
+  }
+
+  void recordPracticeToday() {
+    final now = DateTime.now();
+    final todayStr = '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
+    _practicedDates.add(todayStr);
+
+    if (_lastPracticeDate == null || _lastPracticeDate!.isEmpty) {
+      _streakDays = 1;
+      _lastPracticeDate = todayStr;
+    } else if (_lastPracticeDate == todayStr) {
+      if (_streakDays == 0) _streakDays = 1;
+    } else {
+      final lastDate = DateTime.tryParse(_lastPracticeDate!);
+      if (lastDate != null) {
+        final diffDays = DateTime(now.year, now.month, now.day)
+            .difference(DateTime(lastDate.year, lastDate.month, lastDate.day))
+            .inDays;
+        if (diffDays == 1) {
+          _streakDays++;
+        } else {
+          _streakDays = 1;
+        }
+      } else {
+        _streakDays = 1;
+      }
+      _lastPracticeDate = todayStr;
+    }
+    _saveToLocalStorage();
+    notifyListeners();
+  }
+
+  List<bool> getWeeklyCompletedDays() {
+    final now = DateTime.now();
+    final monday = now.subtract(Duration(days: now.weekday - 1));
+    return List.generate(7, (i) {
+      final day = monday.add(Duration(days: i));
+      final dayStr = '${day.year}-${day.month.toString().padLeft(2, '0')}-${day.day.toString().padLeft(2, '0')}';
+      return _practicedDates.contains(dayStr);
+    });
+  }
+
+  void gainHeart([int amount = 1]) {
+    _hearts = (_hearts + amount).clamp(0, 5);
+    _saveToLocalStorage();
+    notifyListeners();
+  }
+
+  bool refillHeartsWithGems({int gemCost = 50}) {
+    if (_gems >= gemCost && _hearts < 5) {
+      _gems -= gemCost;
+      _hearts = 5;
+      _saveToLocalStorage();
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
 
   String? get equippedHat => _equippedHat;
   String? get equippedGlasses => _equippedGlasses;

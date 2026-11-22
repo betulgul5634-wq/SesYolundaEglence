@@ -35,6 +35,12 @@ class SoundEffectsService {
     } catch (_) {}
   }
 
+  /// Başarı sesi takma adı
+  void playSuccessSound() => playSuccessDing();
+
+  /// Can / Güç Alma sesi
+  void playPowerUpSound() => playCoinChime();
+
   /// Buton / Balon Dokunma Sesi (Pop! 🎈)
   void playPopSound() => playPop();
 

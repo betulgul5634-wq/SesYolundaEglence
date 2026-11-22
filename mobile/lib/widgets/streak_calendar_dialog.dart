@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/reward_state.dart';
 
-/// 🔥 HAFTALIK SERİ TAKVİMİ VE ALIŞKANLIK ISI HARİTASI
+/// 🔥 HAFTALIK GERÇEK SERİ TAKVİMİ VE ALIŞKANLIK ISI HARİTASI
 class StreakCalendarDialog extends StatelessWidget {
   const StreakCalendarDialog({super.key});
 
@@ -9,13 +9,17 @@ class StreakCalendarDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final rewardState = RewardState();
     final days = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
-    // Son 4 gün tamamlanmış seri
-    final completedDays = [true, true, true, true, false, false, false];
+    final completedDays = rewardState.getWeeklyCompletedDays();
+
+    final now = DateTime.now();
+    final monday = now.subtract(Duration(days: now.weekday - 1));
+    final currentDayIndex = now.weekday - 1;
+    final isTodayDone = completedDays[currentDayIndex.clamp(0, 6)];
 
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
       child: Container(
-        width: 400,
+        width: 420,
         padding: const EdgeInsets.all(22),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(32),
@@ -33,12 +37,12 @@ class StreakCalendarDialog extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(10),
                   decoration: const BoxDecoration(
                     color: Color(0xFFFFE0B2),
                     shape: BoxShape.circle,
                   ),
-                  child: const Text('🔥', style: TextStyle(fontSize: 26)),
+                  child: const Text('🔥', style: TextStyle(fontSize: 28)),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -47,11 +51,17 @@ class StreakCalendarDialog extends StatelessWidget {
                     children: [
                       Text(
                         '${rewardState.streakDays} Günlük Seri Ateşi!',
-                        style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w900, color: Color(0xFFE65100)),
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFFE65100)),
                       ),
-                      const Text(
-                        'Her gün pratik yap, serini sakın kaybetme!',
-                        style: TextStyle(fontSize: 11, color: Colors.black54, fontWeight: FontWeight.w700),
+                      Text(
+                        isTodayDone
+                            ? '🎉 Bugünkü pratik yapıldı, serin güvende!'
+                            : '⚡ Bugünkü pratik henüz yapılmadı! Bir ses çalış ve serini koru.',
+                        style: TextStyle(
+                          fontSize: 11.5,
+                          color: isTodayDone ? const Color(0xFF2E7D32) : const Color(0xFFD84315),
+                          fontWeight: FontWeight.w800,
+                        ),
                       ),
                     ],
                   ),
@@ -64,36 +74,52 @@ class StreakCalendarDialog extends StatelessWidget {
             ),
             const SizedBox(height: 18),
 
-            // 7 GÜNLÜK SERİ KUTULARI
+            // 7 GÜNLÜK SERİ KUTULARI (GÜNCEL GERÇEK TAKVİM)
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(7, (i) {
                 final isDone = completedDays[i];
+                final dayDate = monday.add(Duration(days: i));
+                final isToday = i == currentDayIndex;
+
                 return Column(
                   children: [
                     Text(
                       days[i],
                       style: TextStyle(
                         fontSize: 11,
-                        fontWeight: FontWeight.w800,
-                        color: isDone ? const Color(0xFFE65100) : Colors.grey,
+                        fontWeight: FontWeight.w900,
+                        color: isToday
+                            ? const Color(0xFFE65100)
+                            : (isDone ? const Color(0xFFF57F17) : Colors.grey),
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      '${dayDate.day}',
+                      style: TextStyle(
+                        fontSize: 9.5,
+                        fontWeight: FontWeight.w700,
+                        color: isToday ? const Color(0xFFE65100) : Colors.black45,
                       ),
                     ),
                     const SizedBox(height: 6),
                     Container(
-                      width: 40,
-                      height: 48,
+                      width: 42,
+                      height: 52,
                       decoration: BoxDecoration(
-                        color: isDone ? const Color(0xFFFF9800) : Colors.grey[200],
-                        borderRadius: BorderRadius.circular(14),
+                        color: isDone ? const Color(0xFFFF9800) : Colors.grey[100],
+                        borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                          color: isDone ? const Color(0xFFF57F17) : Colors.grey[300]!,
-                          width: 1.5,
+                          color: isToday
+                              ? const Color(0xFFE65100)
+                              : (isDone ? const Color(0xFFF57F17) : Colors.grey[300]!),
+                          width: isToday ? 2.5 : 1.5,
                         ),
                         boxShadow: isDone
                             ? [
                                 BoxShadow(
-                                  color: const Color(0xFFFF9800).withValues(alpha: 0.4),
+                                  color: const Color(0xFFFF9800).withValues(alpha: 0.35),
                                   blurRadius: 6,
                                   offset: const Offset(0, 3),
                                 )
@@ -101,8 +127,21 @@ class StreakCalendarDialog extends StatelessWidget {
                             : [],
                       ),
                       alignment: Alignment.center,
-                      child: Text(isDone ? '🔥' : '·', style: const TextStyle(fontSize: 20)),
+                      child: Text(
+                        isDone ? '🔥' : (isToday ? '🎯' : '·'),
+                        style: TextStyle(fontSize: isDone ? 20 : (isToday ? 16 : 18)),
+                      ),
                     ),
+                    if (isToday)
+                      Container(
+                        margin: const EdgeInsets.only(top: 4),
+                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFFE0B2),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: const Text('Bugün', style: TextStyle(fontSize: 8.5, fontWeight: FontWeight.w900, color: Color(0xFFE65100))),
+                      ),
                   ],
                 );
               }),
@@ -136,11 +175,11 @@ class StreakCalendarDialog extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFFFF9800),
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 11),
+                padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 12),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
               ),
               onPressed: () => Navigator.pop(context),
-              child: const Text('SERİYİ KORU & DEVAM ET 🚀', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13)),
+              child: const Text('SERİYİ KORU & PRATİK YAP 🚀', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13)),
             ),
           ],
         ),

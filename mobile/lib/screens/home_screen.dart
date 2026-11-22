@@ -13,6 +13,8 @@ import '../widgets/articulation_screening_dialog.dart';
 import '../widgets/avatar_wardrobe_sheet.dart';
 import '../widgets/sticker_book_sheet.dart';
 import '../widgets/streak_calendar_dialog.dart';
+import '../widgets/gems_shop_dialog.dart';
+import '../widgets/hearts_refill_dialog.dart';
 import '../services/audio_speech_service.dart';
 import 'sound_practice_screen.dart';
 import '../widgets/interactive_avatar_widget.dart';
@@ -605,6 +607,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
                 InkWell(
                   onTap: () {
+                    _sfx.playPopSound();
                     showDialog(
                       context: context,
                       builder: (_) => const StreakCalendarDialog(),
@@ -614,9 +617,29 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   child: _buildTopStat('🔥', '${_rewardState.streakDays}', const Color(0xFFFF9600)),
                 ),
                 const SizedBox(width: 6),
-                _buildTopStat('💎', '${_rewardState.gems}', const Color(0xFF1CB0F6)),
+                InkWell(
+                  onTap: () {
+                    _sfx.playPopSound();
+                    showDialog(
+                      context: context,
+                      builder: (_) => const GemsShopDialog(),
+                    );
+                  },
+                  borderRadius: BorderRadius.circular(16),
+                  child: _buildTopStat('💎', '${_rewardState.gems}', const Color(0xFF1CB0F6)),
+                ),
                 const SizedBox(width: 6),
-                _buildTopStat('❤️', '${_rewardState.hearts}', const Color(0xFFFF4B4B)),
+                InkWell(
+                  onTap: () {
+                    _sfx.playPopSound();
+                    showDialog(
+                      context: context,
+                      builder: (_) => const HeartsRefillDialog(),
+                    );
+                  },
+                  borderRadius: BorderRadius.circular(16),
+                  child: _buildTopStat('❤️', '${_rewardState.hearts}', const Color(0xFFFF4B4B)),
+                ),
                 const SizedBox(width: 6),
                 // 🌌 Dünya Teması Seçici (Gündüz ☀️, Kozmos 🌌, Şeker 🍭, Okyanus 🌊)
                 InkWell(
