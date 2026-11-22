@@ -258,6 +258,23 @@ class RewardState extends ChangeNotifier {
       if (storage.containsKey('sye_world_theme')) {
         _worldTheme = storage['sye_world_theme'] ?? _worldTheme;
       }
+      if (storage.containsKey('sye_quest_date')) {
+        _questDate = storage['sye_quest_date'];
+        _questWordsCount = int.tryParse(storage['sye_quest_words'] ?? '') ?? 0;
+        _questMiniGamesCount = int.tryParse(storage['sye_quest_minigames'] ?? '') ?? 0;
+        _questMirrorCount = int.tryParse(storage['sye_quest_mirror'] ?? '') ?? 0;
+        _questChestClaimed = storage['sye_quest_chest_claimed'] == 'true';
+        if (storage.containsKey('sye_quest_claimed_ids')) {
+          final raw = storage['sye_quest_claimed_ids'];
+          if (raw != null && raw.isNotEmpty) {
+            final list = jsonDecode(raw);
+            if (list is List) {
+              _claimedQuestIds.addAll(list.map((e) => e.toString()));
+            }
+          }
+        }
+      }
+      _checkDailyQuestsReset();
     } catch (e) {
       debugPrint('LocalStorage okuma hatası: $e');
     }
@@ -303,6 +320,12 @@ class RewardState extends ChangeNotifier {
       storage['sye_streak_days'] = _streakDays.toString();
       if (_lastPracticeDate != null) storage['sye_last_practice_date'] = _lastPracticeDate!;
       storage['sye_practiced_dates'] = jsonEncode(_practicedDates.toList());
+      if (_questDate != null) storage['sye_quest_date'] = _questDate!;
+      storage['sye_quest_words'] = _questWordsCount.toString();
+      storage['sye_quest_minigames'] = _questMiniGamesCount.toString();
+      storage['sye_quest_mirror'] = _questMirrorCount.toString();
+      storage['sye_quest_chest_claimed'] = _questChestClaimed.toString();
+      storage['sye_quest_claimed_ids'] = jsonEncode(_claimedQuestIds.toList());
     } catch (e) {
       debugPrint('LocalStorage yazma hatası: $e');
     }
@@ -315,6 +338,82 @@ class RewardState extends ChangeNotifier {
   final Set<String> _practicedDates = {};
   int _totalStars = 14;        // Toplam toplanan yıldız
   int _xp = 420;               // Deneyim puanı
+
+  // 🎯 Günlük Görevler (Duolingo Tarzı Canlı Takip)
+  String? _questDate;
+  int _questWordsCount = 0; // Hedef: 5
+  int _questMiniGamesCount = 0; // Hedef: 1
+  int _questMirrorCount = 0; // Hedef: 1
+  final Set<String> _claimedQuestIds = {};
+  bool _questChestClaimed = false;
+
+  int get questWordsCount => _questWordsCount;
+  int get questMiniGamesCount => _questMiniGamesCount;
+  int get questMirrorCount => _questMirrorCount;
+  bool isQuestClaimed(String qId) => _claimedQuestIds.contains(qId);
+  bool get questChestClaimed => _questChestClaimed;
+
+  String _formatDate(DateTime d) =>
+      '${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
+
+  void _checkDailyQuestsReset() {
+    final today = _formatDate(DateTime.now());
+    if (_questDate != today) {
+      _questDate = today;
+      _questWordsCount = 0;
+      _questMiniGamesCount = 0;
+      _questMirrorCount = 0;
+      _claimedQuestIds.clear();
+      _questChestClaimed = false;
+      _saveToLocalStorage();
+    }
+  }
+
+  void recordQuestWord() {
+    _checkDailyQuestsReset();
+    _questWordsCount++;
+    _saveToLocalStorage();
+    notifyListeners();
+  }
+
+  void recordQuestMiniGame() {
+    _checkDailyQuestsReset();
+    _questMiniGamesCount++;
+    _saveToLocalStorage();
+    notifyListeners();
+  }
+
+  void recordQuestMirror() {
+    _checkDailyQuestsReset();
+    _questMirrorCount++;
+    _saveToLocalStorage();
+    notifyListeners();
+  }
+
+  bool claimQuestReward(String questId, int gemReward) {
+    _checkDailyQuestsReset();
+    if (_claimedQuestIds.contains(questId)) return false;
+    _claimedQuestIds.add(questId);
+    _gems += gemReward;
+    _saveToLocalStorage();
+    notifyListeners();
+    return true;
+  }
+
+  bool claimDailyChest({int gems = 100, int stars = 2, int xp = 80}) {
+    _checkDailyQuestsReset();
+    if (_questChestClaimed) return false;
+    if (_questWordsCount < 5 || _questMiniGamesCount < 1 || _questMirrorCount < 1) {
+      return false;
+    }
+    _questChestClaimed = true;
+    _gems += gems;
+    _totalStars += stars;
+    _xp += xp;
+    _saveToLocalStorage();
+    notifyListeners();
+    return true;
+  }
 
   final Set<String> _unlockedBadges = {'ilk_adim', 'kelime_avcisi', 'ses_kesfi', 'yildiz_koleksiyoncusu'};
   String _activeAvatar = '👦';

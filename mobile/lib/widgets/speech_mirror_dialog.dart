@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 // ignore: avoid_web_libraries_in_flutter, deprecated_member_use
 import 'dart:html' as html;
 import 'dart:ui_web' as ui_web;
+import '../models/reward_state.dart';
 
 /// 🪞 KLİNİK CANLI KONUŞMA AYNASI
 /// Dil ve konuşma terapisinde en önemli araç olan aynayı çocuğun ekranına taşır.
@@ -31,6 +32,7 @@ class _SpeechMirrorDialogState extends State<SpeechMirrorDialog> {
   @override
   void initState() {
     super.initState();
+    RewardState().recordQuestMirror();
     _viewId = 'speech-mirror-video-${DateTime.now().millisecondsSinceEpoch}';
 
     if (kIsWeb) {

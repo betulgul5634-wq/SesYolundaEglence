@@ -205,6 +205,7 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
         stageName: stageName,
         onGameWon: () {
           _rewardState.recordPracticeToday();
+          _rewardState.recordQuestMiniGame();
           final char = SubwaySurfersUnlockDialog.getCharacterForLevel(stageLevel);
           _rewardState.unlockCharacter(char.id);
           _rewardState.addReward(earnedStars: 2 + stageLevel, earnedXp: 40 * stageLevel, earnedGems: 15 * stageLevel);
@@ -239,6 +240,7 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
         targetWords: targets,
         onGameWon: () {
           _rewardState.recordPracticeToday();
+          _rewardState.recordQuestMiniGame();
           _rewardState.addReward(earnedStars: 4, earnedXp: 40, earnedGems: 20);
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -271,6 +273,7 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
         targetWords: targets,
         onGameWon: () {
           _rewardState.recordPracticeToday();
+          _rewardState.recordQuestMiniGame();
           _rewardState.addReward(earnedStars: 4, earnedXp: 40, earnedGems: 20);
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -366,6 +369,7 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
     }
     if (result.isMatched) {
       _rewardState.recordPracticeToday();
+      _rewardState.recordQuestWord();
       _rewardState.gainHeart(1);
       _rewardState.setStageStars(widget.stage.id, (_rewardState.getStageStars(widget.stage.id) + 1).clamp(1, 3));
       _rewardState.addReward(earnedStars: 3, earnedXp: 50, earnedGems: 25);
