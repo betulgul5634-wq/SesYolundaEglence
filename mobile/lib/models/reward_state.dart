@@ -253,6 +253,15 @@ class RewardState extends ChangeNotifier {
           }
         }
       }
+      if (storage.containsKey('sye_unlocked_badges')) {
+        final raw = storage['sye_unlocked_badges'];
+        if (raw != null && raw.isNotEmpty) {
+          final list = jsonDecode(raw);
+          if (list is List) {
+            _unlockedBadges.addAll(list.map((e) => e.toString()));
+          }
+        }
+      }
       if (storage.containsKey('sye_stage_stars')) {
         final raw = storage['sye_stage_stars'];
         if (raw != null && raw.isNotEmpty) {
@@ -328,6 +337,7 @@ class RewardState extends ChangeNotifier {
       if (_equippedPet != null) storage['sye_equipped_pet'] = _equippedPet!;
       storage['sye_unlocked_acc'] = jsonEncode(_unlockedAccessories.toList());
       storage['sye_unlocked_stickers'] = jsonEncode(_unlockedStickers.toList());
+      storage['sye_unlocked_badges'] = jsonEncode(_unlockedBadges.toList());
       storage['sye_stage_stars'] = jsonEncode(_stageStars);
       storage['sye_world_theme'] = _worldTheme;
       storage['sye_streak_days'] = _streakDays.toString();
@@ -512,7 +522,33 @@ class RewardState extends ChangeNotifier {
   Set<String> get practicedDates => Set.unmodifiable(_practicedDates);
   int get totalStars => _totalStars;
   int get xp => _xp;
-  Set<String> get unlockedBadges => _unlockedBadges;
+  Set<String> get unlockedBadges {
+    final set = Set<String>.from(_unlockedBadges);
+    if (totalPracticedSuccesses >= 1) set.add('ses_roket');
+    if (totalPracticedSuccesses >= 50) set.add('keskin_nisanci');
+    if (_totalStars >= 25) set.add('yildiz_sampiyonu');
+    if (_streakDays >= 5) set.add('atesli_seri');
+    if (_gems >= 300) set.add('elmas_zengini');
+    if (_unlockedStickers.length >= 8) set.add('cikartma_koleksiyoneri');
+    if (_xp >= 400) set.add('lig_sampiyonu');
+    if (_questMirrorCount >= 1 || _unlockedAccessories.isNotEmpty) set.add('ayna_kasifi');
+    if (_unlockedAccessories.length >= 4) set.add('gardirob_tasarimcisi');
+    if (totalPracticedAttempts >= 50 && overallAccuracy >= 80) set.add('buyuk_usta');
+    set.add('ilk_adim');
+    if (totalPracticedSuccesses >= 20) set.add('kelime_avcisi');
+    if (_totalStars >= 10) set.add('yildiz_koleksiyoncusu');
+    return set;
+  }
+
+  bool isBadgeUnlocked(String badgeId) => unlockedBadges.contains(badgeId);
+
+  void unlockBadge(String badgeId) {
+    if (!_unlockedBadges.contains(badgeId)) {
+      _unlockedBadges.add(badgeId);
+      _saveToLocalStorage();
+      notifyListeners();
+    }
+  }
   String get activeAvatar => _activeAvatar;
   String get activeCharacterName => _activeCharacterName;
   String get activeCharacterId => _activeCharacterId;
