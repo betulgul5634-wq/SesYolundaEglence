@@ -148,6 +148,7 @@ class _ArticulationScreeningDialogState extends State<ArticulationScreeningDialo
 
     if (res.isMatched) {
       _sfx.playSuccessDing();
+      _rewardState.unlockSticker(item.word);
       _rewardState.addReward(earnedStars: 1, earnedXp: 15, earnedGems: 5);
     }
   }

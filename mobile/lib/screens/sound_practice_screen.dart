@@ -368,6 +368,7 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
       });
     }
     if (result.isMatched) {
+      _rewardState.unlockSticker(result.targetText);
       _rewardState.recordPracticeToday();
       _rewardState.recordQuestWord();
       _rewardState.gainHeart(1);

@@ -244,6 +244,15 @@ class RewardState extends ChangeNotifier {
           }
         }
       }
+      if (storage.containsKey('sye_unlocked_stickers')) {
+        final raw = storage['sye_unlocked_stickers'];
+        if (raw != null && raw.isNotEmpty) {
+          final list = jsonDecode(raw);
+          if (list is List) {
+            _unlockedStickers.addAll(list.map((e) => e.toString().toLowerCase().trim()));
+          }
+        }
+      }
       if (storage.containsKey('sye_stage_stars')) {
         final raw = storage['sye_stage_stars'];
         if (raw != null && raw.isNotEmpty) {
@@ -318,6 +327,7 @@ class RewardState extends ChangeNotifier {
       if (_equippedProp != null) storage['sye_equipped_prop'] = _equippedProp!;
       if (_equippedPet != null) storage['sye_equipped_pet'] = _equippedPet!;
       storage['sye_unlocked_acc'] = jsonEncode(_unlockedAccessories.toList());
+      storage['sye_unlocked_stickers'] = jsonEncode(_unlockedStickers.toList());
       storage['sye_stage_stars'] = jsonEncode(_stageStars);
       storage['sye_world_theme'] = _worldTheme;
       storage['sye_streak_days'] = _streakDays.toString();
