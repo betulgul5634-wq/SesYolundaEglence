@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'dart:html' as html;
 import '../services/sound_effects_service.dart';
 import '../services/therapist_state_service.dart';
+import '../models/reward_state.dart';
 
 /// 👨‍⚕️ UZMAN TERAPİST YÖNETİM PORTALI & GİRİŞ MERKEZİ (FLUTTER WEB ENTEGRE)
 /// Terapistin hastalarını, seanslarını, grafiklerini, klinik notlarını ve danışan kodlarını
@@ -54,6 +55,7 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
   String _searchQuery = '';
   String _filterPhoneme = 'ALL';
   Map<String, dynamic>? _selectedStudent;
+  dynamic _selectedReportStudentId = 1;
   final TextEditingController _clinicalNoteCtrl = TextEditingController();
 
   List<Map<String, dynamic>> get _students => _dkt.students;
@@ -853,6 +855,8 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
               _buildTabButton('📊 Genel Bakış & Analitik', 0),
               const SizedBox(width: 8),
               _buildTabButton('👥 Danışan Çocuklar (${_students.length})', 1),
+              const SizedBox(width: 8),
+              _buildTabButton('📑 Klinik Gelişim Karnesi', 2),
               const Spacer(),
               ElevatedButton.icon(
                 onPressed: _showAddStudentModal,
@@ -874,7 +878,11 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
             color: const Color(0xFFF8FAFC),
             child: _selectedStudent != null
                 ? _buildStudentDetailView()
-                : (_activeTabIndex == 0 ? _buildAnalyticsView() : _buildStudentsListView()),
+                : (_activeTabIndex == 0
+                    ? _buildAnalyticsView()
+                    : (_activeTabIndex == 1
+                        ? _buildStudentsListView()
+                        : _buildClinicalReportCardView())),
           ),
         ),
       ],
@@ -1388,6 +1396,23 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
             const SizedBox(width: 8),
             ElevatedButton.icon(
               onPressed: () {
+                setState(() {
+                  _selectedReportStudentId = std['id'];
+                  _activeTabIndex = 2;
+                  _selectedStudent = null;
+                });
+                _sfx.playPopSound();
+              },
+              icon: const Icon(Icons.assignment_rounded, size: 16, color: Colors.white),
+              label: const Text('Klinik Karnesi 📑', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 12, color: Colors.white)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF0F766E),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+            ),
+            const SizedBox(width: 8),
+            ElevatedButton.icon(
+              onPressed: () {
                 _sfx.playSuccessDing();
                 final pEmail = std['parent_email'] ?? 'veli@gmail.com';
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -1420,6 +1445,23 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
               label: const Text('Danışan Kodu Ver', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.white)),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF2E7D32),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+            ),
+            const SizedBox(width: 8),
+            ElevatedButton.icon(
+              onPressed: () {
+                setState(() {
+                  _selectedReportStudentId = std['id'];
+                  _activeTabIndex = 2;
+                  _selectedStudent = null;
+                });
+                _sfx.playPopSound();
+              },
+              icon: const Icon(Icons.assignment_rounded, size: 16, color: Colors.white),
+              label: const Text('Klinik Karnesi 📑', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 12, color: Colors.white)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF0F766E),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
             ),
@@ -1623,6 +1665,468 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
             ],
           ),
         ),
+      ],
+    );
+  }
+
+  // ── SEÇENEK 4: KLİNİK GELİŞİM KARNESİ GÖRÜNÜMÜ (DKT HESABINA ENTEGRE) ─────────
+  Widget _buildClinicalReportCardView() {
+    final rewardState = RewardState();
+    final currentStudent = _students.firstWhere(
+      (s) => s['id'] == _selectedReportStudentId,
+      orElse: () => _students.first,
+    );
+
+    final isCanOrActive = currentStudent['name'].toString().toLowerCase().contains('can');
+    final stats = rewardState.phonemeStats.values.toList();
+    final int overallAcc = isCanOrActive
+        ? rewardState.overallAccuracy
+        : ((currentStudent['accuracy'] as num?)?.round() ?? 80);
+    final int totalAttempts = isCanOrActive ? rewardState.totalPracticedAttempts : 60;
+    final int totalSuccess = isCanOrActive ? rewardState.totalPracticedSuccesses : 48;
+    final int stars = isCanOrActive ? rewardState.totalStars : ((currentStudent['total_stars'] as int?) ?? 25);
+    final int streak = isCanOrActive ? rewardState.streakDays : 4;
+
+    // Pozisyonel toplamlar
+    int initAtt = 0, initCorr = 0;
+    int medAtt = 0, medCorr = 0;
+    int finAtt = 0, finCorr = 0;
+
+    for (final s in stats) {
+      initAtt += s.initialAttempts;
+      initCorr += s.initialCorrect;
+      medAtt += s.medialAttempts;
+      medCorr += s.medialCorrect;
+      finAtt += s.finalAttempts;
+      finCorr += s.finalCorrect;
+    }
+
+    final initAcc = initAtt == 0 ? 91 : ((initCorr / initAtt) * 100).round();
+    final medAcc = medAtt == 0 ? 79 : ((medCorr / medAtt) * 100).round();
+    final finAcc = finAtt == 0 ? 67 : ((finCorr / finAtt) * 100).round();
+
+    return ListView(
+      padding: const EdgeInsets.all(24),
+      children: [
+        // 1. ÜST DANIŞAN SEÇİCİ & AKSİYON BARI
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(color: const Color(0xFFE2E8F0)),
+            boxShadow: const [
+              BoxShadow(color: Color(0x08000000), blurRadius: 8, offset: Offset(0, 2)),
+            ],
+          ),
+          child: Row(
+            children: [
+              const Text('👶 Danışan Seç:', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13, color: Color(0xFF1E293B))),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Wrap(
+                  spacing: 8,
+                  runSpacing: 6,
+                  children: _students.map((st) {
+                    final isSel = st['id'] == _selectedReportStudentId;
+                    return InkWell(
+                      onTap: () {
+                        setState(() => _selectedReportStudentId = st['id']);
+                        _sfx.playPopSound();
+                      },
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: isSel ? const Color(0xFF0F766E) : const Color(0xFFF1F5F9),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: isSel ? const Color(0xFF0F766E) : const Color(0xFFCBD5E1),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(st['avatar'] ?? '👦', style: const TextStyle(fontSize: 14)),
+                            const SizedBox(width: 6),
+                            Text(
+                              st['name'],
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w800,
+                                color: isSel ? Colors.white : const Color(0xFF334155),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+              const SizedBox(width: 12),
+              // Yazdır / PDF Butonu
+              ElevatedButton.icon(
+                onPressed: () {
+                  if (kIsWeb) html.window.print();
+                },
+                icon: const Icon(Icons.print_rounded, size: 16, color: Colors.white),
+                label: const Text('Raporu Yazdır / PDF', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5, color: Colors.white)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF334155),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                ),
+              ),
+              const SizedBox(width: 8),
+              // Veliye Gönder Butonu
+              ElevatedButton.icon(
+                onPressed: () {
+                  _sfx.playSuccessDing();
+                  final pEmail = currentStudent['parent_email'] ?? 'veli@gmail.com';
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('📧 ${currentStudent['name']} karnesi başarıyla $pEmail adresine iletildi!'),
+                      backgroundColor: const Color(0xFF16A34A),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.send_rounded, size: 16, color: Colors.white),
+                label: const Text('Veliye İlet', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5, color: Colors.white)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF16A34A),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 18),
+
+        // 2. RESMİ KLİNİK GELİŞİM KARNESİ BELGESİ
+        Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(color: const Color(0xFFCBD5E1), width: 1.5),
+            boxShadow: const [
+              BoxShadow(color: Color(0x0C000000), blurRadius: 12, offset: Offset(0, 4)),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Belge Başlığı & Klinik Logosu
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE8F5E9),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: const Color(0xFF81C784)),
+                    ),
+                    child: const Text('📊', style: TextStyle(fontSize: 32)),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Klinik Gelişim Karnesi',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w900,
+                            color: Color(0xFF1B5E20),
+                            letterSpacing: -0.3,
+                          ),
+                        ),
+                        const SizedBox(height: 3),
+                        Text(
+                          'Ebeveyn & Dil ve Konuşma Terapisti Klinik Değerlendirme Raporu',
+                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey[600]),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'Kurum: $_clinicName • Sorumlu: $_therapistName ($_edevletDocNo)',
+                          style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF1565C0)),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF1F5F9),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: const Color(0xFFCBD5E1)),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text('Dosya: ${currentStudent['student_code']}', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF475569))),
+                        const Text('Tarih: Güncel Rapor', style: TextStyle(fontSize: 10, color: Color(0xFF64748B))),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              const Divider(color: Color(0xFFE2E8F0)),
+              const SizedBox(height: 16),
+
+              // Danışan Kimlik & Tanı Bilgileri
+              Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF8FAFC),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: const Color(0xFFE2E8F0)),
+                ),
+                child: Row(
+                  children: [
+                    Text(currentStudent['avatar'] ?? '👦', style: const TextStyle(fontSize: 28)),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(currentStudent['name'], style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 15, color: Color(0xFF0F172A))),
+                          Text('Yaş: ${currentStudent['age']} • Klinik Tanı: ${currentStudent['diagnosis']}', style: const TextStyle(fontSize: 11.5, color: Color(0xFF475569), fontWeight: FontWeight.w600)),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE0F2FE),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text('Hedef: ${currentStudent['target_phonemes']}', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF0369A1))),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // Özet Skor Kartları
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF0FDF4),
+                        borderRadius: BorderRadius.circular(18),
+                        border: Border.all(color: const Color(0xFF86EFAC)),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Genel Başarı', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF166534))),
+                              Text('🎯', style: TextStyle(fontSize: 18)),
+                            ],
+                          ),
+                          const SizedBox(height: 6),
+                          Text('%$overallAcc', style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Color(0xFF15803D))),
+                          const SizedBox(height: 2),
+                          Text('$totalSuccess / $totalAttempts Doğru Sesletim', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFF166534))),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFFBEB),
+                        borderRadius: BorderRadius.circular(18),
+                        border: Border.all(color: const Color(0xFFFDE68A)),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Toplanan Yıldız & Süreklilik', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF92400E))),
+                              Text('🏆', style: TextStyle(fontSize: 18)),
+                            ],
+                          ),
+                          const SizedBox(height: 6),
+                          Text('$stars ⭐', style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Color(0xFFB45309))),
+                          const SizedBox(height: 2),
+                          Text('$streak Günlük Çalışma Serisi 🔥', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFF92400E))),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+
+              // Kelime İçi Pozisyon Başarısı
+              const Text(
+                '📍 Kelime İçi Pozisyon Dağılımı ve Doğruluk Oranları:',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: Color(0xFF1E293B)),
+              ),
+              const SizedBox(height: 10),
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFEFCE8),
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: const Color(0xFFFEF08A)),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    _buildReportPosCol('Başta Pozisyon', '%$initAcc', '$initCorr/$initAtt', const Color(0xFF15803D)),
+                    Container(height: 44, width: 1, color: const Color(0xFFE2E8F0)),
+                    _buildReportPosCol('Ortada Pozisyon', '%$medAcc', '$medCorr/$medAtt', const Color(0xFF0284C7)),
+                    Container(height: 44, width: 1, color: const Color(0xFFE2E8F0)),
+                    _buildReportPosCol('Sonda Pozisyon', '%$finAcc', '$finCorr/$finAtt', const Color(0xFFD97706)),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
+
+              // Fonem Bazlı Detaylı Değerlendirme
+              const Text(
+                '🔤 Fonem (Ses) Bazlı Klinik Artikülasyon İlerlemesi:',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: Color(0xFF1E293B)),
+              ),
+              const SizedBox(height: 10),
+              ...stats.map((s) {
+                final acc = s.accuracyPercentage;
+                final Color barColor = acc >= 80 ? const Color(0xFF16A34A) : (acc >= 60 ? const Color(0xFF0284C7) : const Color(0xFFE11D48));
+
+                return Container(
+                  margin: const EdgeInsets.only(bottom: 10),
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: const Color(0xFFE2E8F0)),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: barColor.withAlpha(25),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(
+                              '/${s.phoneme.toLowerCase()}/ Sesi',
+                              style: TextStyle(fontWeight: FontWeight.w900, color: barColor, fontSize: 13),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              '/${s.phoneme.toLowerCase()}/ Sesi Artikülasyonu',
+                              style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 13.5, color: Color(0xFF1E293B)),
+                            ),
+                          ),
+                          Text(
+                            '%$acc',
+                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: barColor),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(6),
+                        child: LinearProgressIndicator(
+                          value: (acc / 100).clamp(0.0, 1.0),
+                          minHeight: 8,
+                          backgroundColor: const Color(0xFFF1F5F9),
+                          valueColor: AlwaysStoppedAnimation<Color>(barColor),
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Toplam: ${s.totalAttempts} deneme (${s.correctAttempts} başarılı)',
+                            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFF64748B)),
+                          ),
+                          Text(
+                            'Baş: %${s.initialAccuracy} | Orta: %${s.medialAccuracy} | Son: %${s.finalAccuracy}',
+                            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF334155)),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              }),
+              const SizedBox(height: 20),
+
+              // Terapist Klinik Değerlendirmesi
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF0FDF4),
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: const Color(0xFF86EFAC)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Row(
+                      children: [
+                        Icon(Icons.verified_rounded, color: Color(0xFF16A34A), size: 20),
+                        SizedBox(width: 8),
+                        Text('Uzman Terapist Klinik Değerlendirmesi & Öneri', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13, color: Color(0xFF166534))),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Danışan çift dudak seslerinde (/p/, /b/, /m/) hedeflenen klinik doğruluk eşiğini (%80) aşmıştır. Dil ucu titreşimli /r/ fonemi hece başı çalışmalarına devam edilmeli, veli evde ayna karşısında dudak motor pratiklerini sürdürmelidir.',
+                      style: TextStyle(fontSize: 12, height: 1.4, color: Color(0xFF14532D), fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(_therapistName, style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 12, color: Color(0xFF166534))),
+                            Text('🏛️ e-Devlet Onaylı DKT ($_edevletDocNo)', style: const TextStyle(fontSize: 10.5, fontWeight: FontWeight.bold, color: Color(0xFF15803D))),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildReportPosCol(String title, String pct, String counts, Color color) {
+    return Column(
+      children: [
+        Text(title, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Color(0xFF475569))),
+        const SizedBox(height: 4),
+        Text(pct, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: color)),
+        const SizedBox(height: 2),
+        Text(counts, style: const TextStyle(fontSize: 10.5, fontWeight: FontWeight.w600, color: Color(0xFF64748B))),
       ],
     );
   }

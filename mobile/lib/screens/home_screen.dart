@@ -7,7 +7,6 @@ import '../data/sound_groups_data.dart';
 import '../models/sound_group.dart';
 import '../models/reward_state.dart';
 import '../widgets/badges_sheet.dart';
-import '../widgets/parent_report_sheet.dart';
 import '../widgets/lucky_spin_dialog.dart';
 import '../widgets/daily_quests_dialog.dart';
 import '../widgets/leaderboard_league_sheet.dart';
@@ -1010,39 +1009,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       Text(
                         'Albüm',
                         style: TextStyle(fontWeight: FontWeight.w900, color: Color(0xFFF57F17), fontSize: 11),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              // 📊 Ebeveyn & Terapist Karnesi Butonu
-              InkWell(
-                onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    backgroundColor: Colors.transparent,
-                    builder: (_) => const ParentReportSheet(),
-                  );
-                },
-                borderRadius: BorderRadius.circular(16),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFE8F5E9),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: const Color(0xFF2E7D32), width: 1.5),
-                    boxShadow: const [
-                      BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 2),
-                    ],
-                  ),
-                  child: Row(
-                    children: const [
-                      Text('📊', style: TextStyle(fontSize: 15)),
-                      SizedBox(width: 3),
-                      Text(
-                        'Karne',
-                        style: TextStyle(fontWeight: FontWeight.w900, color: Color(0xFF1B5E20), fontSize: 11),
                       ),
                     ],
                   ),
