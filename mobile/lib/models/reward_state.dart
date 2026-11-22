@@ -158,6 +158,17 @@ class RewardState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setActiveAvatar(String avatar) {
+    if (avatar.trim().isEmpty) return;
+    _activeAvatar = avatar.trim();
+    final currentIdx = _profiles.indexWhere((p) => p.id == _activeProfileId);
+    if (currentIdx != -1) {
+      _profiles[currentIdx].avatar = _activeAvatar;
+    }
+    _saveToLocalStorage();
+    notifyListeners();
+  }
+
   void deleteStudent(String profileId) {
     if (_profiles.length <= 1) return; // En az bir profil kalmalı
     _profiles.removeWhere((p) => p.id == profileId);
