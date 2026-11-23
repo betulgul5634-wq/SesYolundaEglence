@@ -455,8 +455,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           alignment: Alignment(alignmentX, 0),
                           child: _buildGameNode(stage, stageIndex),
                         ),
-                        if (stageIndex > 0 && stageIndex % 3 == 0)
-                          _buildTreasureChest(),
                       ],
                     );
                   },
@@ -1554,32 +1552,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           startAlignment: previousAlign,
           endAlignment: currentAlign,
         ),
-      ),
-    );
-  }
-
-  Widget _buildTreasureChest() {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 16),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFFE082),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFFFB300), width: 3),
-        boxShadow: const [
-          BoxShadow(color: Color(0xFFFF8F00), offset: Offset(0, 4)),
-        ],
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: const [
-          Text('🎁', style: TextStyle(fontSize: 28)),
-          SizedBox(width: 8),
-          Text(
-            'Tebrikler! Mini Hazine Sandığı',
-            style: TextStyle(fontWeight: FontWeight.w900, color: Color(0xFF5D4037), fontSize: 13),
-          ),
-        ],
       ),
     );
   }
