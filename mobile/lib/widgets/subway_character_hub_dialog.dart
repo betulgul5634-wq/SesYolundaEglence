@@ -36,10 +36,10 @@ class SubwayRosterCharacter {
 const List<SubwayRosterCharacter> kSubwayRoster = [
   SubwayRosterCharacter(
     id: 'char_skater_can',
-    name: 'KAYKAYCI CAN',
-    title: 'Sokakların Efsane Kaykaycısı 🛹',
+    name: 'SES KAŞİFİ CAN',
+    title: 'Sokakların Neşeli Kaykaycısı 🛹',
     avatarEmoji: '🛹',
-    ability: 'Roket Kaykay Hızı & Akıcı Ritim ⚡',
+    ability: 'Hızlı Kaykay & Akıcı Konuşma Ritmi ⚡',
     requiredStage: 1,
     requiredStars: 0,
     speed: 95,
@@ -50,7 +50,7 @@ const List<SubwayRosterCharacter> kSubwayRoster = [
   ),
   SubwayRosterCharacter(
     id: 'char_robo_b',
-    name: 'FÜTÜRİSTİK ROBO-B',
+    name: 'SES ROBOTU BİBİ',
     title: 'Gelişmiş Ses & Frekans Robotu 🤖',
     avatarEmoji: '🤖',
     ability: 'Lazer Ses Dalgası & Çelik Dudaklar 💥',
@@ -64,8 +64,8 @@ const List<SubwayRosterCharacter> kSubwayRoster = [
   ),
   SubwayRosterCharacter(
     id: 'char_ninja',
-    name: 'GÖLGE NİNJA KAAN',
-    title: 'Gizemli Söz & Nefes Ustası 🥷',
+    name: 'RİTİM NİNJASI',
+    title: 'Gizemli Söz & Doğru Nefes Ustası 🥷',
     avatarEmoji: '🥷',
     ability: 'Sessiz Hızlı Atlayış & Keskin Dil 🎯',
     requiredStage: 3,
@@ -78,7 +78,7 @@ const List<SubwayRosterCharacter> kSubwayRoster = [
   ),
   SubwayRosterCharacter(
     id: 'char_prenses',
-    name: 'PRENSES YILDIZ',
+    name: 'MELODİ PRENSESİ',
     title: 'Altın Taçlı Kristal Ses Kraliçesi 👑',
     avatarEmoji: '👸',
     ability: 'Sihirli Yıldız Yağmuru & Berrak Ton 🌟',
@@ -92,8 +92,8 @@ const List<SubwayRosterCharacter> kSubwayRoster = [
   ),
   SubwayRosterCharacter(
     id: 'char_superhero',
-    name: 'SÜPER ARTİKÜLO',
-    title: 'Galaksi Şampiyonu Kahraman 🦸',
+    name: 'SÜPER KONUŞMACI',
+    title: 'Galaksi Ses Şampiyonu 🦸',
     avatarEmoji: '🦸',
     ability: 'Altın Pelerin & Süper Ses Gücü 🏆',
     requiredStage: 5,
@@ -106,7 +106,7 @@ const List<SubwayRosterCharacter> kSubwayRoster = [
   ),
   SubwayRosterCharacter(
     id: 'char_dino',
-    name: 'DİNO REX',
+    name: 'DİNO DİDİ',
     title: 'Neşeli Dansçı Yavru Ejder 🦖',
     avatarEmoji: '🦖',
     ability: 'Dinozor Kükremesi & Güçlü Diyafram 🐾',
@@ -120,8 +120,8 @@ const List<SubwayRosterCharacter> kSubwayRoster = [
   ),
   SubwayRosterCharacter(
     id: 'char_korsan',
-    name: 'KORSAN KAPTAN ALİ',
-    title: 'Yedi Denizlerin Söz Korsanı 🏴‍☠️',
+    name: 'KAPTAN KORSAN',
+    title: 'Yedi Denizlerin Söz Kaptanı 🏴‍☠️',
     avatarEmoji: '🏴‍☠️',
     ability: 'Korsan Narası & Cesur Telaffuz ⚓',
     requiredStage: 7,
@@ -134,7 +134,7 @@ const List<SubwayRosterCharacter> kSubwayRoster = [
   ),
   SubwayRosterCharacter(
     id: 'char_astronot',
-    name: 'ASTRONOT MELİS',
+    name: 'YILDIZ ASTRONOTU',
     title: 'Yıldızlararası Uzay Kaşifi 👩‍🚀',
     avatarEmoji: '👩‍🚀',
     ability: 'Yerçekimsiz Söz Süzülüşü & Radyo Netliği 🪐',
@@ -262,15 +262,15 @@ class _SubwayCharacterHubDialogState extends State<SubwayCharacterHubDialog> {
                     child: const Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text('🛹', style: TextStyle(fontSize: 18)),
+                        Text('🌟', style: TextStyle(fontSize: 18)),
                         SizedBox(width: 6),
                         Text(
-                          'SUBWAY AVATAR ROSTER',
+                          'SES KAHRAMANLARI KADROSU',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 14,
+                            fontSize: 13.5,
                             fontWeight: FontWeight.w900,
-                            letterSpacing: 1.1,
+                            letterSpacing: 0.8,
                           ),
                         ),
                       ],

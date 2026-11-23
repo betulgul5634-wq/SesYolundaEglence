@@ -897,7 +897,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                   child: Row(
                     children: const [
-                      Text('🛹', style: TextStyle(fontSize: 15)),
+                      Text('🌟', style: TextStyle(fontSize: 15)),
                       SizedBox(width: 4),
                       Text(
                         'Karakterler',
