@@ -1451,9 +1451,7 @@ def api_send_notification(payload: NotificationPayload):
         message = payload.message or (
             f"Merhaba {payload.student_name}!\n\n"
             f"Ses Yolunda Eğlence hesabınız başarıyla oluşturuldu.\n"
-            f"Oyunla sesleri ve artikülasyonu öğrenmeye hemen başlayabilirsiniz.\n\n"
-            f"🔔 GÜNLÜK OYUN HATIRLATMASI AKTİF:\n"
-            f"Günlük serinizi korumanız için her gün saat 17:00'de egzersiz hatırlatma mesajı bu adrese ({payload.recipient_email}) iletilecektir."
+            f"Oyunla sesleri ve artikülasyonu öğrenmeye hemen başlayabilirsiniz."
         )
     elif payload.notification_type == "daily_reminder":
         subject = payload.subject or f"🔥 Günün Konuşma Macerası Seni Bekliyor! ({payload.student_name})"

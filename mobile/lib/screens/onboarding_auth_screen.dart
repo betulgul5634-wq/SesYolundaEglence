@@ -615,8 +615,6 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
                 ],
               ),
             ),
-            helperText: '📩 Kayıt onayınız ve günlük oyun hatırlatmaları bu adrese iletilir.',
-            helperStyle: const TextStyle(fontSize: 10, color: Color(0xFF16A34A), fontWeight: FontWeight.w600),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
@@ -682,9 +680,9 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
       req.send(jsonEncode({
         'recipient_email': email,
         'student_name': name,
-        'notification_type': 'welcome_and_daily_reminder',
+        'notification_type': 'welcome',
         'subject': '🎉 Ses Yolunda Eğlence\'ye Hoş Geldiniz! Kaydınız Tamamlandı',
-        'message': 'Merhaba $name!\n\nSes Yolunda Eğlence hesabınız başarıyla oluşturuldu.\n\n🔔 GÜNLÜK OYUN HATIRLATMASI AKTİF: Günlük serinizi korumanız için her gün saat 17:00\'de egzersiz hatırlatma mesajı bu adrese ($email) iletilecektir.'
+        'message': 'Merhaba $name!\n\nSes Yolunda Eğlence hesabınız başarıyla oluşturuldu.'
       }));
     } catch (_) {}
   }
@@ -733,87 +731,14 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
 
     _sfx.playVictoryFanfare();
 
-    if (email.isNotEmpty) {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (ctx) => AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-          contentPadding: const EdgeInsets.all(22),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 62,
-                height: 62,
-                decoration: const BoxDecoration(
-                  color: Color(0xFFDCFCE7),
-                  shape: BoxShape.circle,
-                ),
-                child: const Center(child: Text('✉️', style: TextStyle(fontSize: 32))),
-              ),
-              const SizedBox(height: 14),
-              const Text(
-                'Kayıt Bildirimi Gönderildi!',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 17, color: Color(0xFF1E293B)),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                '$email adresine hoş geldin onay e-postası başarıyla iletildi.',
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 12.5, color: Color(0xFF475569)),
-              ),
-              const SizedBox(height: 12),
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF0FDF4),
-                  borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: const Color(0xFF86EFAC)),
-                ),
-                child: const Row(
-                  children: [
-                    Text('🔔', style: TextStyle(fontSize: 20)),
-                    SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        'Günlük Oyun Hatırlatıcısı Aktif: Her gün saat 17:00\'de serinizi korumanız için bu adrese pratik hatırlatma mesajı gönderilecektir.',
-                        style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF166534)),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 18),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(ctx);
-                    _goToGameMap();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF58CC02),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                  ),
-                  child: const Text('Oyuna Başla 🚀', style: TextStyle(fontWeight: FontWeight.w900, color: Colors.white, fontSize: 14)),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('🎉 Hoş geldin $name! Konuşma maceran başlıyor ⭐'),
-          backgroundColor: const Color(0xFF16A34A),
-        ),
-      );
-      _goToGameMap();
-    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('🎉 Hoş geldin $name! Konuşma maceran başlıyor ⭐'),
+        backgroundColor: const Color(0xFF16A34A),
+        duration: const Duration(seconds: 3),
+      ),
+    );
+    _goToGameMap();
   }
 
   // ──────────────────────────────────────────────────────────────────────────
