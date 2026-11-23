@@ -76,12 +76,14 @@ class RewardState extends ChangeNotifier {
   String _studentName = '';
   String _parentEmail = '';
   String _therapistEmail = '';
+  String _therapistCode = '';
   String _activeProfileId = 'profile_1';
   final List<StudentProfile> _profiles = [];
 
   String get studentName => _studentName;
   String get parentEmail => _parentEmail;
   String get therapistEmail => _therapistEmail;
+  String get therapistCode => _therapistCode;
   String get activeProfileId => _activeProfileId;
   List<StudentProfile> get profiles => List.unmodifiable(_profiles);
 
@@ -92,6 +94,12 @@ class RewardState extends ChangeNotifier {
 
   void setTherapistEmail(String email) {
     _therapistEmail = email.trim();
+    notifyListeners();
+  }
+
+  void setTherapistCode(String code) {
+    _therapistCode = code.trim().toUpperCase();
+    _saveToLocalStorage();
     notifyListeners();
   }
 
@@ -221,6 +229,9 @@ class RewardState extends ChangeNotifier {
         } else {
           _studentName = stName;
         }
+      }
+      if (storage.containsKey('sye_therapist_code')) {
+        _therapistCode = storage['sye_therapist_code'] ?? '';
       }
       if (storage.containsKey('sye_gems')) {
         _gems = int.tryParse(storage['sye_gems'] ?? '') ?? _gems;
@@ -409,6 +420,7 @@ class RewardState extends ChangeNotifier {
       storage['sye_profiles'] = jsonEncode(_profiles.map((p) => p.toJson()).toList());
       storage['sye_active_profile_id'] = _activeProfileId;
       storage['sye_student_name'] = _studentName;
+      storage['sye_therapist_code'] = _therapistCode;
       storage['sye_gems'] = _gems.toString();
       storage['sye_hearts'] = _hearts.toString();
       storage['sye_stars'] = _totalStars.toString();
@@ -890,6 +902,7 @@ class RewardState extends ChangeNotifier {
           accuracy: stat.accuracyPercentage.toDouble(),
           wordsCorrect: stat.correctAttempts,
           wordsAttempted: stat.totalAttempts,
+          therapistCode: _therapistCode,
         );
       }
     } catch (_) {}

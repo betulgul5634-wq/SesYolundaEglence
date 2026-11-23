@@ -61,6 +61,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
   // ── Giriş Yap Kontrolcüleri ──
   final TextEditingController _loginChildEmailCtrl = TextEditingController();
   final TextEditingController _loginChildPassCtrl = TextEditingController();
+  final TextEditingController _loginChildTherapistCodeCtrl = TextEditingController();
   final TextEditingController _loginTherapistEmailCtrl = TextEditingController();
   final TextEditingController _loginTherapistPassCtrl = TextEditingController();
 
@@ -77,6 +78,10 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
     _mascotBounce = Tween<double>(begin: -5.0, end: 5.0).animate(
       CurvedAnimation(parent: _mascotAnimController, curve: Curves.easeInOut),
     );
+    if (_rewardState.therapistCode.isNotEmpty) {
+      _childTherapistCodeCtrl.text = _rewardState.therapistCode;
+      _loginChildTherapistCodeCtrl.text = _rewardState.therapistCode;
+    }
   }
 
   @override
@@ -93,6 +98,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
     _therapistPassCtrl.dispose();
     _loginChildEmailCtrl.dispose();
     _loginChildPassCtrl.dispose();
+    _loginChildTherapistCodeCtrl.dispose();
     _loginTherapistEmailCtrl.dispose();
     _loginTherapistPassCtrl.dispose();
     super.dispose();
@@ -734,13 +740,16 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
     } else if (email.endsWith('@')) {
       email = '${email}gmail.com';
     }
-    final therapistCode = _childTherapistCodeCtrl.text.trim();
+    final therapistCode = _childTherapistCodeCtrl.text.trim().toUpperCase();
 
     _rewardState.setStudentName(name);
     _rewardState.setActiveAvatar(_selectedChildAvatar);
     if (email.isNotEmpty) {
       _rewardState.setParentEmail(email);
       _sendWelcomeAndReminderNotification(email: email, name: name);
+    }
+    if (therapistCode.isNotEmpty) {
+      _rewardState.setTherapistCode(therapistCode);
     }
 
     _dkt.syncStudentFromOnboarding(
@@ -1179,6 +1188,23 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
             ),
           ),
         ),
+        const SizedBox(height: 10),
+        const Text('Terapist Kodu (Opsiyonel):', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
+        const SizedBox(height: 4),
+        TextField(
+          controller: _loginChildTherapistCodeCtrl,
+          textCapitalization: TextCapitalization.characters,
+          decoration: InputDecoration(
+            hintText: 'Örn: DKT-BETUL (Terapistinizin tanımladığı kod)',
+            prefixIcon: const Icon(Icons.vpn_key_rounded, size: 18, color: Color(0xFF0284C7)),
+            helperText: '🔑 Kod girdiğinizde konuşma verileriniz doğrudan terapistinize aktarılır.',
+            helperStyle: const TextStyle(fontSize: 10, color: Color(0xFF64748B)),
+            filled: true,
+            fillColor: const Color(0xFFF8FAFC),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+          ),
+        ),
         const SizedBox(height: 14),
 
         SizedBox(
@@ -1213,10 +1239,22 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
               }
               _rewardState.setParentEmail(email);
               final userNameFromEmail = email.split('@').first;
+              String formattedName = 'Öğrenci';
               if (userNameFromEmail.isNotEmpty) {
-                final formattedName = userNameFromEmail[0].toUpperCase() + userNameFromEmail.substring(1);
+                formattedName = userNameFromEmail[0].toUpperCase() + userNameFromEmail.substring(1);
                 _rewardState.setStudentName(formattedName);
               }
+              final inputTherapistCode = _loginChildTherapistCodeCtrl.text.trim().toUpperCase();
+              if (inputTherapistCode.isNotEmpty) {
+                _rewardState.setTherapistCode(inputTherapistCode);
+              }
+              final effectiveTherapistCode = inputTherapistCode.isNotEmpty ? inputTherapistCode : _rewardState.therapistCode;
+              _dkt.syncStudentFromOnboarding(
+                name: formattedName,
+                avatar: '👦',
+                parentEmail: email,
+                therapistCode: effectiveTherapistCode,
+              );
               _sfx.playSuccessDing();
               _goToGameMap();
             },

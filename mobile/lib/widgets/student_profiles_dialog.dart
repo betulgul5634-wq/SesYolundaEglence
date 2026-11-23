@@ -87,12 +87,61 @@ class _StudentProfilesDialogState extends State<StudentProfilesDialog> {
                 },
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
+
+            // 🔑 Terapist Eşleştirme Kodu Bağlantısı
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF0F9FF),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: const Color(0xFFBAE6FD)),
+              ),
+              child: Row(
+                children: [
+                  const Text('🔑', style: TextStyle(fontSize: 18)),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Bağlı Terapist Kodu:',
+                          style: TextStyle(fontSize: 10.5, fontWeight: FontWeight.bold, color: Color(0xFF64748B)),
+                        ),
+                        Text(
+                          _rewardState.therapistCode.isNotEmpty ? _rewardState.therapistCode : 'Tanımlı kod yok (Bağlantı ekle)',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w900,
+                            color: _rewardState.therapistCode.isNotEmpty ? const Color(0xFF0284C7) : Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  TextButton.icon(
+                    onPressed: () => _showLinkTherapistDialog(context),
+                    icon: Icon(_rewardState.therapistCode.isNotEmpty ? Icons.edit_rounded : Icons.link_rounded, size: 14, color: const Color(0xFF0284C7)),
+                    label: Text(
+                      _rewardState.therapistCode.isNotEmpty ? 'Değiştir' : 'Kod Gir',
+                      style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF0284C7)),
+                    ),
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      minimumSize: Size.zero,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 10),
 
             // Bilgilendirme Notu
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
               decoration: BoxDecoration(
                 color: const Color(0xFFF1F8E9),
                 borderRadius: BorderRadius.circular(16),
@@ -100,12 +149,12 @@ class _StudentProfilesDialogState extends State<StudentProfilesDialog> {
               ),
               child: const Row(
                 children: [
-                  Text('🌱', style: TextStyle(fontSize: 20)),
+                  Text('🌱', style: TextStyle(fontSize: 18)),
                   SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      'Öğrenci profilleri platforma kayıtlar yapıldıkça sisteme otomatik olarak işlenir.',
-                      style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w700, color: Color(0xFF33691E), height: 1.3),
+                      'Terapist kodunu bağladığınızda konuşma seanslarınız anında terapist ekranına iletilir.',
+                      style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Color(0xFF33691E), height: 1.3),
                     ),
                   ),
                 ],
@@ -113,6 +162,75 @@ class _StudentProfilesDialogState extends State<StudentProfilesDialog> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _showLinkTherapistDialog(BuildContext context) {
+    _sfx.playPopSound();
+    final ctrl = TextEditingController(text: _rewardState.therapistCode);
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        title: const Row(
+          children: [
+            Text('🔑', style: TextStyle(fontSize: 22)),
+            SizedBox(width: 8),
+            Text('Terapist Kodunu Girin', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Terapistinizin size verdiği kodu girerek artikülasyon ve konuşma gelişim verilerinizi terapistinizle paylaşabilirsiniz.',
+              style: TextStyle(fontSize: 12, color: Color(0xFF64748B), height: 1.3),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: ctrl,
+              textCapitalization: TextCapitalization.characters,
+              decoration: InputDecoration(
+                hintText: 'Örn: DKT-BETUL',
+                prefixIcon: const Icon(Icons.medical_services_outlined, size: 18),
+                filled: true,
+                fillColor: const Color(0xFFF8FAFC),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Vazgeç', style: TextStyle(color: Colors.grey)),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              final code = ctrl.text.trim().toUpperCase();
+              if (code.isNotEmpty) {
+                _rewardState.setTherapistCode(code);
+                _sfx.playVictoryFanfare();
+                Navigator.pop(ctx);
+                setState(() {});
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('✅ Terapist kodu ($code) başarıyla bağlandı!'),
+                    backgroundColor: const Color(0xFF16A34A),
+                  ),
+                );
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF0284C7),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            ),
+            child: const Text('Kaydet ve Bağla', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          ),
+        ],
       ),
     );
   }

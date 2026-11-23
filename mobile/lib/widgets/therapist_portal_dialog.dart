@@ -318,166 +318,87 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
     );
   }
 
-  void _showAddStudentModal() {
-    final nameCtrl = TextEditingController();
-    final parentEmailCtrl = TextEditingController();
-    final ageCtrl = TextEditingController();
-    final diagCtrl = TextEditingController();
-    final phonemesCtrl = TextEditingController();
-    String selectedAv = '👦';
+  void _showEditTherapistCodeDialog() {
+    _sfx.playPopSound();
+    final codeCtrl = TextEditingController(text: _dkt.therapistCode);
 
     showDialog(
       context: context,
-      builder: (ctx) => StatefulBuilder(
-        builder: (ctx, setModalState) => AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-          title: const Row(
-            children: [
-              Text('➕', style: TextStyle(fontSize: 22)),
-              SizedBox(width: 8),
-              Text('Yeni Danışan Çocuk Ekle', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
-            ],
-          ),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('Çocuğun Adı Soyadı:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
-                const SizedBox(height: 4),
-                TextField(
-                  controller: nameCtrl,
-                  decoration: InputDecoration(
-                    hintText: 'Örn: Mehmet Akif',
-                    filled: true,
-                    fillColor: Colors.grey[100],
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text('Yaş:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
-                          const SizedBox(height: 4),
-                          TextField(
-                            controller: ageCtrl,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.grey[100],
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text('Avatar:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
-                          const SizedBox(height: 4),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            decoration: BoxDecoration(
-                              color: Colors.grey[100],
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: DropdownButton<String>(
-                              value: selectedAv,
-                              isExpanded: true,
-                              underline: const SizedBox(),
-                              items: ['👦', '👧', '🦁', '🐼', '🚀'].map((av) => DropdownMenuItem(value: av, child: Text(av, style: const TextStyle(fontSize: 18)))).toList(),
-                              onChanged: (v) => setModalState(() => selectedAv = v ?? '👦'),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                const Text('Klinik Tanı:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
-                const SizedBox(height: 4),
-                TextField(
-                  controller: diagCtrl,
-                  decoration: InputDecoration(
-                    hintText: 'Örn: /r/ Sesletim Güçlüğü',
-                    filled: true,
-                    fillColor: Colors.grey[100],
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                const Text('Hedef Fonemler:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
-                const SizedBox(height: 4),
-                TextField(
-                  controller: phonemesCtrl,
-                  decoration: InputDecoration(
-                    hintText: 'Örn: /r/, /s/',
-                    filled: true,
-                    fillColor: Colors.grey[100],
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                const Text('Veli E-Posta Adresi (Bildirimler İçin):', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
-                const SizedBox(height: 4),
-                TextField(
-                  controller: parentEmailCtrl,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    hintText: 'ornek.veli@gmail.com',
-                    prefixIcon: const Icon(Icons.email_outlined, size: 16, color: Color(0xFF1565C0)),
-                    helperText: '📩 Egzersiz ve seans raporları bu adrese gönderilir.',
-                    helperStyle: const TextStyle(fontSize: 10, color: Color(0xFF1565C0), fontWeight: FontWeight.w600),
-                    filled: true,
-                    fillColor: Colors.grey[100],
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(ctx),
-              child: const Text('Vazgeç', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (nameCtrl.text.trim().isNotEmpty) {
-                  _dkt.addStudent(
-                    name: nameCtrl.text.trim(),
-                    age: int.tryParse(ageCtrl.text) ?? 6,
-                    avatar: selectedAv,
-                    diagnosis: diagCtrl.text.trim().isNotEmpty ? diagCtrl.text.trim() : 'Artikülasyon Güçlüğü',
-                    targetPhonemes: phonemesCtrl.text.trim().isNotEmpty ? phonemesCtrl.text.trim() : '/r/, /s/',
-                    parentEmail: parentEmailCtrl.text.trim(),
-                  );
-                  setState(() {});
-                  _sfx.playSuccessDing();
-                  Navigator.pop(ctx);
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF1E88E5),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        title: const Row(
+          children: [
+            Text('🔑', style: TextStyle(fontSize: 24)),
+            SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                'Terapist Eşleştirme Kodunu Tanımla',
+                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16, color: Color(0xFF0F172A)),
               ),
-              child: const Text('Danışanı Kaydet', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
             ),
           ],
         ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Danışanlarınız (çocuk veya veli) uygulamaya giriş veya kayıt yaparken bu kodu girdiğinde, konuşma seansları ve artikülasyon verileri doğrudan bu panelinize aktarılır.',
+              style: TextStyle(fontSize: 12.5, color: Color(0xFF64748B), height: 1.4),
+            ),
+            const SizedBox(height: 16),
+            const Text('Terapist Kodunuz:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+            const SizedBox(height: 6),
+            TextField(
+              controller: codeCtrl,
+              textCapitalization: TextCapitalization.characters,
+              decoration: InputDecoration(
+                hintText: 'Örn: DKT-BETUL veya KLINIK1',
+                prefixIcon: const Icon(Icons.vpn_key_rounded, size: 18, color: Color(0xFF0284C7)),
+                filled: true,
+                fillColor: const Color(0xFFF0F9FF),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFBAE6FD))),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              ),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              '💡 İpucu: Harf, rakam ve tire (-) içerebilir. Kolay hatırlanabilir bir kod seçebilirsiniz.',
+              style: TextStyle(fontSize: 11, color: Color(0xFF0284C7), fontWeight: FontWeight.w600),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Vazgeç', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold)),
+          ),
+          ElevatedButton.icon(
+            onPressed: () {
+              final newCode = codeCtrl.text.trim().toUpperCase().replaceAll(' ', '-');
+              if (newCode.isNotEmpty) {
+                _dkt.setTherapistCode(newCode);
+                setState(() => _syncFromService());
+                _sfx.playVictoryFanfare();
+                Navigator.pop(ctx);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('✅ Terapist kodunuz "$newCode" olarak tanımlandı! Danışanlarınız bu kod ile bağlanabilir.'),
+                    backgroundColor: const Color(0xFF16A34A),
+                    duration: const Duration(seconds: 3),
+                  ),
+                );
+              }
+            },
+            icon: const Icon(Icons.check_rounded, size: 16, color: Colors.white),
+            label: const Text('Kodu Kaydet ve Tanımla', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF0284C7),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -1544,14 +1465,85 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
               const SizedBox(width: 8),
               _buildTabButton('📑 Klinik Gelişim Karnesi', 2),
               const Spacer(),
-              ElevatedButton.icon(
-                onPressed: _showAddStudentModal,
-                icon: const Icon(Icons.add_rounded, size: 18, color: Colors.white),
-                label: const Text('Yeni Danışan Ekle', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.white)),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF2E7D32),
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              // 🔑 TERAPİST EŞLEŞTİRME KODU (Danışanlar Bu Kod İle Giriş Yapar)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: const Color(0xFF0284C7).withValues(alpha: 0.4)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF0284C7).withValues(alpha: 0.08),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE0F2FE),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(Icons.vpn_key_rounded, size: 15, color: Color(0xFF0284C7)),
+                    ),
+                    const SizedBox(width: 8),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          'Danışan Eşleştirme Kodunuz',
+                          style: TextStyle(fontSize: 9.5, fontWeight: FontWeight.bold, color: Color(0xFF64748B)),
+                        ),
+                        SelectableText(
+                          _dkt.therapistCode,
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: 0.8,
+                            color: Color(0xFF0369A1),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(width: 6),
+                    // Kodu Kopyala
+                    IconButton(
+                      icon: const Icon(Icons.copy_rounded, size: 16, color: Color(0xFF0284C7)),
+                      tooltip: 'Kodu Kopyala',
+                      constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
+                      padding: EdgeInsets.zero,
+                      onPressed: () {
+                        Clipboard.setData(ClipboardData(text: _dkt.therapistCode));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Row(
+                              children: [
+                                const Icon(Icons.check_circle_rounded, color: Colors.white, size: 18),
+                                const SizedBox(width: 8),
+                                Text('✅ Eşleştirme kodu (${_dkt.therapistCode}) kopyalandı! Danışanlarınızla paylaşabilirsiniz.'),
+                              ],
+                            ),
+                            backgroundColor: const Color(0xFF0284C7),
+                            duration: const Duration(seconds: 2),
+                          ),
+                        );
+                      },
+                    ),
+                    // Kodu Düzenle / Tanımla
+                    IconButton(
+                      icon: const Icon(Icons.edit_rounded, size: 16, color: Color(0xFF0F766E)),
+                      tooltip: 'Kodu Düzenle / Yeni Kod Tanımla',
+                      constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
+                      padding: EdgeInsets.zero,
+                      onPressed: _showEditTherapistCodeDialog,
+                    ),
+                  ],
                 ),
               ),
               if (_students.isNotEmpty) ...[
@@ -1941,21 +1933,45 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                         Text(
                           _searchQuery.isNotEmpty
                               ? 'Farklı bir arama terimi deneyin.'
-                              : 'Gerçek testinizi yapmak için sağ üstteki "+ Yeni Danışan Ekle" butonuna basarak ilk danışanınızı sisteme ekleyebilirsiniz.',
+                              : 'Danışanlarınız (çocuk veya veli) uygulamaya kaydolurken veya giriş yaparken tanımladığınız eşleştirme kodunu (${_dkt.therapistCode}) girdiğinde, profil ve seans verileri otomatik olarak bu ekrana düşecektir.',
                           textAlign: TextAlign.center,
-                          style: const TextStyle(fontSize: 12, color: Color(0xFF64748B)),
+                          style: const TextStyle(fontSize: 12.5, color: Color(0xFF64748B), height: 1.4),
                         ),
                         if (_searchQuery.isEmpty) ...[
                           const SizedBox(height: 16),
-                          ElevatedButton.icon(
-                            onPressed: _showAddStudentModal,
-                            icon: const Icon(Icons.add_rounded, size: 18, color: Colors.white),
-                            label: const Text('İlk Danışanımı Ekle', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF2E7D32),
-                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                            ),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ElevatedButton.icon(
+                                onPressed: () {
+                                  Clipboard.setData(ClipboardData(text: _dkt.therapistCode));
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('✅ Eşleştirme kodu (${_dkt.therapistCode}) kopyalandı! Velilerinize iletebilirsiniz.'),
+                                      backgroundColor: const Color(0xFF0284C7),
+                                    ),
+                                  );
+                                },
+                                icon: const Icon(Icons.copy_rounded, size: 16, color: Colors.white),
+                                label: const Text('Eşleştirme Kodunu Kopyala', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 12)),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFF0284C7),
+                                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              OutlinedButton.icon(
+                                onPressed: _showEditTherapistCodeDialog,
+                                icon: const Icon(Icons.edit_rounded, size: 16, color: Color(0xFF0284C7)),
+                                label: const Text('Kodu Değiştir / Tanımla', style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF0284C7), fontSize: 12)),
+                                style: OutlinedButton.styleFrom(
+                                  side: const BorderSide(color: Color(0xFF0284C7)),
+                                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ],

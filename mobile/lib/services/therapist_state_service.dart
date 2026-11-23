@@ -38,7 +38,24 @@ class TherapistStateService extends ChangeNotifier {
   String get email => _email;
   String get edevletDocNo => _edevletDocNo;
   String get therapistCode => _therapistCode.isNotEmpty ? _therapistCode : 'DKT-KLINIK';
-  List<Map<String, dynamic>> get students => List.unmodifiable(_students);
+  List<Map<String, dynamic>> get students {
+    final myCode = _therapistCode.trim().toUpperCase();
+    if (myCode.isEmpty) return List.unmodifiable(_students);
+    return List.unmodifiable(_students.where((s) {
+      final code = (s['therapist_code'] as String? ?? '').trim().toUpperCase();
+      return code.isEmpty || code == myCode;
+    }).toList());
+  }
+
+  /// 🔑 Terapist Eşleştirme Kodunu Özel Olarak Tanımla veya Değiştir
+  void setTherapistCode(String newCode) {
+    final clean = newCode.trim().toUpperCase().replaceAll(' ', '-');
+    if (clean.isNotEmpty) {
+      _therapistCode = clean;
+      _saveToLocalStorage();
+      notifyListeners();
+    }
+  }
 
   /// 1. Terapist Kaydı (Hem Onboarding hem Portal içinden çağrılabilir)
   void registerTherapist({
@@ -122,7 +139,10 @@ class TherapistStateService extends ChangeNotifier {
     if (cleanName.length <= 1) return;
     if (cleanName.toLowerCase() == 'd' || cleanName.toLowerCase() == 'test') return;
     if (_therapistName.isNotEmpty && cleanName.toLowerCase() == _therapistName.trim().toLowerCase()) return;
-    if (cleanName.toLowerCase() == 'betül') return;
+
+    final codeToUse = (therapistCode != null && therapistCode.trim().isNotEmpty)
+        ? therapistCode.trim().toUpperCase()
+        : _therapistCode;
 
     final existingIdx = _students.indexWhere(
       (s) => s['name'].toString().toLowerCase().contains(cleanName.toLowerCase()),
@@ -132,12 +152,12 @@ class TherapistStateService extends ChangeNotifier {
       if (parentEmail != null && parentEmail.trim().isNotEmpty) {
         _students[existingIdx]['parent_email'] = parentEmail.trim();
       }
-      if (therapistCode != null && therapistCode.trim().isNotEmpty) {
-        _students[existingIdx]['therapist_code'] = therapistCode.trim();
+      if (codeToUse.isNotEmpty) {
+        _students[existingIdx]['therapist_code'] = codeToUse;
       }
     } else {
       final newId = _students.length + 1;
-      final studentCode = 'DKT-$newId-${cleanName.split(' ').first.toUpperCase()}';
+      final studentCode = '$codeToUse-$newId-${cleanName.split(' ').first.toUpperCase()}';
       _students.insert(0, {
         'id': newId,
         'name': cleanName,
@@ -146,7 +166,7 @@ class TherapistStateService extends ChangeNotifier {
         'diagnosis': 'Artikülasyon ve Sesletim Gelişimi',
         'target_phonemes': '/r/, /s/, /k/',
         'parent_email': (parentEmail != null && parentEmail.trim().isNotEmpty) ? parentEmail.trim() : '',
-        'therapist_code': (therapistCode != null && therapistCode.trim().isNotEmpty) ? therapistCode.trim() : _therapistCode,
+        'therapist_code': codeToUse,
         'student_code': studentCode,
         'total_stars': 0,
         'accuracy': 0.0,
@@ -202,21 +222,32 @@ class TherapistStateService extends ChangeNotifier {
     int wordsCorrect = 14,
     int wordsAttempted = 16,
     String? note,
+    String? therapistCode,
   }) {
     final cleanName = studentName.trim();
     if (cleanName.length <= 1) return;
     if (cleanName.toLowerCase() == 'd' || cleanName.toLowerCase() == 'test') return;
     if (_therapistName.isNotEmpty && cleanName.toLowerCase() == _therapistName.trim().toLowerCase()) return;
-    if (cleanName.toLowerCase() == 'betül') return;
+
+    final codeToUse = (therapistCode != null && therapistCode.trim().isNotEmpty)
+        ? therapistCode.trim().toUpperCase()
+        : _therapistCode;
 
     var idx = _students.indexWhere((s) => s['name'].toString().toLowerCase().contains(cleanName.toLowerCase()));
     if (idx == -1) {
-      syncStudentFromOnboarding(name: cleanName, avatar: '👦');
+      syncStudentFromOnboarding(
+        name: cleanName,
+        avatar: '👦',
+        therapistCode: codeToUse,
+      );
       idx = _students.indexWhere((s) => s['name'].toString().toLowerCase().contains(cleanName.toLowerCase()));
       if (idx == -1) return;
     }
 
     final std = _students[idx];
+    if (codeToUse.isNotEmpty) {
+      std['therapist_code'] = codeToUse;
+    }
     final sessionsList = (std['sessions'] as List<dynamic>?) ?? [];
     final cleanPhoneme = phoneme.replaceAll('/', '').trim();
 
