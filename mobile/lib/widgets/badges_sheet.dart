@@ -59,7 +59,7 @@ class BadgesSheet extends StatefulWidget {
       gradient: [const Color(0xFFFF6D00), const Color(0xFFFFAB40)],
       getCurrentValue: (s) => s.effectivePracticedWords,
       motivationalQuote: 'İlk sesinle artikülasyon yolculuğun başladı! Roketin göklere yükseliyor!',
-      clinicalTip: 'İlk doğru ses üretimi, dil ve dudak kas koordinasyonunun en önemli temel adımıdır.',
+      clinicalTip: 'İlk sesin doğru çıkarılması, dil ve dudak kaslarının gelişimi için en değerli başlangıç adımıdır.',
     ),
     BadgeItem(
       id: 'kelime_ciragi',
@@ -76,7 +76,7 @@ class BadgesSheet extends StatefulWidget {
       gradient: [const Color(0xFF0284C7), const Color(0xFF38BDF8)],
       getCurrentValue: (s) => s.effectivePracticedWords,
       motivationalQuote: 'Kelimeler artık dudaklarından çok daha rahat ve akıcı dökülüyor!',
-      clinicalTip: 'Kelime düzeyindeki tekrarlar, fonolojik farkındalığı ve hece birleştirmeyi pekiştirir.',
+      clinicalTip: 'Kelimeleri tekrar etmek, heceleri birleştirmeyi ve konuşmanın akıcı hale gelmesini sağlar.',
     ),
     BadgeItem(
       id: 'artikulasyon_avcisi',
@@ -93,7 +93,7 @@ class BadgesSheet extends StatefulWidget {
       gradient: [const Color(0xFF1D4ED8), const Color(0xFF60A5FA)],
       getCurrentValue: (s) => s.effectivePracticedWords,
       motivationalQuote: 'Tam isabet! Kelimeleri bir ok gibi hedefe kusursuzca gönderiyorsun!',
-      clinicalTip: 'Farklı konumlardaki (başta, ortada, sonda) pratikler, fonemin konuşmada genellenmesini sağlar.',
+      clinicalTip: 'Sesi kelimenin başında, ortasında ve sonunda söylemek, günlük konuşmada kalıcı olmasını sağlar.',
     ),
     BadgeItem(
       id: 'buyuk_usta',
@@ -110,7 +110,7 @@ class BadgesSheet extends StatefulWidget {
       gradient: [const Color(0xFF6D28D9), const Color(0xFFA78BFA)],
       getCurrentValue: (s) => s.effectivePracticedWords,
       motivationalQuote: 'Gerçek bir artikülasyon ustasısın, konuşman berrak ve pırıl pırıl!',
-      clinicalTip: 'Geniş kelime haznesinde doğru sesletim, çocuğun özgüvenini ve okul başarısını zirveye taşır.',
+      clinicalTip: 'Zengin kelimeleri doğru telaffuz etmek, çocuğun özgüvenini ve kendini rahat ifade etmesini sağlar.',
     ),
 
     // ⭐ YILDIZ & HARİTA
@@ -129,7 +129,7 @@ class BadgesSheet extends StatefulWidget {
       gradient: [const Color(0xFFD97706), const Color(0xFFFCD34D)],
       getCurrentValue: (s) => s.totalStars,
       motivationalQuote: 'Yıldızların gökyüzünde ışıl ışıl parıldamaya başladı!',
-      clinicalTip: 'Küçük adımların anlık ödüllendirilmesi, çocukta terapiye devam isteğini güçlendirir.',
+      clinicalTip: 'Kazanılan her yıldız, çocuğun hevesini ve konuşma pratiği yapma isteğini artırır.',
     ),
     BadgeItem(
       id: 'yildiz_koleksiyoncusu',
@@ -146,7 +146,7 @@ class BadgesSheet extends StatefulWidget {
       gradient: [const Color(0xFFCA8A04), const Color(0xFFFDE047)],
       getCurrentValue: (s) => s.totalStars,
       motivationalQuote: 'Harika bir yıldız koleksiyonu yapıyorsun, adımların çok güçlü!',
-      clinicalTip: 'Seviye ilerlemeleri konuşma motor becerilerinin süreklilik kazandığını kanıtlar.',
+      clinicalTip: 'Adım adım ilerlemek, sesleri rahatça ve takılmadan söyleme becerisini pekiştirir.',
     ),
     BadgeItem(
       id: 'yildiz_sampiyonu',
@@ -163,7 +163,7 @@ class BadgesSheet extends StatefulWidget {
       gradient: [const Color(0xFFB45309), const Color(0xFFFBBF24)],
       getCurrentValue: (s) => s.totalStars,
       motivationalQuote: 'Podyumun en tepesindesin, altın yıldızlar senin için parıldıyor!',
-      clinicalTip: 'Yüksek pratik yoğunluğu ve pekiştirme, artikülasyon kazanımını kalıcı hale getirir.',
+      clinicalTip: 'Bol pratik yapmak ve ödüller kazanmak, doğru konuşmayı kalıcı bir alışkanlığa dönüştürür.',
     ),
     BadgeItem(
       id: 'ses_yolcusu',
@@ -180,7 +180,7 @@ class BadgesSheet extends StatefulWidget {
       gradient: [const Color(0xFF047857), const Color(0xFF34D399)],
       getCurrentValue: (s) => s.completedStagesCount,
       motivationalQuote: 'Ses haritasında harika ilerliyorsun, yeni duraklar seni bekliyor!',
-      clinicalTip: 'Farklı çıkış noktalarını (dudak, diş, damak) deneyimlemek artikülatör farkındalığı geliştirir.',
+      clinicalTip: 'Dudak, diş ve damak seslerini ayrı ayrı keşfetmek, konuşma kaslarını ustalıkla yönetmeyi öğretir.',
     ),
     BadgeItem(
       id: 'harita_fatihi',
@@ -197,7 +197,7 @@ class BadgesSheet extends StatefulWidget {
       gradient: [const Color(0xFF059669), const Color(0xFF6EE7B7)],
       getCurrentValue: (s) => s.completedStagesCount,
       motivationalQuote: 'Hiçbir ses senin önünde duramaz, haritanın gerçek fatihisin!',
-      clinicalTip: 'Birden çok fonem grubunda başarı, genel konuşma anlaşılırlığını en az %70 artırır.',
+      clinicalTip: 'Farklı harflerde ve seslerde pratik yapmak, konuşmanın herkes tarafından net ve anlaşılır duyulmasını sağlar.',
     ),
 
     // 🔥 SERİ & ALIŞKANLIK
@@ -216,7 +216,7 @@ class BadgesSheet extends StatefulWidget {
       gradient: [const Color(0xFF059669), const Color(0xFF34D399)],
       getCurrentValue: (s) => s.streakDays,
       motivationalQuote: 'En büyük başarılar ilk adımla başlar, yolun açık olsun!',
-      clinicalTip: 'Günlük kısa egzersiz rutini konuşma kaslarının gevşemesini ve esnemesini sağlar.',
+      clinicalTip: 'Her gün yapılan kısa alıştırmalar, konuşma kaslarının rahatlamasını ve esnemesini sağlar.',
     ),
     BadgeItem(
       id: 'atesli_seri',
@@ -233,7 +233,7 @@ class BadgesSheet extends StatefulWidget {
       gradient: [const Color(0xFFDC2626), const Color(0xFFF87171)],
       getCurrentValue: (s) => s.streakDays,
       motivationalQuote: 'Konuşma azmin ve disiplinin bir meşale gibi ışık saçıyor!',
-      clinicalTip: 'Her gün 10 dakikalık düzenli pratik, haftada bir yapılan uzun çalışmadan katbekat etkilidir.',
+      clinicalTip: 'Günde sadece 10 dakika pratik yapmak, konuşma gelişimini haftada bir çalışmaktan çok daha hızlı ilerletir.',
     ),
     BadgeItem(
       id: 'sonmeyen_mesale',
@@ -250,7 +250,7 @@ class BadgesSheet extends StatefulWidget {
       gradient: [const Color(0xFFC2410C), const Color(0xFFFB923C)],
       getCurrentValue: (s) => s.streakDays,
       motivationalQuote: 'Muazzam bir disiplin! Kararlılığın herkese ilham veriyor!',
-      clinicalTip: '7 günlük kesintisiz egzersiz, konuşma kaslarında kalıcı nöromüsküler bellek oluşturur.',
+      clinicalTip: '7 gün boyunca düzenli alıştırma yapmak, doğru telaffuzu kalıcı ve doğal bir refleks haline getirir.',
     ),
 
     // 🏆 KOLEKSİYON & DİĞER BAŞARILAR
@@ -269,7 +269,7 @@ class BadgesSheet extends StatefulWidget {
       gradient: [const Color(0xFF0F766E), const Color(0xFF2DD4BF)],
       getCurrentValue: (s) => s.questMirrorCount > 0 ? 1 : 0,
       motivationalQuote: 'Aynadaki yansımanla konuşma kaslarını ustalıkla keşfettin!',
-      clinicalTip: 'Görsel geribildirim (biyo-geribildirim), artikülasyon hatalarının düzeltilmesini hızlandırır.',
+      clinicalTip: 'Aynada dudak ve dil hareketlerini izlemek, sesleri doğru şekillendirmeyi çok daha kolaylaştırır.',
     ),
     BadgeItem(
       id: 'cikartma_koleksiyoneri',
@@ -286,7 +286,7 @@ class BadgesSheet extends StatefulWidget {
       gradient: [const Color(0xFF7E22CE), const Color(0xFFC084FC)],
       getCurrentValue: (s) => s.unlockedStickers.length,
       motivationalQuote: 'Albümün renk cümbüşü, ses yolunda harika anılar biriktiriyorsun!',
-      clinicalTip: 'Görsel pekiştireçler, kelime-anlam eşleştirmesini ve semantik belleği sağlamlaştırır.',
+      clinicalTip: 'Resimli çıkartmalar, kelimeleri zihinde canlandırmayı ve telaffuz edilen sesleri akılda tutmayı kolaylaştırır.',
     ),
     BadgeItem(
       id: 'lig_sampiyonu',
@@ -303,7 +303,7 @@ class BadgesSheet extends StatefulWidget {
       gradient: [const Color(0xFF4338CA), const Color(0xFF818CF8)],
       getCurrentValue: (s) => s.xp,
       motivationalQuote: 'Ligin en parlak ses yıldızısın, basamakları hızla tırmanıyorsun!',
-      clinicalTip: 'Oyunlaştırma ve puanlama öğeleri, terapiye devamlılık oranını %85 oranında artırır.',
+      clinicalTip: 'Oyunlar, puanlar ve rozetler, çocuğun konuşma egzersizlerini hevesle ve severek sürdürmesini sağlar.',
     ),
     BadgeItem(
       id: 'elmas_zengini',
@@ -320,7 +320,7 @@ class BadgesSheet extends StatefulWidget {
       gradient: [const Color(0xFF0E7490), const Color(0xFF22D3EE)],
       getCurrentValue: (s) => s.gems,
       motivationalQuote: 'Zengin bir ses hazinesine sahipsin, çaban paha biçilemez!',
-      clinicalTip: 'Biriktirilen ödüller, erteleme disiplinini ve uzun vadeli hedef bilincini besler.',
+      clinicalTip: 'Yıldız ve elmas biriktirmek, çocuğa hedef bilinci ve çaba göstermenin mutluluğunu kazandırır.',
     ),
   ];
 
@@ -1115,7 +1115,7 @@ class _BadgesSheetState extends State<BadgesSheet> {
                           ),
                           Text(
                             isUnlocked
-                                ? 'Tamamlandı (%100)'
+                                ? '$current / ${badge.target} ${badge.unit} Tamamlandı! ✨'
                                 : '$current / ${badge.target} ${badge.unit} (%${(progressRatio * 100).round()})',
                             style: TextStyle(
                               fontSize: 11.5,
@@ -1142,7 +1142,7 @@ class _BadgesSheetState extends State<BadgesSheet> {
                 ),
                 const SizedBox(height: 12),
 
-                // 💡 Klinik DKT Notu
+                // 🌱 Gelişim Faydası Notu
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
@@ -1153,17 +1153,31 @@ class _BadgesSheetState extends State<BadgesSheet> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('💡', style: TextStyle(fontSize: 16)),
+                      const Text('🌱', style: TextStyle(fontSize: 16)),
                       const SizedBox(width: 8),
                       Expanded(
-                        child: Text(
-                          badge.clinicalTip,
-                          style: const TextStyle(
-                            fontSize: 11.5,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFF1E40AF),
-                            height: 1.3,
-                          ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Gelişimsel Faydası',
+                              style: TextStyle(
+                                fontSize: 10.5,
+                                fontWeight: FontWeight.w900,
+                                color: Color(0xFF1E40AF),
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              badge.clinicalTip,
+                              style: const TextStyle(
+                                fontSize: 11.5,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF1E3A8A),
+                                height: 1.3,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -1171,7 +1185,7 @@ class _BadgesSheetState extends State<BadgesSheet> {
                 ),
                 const SizedBox(height: 10),
 
-                // Motivasyon Cümlesi
+                // 💬 Tebrik Mesajı
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
@@ -1183,14 +1197,28 @@ class _BadgesSheetState extends State<BadgesSheet> {
                       const Text('💬', style: TextStyle(fontSize: 16)),
                       const SizedBox(width: 8),
                       Expanded(
-                        child: Text(
-                          badge.motivationalQuote,
-                          style: const TextStyle(
-                            fontSize: 11.5,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFF334155),
-                          ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Tebrik Notu',
+                              style: TextStyle(
+                                fontSize: 10.5,
+                                fontWeight: FontWeight.w900,
+                                color: Color(0xFF475569),
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              badge.motivationalQuote,
+                              style: const TextStyle(
+                                fontSize: 11.5,
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF334155),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
