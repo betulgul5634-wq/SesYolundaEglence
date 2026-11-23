@@ -276,19 +276,6 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
             fontWeight: FontWeight.w600,
           ),
         ),
-        const SizedBox(height: 6),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.12),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
-          ),
-          child: const Text(
-            'İstinye Üniversitesi Yazılım Mühendisliği Bitirme Projesi',
-            style: TextStyle(fontSize: 10, color: Color(0xFF94A3B8), fontWeight: FontWeight.bold),
-          ),
-        ),
       ],
     );
   }
