@@ -1546,6 +1546,26 @@ def api_send_notification(payload: NotificationPayload):
 
     sent, detail = send_real_email(payload.recipient_email, subject, message, html_content)
 
+    # 📥 Platforma Kayıt Olan Gerçek Danışanı Veritabanına Otomatik İşle
+    if payload.notification_type in ["welcome", "welcome_and_daily_reminder"] and payload.student_name:
+        try:
+            conn = get_connection()
+            cur = conn.cursor()
+            cur.execute("SELECT id FROM students WHERE parent_email = ? OR full_name = ?", (payload.recipient_email, payload.student_name))
+            existing = cur.fetchone()
+            if not existing and payload.student_name.strip():
+                cur.execute("SELECT id FROM therapists LIMIT 1")
+                th = cur.fetchone()
+                th_id = th["id"] if th else 1
+                cur.execute("""
+                INSERT INTO students (therapist_id, full_name, age, avatar, diagnosis, target_phonemes, parent_email, total_stars, overall_accuracy)
+                VALUES (?, ?, 6, '👧', 'Artikülasyon ve Konuşma Gelişimi', '/r/, /s/, /k/', ?, 0, 0.0)
+                """, (th_id, payload.student_name.strip(), payload.recipient_email.strip()))
+                conn.commit()
+            conn.close()
+        except Exception as db_err:
+            print(f"[DB SYNC ERROR] {db_err}")
+
     return {
         "status": "success" if sent else "simulated_or_smtp_missing",
         "sent": sent,
@@ -1577,6 +1597,49 @@ def api_send_daily_reminder(payload: NotificationPayload):
         "message": message,
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
+
+@app.get("/api/leaderboard")
+def get_leaderboard():
+    """
+    Platform genelindeki gerçek kayıtlı öğrencilerin haftalık lig sıralaması.
+    Kullanıcılar platforma kayıt oldukça ve pratik yaptıkça bu listeye dinamik olarak işlenir.
+    """
+    try:
+        conn = get_connection()
+        cur = conn.cursor()
+        cur.execute("""
+        SELECT s.id, s.full_name, s.avatar, s.total_stars, s.overall_accuracy,
+               COUNT(ts.id) as sessions_count
+        FROM students s
+        LEFT JOIN therapy_sessions ts ON s.id = ts.student_id
+        GROUP BY s.id
+        ORDER BY s.total_stars DESC, s.overall_accuracy DESC
+        """)
+        rows = [dict(r) for r in cur.fetchall()]
+        conn.close()
+
+        results = []
+        for r in rows:
+            name = (r.get("full_name") or "").strip()
+            if not name or name.lower() in ["d", "yeni kahraman"]:
+                continue
+            stars = r.get("total_stars") or 0
+            acc = r.get("overall_accuracy") or 0.0
+            sessions = r.get("sessions_count") or 0
+            # XP: kazanılan yıldızlar ve yapılan seanslar üzerinden gerçek hesaplama
+            calculated_xp = (stars * 10) + (sessions * 20)
+            badge_text = f"{stars} Yıldız • {sessions} Seans" if sessions > 0 else (f"{stars} Yıldız ⭐" if stars > 0 else "Kayıtlı Danışan 🌱")
+            results.append({
+                "id": r["id"],
+                "name": name,
+                "avatar": r.get("avatar") or "🧒",
+                "xp": calculated_xp,
+                "stars": stars,
+                "badge": badge_text,
+            })
+        return {"status": "success", "leaderboard": results}
+    except Exception as e:
+        return {"status": "error", "message": str(e), "leaderboard": []}
 
 @app.get("/api/therapist/dashboard")
 def get_therapist_dashboard(authorization: Optional[str] = Header(None)):

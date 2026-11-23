@@ -190,14 +190,18 @@ class RewardState extends ChangeNotifier {
           final list = jsonDecode(raw) as List;
           _profiles.clear();
           for (final item in list) {
-            _profiles.add(StudentProfile.fromJson(item));
+            final p = StudentProfile.fromJson(item);
+            if (p.name.trim().toLowerCase() != 'd' && p.name.trim() != 'Yeni Kahraman' && p.name.trim() != 'Can') {
+              _profiles.add(p);
+            }
           }
         }
       }
+      _profiles.removeWhere((p) => p.name.trim().toLowerCase() == 'd' || p.name.trim() == 'Yeni Kahraman' || p.name.trim() == 'Can');
       if (_profiles.isEmpty) {
         _profiles.add(StudentProfile(
           id: 'profile_1',
-          name: 'Can',
+          name: _studentName.isNotEmpty ? _studentName : 'Öğrenci',
           avatar: '⭐',
           gems: _gems,
           hearts: _hearts,
@@ -210,8 +214,8 @@ class RewardState extends ChangeNotifier {
         _activeProfileId = storage['sye_active_profile_id'] ?? _profiles.first.id;
       }
       if (storage.containsKey('sye_student_name')) {
-        final stName = storage['sye_student_name'] ?? '';
-        if (stName == 'Yeni Kahraman' || stName == 'Can') {
+        final stName = (storage['sye_student_name'] ?? '').trim();
+        if (stName == 'Yeni Kahraman' || stName == 'Can' || stName.toLowerCase() == 'd') {
           storage.remove('sye_student_name');
           _studentName = '';
         } else {

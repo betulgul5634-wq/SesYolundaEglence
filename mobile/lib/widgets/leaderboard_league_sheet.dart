@@ -195,117 +195,6 @@ class LeaderboardLeagueSheet extends StatelessWidget {
     );
   }
 
-  void _showAddStudentDialog(BuildContext context, RewardState rewardState) {
-    final sfx = SoundEffectsService();
-    sfx.playPopSound();
-    final nameController = TextEditingController();
-    String selectedAvatar = '👧';
-    const avatars = ['👦', '👧', '🧒', '🦁', '🐼', '🐱', '🚀', '🦄', '⚽', '🎨'];
-
-    showDialog(
-      context: context,
-      builder: (ctx) => StatefulBuilder(
-        builder: (context, setModalState) => AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
-          title: const Row(
-            children: [
-              Text('➕', style: TextStyle(fontSize: 24)),
-              SizedBox(width: 10),
-              Text(
-                'Lige Gerçek Danışan Ekle',
-                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
-              ),
-            ],
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Danışanın / Çocuğun Adı:',
-                style: TextStyle(fontWeight: FontWeight.w800, fontSize: 12.5, color: Color(0xFF37474F)),
-              ),
-              const SizedBox(height: 6),
-              TextField(
-                controller: nameController,
-                autofocus: true,
-                decoration: InputDecoration(
-                  hintText: 'Örn: Kerem, Ayşe, Mehmet...',
-                  filled: true,
-                  fillColor: const Color(0xFFF5F5F5),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: BorderSide.none,
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                ),
-              ),
-              const SizedBox(height: 14),
-              const Text(
-                'Profil Simgesi Seç:',
-                style: TextStyle(fontWeight: FontWeight.w800, fontSize: 12.5, color: Color(0xFF37474F)),
-              ),
-              const SizedBox(height: 8),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: avatars.map((av) {
-                  final isSelected = av == selectedAvatar;
-                  return InkWell(
-                    onTap: () {
-                      setModalState(() => selectedAvatar = av);
-                      sfx.playPopSound();
-                    },
-                    borderRadius: BorderRadius.circular(12),
-                    child: Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        color: isSelected ? const Color(0xFFE8F5E9) : const Color(0xFFF5F5F5),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: isSelected ? const Color(0xFF4CAF50) : Colors.transparent,
-                          width: 2,
-                        ),
-                      ),
-                      child: Text(av, style: const TextStyle(fontSize: 24)),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(ctx),
-              child: const Text('İptal', style: TextStyle(fontWeight: FontWeight.bold)),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                final name = nameController.text.trim();
-                if (name.isNotEmpty) {
-                  rewardState.addStudent(name, selectedAvatar);
-                  sfx.playSuccessDing();
-                  Navigator.pop(ctx);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('🎉 $name başarıyla gerçek lige eklendi!'),
-                      backgroundColor: const Color(0xFF2E7D32),
-                    ),
-                  );
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF1E88E5),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-              ),
-              child: const Text('Kaydet ve Ekle', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   void _showAllLeaguesDialog(BuildContext context, RewardState rewardState, LeagueTier currentTier) {
     final sfx = SoundEffectsService();
     sfx.playPopSound();
@@ -529,9 +418,13 @@ class LeaderboardLeagueSheet extends StatelessWidget {
         final Set<String> registeredNames = {};
 
         // 1. Aktif Öğrenci (Kendisi)
+        final rawName = rewardState.studentName.trim();
+        final activeName = (rawName.isEmpty || rawName.toLowerCase() == 'd' || rawName == 'Yeni Kahraman')
+            ? (rewardState.parentEmail.isNotEmpty ? rewardState.parentEmail.split('@').first : 'Danışan')
+            : rawName;
         competitors.add(
           _LeagueUser(
-            name: '${rewardState.studentName} (Sen)',
+            name: '$activeName (Sen)',
             avatar: rewardState.activeAvatar,
             xp: userXp,
             isCurrentUser: true,
@@ -540,25 +433,12 @@ class LeaderboardLeagueSheet extends StatelessWidget {
                 : (userXp > 0 ? 'Yükselen Yıldız ⭐' : 'Yeni Başlayan 🌱'),
           ),
         );
-        registeredNames.add(rewardState.studentName.trim().toLowerCase());
+        registeredNames.add(activeName.toLowerCase());
+        registeredNames.add('d');
+        registeredNames.add('yeni kahraman');
+        registeredNames.add('can');
 
-        // 2. Uygulamada veli veya terapist tarafından oluşturulan diğer gerçek öğrenci profilleri
-        for (final p in rewardState.profiles) {
-          final clean = p.name.trim().toLowerCase();
-          if (p.id != rewardState.activeProfileId && clean.isNotEmpty && !registeredNames.contains(clean)) {
-            registeredNames.add(clean);
-            competitors.add(
-              _LeagueUser(
-                name: p.name,
-                avatar: p.avatar,
-                xp: p.xp,
-                badge: p.xp > 0 ? 'Klinik Danışanı 🎯' : 'Kayıtlı Öğrenci 🌱',
-              ),
-            );
-          }
-        }
-
-        // 3. DKT Kliniğinde kayıtlı gerçek danışan çocuklar (Örn: Ali Kaya, Zeynep Su)
+        // 2. Platformda kayıtlı gerçek danışan çocuklar (DKT Kliniği & Platform Kayıtları)
         for (final st in dktService.students) {
           final sName = (st['name'] as String? ?? '').trim();
           final clean = sName.toLowerCase();
@@ -639,7 +519,7 @@ class LeaderboardLeagueSheet extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                '${currentTier.name} (Seviye ${currentTier.level})',
+                                currentTier.name,
                                 style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w900,
@@ -910,52 +790,9 @@ class LeaderboardLeagueSheet extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: Row(
-                  children: [
-                    InkWell(
-                      onTap: () => _showResetLeagueDialog(context, rewardState),
-                      borderRadius: BorderRadius.circular(18),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFFFF3E0),
-                          borderRadius: BorderRadius.circular(18),
-                          border: Border.all(color: const Color(0xFFFFB74D)),
-                        ),
-                        child: const Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(Icons.restart_alt_rounded, color: Color(0xFFE65100), size: 18),
-                            SizedBox(width: 4),
-                            Text('Sıfırla', style: TextStyle(color: Color(0xFFE65100), fontWeight: FontWeight.w900, fontSize: 12.5)),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    InkWell(
-                      onTap: () => _showAddStudentDialog(context, rewardState),
-                      borderRadius: BorderRadius.circular(18),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFE1F5FE),
-                          borderRadius: BorderRadius.circular(18),
-                          border: Border.all(color: const Color(0xFF81D4FA)),
-                        ),
-                        child: const Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(Icons.person_add_rounded, color: Color(0xFF0288D1), size: 18),
-                            SizedBox(width: 4),
-                            Text('Danışan Ekle', style: TextStyle(color: Color(0xFF0288D1), fontWeight: FontWeight.w900, fontSize: 12.5)),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: ElevatedButton.icon(
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
                         onPressed: () {
                           sfx.playSuccessDing();
                           Navigator.pop(context);
@@ -981,13 +818,11 @@ class LeaderboardLeagueSheet extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            );
+          },
         );
-      },
-    );
-  }
-}
+      }
+    }

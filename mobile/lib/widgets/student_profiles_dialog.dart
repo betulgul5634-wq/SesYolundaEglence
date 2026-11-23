@@ -17,123 +17,6 @@ class _StudentProfilesDialogState extends State<StudentProfilesDialog> {
   final RewardState _rewardState = RewardState();
   final SoundEffectsService _sfx = SoundEffectsService();
 
-  static const List<String> kAvailableAvatars = [
-    '⭐', '🚀', '🎨', '🦁', '🐼', '🐱', '🦄', '⚽', '🧒', '👧', '👦'
-  ];
-
-  void _showAddStudentDialog() {
-    _sfx.playPopSound();
-    final nameController = TextEditingController();
-    String selectedAvatar = '⭐';
-
-    showDialog(
-      context: context,
-      builder: (ctx) => StatefulBuilder(
-        builder: (context, setModalState) => AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
-          title: const Row(
-            children: [
-              Text('➕', style: TextStyle(fontSize: 26)),
-              SizedBox(width: 10),
-              Text(
-                'Yeni Öğrenci Ekle',
-                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18),
-              ),
-            ],
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Öğrencinin Adı:',
-                style: TextStyle(fontWeight: FontWeight.w800, fontSize: 13, color: Color(0xFF37474F)),
-              ),
-              const SizedBox(height: 6),
-              TextField(
-                controller: nameController,
-                autofocus: true,
-                decoration: InputDecoration(
-                  hintText: 'Örn: Zeynep, Ali, Mehmet...',
-                  filled: true,
-                  fillColor: const Color(0xFFF5F5F5),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: BorderSide.none,
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                ),
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Profil Simgesi Seç:',
-                style: TextStyle(fontWeight: FontWeight.w800, fontSize: 13, color: Color(0xFF37474F)),
-              ),
-              const SizedBox(height: 8),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: kAvailableAvatars.map((av) {
-                  final isSelected = av == selectedAvatar;
-                  return InkWell(
-                    onTap: () {
-                      setModalState(() => selectedAvatar = av);
-                      _sfx.playPopSound();
-                    },
-                    borderRadius: BorderRadius.circular(14),
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: isSelected ? const Color(0xFFE8F5E9) : const Color(0xFFF5F5F5),
-                        borderRadius: BorderRadius.circular(14),
-                        border: Border.all(
-                          color: isSelected ? const Color(0xFF4CAF50) : Colors.transparent,
-                          width: 2,
-                        ),
-                      ),
-                      child: Text(av, style: const TextStyle(fontSize: 28)),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(ctx),
-              child: const Text('İPTAL', style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey)),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF58CC02),
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              ),
-              onPressed: () {
-                final name = nameController.text.trim();
-                if (name.isNotEmpty) {
-                  _rewardState.addStudent(name, selectedAvatar);
-                  _sfx.playSuccessDing();
-                  Navigator.pop(ctx);
-                  setState(() {});
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('🎉 $name öğrencisi başarıyla eklendi!'),
-                      backgroundColor: const Color(0xFF2E7D32),
-                      duration: const Duration(seconds: 2),
-                    ),
-                  );
-                }
-              },
-              child: const Text('KAYDET 🚀', style: TextStyle(fontWeight: FontWeight.w900)),
-            ),
-          ],
-        ),
-      ),
-    ).then((_) => nameController.dispose());
-  }
-
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -206,23 +89,26 @@ class _StudentProfilesDialogState extends State<StudentProfilesDialog> {
             ),
             const SizedBox(height: 16),
 
-            // Yeni Öğrenci Ekle Butonu
-            SizedBox(
+            // Bilgilendirme Notu
+            Container(
               width: double.infinity,
-              child: ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF58CC02),
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-                  elevation: 3,
-                ),
-                icon: const Icon(Icons.person_add_rounded, size: 22),
-                label: const Text(
-                  'YENİ ÖĞRENCİ EKLE ➕',
-                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13.5),
-                ),
-                onPressed: _showAddStudentDialog,
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF1F8E9),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: const Color(0xFFC5E1A5)),
+              ),
+              child: const Row(
+                children: [
+                  Text('🌱', style: TextStyle(fontSize: 20)),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      'Öğrenci profilleri platforma kayıtlar yapıldıkça sisteme otomatik olarak işlenir.',
+                      style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w700, color: Color(0xFF33691E), height: 1.3),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
