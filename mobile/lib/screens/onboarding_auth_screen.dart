@@ -203,49 +203,90 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
             offset: Offset(0, _mascotBounce.value),
             child: child,
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: Column(
             children: [
+              // Konuşma Baloncuğu
               Container(
-                width: 58,
-                height: 58,
+                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: const [
+                    BoxShadow(color: Color(0x33000000), blurRadius: 10, offset: Offset(0, 3)),
+                  ],
+                ),
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text('🎙️', style: TextStyle(fontSize: 18)),
+                    SizedBox(width: 8),
+                    Text(
+                      'Sesleri oyunla öğrenmeye hazır mısın?',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w900,
+                        fontSize: 13,
+                        color: Color(0xFF1E293B),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 14),
+              // Büyük Canlı 3D Papağan Maskotu
+              Container(
+                width: 110,
+                height: 110,
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
                     colors: [Color(0xFF58CC02), Color(0xFF46A302)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
                   shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 3),
+                  border: Border.all(color: Colors.white, width: 4),
                   boxShadow: const [
-                    BoxShadow(color: Color(0x6658CC02), blurRadius: 14, offset: Offset(0, 4)),
+                    BoxShadow(color: Color(0x6658CC02), blurRadius: 24, offset: Offset(0, 8)),
                   ],
                 ),
-                child: const Center(child: Text('🦜', style: TextStyle(fontSize: 32))),
-              ),
-              const SizedBox(width: 12),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: const [
-                    BoxShadow(color: Color(0x33000000), blurRadius: 8, offset: Offset(0, 3)),
-                  ],
-                ),
-                child: const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Ses Yolunda Eğlence 🎙️',
-                      style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13, color: Color(0xFF0F172A)),
-                    ),
-                    Text(
-                      'Artikülasyon Terapisi & Klinik Takip',
-                      style: TextStyle(fontSize: 10.5, color: Color(0xFF64748B), fontWeight: FontWeight.w700),
-                    ),
-                  ],
+                child: const Center(
+                  child: Text('🦜', style: TextStyle(fontSize: 60)),
                 ),
               ),
             ],
+          ),
+        ),
+        const SizedBox(height: 14),
+        const Text(
+          'Ses Yolunda Eğlence',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w900,
+            color: Colors.white,
+            letterSpacing: -0.5,
+          ),
+        ),
+        const SizedBox(height: 4),
+        const Text(
+          'Oyunla Artikülasyon Terapisi & Klinik Takip Sistemi',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 12.5,
+            color: Color(0xFFCBD5E1),
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        const SizedBox(height: 6),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.12),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
+          ),
+          child: const Text(
+            'İstinye Üniversitesi Yazılım Mühendisliği Bitirme Projesi',
+            style: TextStyle(fontSize: 10, color: Color(0xFF94A3B8), fontWeight: FontWeight.bold),
           ),
         ),
       ],
