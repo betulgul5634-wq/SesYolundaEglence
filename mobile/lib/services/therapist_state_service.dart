@@ -329,6 +329,8 @@ class TherapistStateService extends ChangeNotifier {
     _students.clear();
   }
 
+  void saveToLocalStorage() => _saveToLocalStorage();
+
   /// Yerel Depolama (Flutter Web LocalStorage)
   void _saveToLocalStorage() {
     if (!kIsWeb) return;

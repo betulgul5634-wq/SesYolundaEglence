@@ -683,6 +683,293 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
     );
   }
 
+  void _showSendToParentDialog(Map<String, dynamic> student) {
+    _sfx.playPopSound();
+    final studentName = student['name'] ?? 'Danışan';
+    final initialEmail = (student['parent_email'] as String? ?? '').replaceAll('@gmail.com', '').trim();
+    final emailCtrl = TextEditingController(text: initialEmail.isNotEmpty ? initialEmail : 'veli');
+    final phoneCtrl = TextEditingController();
+    final noteCtrl = TextEditingController(text: 'Haftalık artikülasyon ve konuşma terapisi egzersizleri başarıyla tamamlandı.');
+    bool sentSuccess = false;
+    String statusMessage = '';
+
+    showDialog(
+      context: context,
+      builder: (ctx) => StatefulBuilder(
+        builder: (dCtx, setModalState) {
+          final currentAccuracy = student['accuracy'] ?? 0;
+          final phonemes = student['target_phonemes'] ?? '/p/, /b/';
+
+          String buildReportText() {
+            var fullEmail = emailCtrl.text.trim();
+            if (!fullEmail.contains('@')) fullEmail = '$fullEmail@gmail.com';
+            return '🗣️ SES YOLUNDA EĞLENCE • KLİNİK GELİŞİM BİLDİRİMİ\n'
+                   '━━━━━━━━━━━━━━━━━━━━━━\n'
+                   '👨‍⚕️ Terapist: ${_dkt.therapistName.isNotEmpty ? _dkt.therapistName : "Uzm. Dil ve Konuşma Terapisti"}\n'
+                   '🏥 Klinik: ${_dkt.clinicName.isNotEmpty ? _dkt.clinicName : "Dil ve Konuşma Danışmanlık Merkezi"}\n'
+                   '👶 Danışan: $studentName (${student['age']} Yaş)\n'
+                   '📊 Artikülasyon Başarısı: %$currentAccuracy\n'
+                   '🎯 Çalışılan Fonemler: $phonemes\n'
+                   '📝 Terapist Notu: ${noteCtrl.text.trim()}\n'
+                   '━━━━━━━━━━━━━━━━━━━━━━\n'
+                   '✨ Çocuğunuzun günlük ses çalışmalarını evde desteklemeye devam ediniz.';
+          }
+
+          return AlertDialog(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+            titlePadding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+            actionsPadding: const EdgeInsets.fromLTRB(20, 10, 20, 18),
+            title: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFF4ADE80), Color(0xFF16A34A)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Text('📨', style: TextStyle(fontSize: 20)),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '$studentName - Veliye İlet',
+                        style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16, color: Color(0xFF0F172A)),
+                      ),
+                      const Text(
+                        'Karne ve ödev özetini WhatsApp veya E-Posta ile gönderin',
+                        style: TextStyle(fontSize: 11, color: Color(0xFF64748B), fontWeight: FontWeight.w500),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Divider(height: 14),
+                  // Danışan Mini Özeti
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF1F5F9),
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: const Color(0xFFE2E8F0)),
+                    ),
+                    child: Row(
+                      children: [
+                        Text(student['avatar'] ?? '👦', style: const TextStyle(fontSize: 28)),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(studentName, style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 13.5)),
+                              Text('Tanı: ${student['diagnosis']}', style: const TextStyle(fontSize: 11, color: Color(0xFF64748B))),
+                              Text('Hedef: $phonemes', style: const TextStyle(fontSize: 11, color: Color(0xFF1E88E5), fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFE8F5E9),
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: const Color(0xFFA5D6A7)),
+                          ),
+                          child: Text(
+                            '%$currentAccuracy Başarı',
+                            style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 11, color: Color(0xFF16A34A)),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  const Text('Veli E-Posta Adresi:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
+                  const SizedBox(height: 4),
+                  TextField(
+                    controller: emailCtrl,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                      hintText: 'ornek.veli',
+                      prefixIcon: const Icon(Icons.email_outlined, size: 18),
+                      suffixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+                      suffixIcon: const Padding(
+                        padding: EdgeInsets.only(right: 14),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              '@gmail.com',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                                color: Color(0xFF16A34A),
+                                fontSize: 13,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      filled: true,
+                      fillColor: const Color(0xFFF8FAFC),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+
+                  const Text('Veli Telefon No (WhatsApp için opsiyonel):', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
+                  const SizedBox(height: 4),
+                  TextField(
+                    controller: phoneCtrl,
+                    keyboardType: TextInputType.phone,
+                    decoration: InputDecoration(
+                      hintText: '05XXXXXXXXX',
+                      prefixIcon: const Icon(Icons.phone_iphone_rounded, size: 18),
+                      filled: true,
+                      fillColor: const Color(0xFFF8FAFC),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+
+                  const Text('Terapist Mesajı / Notu:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
+                  const SizedBox(height: 4),
+                  TextField(
+                    controller: noteCtrl,
+                    maxLines: 2,
+                    decoration: InputDecoration(
+                      hintText: 'Veliye iletilecek özel değerlendirme veya ödev...',
+                      filled: true,
+                      fillColor: const Color(0xFFF8FAFC),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  if (sentSuccess)
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFDCFCE7),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: const Color(0xFF86EFAC)),
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.check_circle_rounded, color: Color(0xFF16A34A), size: 20),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              statusMessage,
+                              style: const TextStyle(fontSize: 11.5, color: Color(0xFF15803D), fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: const Text('Kapat', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
+              ),
+              // 📋 Kopyala Butonu
+              OutlinedButton.icon(
+                onPressed: () {
+                  final text = buildReportText();
+                  Clipboard.setData(ClipboardData(text: text));
+                  _sfx.playSuccessDing();
+                  setModalState(() {
+                    sentSuccess = true;
+                    statusMessage = '📋 Karne ve mesaj panoya kopyalandı! İstediğiniz yere yapıştırabilirsiniz.';
+                  });
+                },
+                icon: const Icon(Icons.copy_rounded, size: 15),
+                label: const Text('Kopyala', style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold)),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
+              ),
+              // 📧 E-Posta Butonu
+              ElevatedButton.icon(
+                onPressed: () {
+                  var pEmail = emailCtrl.text.trim();
+                  if (!pEmail.contains('@')) pEmail = '$pEmail@gmail.com';
+                  student['parent_email'] = pEmail;
+                  _dkt.saveToLocalStorage();
+
+                  final body = Uri.encodeComponent(buildReportText());
+                  final subject = Uri.encodeComponent('$studentName - Ses Yolunda Eğlence Klinik Gelişim Karnesi');
+                  final mailUrl = 'mailto:$pEmail?subject=$subject&body=$body';
+                  if (kIsWeb) {
+                    html.window.open(mailUrl, '_blank');
+                  }
+                  _sfx.playSuccessDing();
+                  setModalState(() {
+                    sentSuccess = true;
+                    statusMessage = '📧 E-posta istemcisi açıldı ve karne hazırlandı ($pEmail)!';
+                  });
+                },
+                icon: const Icon(Icons.mail_rounded, size: 15, color: Colors.white),
+                label: const Text('E-Posta Aç', style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: Colors.white)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF0284C7),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
+              ),
+              // 💬 WhatsApp Butonu
+              ElevatedButton.icon(
+                onPressed: () {
+                  var phone = phoneCtrl.text.replaceAll(RegExp(r'[^0-9]'), '');
+                  if (phone.startsWith('0')) phone = '90${phone.substring(1)}';
+                  if (phone.isEmpty) phone = '';
+                  final text = Uri.encodeComponent(buildReportText());
+                  final waUrl = phone.isNotEmpty
+                      ? 'https://api.whatsapp.com/send?phone=$phone&text=$text'
+                      : 'https://api.whatsapp.com/send?text=$text';
+                  if (kIsWeb) {
+                    html.window.open(waUrl, '_blank');
+                  }
+                  _sfx.playSuccessDing();
+                  setModalState(() {
+                    sentSuccess = true;
+                    statusMessage = '💬 WhatsApp açıldı! Karne veliye iletilmeye hazır.';
+                  });
+                },
+                icon: const Icon(Icons.send_rounded, size: 15, color: Colors.white),
+                label: const Text('WhatsApp', style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: Colors.white)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF16A34A),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -1828,29 +2115,11 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
             ),
             const SizedBox(width: 8),
             ElevatedButton.icon(
-              onPressed: () {
-                _sfx.playSuccessDing();
-                final pEmail = std['parent_email'] ?? 'veli@gmail.com';
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Row(
-                      children: [
-                        const Icon(Icons.mark_email_read_rounded, color: Colors.white),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Text('📧 Bildirim Gönderildi! ($pEmail adresine haftalık seans ve ödev raporu iletildi)'),
-                        ),
-                      ],
-                    ),
-                    backgroundColor: const Color(0xFF1B5E20),
-                    duration: const Duration(seconds: 4),
-                  ),
-                );
-              },
+              onPressed: () => _showSendToParentDialog(std),
               icon: const Icon(Icons.send_rounded, size: 16, color: Colors.white),
-              label: const Text('E-Posta Bildirimi Gönder', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.white)),
+              label: const Text('Veliye İlet 📨', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.white)),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF1565C0),
+                backgroundColor: const Color(0xFF16A34A),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
             ),
@@ -2196,16 +2465,7 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
               const SizedBox(width: 8),
               // Veliye Gönder Butonu
               ElevatedButton.icon(
-                onPressed: () {
-                  _sfx.playSuccessDing();
-                  final pEmail = currentStudent['parent_email'] ?? 'veli@gmail.com';
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('📧 ${currentStudent['name']} karnesi başarıyla $pEmail adresine iletildi!'),
-                      backgroundColor: const Color(0xFF16A34A),
-                    ),
-                  );
-                },
+                onPressed: () => _showSendToParentDialog(currentStudent),
                 icon: const Icon(Icons.send_rounded, size: 16, color: Colors.white),
                 label: const Text('Veliye İlet', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5, color: Colors.white)),
                 style: ElevatedButton.styleFrom(
