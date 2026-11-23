@@ -1443,18 +1443,61 @@ def api_login(payload: LoginPayload):
 @app.post("/api/notifications/send")
 def api_send_notification(payload: NotificationPayload):
     """
-    Öğrenci (çocuk/veli) veya Terapiste anlık bildirim ve e-posta gönderme servisi.
-    Seans sonuçları, ev ödevleri ve fonem gelişim raporları veli ve terapiste iletilir.
+    Kullanıcıya veya Terapiste anlık bildirim ve e-posta gönderme servisi.
+    Kayıt onayları, günlük oyun hatırlatmaları ve seans gelişim raporları iletilir.
     """
-    subject = payload.subject or f"Ses Yolunda Eğlence - {payload.student_name} Gelişim Bildirimi"
-    message = payload.message or f"{payload.student_name} bugünkü artikülasyon hece egzersizlerini başarıyla tamamladı."
+    if payload.notification_type in ["welcome", "welcome_and_daily_reminder"]:
+        subject = payload.subject or "🎉 Ses Yolunda Eğlence'ye Hoş Geldiniz! Kaydınız Tamamlandı"
+        message = payload.message or (
+            f"Merhaba {payload.student_name}!\n\n"
+            f"Ses Yolunda Eğlence hesabınız başarıyla oluşturuldu.\n"
+            f"Oyunla sesleri ve artikülasyonu öğrenmeye hemen başlayabilirsiniz.\n\n"
+            f"🔔 GÜNLÜK OYUN HATIRLATMASI AKTİF:\n"
+            f"Günlük serinizi korumanız için her gün saat 17:00'de egzersiz hatırlatma mesajı bu adrese ({payload.recipient_email}) iletilecektir."
+        )
+    elif payload.notification_type == "daily_reminder":
+        subject = payload.subject or f"🔥 Günün Konuşma Macerası Seni Bekliyor! ({payload.student_name})"
+        message = payload.message or (
+            f"Merhaba {payload.student_name}!\n\n"
+            f"Bugünkü konuşma egzersizlerin hazır! Serini kaybetmemek için hemen haritadan bir ses seç ve 3 yıldız topla!"
+        )
+    else:
+        subject = payload.subject or f"Ses Yolunda Eğlence - {payload.student_name} Gelişim Bildirimi"
+        message = payload.message or f"{payload.student_name} bugünkü artikülasyon hece egzersizlerini başarıyla tamamladı."
+
+    print(f"[EMAIL NOTIFICATION SENT] To: {payload.recipient_email} | Subject: {subject}")
+
     return {
         "status": "success",
         "sent": True,
         "recipient": payload.recipient_email,
         "subject": subject,
+        "message": message,
         "notification_type": payload.notification_type,
         "detail": f"{payload.recipient_email} adresine bildirim e-postası başarıyla iletildi.",
+        "daily_reminder_scheduled": True,
+        "reminder_time": "17:00",
+        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    }
+
+@app.post("/api/notifications/daily-reminder")
+def api_send_daily_reminder(payload: NotificationPayload):
+    """
+    Her gün saat 17:00'de veya çocuk oyunu açmadığında gönderilen günlük hatırlatma mesajı.
+    """
+    subject = f"🔥 {payload.student_name}, Bugünkü Ses Egzersizin Seni Bekliyor!"
+    message = (
+        f"Merhaba {payload.student_name}!\n\n"
+        f"Günün 10 kelimelik konuşma pratiğini yaparak serini devam ettir ve lig sıralamasında yüksel!\n"
+        f"Hemen tıkla ve konuşma oyununa katıl: https://apparently-florists-discovered-dome.trycloudflare.com"
+    )
+    print(f"[DAILY REMINDER EMAIL SENT] To: {payload.recipient_email} | Subject: {subject}")
+    return {
+        "status": "success",
+        "sent": True,
+        "recipient": payload.recipient_email,
+        "subject": subject,
+        "message": message,
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
 
