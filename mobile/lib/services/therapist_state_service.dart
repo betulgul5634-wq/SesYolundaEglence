@@ -21,23 +21,23 @@ class TherapistStateService extends ChangeNotifier {
 
   // Terapist Oturum Bilgileri
   bool _isLoggedIn = false;
-  String _therapistName = 'Uzm. DKT Merve Kaya';
-  String _clinicName = 'Mavi Martı Dil ve Konuşma Merkezi';
-  String _email = 'merve.dkt@klinik.com';
-  String _edevletDocNo = 'YOK-2024-DKT-8921';
+  String _therapistName = '';
+  String _clinicName = '';
+  String _email = '';
+  String _edevletDocNo = '';
   String _password = '';
-  String _therapistCode = 'DKT-MERVE';
+  String _therapistCode = '';
 
   // Danışan Çocuklar Listesi
   final List<Map<String, dynamic>> _students = [];
 
   // Getters
   bool get isLoggedIn => _isLoggedIn;
-  String get therapistName => _therapistName.isNotEmpty ? _therapistName : 'Uzm. DKT Merve Kaya';
-  String get clinicName => _clinicName.isNotEmpty ? _clinicName : 'Mavi Martı Dil ve Konuşma Merkezi';
+  String get therapistName => _therapistName.isNotEmpty ? _therapistName : 'Dil ve Konuşma Terapisti';
+  String get clinicName => _clinicName.isNotEmpty ? _clinicName : 'Dil ve Konuşma Merkezi';
   String get email => _email;
   String get edevletDocNo => _edevletDocNo;
-  String get therapistCode => _therapistCode;
+  String get therapistCode => _therapistCode.isNotEmpty ? _therapistCode : 'DKT-KLINIK';
   List<Map<String, dynamic>> get students => List.unmodifiable(_students);
 
   /// 1. Terapist Kaydı (Hem Onboarding hem Portal içinden çağrılabilir)
@@ -49,19 +49,19 @@ class TherapistStateService extends ChangeNotifier {
     required String password,
   }) {
     _isLoggedIn = true;
-    _therapistName = name.trim().isNotEmpty ? name.trim() : 'Uzm. DKT Merve Kaya';
-    _clinicName = clinic.trim().isNotEmpty ? clinic.trim() : 'Mavi Martı Dil ve Konuşma Merkezi';
+    _therapistName = name.trim().isNotEmpty ? name.trim() : 'Dil ve Konuşma Terapisti';
+    _clinicName = clinic.trim().isNotEmpty ? clinic.trim() : 'Dil ve Konuşma Merkezi';
     _email = email.trim().toLowerCase();
     _edevletDocNo = edevletDocNo.trim();
     _password = password;
 
-    // Terapiste özel eşleştirme kodu üret (örn: DKT-MERVE)
+    // Terapiste özel eşleştirme kodu üret (örn: DKT-AYSE)
     final firstName = _therapistName
         .split(' ')
         .first
         .replaceAll(RegExp(r'[^a-zA-ZçÇğĞıİöÖşŞüÜ]'), '')
         .toUpperCase();
-    _therapistCode = 'DKT-${firstName.isNotEmpty ? firstName : "MERVE"}';
+    _therapistCode = 'DKT-${firstName.isNotEmpty ? firstName : "KLINIK"}';
 
     _saveToLocalStorage();
     notifyListeners();
@@ -287,22 +287,22 @@ class TherapistStateService extends ChangeNotifier {
         _isLoggedIn = storage['sye_dkt_logged_in'] == 'true';
       }
       if (storage.containsKey('sye_dkt_name')) {
-        _therapistName = storage['sye_dkt_name'] ?? 'Uzm. DKT Merve Kaya';
+        _therapistName = storage['sye_dkt_name'] ?? '';
       }
       if (storage.containsKey('sye_dkt_clinic')) {
-        _clinicName = storage['sye_dkt_clinic'] ?? 'Mavi Martı Dil ve Konuşma Merkezi';
+        _clinicName = storage['sye_dkt_clinic'] ?? '';
       }
       if (storage.containsKey('sye_dkt_email')) {
-        _email = storage['sye_dkt_email'] ?? 'merve.dkt@klinik.com';
+        _email = storage['sye_dkt_email'] ?? '';
       }
       if (storage.containsKey('sye_dkt_edevlet')) {
-        _edevletDocNo = storage['sye_dkt_edevlet'] ?? 'YOK-2024-DKT-8921';
+        _edevletDocNo = storage['sye_dkt_edevlet'] ?? '';
       }
       if (storage.containsKey('sye_dkt_pass')) {
         _password = storage['sye_dkt_pass'] ?? '';
       }
       if (storage.containsKey('sye_dkt_code')) {
-        _therapistCode = storage['sye_dkt_code'] ?? 'DKT-MERVE';
+        _therapistCode = storage['sye_dkt_code'] ?? '';
       }
       if (storage.containsKey('sye_dkt_students')) {
         final raw = storage['sye_dkt_students'];

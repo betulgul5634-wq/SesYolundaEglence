@@ -349,7 +349,7 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                   child: ElevatedButton.icon(
                     onPressed: () {
                       final waText = Uri.encodeComponent(
-                        'Merhaba! Uzm. DKT Merve Kaya tarafından Ses Yolunda Eğlence platformunda ${student['name']} için konuşma terapisi egzersizleri tanımlanmıştır. Çocuğunuz uygulamayı açıp kayıt olurken şu Terapist Kodunu giriniz:\n\n🔑 Terapist Kodu: $studentCode\n\nBu kod ile evdeki çalışma verileri terapist paneline aktarılacaktır.'
+                        'Merhaba! ${_dkt.therapistName} tarafından Ses Yolunda Eğlence platformunda ${student['name']} için konuşma terapisi egzersizleri tanımlanmıştır. Çocuğunuz uygulamayı açıp kayıt olurken şu Terapist Kodunu giriniz:\n\n🔑 Terapist Kodu: $studentCode\n\nBu kod ile evdeki çalışma verileri terapist paneline aktarılacaktır.'
                       );
                       final waUrl = 'https://api.whatsapp.com/send?text=$waText';
                       if (kIsWeb) {
@@ -560,7 +560,7 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                     controller: _regNameCtrl,
                     decoration: InputDecoration(
                       labelText: 'Adınız Soyadınız',
-                      hintText: 'Örn: Uzm. DKT Merve Kaya',
+                      hintText: 'Adınız ve Soyadınız',
                       labelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
                       prefixIcon: const Icon(Icons.person_outline, size: 18),
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),

@@ -36,7 +36,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
   String _activeRole = 'child';
 
   // ── Danışan / Kullanıcı Kayıt Kontrolcüleri ──
-  final TextEditingController _childNameCtrl = TextEditingController(text: 'Can');
+  final TextEditingController _childNameCtrl = TextEditingController();
   final TextEditingController _childParentEmailCtrl = TextEditingController();
   final TextEditingController _childPasswordCtrl = TextEditingController();
   final TextEditingController _childTherapistCodeCtrl = TextEditingController();
@@ -44,12 +44,12 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
   String _selectedChildAvatar = '👦';
 
   // ── DKT Terapist Kayıt Kontrolcüleri ──
-  final TextEditingController _therapistNameCtrl = TextEditingController(text: 'Uzm. DKT Merve Kaya');
-  final TextEditingController _clinicNameCtrl = TextEditingController(text: 'Mavi Martı Dil ve Konuşma Merkezi');
-  final TextEditingController _therapistTcCtrl = TextEditingController(text: '12345678901');
-  final TextEditingController _edevletDocCtrl = TextEditingController(text: 'YOK-2024-DKT-8921');
-  final TextEditingController _therapistEmailCtrl = TextEditingController(text: 'merve.dkt@klinik.com');
-  final TextEditingController _therapistPassCtrl = TextEditingController(text: '123456');
+  final TextEditingController _therapistNameCtrl = TextEditingController();
+  final TextEditingController _clinicNameCtrl = TextEditingController();
+  final TextEditingController _therapistTcCtrl = TextEditingController();
+  final TextEditingController _edevletDocCtrl = TextEditingController();
+  final TextEditingController _therapistEmailCtrl = TextEditingController();
+  final TextEditingController _therapistPassCtrl = TextEditingController();
   bool _isEdevletVerified = false;
   bool _isVerifyingEdevlet = false;
   String _verifiedUniversity = '';
@@ -234,8 +234,8 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
               const SizedBox(height: 14),
               // Büyük Canlı 3D Papağan Maskotu
               Container(
-                width: 110,
-                height: 110,
+                width: 140,
+                height: 140,
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
                     colors: [Color(0xFF58CC02), Color(0xFF46A302)],
@@ -243,13 +243,13 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
                     end: Alignment.bottomRight,
                   ),
                   shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 4),
+                  border: Border.all(color: Colors.white, width: 4.5),
                   boxShadow: const [
-                    BoxShadow(color: Color(0x6658CC02), blurRadius: 24, offset: Offset(0, 8)),
+                    BoxShadow(color: Color(0x6658CC02), blurRadius: 28, offset: Offset(0, 10)),
                   ],
                 ),
                 child: const Center(
-                  child: Text('🦜', style: TextStyle(fontSize: 60)),
+                  child: Text('🦜', style: TextStyle(fontSize: 82)),
                 ),
               ),
             ],
@@ -524,7 +524,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
         TextField(
           controller: _childNameCtrl,
           decoration: InputDecoration(
-            hintText: 'Örn: Can, Zeynep, Ali...',
+            hintText: 'Çocuğunuzun Adı',
             prefixIcon: const Icon(Icons.person_outline_rounded, size: 20),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
@@ -609,7 +609,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
           controller: _childParentEmailCtrl,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
-            hintText: 'veli.ornek@gmail.com',
+            hintText: 'Veli e-posta adresi',
             prefixIcon: const Icon(Icons.email_outlined, size: 18),
             helperText: '📩 Egzersiz başarıları ve terapist ödevleri bu adrese gider.',
             helperStyle: const TextStyle(fontSize: 10, color: Color(0xFF16A34A), fontWeight: FontWeight.w600),
@@ -642,7 +642,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
         TextField(
           controller: _childTherapistCodeCtrl,
           decoration: InputDecoration(
-            hintText: 'Örn: DKT-MERVE (Varsa girin)',
+            hintText: 'Terapist Eşleştirme Kodu (Varsa girin)',
             prefixIcon: const Icon(Icons.medical_services_outlined, size: 18),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
@@ -670,7 +670,16 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
   }
 
   void _handleChildRegister() {
-    final name = _childNameCtrl.text.trim().isNotEmpty ? _childNameCtrl.text.trim() : 'Can';
+    final name = _childNameCtrl.text.trim();
+    if (name.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('⚠️ Lütfen çocuğunuzun adını giriniz.'),
+          backgroundColor: Colors.orangeAccent,
+        ),
+      );
+      return;
+    }
     final email = _childParentEmailCtrl.text.trim();
     final therapistCode = _childTherapistCodeCtrl.text.trim();
 
@@ -730,7 +739,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
         TextField(
           controller: _therapistNameCtrl,
           decoration: InputDecoration(
-            hintText: 'Örn: Uzm. DKT Merve Kaya',
+            hintText: 'Adınız ve Soyadınız',
             prefixIcon: const Icon(Icons.badge_outlined, size: 20),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
@@ -745,7 +754,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
         TextField(
           controller: _clinicNameCtrl,
           decoration: InputDecoration(
-            hintText: 'Örn: Mavi Martı Dil ve Konuşma Merkezi',
+            hintText: 'Klinik veya Çalıştığınız Kurum Adı',
             prefixIcon: const Icon(Icons.apartment_rounded, size: 20),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
@@ -782,7 +791,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
               child: TextField(
                 controller: _edevletDocCtrl,
                 decoration: InputDecoration(
-                  hintText: 'Örn: YOK-2024-DKT-8921',
+                  hintText: 'e-Devlet Mezuniyet Barkod No',
                   prefixIcon: const Icon(Icons.qr_code_rounded, size: 18),
                   filled: true,
                   fillColor: const Color(0xFFF8FAFC),
@@ -849,7 +858,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
           controller: _therapistEmailCtrl,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
-            hintText: 'ornek.dkt@klinik.com',
+            hintText: 'Kurumsal e-posta adresi',
             prefixIcon: const Icon(Icons.alternate_email_rounded, size: 18),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
@@ -907,9 +916,22 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
     setState(() => _isVerifyingEdevlet = true);
     _sfx.playPopSound();
     await Future.delayed(const Duration(milliseconds: 600));
+    if (!mounted) return;
 
     final tName = _therapistNameCtrl.text.trim();
-    final cleanFirstName = (tName.isNotEmpty ? tName.split(' ').first : 'MERVE')
+    if (tName.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('⚠️ Lütfen önce adınızı ve unvanınızı yazınız.'),
+          backgroundColor: Colors.orangeAccent,
+        ),
+      );
+      return;
+    }
+
+    final cleanFirstName = tName
+        .split(' ')
+        .first
         .replaceAll(RegExp(r'[^a-zA-ZçÇğĞıİöÖşŞüÜ]'), '')
         .toUpperCase();
 
@@ -1057,7 +1079,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
         TextField(
           controller: _loginChildEmailCtrl,
           decoration: InputDecoration(
-            hintText: 'ornek.veli@gmail.com',
+            hintText: 'Kayıtlı veli e-posta adresi',
             prefixIcon: const Icon(Icons.email_outlined, size: 18),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
@@ -1180,7 +1202,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
         TextField(
           controller: _loginTherapistEmailCtrl,
           decoration: InputDecoration(
-            hintText: 'ornek.dkt@klinik.com',
+            hintText: 'Kurumsal e-posta adresiniz',
             prefixIcon: const Icon(Icons.email_outlined, size: 18),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
@@ -1213,7 +1235,16 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
             onPressed: () {
               final email = _loginTherapistEmailCtrl.text.trim();
               final pass = _loginTherapistPassCtrl.text.trim();
-              _dkt.loginTherapist(email.isNotEmpty ? email : 'merve.dkt@klinik.com', pass);
+              if (email.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('⚠️ Lütfen terapist e-posta adresinizi giriniz.'),
+                    backgroundColor: Colors.orangeAccent,
+                  ),
+                );
+                return;
+              }
+              _dkt.loginTherapist(email, pass);
               _sfx.playSuccessDing();
               _goToTherapistPortal();
             },
