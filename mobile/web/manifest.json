@@ -1,11 +1,11 @@
 {
-    "name": "mobile",
-    "short_name": "mobile",
+    "name": "Ses Yolunda Eğlence",
+    "short_name": "Ses Yolunda",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "theme_color": "#58CC02",
+    "description": "Oyunla Artikülasyon Terapisi & Klinik Takip Platformu",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

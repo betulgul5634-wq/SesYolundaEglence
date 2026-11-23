@@ -575,6 +575,39 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
+                // 🦜 Uygulama Resmi Logosu & Başlık
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  margin: const EdgeInsets.only(right: 8),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFF58CC02), Color(0xFF46A302)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: const [
+                      BoxShadow(color: Color(0x3358CC02), blurRadius: 6, offset: Offset(0, 2)),
+                    ],
+                  ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text('🦜', style: TextStyle(fontSize: 18)),
+                      SizedBox(width: 5),
+                      Text(
+                        'Ses Yolunda',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 12,
+                          letterSpacing: -0.2,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
                 // 👥 Öğrenci Profili / Değiştirici Butonu
                 InkWell(
                   onTap: () {
