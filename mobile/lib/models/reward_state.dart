@@ -546,7 +546,7 @@ class RewardState extends ChangeNotifier {
     return true;
   }
 
-  final Set<String> _unlockedBadges = {'ilk_adim', 'kelime_avcisi', 'ses_kesfi', 'yildiz_koleksiyoncusu'};
+  final Set<String> _unlockedBadges = {};
   String _activeAvatar = '⭐';
   String _activeCharacterName = 'SÜPER KAHRAMAN CAN';
   String _activeCharacterId = 'char_skater_can';
@@ -595,21 +595,43 @@ class RewardState extends ChangeNotifier {
   Set<String> get practicedDates => Set.unmodifiable(_practicedDates);
   int get totalStars => _totalStars;
   int get xp => _xp;
+
+  /// Tamamlanan harita ses durakları sayısı (en az 1 yıldız kazanılan)
+  int get completedStagesCount => _stageStars.values.where((s) => s > 0).length;
+
+  /// Gerçek artikülasyon / telaffuz pratik kelime sayısı
+  int get effectivePracticedWords {
+    final fromStats = totalPracticedSuccesses;
+    final fromStages = _stageStars.values.fold<int>(0, (prev, stars) => prev + (stars > 0 ? stars * 2 : 0));
+    final fromQuests = _questWordsCount;
+    return fromStats > 0 ? fromStats : (fromStages > 0 ? fromStages : fromQuests);
+  }
+
   Set<String> get unlockedBadges {
     final set = Set<String>.from(_unlockedBadges);
-    if (totalPracticedSuccesses >= 1) set.add('ses_roket');
-    if (totalPracticedSuccesses >= 50) set.add('keskin_nisanci');
-    if (_totalStars >= 25) set.add('yildiz_sampiyonu');
-    if (_streakDays >= 5) set.add('atesli_seri');
-    if (_gems >= 300) set.add('elmas_zengini');
-    if (_unlockedStickers.length >= 8) set.add('cikartma_koleksiyoneri');
-    if (_xp >= 400) set.add('lig_sampiyonu');
-    if (_questMirrorCount >= 1 || _unlockedAccessories.isNotEmpty) set.add('ayna_kasifi');
-    if (_unlockedAccessories.length >= 4) set.add('gardirob_tasarimcisi');
-    if (totalPracticedAttempts >= 50 && overallAccuracy >= 80) set.add('buyuk_usta');
-    set.add('ilk_adim');
-    if (totalPracticedSuccesses >= 20) set.add('kelime_avcisi');
-    if (_totalStars >= 10) set.add('yildiz_koleksiyoncusu');
+    // Konuşma & Telaffuz
+    if (effectivePracticedWords >= 1) set.add('ses_roket');
+    if (effectivePracticedWords >= 10) set.add('kelime_ciragi');
+    if (effectivePracticedWords >= 30) set.add('artikulasyon_avcisi');
+    if (effectivePracticedWords >= 60) set.add('buyuk_usta');
+
+    // Yıldız & Harita
+    if (_totalStars >= 3) set.add('ilk_yildiz');
+    if (_totalStars >= 15) set.add('yildiz_koleksiyoncusu');
+    if (_totalStars >= 30) set.add('yildiz_sampiyonu');
+    if (completedStagesCount >= 3) set.add('ses_yolcusu');
+    if (completedStagesCount >= 7) set.add('harita_fatihi');
+
+    // Günlük Seri & Alışkanlık
+    if (_streakDays >= 1) set.add('ilk_adim');
+    if (_streakDays >= 3) set.add('atesli_seri');
+    if (_streakDays >= 7) set.add('sonmeyen_mesale');
+
+    // Klinik Araçlar & Diğer Başarılar
+    if (_questMirrorCount >= 1) set.add('ayna_kasifi');
+    if (_unlockedStickers.length >= 5) set.add('cikartma_koleksiyoneri');
+    if (_xp >= 150) set.add('lig_sampiyonu');
+    if (_gems >= 250) set.add('elmas_zengini');
     return set;
   }
 
