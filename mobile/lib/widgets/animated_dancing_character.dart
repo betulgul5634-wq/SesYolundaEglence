@@ -41,6 +41,8 @@ class _AnimatedDancingCharacterState extends State<AnimatedDancingCharacter>
   final SoundEffectsService _sfx = SoundEffectsService();
 
   bool _isWinking = false;
+  int _trickIndex = 0;
+  String _currentTrickEmoji = '✨ ⭐ 💫';
 
   @override
   void initState() {
@@ -56,10 +58,10 @@ class _AnimatedDancingCharacterState extends State<AnimatedDancingCharacter>
       _idleController.repeat();
     }
 
-    // 2. Dokunulduğunda 360° Takla & Sevinç Zıplaması (600ms)
+    // 2. Dokunulduğunda Çoklu Akrobasi / Trick Döngüsü (650ms)
     _tapReactionController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 600),
+      duration: const Duration(milliseconds: 650),
     );
   }
 
@@ -82,7 +84,27 @@ class _AnimatedDancingCharacterState extends State<AnimatedDancingCharacter>
 
   void _handleTap() {
     if (_tapReactionController.isAnimating) return;
-    _sfx.playPopSound();
+    _trickIndex = (_trickIndex + 1) % 4;
+
+    switch (_trickIndex) {
+      case 0:
+        _currentTrickEmoji = '🌟 360° TAKLA! ✨';
+        _sfx.playSuccessDing();
+        break;
+      case 1:
+        _currentTrickEmoji = '🎉 COŞKULU DANS! 💃';
+        _sfx.playVictoryFanfare();
+        break;
+      case 2:
+        _currentTrickEmoji = '🎵 NEŞELİ SELAM! 💖';
+        _sfx.playPopSound();
+        break;
+      case 3:
+      default:
+        _currentTrickEmoji = '🚀 SÜPER UÇUŞ! ⚡';
+        _sfx.playPowerUpSound();
+        break;
+    }
 
     setState(() {
       _isWinking = true;
@@ -111,17 +133,46 @@ class _AnimatedDancingCharacterState extends State<AnimatedDancingCharacter>
           final t = _idleController.value;
           final tapProgress = _tapReactionController.value;
 
-          // Ritmik Yumuşak Salınım (Kusursuz Simetrik Dikey Yaylanma)
+          // 1. Ritmik Dans: Yaylanma & Sağa-Sola Gövde Salınımı (Groove Tilt & Sway)
           final bounceY = math.sin(t * 2 * math.pi) * (s * 0.04);
+          final idleSwayX = math.cos(t * 2 * math.pi) * (s * 0.02);
+          final idleTilt = math.sin(t * 2 * math.pi) * 0.045;
           final breathingScaleY = 1.0 + math.cos(t * 2 * math.pi) * 0.02;
           final breathingScaleX = 1.0 - math.cos(t * 2 * math.pi) * 0.015;
 
-          // Dokunma zıplaması ve dönüşü
-          final jumpY = tapProgress > 0 ? -math.sin(tapProgress * math.pi) * (s * 0.35) : 0.0;
-          final spinAngle = tapProgress > 0 ? tapProgress * 2 * math.pi : 0.0;
+          // 2. Çoklu Akrobasi / Trick Hareketleri
+          double jumpY = 0.0;
+          double spinAngle = 0.0;
+          double trickTilt = 0.0;
+          double trickScale = 1.0;
+
+          if (tapProgress > 0) {
+            switch (_trickIndex) {
+              case 0: // 360° Takla & Zıplama
+                jumpY = -math.sin(tapProgress * math.pi) * (s * 0.42);
+                spinAngle = tapProgress * 2 * math.pi;
+                break;
+              case 1: // Coşkulu Yan Dans & Zıplama
+                jumpY = -math.sin(tapProgress * math.pi) * (s * 0.28);
+                trickTilt = math.sin(tapProgress * 4 * math.pi) * 0.20;
+                trickScale = 1.0 + math.sin(tapProgress * math.pi) * 0.12;
+                break;
+              case 2: // Saygılı Selam & Baş Eğme
+                jumpY = math.sin(tapProgress * math.pi) * (s * 0.05);
+                trickTilt = -math.sin(tapProgress * math.pi) * 0.14;
+                break;
+              case 3: // Süper Roket Uçuşu & Asılı Kalma
+              default:
+                jumpY = -math.sin(tapProgress * math.pi) * (s * 0.46);
+                trickScale = 1.0 + math.sin(tapProgress * math.pi) * 0.16;
+                break;
+            }
+          }
+
+          final finalAngle = spinAngle + idleTilt + trickTilt;
 
           // Zemin gölgesi ölçeği (Karakter yükseldikçe gölge hafifçe küçülür)
-          final shadowFactor = (1.0 - ((-jumpY - bounceY) / (s * 0.5))).clamp(0.6, 1.1);
+          final shadowFactor = (1.0 - ((-jumpY - bounceY) / (s * 0.5))).clamp(0.55, 1.15);
 
           return SizedBox(
             width: s * 1.35,
@@ -141,54 +192,79 @@ class _AnimatedDancingCharacterState extends State<AnimatedDancingCharacter>
                 if (widget.showShadow)
                   Positioned(
                     bottom: widget.showPedestal ? s * 0.16 : s * 0.04,
-                    child: Transform.scale(
-                      scaleX: shadowFactor,
-                      scaleY: shadowFactor * 0.8,
-                      child: Container(
-                        width: s * 0.75,
-                        height: s * 0.16,
-                        decoration: BoxDecoration(
-                          color: Colors.black.withAlpha(55),
-                          borderRadius: BorderRadius.all(Radius.elliptical(s * 0.75, s * 0.16)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withAlpha(45),
-                              blurRadius: 10,
-                              spreadRadius: 2,
-                            ),
-                          ],
+                    child: Transform.translate(
+                      offset: Offset(idleSwayX * 0.5, 0),
+                      child: Transform.scale(
+                        scaleX: shadowFactor,
+                        scaleY: shadowFactor * 0.8,
+                        child: Container(
+                          width: s * 0.75,
+                          height: s * 0.16,
+                          decoration: BoxDecoration(
+                            color: Colors.black.withAlpha(55),
+                            borderRadius: BorderRadius.all(Radius.elliptical(s * 0.75, s * 0.16)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withAlpha(45),
+                                blurRadius: 10,
+                                spreadRadius: 2,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
 
-                // 3. DOKUNMA YILDIZ EFEKTLERİ
-                if (tapProgress > 0.1 && tapProgress < 0.9)
+                // 3. DOKUNMA YILDIZ & TRICK EFEKT BALONU
+                if (tapProgress > 0.05 && tapProgress < 0.95)
                   Positioned(
                     top: s * 0.02,
-                    child: const Text('✨ ⭐ 💫', style: TextStyle(fontSize: 24)),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withAlpha(210),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: Colors.amberAccent, width: 1.5),
+                        boxShadow: const [
+                          BoxShadow(color: Colors.amber, blurRadius: 10, spreadRadius: 1),
+                        ],
+                      ),
+                      child: Text(
+                        _currentTrickEmoji,
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                   ),
 
                 // 4. KUSURSUZ SİMETRİK 3D KARAKTER FİGÜRÜ
                 Positioned(
                   bottom: (widget.showPedestal ? s * 0.18 : s * 0.06) + bounceY + jumpY,
-                  child: Transform.rotate(
-                    angle: spinAngle,
-                    child: Transform.scale(
-                      scaleX: breathingScaleX,
-                      scaleY: breathingScaleY,
-                      alignment: Alignment.bottomCenter,
-                      child: SizedBox(
-                        width: s * 0.95,
-                        height: s * 1.35,
-                        child: CustomPaint(
-                          size: Size(s * 0.95, s * 1.35),
-                          painter: _SymmetricCharacterPainter(
-                            charId: widget.characterId,
-                            isWinking: _isWinking,
-                            customHat: widget.customHat,
-                            customGlasses: widget.customGlasses,
-                            customProp: widget.customProp,
+                  child: Transform.translate(
+                    offset: Offset(idleSwayX, 0),
+                    child: Transform.rotate(
+                      angle: finalAngle,
+                      child: Transform.scale(
+                        scaleX: breathingScaleX * trickScale,
+                        scaleY: breathingScaleY * trickScale,
+                        alignment: Alignment.bottomCenter,
+                        child: SizedBox(
+                          width: s * 0.95,
+                          height: s * 1.35,
+                          child: CustomPaint(
+                            size: Size(s * 0.95, s * 1.35),
+                            painter: _SymmetricCharacterPainter(
+                              charId: widget.characterId,
+                              isWinking: _isWinking,
+                              danceProgress: t,
+                              customHat: widget.customHat,
+                              customGlasses: widget.customGlasses,
+                              customProp: widget.customProp,
+                            ),
                           ),
                         ),
                       ),
@@ -258,6 +334,7 @@ class _AnimatedDancingCharacterState extends State<AnimatedDancingCharacter>
 class _SymmetricCharacterPainter extends CustomPainter {
   final String charId;
   final bool isWinking;
+  final double danceProgress;
   final String? customHat;
   final String? customGlasses;
   final String? customProp;
@@ -265,6 +342,7 @@ class _SymmetricCharacterPainter extends CustomPainter {
   _SymmetricCharacterPainter({
     required this.charId,
     required this.isWinking,
+    this.danceProgress = 0.0,
     this.customHat,
     this.customGlasses,
     this.customProp,
@@ -297,6 +375,12 @@ class _SymmetricCharacterPainter extends CustomPainter {
         break;
       case 'char_dino':
         _drawDinoRex(canvas, cx, w, h);
+        break;
+      case 'char_korsan':
+        _drawKaptanYanki(canvas, cx, w, h);
+        break;
+      case 'char_astronot':
+        _drawKozmoAstronot(canvas, cx, w, h);
         break;
       case 'char_skater_can':
       default:
@@ -1398,10 +1482,384 @@ class _SymmetricCharacterPainter extends CustomPainter {
     canvas.drawCircle(Offset(cx, mouthY + mouthW * 0.45), mouthW * 0.22, Paint()..color = const Color(0xFFFF80AB));
   }
 
+  // ==========================================
+  // 7. 🏴‍☠️ KAPTAN YANKI (Ritim & Söz Kaptanı)
+  // ==========================================
+  void _drawKaptanYanki(Canvas canvas, double cx, double w, double h) {
+    // 1. ZEMİNDE AHŞAP GEMİ GÜVERTESİ PLATFORMU
+    final deckY = h * 0.92;
+    final deckW = w * 0.84;
+    final deckH = h * 0.08;
+
+    final woodPaint = Paint()
+      ..shader = const LinearGradient(
+        colors: [Color(0xFF8D6E63), Color(0xFF5D4037), Color(0xFF3E2723)],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ).createShader(Rect.fromLTWH(0, 0, w, h));
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromCenter(center: Offset(cx, deckY), width: deckW, height: deckH),
+        const Radius.circular(8),
+      ),
+      woodPaint,
+    );
+
+    // Pirinç Çiviler & Dümen Parıltısı
+    final brassPaint = Paint()..color = const Color(0xFFFFD54F);
+    for (final ox in [-deckW * 0.35, 0.0, deckW * 0.35]) {
+      canvas.drawCircle(Offset(cx + ox, deckY), 3.5, brassPaint);
+    }
+
+    // 2. KORSAN ÇİZMELERİ (Siyah deri ve altın tokalar)
+    final bootY = h * 0.84;
+    final bootPaint = Paint()..color = const Color(0xFF212121);
+    for (final sign in [-1, 1]) {
+      final bx = cx + sign * (w * 0.16);
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(
+          Rect.fromCenter(center: Offset(bx, bootY), width: w * 0.15, height: h * 0.18),
+          const Radius.circular(8),
+        ),
+        bootPaint,
+      );
+      // Altın Toka
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(
+          Rect.fromCenter(center: Offset(bx, bootY + 6), width: w * 0.16, height: 6),
+          const Radius.circular(3),
+        ),
+        brassPaint,
+      );
+    }
+
+    // 3. GÖVDE: Çizgili Denizci Tişörtü & Korsan Ceketi
+    final torsoW = w * 0.50;
+    final torsoH = h * 0.35;
+    final torsoY = h * 0.40;
+
+    // Çizgili Tişört (Kırmızı - Beyaz)
+    final shirtRect = Rect.fromCenter(
+      center: Offset(cx, torsoY + torsoH / 2),
+      width: torsoW,
+      height: torsoH,
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(shirtRect, const Radius.circular(16)),
+      Paint()..color = Colors.white,
+    );
+    final redStripe = Paint()..color = const Color(0xFFE53935);
+    for (int i = 1; i <= 4; i++) {
+      final sy = torsoY + (torsoH / 5) * i;
+      canvas.drawRect(Rect.fromLTWH(cx - torsoW * 0.46, sy, torsoW * 0.92, 4.5), redStripe);
+    }
+
+    // Açık Korsan Yeleği (Lacivert)
+    final vestPaint = Paint()..color = const Color(0xFF1A237E);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(cx - torsoW / 2, torsoY, torsoW * 0.28, torsoH),
+        const Radius.circular(10),
+      ),
+      vestPaint,
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(cx + torsoW / 2 - torsoW * 0.28, torsoY, torsoW * 0.28, torsoH),
+        const Radius.circular(10),
+      ),
+      vestPaint,
+    );
+
+    // Kemer & Altın Dümen Tokası
+    final beltY = torsoY + torsoH * 0.86;
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromCenter(center: Offset(cx, beltY), width: torsoW * 0.98, height: 9),
+        const Radius.circular(4),
+      ),
+      Paint()..color = const Color(0xFF3E2723),
+    );
+    canvas.drawCircle(Offset(cx, beltY), 7.5, brassPaint);
+    canvas.drawCircle(Offset(cx, beltY), 4, Paint()..color = const Color(0xFF1A237E));
+
+    // 4. KOLLAR & KANCA / TELESKOP
+    final armSway = math.sin(danceProgress * 2 * math.pi) * 6;
+    final leftArmX = cx - torsoW * 0.58;
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromCenter(center: Offset(leftArmX, torsoY + torsoH * 0.4 + armSway), width: w * 0.12, height: h * 0.24),
+        const Radius.circular(8),
+      ),
+      vestPaint,
+    );
+    // Altın Kanca
+    final hookPaint = Paint()
+      ..color = const Color(0xFFFFD54F)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3.5
+      ..strokeCap = StrokeCap.round;
+    final hookPath = Path();
+    hookPath.moveTo(leftArmX, torsoY + torsoH * 0.55 + armSway);
+    hookPath.quadraticBezierTo(leftArmX - 10, torsoY + torsoH * 0.65 + armSway, leftArmX - 2, torsoY + torsoH * 0.72 + armSway);
+    canvas.drawPath(hookPath, hookPaint);
+
+    final rightArmX = cx + torsoW * 0.58;
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromCenter(center: Offset(rightArmX, torsoY + torsoH * 0.4 - armSway), width: w * 0.12, height: h * 0.24),
+        const Radius.circular(8),
+      ),
+      vestPaint,
+    );
+    // El & Denizci Teleskobu
+    canvas.drawCircle(Offset(rightArmX, torsoY + torsoH * 0.6 - armSway), 7, Paint()..color = const Color(0xFFFFCC80));
+    final scopePaint = Paint()..color = const Color(0xFFFFB300);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromCenter(center: Offset(rightArmX + 3, torsoY + torsoH * 0.54 - armSway), width: 8, height: 20),
+        const Radius.circular(3),
+      ),
+      scopePaint,
+    );
+
+    // 5. KAFA & SEVİMLİ KORSAN YÜZÜ
+    final headRadius = w * 0.23;
+    final headY = torsoY - headRadius * 0.75;
+    final skinPaint = Paint()..color = const Color(0xFFFFCC80);
+    canvas.drawCircle(Offset(cx, headY), headRadius, skinPaint);
+
+    // Yanak Allıkları
+    final blushPaint = Paint()..color = const Color(0xFFFF8A80).withAlpha(120);
+    canvas.drawCircle(Offset(cx - headRadius * 0.55, headY + 8), 7, blushPaint);
+    canvas.drawCircle(Offset(cx + headRadius * 0.55, headY + 8), 7, blushPaint);
+
+    // GÖZLER: Sol Göz = Siyah Korsan Bandı, Sağ Göz = Pixar Gözü
+    final patchPaint = Paint()..color = const Color(0xFF212121);
+    final patchBand = Paint()
+      ..color = const Color(0xFF212121)
+      ..strokeWidth = 2.5
+      ..style = PaintingStyle.stroke;
+    final eyeSpacing = headRadius * 0.45;
+    canvas.drawLine(Offset(cx - headRadius * 0.9, headY - 4), Offset(cx + headRadius * 0.8, headY + 12), patchBand);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(cx - eyeSpacing, headY), width: 18, height: 16), const Radius.circular(6)),
+      patchPaint,
+    );
+    canvas.drawCircle(Offset(cx - eyeSpacing, headY), 2.5, brassPaint);
+
+    // Sağ Göz
+    final ex = cx + eyeSpacing;
+    if (isWinking) {
+      final winkPaint = Paint()
+        ..color = const Color(0xFF212121)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 3.5
+        ..strokeCap = StrokeCap.round;
+      final wp = Path();
+      wp.moveTo(ex - 7, headY + 2);
+      wp.quadraticBezierTo(ex, headY - 4, ex + 7, headY + 2);
+      canvas.drawPath(wp, winkPaint);
+    } else {
+      canvas.drawCircle(Offset(ex, headY), 9, Paint()..color = Colors.white);
+      canvas.drawCircle(Offset(ex, headY), 6, Paint()..color = const Color(0xFF1A237E));
+      canvas.drawCircle(Offset(ex - 2, headY - 2), 2.8, Paint()..color = Colors.white);
+      canvas.drawCircle(Offset(ex + 2, headY + 2), 1.2, Paint()..color = Colors.white);
+    }
+
+    _drawHappyMouth(canvas, cx, headY + 12, headRadius * 0.55);
+
+    // 6. ÜÇ KÖŞELİ KORSAN ŞAPKASI & RENKLİ PAPAĞAN TÜYÜ
+    final hatTopY = headY - headRadius * 0.65;
+    final hatPaint = Paint()..color = const Color(0xFF212121);
+    final hatPath = Path();
+    hatPath.moveTo(cx - headRadius * 1.35, hatTopY + 8);
+    hatPath.quadraticBezierTo(cx - headRadius * 0.7, hatTopY - 26, cx, hatTopY - 22);
+    hatPath.quadraticBezierTo(cx + headRadius * 0.7, hatTopY - 26, cx + headRadius * 1.35, hatTopY + 8);
+    hatPath.quadraticBezierTo(cx, hatTopY - 4, cx - headRadius * 1.35, hatTopY + 8);
+    hatPath.close();
+    canvas.drawPath(hatPath, hatPaint);
+
+    final goldTrim = Paint()
+      ..color = const Color(0xFFFFD54F)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3.0;
+    canvas.drawPath(hatPath, goldTrim);
+
+    canvas.drawCircle(Offset(cx, hatTopY - 12), 6.5, brassPaint);
+    canvas.drawCircle(Offset(cx, hatTopY - 12), 3.5, Paint()..color = const Color(0xFFD32F2F));
+
+    // Renkli Papağan Tüyü
+    final featherPath = Path();
+    final featherSway = math.sin(danceProgress * 2 * math.pi) * 3;
+    featherPath.moveTo(cx - headRadius * 0.6, hatTopY - 14);
+    featherPath.quadraticBezierTo(cx - headRadius * 0.9 + featherSway, hatTopY - 38, cx - headRadius * 0.75 + featherSway, hatTopY - 44);
+    featherPath.quadraticBezierTo(cx - headRadius * 0.5 + featherSway, hatTopY - 32, cx - headRadius * 0.45, hatTopY - 14);
+    featherPath.close();
+    canvas.drawPath(featherPath, Paint()..color = const Color(0xFFFF5722));
+    canvas.drawCircle(Offset(cx - headRadius * 0.68 + featherSway, hatTopY - 34), 4, Paint()..color = const Color(0xFFFFD54F));
+  }
+
+  // ==========================================
+  // 8. 👨‍🚀 UZAY KAŞİFİ KOZMO (Galaksi Ses Pilotu)
+  // ==========================================
+  void _drawKozmoAstronot(Canvas canvas, double cx, double w, double h) {
+    // 1. ZEMİNDE NEON İYON HALKASI PLATFORMU
+    final moonY = h * 0.92;
+    final moonW = w * 0.85;
+    final moonH = h * 0.08;
+
+    final cyanPaint = Paint()
+      ..shader = const RadialGradient(
+        colors: [Color(0xFF00E5FF), Color(0xFF0D47A1), Colors.transparent],
+      ).createShader(Rect.fromCenter(center: Offset(cx, moonY), width: moonW, height: moonH * 2));
+    canvas.drawOval(Rect.fromCenter(center: Offset(cx, moonY), width: moonW, height: moonH), cyanPaint);
+
+    // 2. ASTRONOT ÇİZMELERİ (Tıknaz beyaz uzay botları & mavi taban)
+    final bootY = h * 0.85;
+    final suitWhite = Paint()..color = const Color(0xFFF5F5F5);
+    final techBlue = Paint()..color = const Color(0xFF1E88E5);
+    final neonCyan = Paint()..color = const Color(0xFF00E5FF);
+    final safetyOrange = Paint()..color = const Color(0xFFFF9800);
+
+    for (final sign in [-1, 1]) {
+      final bx = cx + sign * (w * 0.17);
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(bx, bootY), width: w * 0.17, height: h * 0.17), const Radius.circular(8)),
+        suitWhite,
+      );
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(bx, bootY + 8), width: w * 0.18, height: 7), const Radius.circular(4)),
+        techBlue,
+      );
+      canvas.drawCircle(Offset(bx, bootY - 3), 3, safetyOrange);
+    }
+
+    // 3. İKİZ JETPACK & PLAZMA ALEVİ
+    final jetpackY = h * 0.44;
+    final flamePulse = 6 + math.sin(danceProgress * 4 * math.pi) * 4;
+    for (final sign in [-1, 1]) {
+      final jx = cx + sign * (w * 0.32);
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(jx, jetpackY), width: w * 0.14, height: h * 0.30), const Radius.circular(8)),
+        Paint()..color = const Color(0xFFCFD8DC),
+      );
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(jx, jetpackY - 14), width: w * 0.12, height: 6), const Radius.circular(3)),
+        safetyOrange,
+      );
+      // Roket Plazma Alevi
+      final flamePath = Path();
+      flamePath.moveTo(jx - 7, jetpackY + h * 0.15);
+      flamePath.lineTo(jx, jetpackY + h * 0.15 + flamePulse);
+      flamePath.lineTo(jx + 7, jetpackY + h * 0.15);
+      flamePath.close();
+      canvas.drawPath(flamePath, Paint()..color = const Color(0xFFFF9800));
+      canvas.drawCircle(Offset(jx, jetpackY + h * 0.15 + flamePulse * 0.5), 3, neonCyan);
+    }
+
+    // 4. ASTRONOT TULUMU (Beyaz & Mavi Gövde)
+    final torsoW = w * 0.54;
+    final torsoH = h * 0.36;
+    final torsoY = h * 0.39;
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(cx, torsoY + torsoH / 2), width: torsoW, height: torsoH), const Radius.circular(18)),
+      suitWhite,
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(Rect.fromLTWH(cx - torsoW * 0.44, torsoY + 4, torsoW * 0.88, 7), const Radius.circular(3)),
+      techBlue,
+    );
+
+    // Göğüs Ses Frekansı Ekranı (Cyan LED Display)
+    final displayRect = Rect.fromCenter(center: Offset(cx, torsoY + torsoH * 0.48), width: torsoW * 0.56, height: 26);
+    canvas.drawRRect(RRect.fromRectAndRadius(displayRect, const Radius.circular(8)), Paint()..color = const Color(0xFF102027));
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(displayRect, const Radius.circular(8)),
+      Paint()..color = const Color(0xFF00E5FF)..style = PaintingStyle.stroke..strokeWidth = 1.8,
+    );
+    for (int i = 0; i < 5; i++) {
+      final barX = cx - 18 + (i * 9);
+      final barH = 5 + (math.sin((danceProgress * 2 * math.pi) + (i * 1.2)).abs() * 12);
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(barX, torsoY + torsoH * 0.48), width: 4.5, height: barH), const Radius.circular(2)),
+        (i % 2 == 0) ? neonCyan : safetyOrange,
+      );
+    }
+
+    // Emniyet Kemeri
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(cx, torsoY + torsoH * 0.88), width: torsoW * 0.95, height: 8), const Radius.circular(4)),
+      Paint()..color = const Color(0xFF90A4AE),
+    );
+    canvas.drawCircle(Offset(cx - 16, torsoY + torsoH * 0.88), 5, safetyOrange);
+    canvas.drawCircle(Offset(cx + 16, torsoY + torsoH * 0.88), 5, neonCyan);
+
+    // 5. KOLLAR & UZAY ELDİVENLERİ
+    final armSway = math.sin(danceProgress * 2 * math.pi) * 7;
+    for (final sign in [-1, 1]) {
+      final ax = cx + sign * (torsoW * 0.58);
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(ax, torsoY + torsoH * 0.4 + (sign * armSway)), width: w * 0.13, height: h * 0.25), const Radius.circular(8)),
+        suitWhite,
+      );
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(ax, torsoY + torsoH * 0.62 + (sign * armSway)), width: w * 0.14, height: 16), const Radius.circular(6)),
+        techBlue,
+      );
+      canvas.drawCircle(Offset(ax, torsoY + torsoH * 0.62 + (sign * armSway)), 4, neonCyan);
+    }
+
+    // 6. DEV PARLAK ASTRONOT KASKI (Bubble Space Helmet)
+    final helmetRadius = w * 0.28;
+    final helmetY = torsoY - helmetRadius * 0.62;
+    canvas.drawCircle(Offset(cx, helmetY), helmetRadius, suitWhite);
+    canvas.drawCircle(
+      Offset(cx, helmetY),
+      helmetRadius,
+      Paint()
+        ..color = const Color(0xFF1E88E5)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 3.5,
+    );
+
+    // Kask İletişim Anteni
+    final antX = cx + helmetRadius * 0.88;
+    canvas.drawLine(
+      Offset(antX, helmetY - 5),
+      Offset(antX + 8, helmetY - 22),
+      Paint()..color = const Color(0xFF78909C)..strokeWidth = 3.0,
+    );
+    canvas.drawCircle(Offset(antX + 8, helmetY - 22), 4.5, neonCyan);
+
+    // Kask İçi Koyu Uzay Vizörü
+    final visorRadius = helmetRadius * 0.80;
+    canvas.drawCircle(Offset(cx, helmetY), visorRadius, Paint()..color = const Color(0xFF0F172A));
+
+    // Vizör İçinde Gülen Sevimli Yüz
+    final faceY = helmetY + 2;
+    canvas.drawCircle(Offset(cx, faceY), visorRadius * 0.65, Paint()..color = const Color(0xFFFFCC80));
+
+    // Pixar Gözleri
+    _drawPixarEyes(canvas, cx, faceY - 2, 8, isWinking);
+    // Güler Ağız
+    _drawHappyMouth(canvas, cx, faceY + 11, visorRadius * 0.45);
+
+    // Vizör Cam Parlaması
+    final glassGlare = Paint()
+      ..color = Colors.white.withAlpha(90)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 4.0;
+    final glarePath = Path();
+    glarePath.addArc(Rect.fromCircle(center: Offset(cx, helmetY), radius: visorRadius * 0.85), -2.2, 1.4);
+    canvas.drawPath(glarePath, glassGlare);
+  }
+
   @override
   bool shouldRepaint(covariant _SymmetricCharacterPainter oldDelegate) =>
       oldDelegate.charId != charId ||
       oldDelegate.isWinking != isWinking ||
+      oldDelegate.danceProgress != danceProgress ||
       oldDelegate.customHat != customHat ||
       oldDelegate.customGlasses != customGlasses ||
       oldDelegate.customProp != customProp;

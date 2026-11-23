@@ -65,6 +65,30 @@ const List<SubwayCharacter> kSubwayCharacters = [
     gradientColors: [Color(0xFFFFD600), Color(0xFFFF6D00), Color(0xFFDD2C00)],
     ability: 'Altın Pelerin & Süper Ses Gücü 🏆',
   ),
+  SubwayCharacter(
+    id: 'char_dino',
+    name: 'DİNO DİDİ',
+    title: 'Neşeli Dansçı Yavru Ejder 🦖',
+    avatarEmoji: '🦖',
+    gradientColors: [Color(0xFF66BB6A), Color(0xFF2E7D32), Color(0xFF1B5E20)],
+    ability: 'Dinozor Kükremesi & Güçlü Diyafram 🐾',
+  ),
+  SubwayCharacter(
+    id: 'char_korsan',
+    name: 'KAPTAN YANKI',
+    title: 'Uzak Denizlerin Ritim Kaptanı 🏴‍☠️',
+    avatarEmoji: '🏴‍☠️',
+    gradientColors: [Color(0xFFD32F2F), Color(0xFF1A237E), Color(0xFF212121)],
+    ability: 'Korsan Narası & Güçlü Yankı Ritmi ⚓',
+  ),
+  SubwayCharacter(
+    id: 'char_astronot',
+    name: 'UZAY KAŞİFİ KOZMO',
+    title: 'Galaksi Ses & Frekans Pilotu 🚀',
+    avatarEmoji: '👨‍🚀',
+    gradientColors: [Color(0xFF00E5FF), Color(0xFF1E88E5), Color(0xFF0D47A1)],
+    ability: 'Yerçekimsiz Ses Süzülüşü & Radyo Netliği 🪐',
+  ),
 ];
 
 /// Subway Surfers Tarzı Dev Karakter Açılış ve Ödül Ekranı

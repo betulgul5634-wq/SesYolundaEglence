@@ -120,31 +120,31 @@ const List<SubwayRosterCharacter> kSubwayRoster = [
   ),
   SubwayRosterCharacter(
     id: 'char_korsan',
-    name: 'KAPTAN KORSAN',
-    title: 'Yedi Denizlerin Söz Kaptanı 🏴‍☠️',
+    name: 'KAPTAN YANKI',
+    title: 'Uzak Denizlerin Ritim Kaptanı 🏴‍☠️',
     avatarEmoji: '🏴‍☠️',
-    ability: 'Korsan Narası & Cesur Telaffuz ⚓',
+    ability: 'Korsan Narası & Güçlü Yankı Ritmi ⚓',
     requiredStage: 7,
     requiredStars: 60,
     speed: 86,
-    rhythm: 89,
+    rhythm: 92,
     articulation: 91,
     power: 95,
-    themeColors: [Color(0xFFD32F2F), Color(0xFF4E342E)],
+    themeColors: [Color(0xFFD32F2F), Color(0xFF1A237E)],
   ),
   SubwayRosterCharacter(
     id: 'char_astronot',
-    name: 'YILDIZ ASTRONOTU',
-    title: 'Yıldızlararası Uzay Kaşifi 👩‍🚀',
-    avatarEmoji: '👩‍🚀',
-    ability: 'Yerçekimsiz Söz Süzülüşü & Radyo Netliği 🪐',
+    name: 'UZAY KAŞİFİ KOZMO',
+    title: 'Galaksi Ses & Frekans Pilotu 🚀',
+    avatarEmoji: '👨‍🚀',
+    ability: 'Yerçekimsiz Ses Süzülüşü & Radyo Netliği 🪐',
     requiredStage: 8,
     requiredStars: 75,
-    speed: 92,
-    rhythm: 94,
+    speed: 94,
+    rhythm: 95,
     articulation: 98,
-    power: 97,
-    themeColors: [Color(0xFF00E5FF), Color(0xFF78909C)],
+    power: 99,
+    themeColors: [Color(0xFF00E5FF), Color(0xFF1E88E5)],
   ),
 ];
 
@@ -200,16 +200,113 @@ class _SubwayCharacterHubDialogState extends State<SubwayCharacterHubDialog> {
       widget.rewardState.unlockCharacter(c.id);
       widget.rewardState.equipCharacter(c.id, c.name, c.avatarEmoji);
       setState(() {});
-    } else {
-      _sfx.playPop();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('🔒 Bu karakter için ${c.requiredStars} Yıldız veya Aşama ${c.requiredStage} tamamlanmalı! (Şu an: ${widget.rewardState.totalStars} Yıldız)'),
-          backgroundColor: Colors.redAccent,
+          content: Text('🎉 ${c.name} KİLİDİ AÇILDI VE KUŞANILDI!'),
+          backgroundColor: c.themeColors.first,
           behavior: SnackBarBehavior.floating,
         ),
       );
+    } else {
+      _sfx.playPopSound();
+      _showHowToEarnDialog(c);
     }
+  }
+
+  void _showHowToEarnDialog(SubwayRosterCharacter c) {
+    final remaining = (c.requiredStars - widget.rewardState.totalStars).clamp(1, 999);
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: const Color(0xFF1E293B),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        title: Row(
+          children: [
+            const Text('🌟', style: TextStyle(fontSize: 24)),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                '${c.name} Nasıl Kazanılır?',
+                style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w900),
+              ),
+            ),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.white.withAlpha(12),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Colors.amberAccent.withAlpha(120)),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.stars_rounded, color: Colors.amberAccent, size: 28),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      'Şu an $remaining yıldıza daha ihtiyacın var.\n(Mevcut: ${widget.rewardState.totalStars} / ${c.requiredStars} ⭐)',
+                      style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 14),
+            const Text(
+              '🎯 Yıldız Kazanma Adımları:',
+              style: TextStyle(color: Colors.amberAccent, fontWeight: FontWeight.w900, fontSize: 13),
+            ),
+            const SizedBox(height: 8),
+            _buildGuideStep('1', 'Ana sayfadan Ses Yolculuğu haritasına veya ses alıştırmalarına gir.'),
+            _buildGuideStep('2', 'Mikrofon butonuna basıp ekrandaki kelimeleri net bir sesle tekrar et.'),
+            _buildGuideStep('3', 'Her doğru telaffuzda 1 ila 3 Altın Yıldız kazanacaksın!'),
+            _buildGuideStep('4', 'Veya haritada ${c.requiredStage}. Ses Seviyesini tamamladığında bu kahraman sana ÜCRETSİZ hediye edilecek!'),
+          ],
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () => Navigator.pop(ctx),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.amber.shade700,
+              foregroundColor: Colors.black87,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+            ),
+            child: const Text('Anladım, Pratiğe Başla! 🚀', style: TextStyle(fontWeight: FontWeight.w900)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGuideStep(String num, String text) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 20,
+            height: 20,
+            decoration: const BoxDecoration(
+              color: Colors.amberAccent,
+              shape: BoxShape.circle,
+            ),
+            child: Center(
+              child: Text(num, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w900, fontSize: 11)),
+            ),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(text, style: const TextStyle(color: Colors.white70, fontSize: 12, height: 1.3)),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -383,25 +480,28 @@ class _SubwayCharacterHubDialogState extends State<SubwayCharacterHubDialog> {
                             },
                           ),
 
-                          // Eğer Kilitliyse Kilit Rozeti
+                          // Eğer Kilitliyse Kilit Rozeti (Yıldız & Aşama Bilgisi)
                           if (!unlocked)
                             Positioned(
-                              top: 20,
-                              right: 30,
+                              top: 16,
+                              right: 20,
                               child: Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                                 decoration: BoxDecoration(
-                                  color: Colors.black.withAlpha(200),
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(color: Colors.redAccent, width: 2),
+                                  color: Colors.black.withAlpha(220),
+                                  borderRadius: BorderRadius.circular(14),
+                                  border: Border.all(color: Colors.amberAccent, width: 2),
+                                  boxShadow: const [
+                                    BoxShadow(color: Colors.black45, blurRadius: 6, offset: Offset(0, 2)),
+                                  ],
                                 ),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    const Icon(Icons.lock_rounded, color: Colors.redAccent, size: 16),
+                                    const Icon(Icons.stars_rounded, color: Colors.amberAccent, size: 16),
                                     const SizedBox(width: 4),
                                     Text(
-                                      'Aşama ${c.requiredStage}',
+                                      '${c.requiredStars} ⭐ veya Aşama ${c.requiredStage}',
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 12,
@@ -446,6 +546,101 @@ class _SubwayCharacterHubDialogState extends State<SubwayCharacterHubDialog> {
                         ),
                       ),
                     ),
+
+                    // EĞER KİLİTLİYSE: BU KAHRAMAN NASIL KAZANILIR? (Rehber Kutusu)
+                    if (!unlocked) ...[
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [Color(0xFF1E293B), Color(0xFF0F172A)],
+                            ),
+                            borderRadius: BorderRadius.circular(18),
+                            border: Border.all(color: Colors.amberAccent.withAlpha(160), width: 1.5),
+                            boxShadow: const [
+                              BoxShadow(color: Colors.black38, blurRadius: 8, offset: Offset(0, 2)),
+                            ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  const Icon(Icons.emoji_events_rounded, color: Colors.amberAccent, size: 18),
+                                  const SizedBox(width: 6),
+                                  const Text(
+                                    'BU KAHRAMAN NASIL KAZANILIR?',
+                                    style: TextStyle(
+                                      color: Colors.amberAccent,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w900,
+                                      letterSpacing: 0.5,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: Colors.black45,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Text(
+                                      '${widget.rewardState.totalStars} / ${c.requiredStars} ⭐',
+                                      style: const TextStyle(
+                                        color: Colors.amberAccent,
+                                        fontWeight: FontWeight.w900,
+                                        fontSize: 11,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(6),
+                                child: LinearProgressIndicator(
+                                  value: (widget.rewardState.totalStars / (c.requiredStars == 0 ? 1 : c.requiredStars)).clamp(0.0, 1.0),
+                                  minHeight: 8,
+                                  backgroundColor: Colors.white12,
+                                  valueColor: const AlwaysStoppedAnimation<Color>(Colors.amberAccent),
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text('⭐', style: TextStyle(fontSize: 13)),
+                                  const SizedBox(width: 6),
+                                  Expanded(
+                                    child: Text(
+                                      '1. Yol: ${c.requiredStars} Yıldız topla. (Kelimeleri söyledikçe yıldız kazanırsın)',
+                                      style: const TextStyle(color: Colors.white70, fontSize: 11, height: 1.2),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 4),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text('🗺️', style: TextStyle(fontSize: 13)),
+                                  const SizedBox(width: 6),
+                                  Expanded(
+                                    child: Text(
+                                      '2. Yol: Haritada ${c.requiredStage}. Ses Seviyesini bitir, ücretsiz hediye açılsın!',
+                                      style: const TextStyle(color: Colors.white70, fontSize: 11, height: 1.2),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
 
                     const SizedBox(height: 14),
 
@@ -522,7 +717,7 @@ class _SubwayCharacterHubDialogState extends State<SubwayCharacterHubDialog> {
                                   child: const Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text('🛹', style: TextStyle(fontSize: 20)),
+                                      Text('🌟', style: TextStyle(fontSize: 20)),
                                       SizedBox(width: 8),
                                       Text(
                                         'KARAKTERİ KUŞAN!',
@@ -538,24 +733,38 @@ class _SubwayCharacterHubDialogState extends State<SubwayCharacterHubDialog> {
                               : ElevatedButton(
                                   onPressed: () => _unlockWithStars(c),
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF424242),
-                                    foregroundColor: Colors.white70,
+                                    backgroundColor: widget.rewardState.totalStars >= c.requiredStars
+                                        ? const Color(0xFFFFB300)
+                                        : const Color(0xFF334155),
+                                    foregroundColor: widget.rewardState.totalStars >= c.requiredStars
+                                        ? Colors.black87
+                                        : Colors.white,
                                     minimumSize: const Size(double.infinity, 52),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20),
                                     ),
-                                    elevation: 2,
+                                    elevation: widget.rewardState.totalStars >= c.requiredStars ? 6 : 2,
                                   ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      const Icon(Icons.lock_outline_rounded, size: 18),
+                                      Icon(
+                                        widget.rewardState.totalStars >= c.requiredStars
+                                            ? Icons.lock_open_rounded
+                                            : Icons.help_outline_rounded,
+                                        size: 20,
+                                        color: widget.rewardState.totalStars >= c.requiredStars
+                                            ? Colors.black87
+                                            : Colors.amberAccent,
+                                      ),
                                       const SizedBox(width: 8),
                                       Text(
-                                        'KİLİTLİ (Aşama ${c.requiredStage} veya ${c.requiredStars} ⭐)',
+                                        widget.rewardState.totalStars >= c.requiredStars
+                                            ? '🌟 ${c.requiredStars} YILDIZ İLE KİLİDİ AÇ!'
+                                            : '🔒 ${(c.requiredStars - widget.rewardState.totalStars).clamp(1, 999)} ⭐ DAHA GEREKLİ (Nasıl Kazanılır?)',
                                         style: const TextStyle(
                                           fontSize: 13,
-                                          fontWeight: FontWeight.w800,
+                                          fontWeight: FontWeight.w900,
                                         ),
                                       ),
                                     ],
