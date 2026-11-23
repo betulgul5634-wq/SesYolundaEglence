@@ -505,7 +505,7 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                   TextField(
                     controller: _loginEmailCtrl,
                     decoration: InputDecoration(
-                      labelText: 'Kurumsal E-posta',
+                      labelText: 'E-posta Adresi',
                       labelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
                       prefixIcon: const Icon(Icons.email_outlined, size: 18),
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
@@ -535,7 +535,7 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                         if (email.isEmpty || pass.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Lütfen kurumsal e-posta ve şifrenizi giriniz.'),
+                              content: Text('Lütfen e-posta ve şifrenizi giriniz.'),
                               backgroundColor: Colors.orangeAccent,
                             ),
                           );
@@ -661,7 +661,7 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                   TextField(
                     controller: _regEmailCtrl,
                     decoration: InputDecoration(
-                      labelText: 'Kurumsal E-posta',
+                      labelText: 'E-posta Adresi',
                       labelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
                       prefixIcon: const Icon(Icons.email_outlined, size: 18),
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),

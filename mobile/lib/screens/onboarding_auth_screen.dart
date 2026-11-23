@@ -964,13 +964,13 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
         ],
         const SizedBox(height: 10),
 
-        const Text('Kurumsal E-Posta Adresi:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
+        const Text('E-Posta Adresi:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
         const SizedBox(height: 4),
         TextField(
           controller: _therapistEmailCtrl,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
-            hintText: 'Kurumsal e-posta adresi',
+            hintText: 'E-posta adresiniz',
             prefixIcon: const Icon(Icons.alternate_email_rounded, size: 18),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
@@ -1090,7 +1090,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
     }
     if (email.isEmpty || pass.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Lütfen kurumsal e-posta ve şifrenizi giriniz.')),
+        const SnackBar(content: Text('Lütfen e-posta ve şifrenizi giriniz.')),
       );
       return;
     }
@@ -1268,12 +1268,12 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
         ),
         const Divider(height: 20),
 
-        const Text('Kurumsal E-Posta Adresi:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
+        const Text('E-Posta Adresi:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
         const SizedBox(height: 4),
         TextField(
           controller: _loginTherapistEmailCtrl,
           decoration: InputDecoration(
-            hintText: 'Kurumsal e-posta adresiniz',
+            hintText: 'E-posta adresiniz',
             prefixIcon: const Icon(Icons.email_outlined, size: 18),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
@@ -1309,7 +1309,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
               if (email.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: Text('⚠️ Lütfen terapist e-posta adresinizi giriniz.'),
+                    content: Text('⚠️ Lütfen e-posta adresinizi giriniz.'),
                     backgroundColor: Colors.orangeAccent,
                   ),
                 );
