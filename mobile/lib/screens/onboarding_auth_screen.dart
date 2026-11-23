@@ -49,7 +49,6 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
   // ── DKT Terapist Kayıt Kontrolcüleri ──
   final TextEditingController _therapistNameCtrl = TextEditingController();
   final TextEditingController _clinicNameCtrl = TextEditingController();
-  final TextEditingController _therapistTcCtrl = TextEditingController();
   final TextEditingController _edevletDocCtrl = TextEditingController();
   final TextEditingController _therapistEmailCtrl = TextEditingController();
   final TextEditingController _therapistPassCtrl = TextEditingController();
@@ -89,7 +88,6 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
     _childTherapistCodeCtrl.dispose();
     _therapistNameCtrl.dispose();
     _clinicNameCtrl.dispose();
-    _therapistTcCtrl.dispose();
     _edevletDocCtrl.dispose();
     _therapistEmailCtrl.dispose();
     _therapistPassCtrl.dispose();
@@ -868,24 +866,6 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
           decoration: InputDecoration(
             hintText: 'Klinik veya Çalıştığınız Kurum Adı',
             prefixIcon: const Icon(Icons.apartment_rounded, size: 20),
-            filled: true,
-            fillColor: const Color(0xFFF8FAFC),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-          ),
-        ),
-        const SizedBox(height: 10),
-
-        const Text('T.C. Kimlik No:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
-        const SizedBox(height: 4),
-        TextField(
-          controller: _therapistTcCtrl,
-          keyboardType: TextInputType.number,
-          maxLength: 11,
-          decoration: InputDecoration(
-            hintText: '11 Haneli T.C. Kimlik No',
-            prefixIcon: const Icon(Icons.credit_card_rounded, size: 20),
-            counterText: '',
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
