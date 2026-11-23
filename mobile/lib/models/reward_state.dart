@@ -616,28 +616,44 @@ class RewardState extends ChangeNotifier {
 
   Set<String> get unlockedBadges {
     final set = Set<String>.from(_unlockedBadges);
-    // Konuşma & Telaffuz
+    // Konuşma & Telaffuz (8 Rozet)
     if (effectivePracticedWords >= 1) set.add('ses_roket');
+    if (effectivePracticedWords >= 5) set.add('fonem_dedektifi');
     if (effectivePracticedWords >= 10) set.add('kelime_ciragi');
-    if (effectivePracticedWords >= 30) set.add('artikulasyon_avcisi');
+    if (effectivePracticedWords >= 25) set.add('artikulasyon_avcisi');
+    if (effectivePracticedWords >= 40) set.add('cumle_mimari');
     if (effectivePracticedWords >= 60) set.add('buyuk_usta');
+    if (effectivePracticedWords >= 80) set.add('masal_anlaticisi');
+    if (effectivePracticedWords >= 100) set.add('kelime_efsanesi');
 
-    // Yıldız & Harita
+    // Yıldız & Harita Aşamaları (10 Rozet)
     if (_totalStars >= 3) set.add('ilk_yildiz');
     if (_totalStars >= 15) set.add('yildiz_koleksiyoncusu');
     if (_totalStars >= 30) set.add('yildiz_sampiyonu');
+    if (_totalStars >= 60) set.add('galaksi_yildizi');
+    if (_totalStars >= 100) set.add('yildiz_imparatoru');
     if (completedStagesCount >= 3) set.add('ses_yolcusu');
-    if (completedStagesCount >= 7) set.add('harita_fatihi');
+    if (completedStagesCount >= 6) set.add('harita_kasifi');
+    if (completedStagesCount >= 10) set.add('harita_fatihi');
+    if (completedStagesCount >= 15) set.add('ses_fatihi_15');
+    if (completedStagesCount >= 20) set.add('ses_ustasi_20');
 
-    // Günlük Seri & Alışkanlık
+    // Günlük Seri & Alışkanlık (6 Rozet)
     if (_streakDays >= 1) set.add('ilk_adim');
     if (_streakDays >= 3) set.add('atesli_seri');
     if (_streakDays >= 7) set.add('sonmeyen_mesale');
+    if (_streakDays >= 14) set.add('altin_disiplin');
+    if (_streakDays >= 30) set.add('efsanevi_seri');
+    if (_practicedDates.length >= 5) set.add('istikrar_kahramani');
 
-    // Klinik Araçlar & Diğer Başarılar
+    // Oyun, Macera & Koleksiyon (8 Rozet)
     if (_questMirrorCount >= 1) set.add('ayna_kasifi');
+    if (_questMiniGamesCount >= 3) set.add('canavar_avcisi');
+    if (_unlockedStickers.isNotEmpty) set.add('cikartma_cirak');
     if (_unlockedStickers.length >= 5) set.add('cikartma_koleksiyoneri');
+    if (_unlockedStickers.length >= 12) set.add('buyuk_album');
     if (_xp >= 150) set.add('lig_sampiyonu');
+    if (_xp >= 400) set.add('lig_efsanesi');
     if (_gems >= 250) set.add('elmas_zengini');
     return set;
   }
