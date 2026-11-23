@@ -72,7 +72,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _stages = List.from(kBookStages);
+    // 👄 Erken Edinim Çift Dudak Sesleri Hiyerarşisi (/p/, /b/, /m/)
+    // /m/ sesini /b/'nin hemen ardına (3. durak) alarak misafir ve çocuklara doğal dudak sırası sunuyoruz
+    final mStage = kBookStages.firstWhere((s) => s.phoneme == '/m/');
+    final otherStages = kBookStages.where((s) => s.phoneme != '/m/').toList();
+    otherStages.insert(2, mStage);
+    _stages = otherStages;
+
     _mascotBounceController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1200),
@@ -134,9 +140,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  /// 🔒 Misafir Modu Kısıt Kontrolü: Yalnızca Çift Dudak sesleri (/p/, /b/, /m/) açıktır
+  bool _isStageLockedForGuest(SoundStage stage) {
+    if (!_rewardState.isGuest) return false;
+    const allowed = {'/p/', '/b/', '/m/'};
+    return !allowed.contains(stage.phoneme);
+  }
+
   void _openPractice(SoundStage stage, int index) async {
     // 🔒 Misafir Modu Kısıtlaması: İlk 3 ses durağı (/p/, /b/, /m/) denenebilir
-    if (_rewardState.isGuest && index >= 3) {
+    if (_isStageLockedForGuest(stage)) {
       _showGuestRestrictionDialog(context, featureName: '${stage.phoneme} Sesi');
       return;
     }
@@ -1325,7 +1338,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             color: isSelected ? Colors.white : themeCol,
                                           ),
                                         ),
-                                        if (_rewardState.isGuest && globalIndex >= 3) ...[
+                                        if (_isStageLockedForGuest(stage)) ...[
                                           const SizedBox(width: 3),
                                           const Text('🔒', style: TextStyle(fontSize: 10)),
                                         ],
@@ -1545,13 +1558,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ),
                 const SizedBox(width: 6),
                 Text(
-                  (_rewardState.isGuest && index >= 3)
+                  _isStageLockedForGuest(stage)
                       ? '🔒 Kilitli'
                       : '⭐ ${stage.starsCollected}/15',
                   style: TextStyle(
                     fontWeight: FontWeight.w800,
                     fontSize: 12,
-                    color: (_rewardState.isGuest && index >= 3) ? const Color(0xFFEF4444) : const Color(0xFFFF9600),
+                    color: _isStageLockedForGuest(stage) ? const Color(0xFFEF4444) : const Color(0xFFFF9600),
                   ),
                 ),
               ],
@@ -1623,7 +1636,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ),
                   ),
                 ),
-                if (_rewardState.isGuest && index >= 3)
+                if (_isStageLockedForGuest(stage))
                   Positioned(
                     top: 2,
                     right: 4,
