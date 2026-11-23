@@ -198,7 +198,7 @@ class RewardState extends ChangeNotifier {
         _profiles.add(StudentProfile(
           id: 'profile_1',
           name: 'Can',
-          avatar: '👦',
+          avatar: '⭐',
           gems: _gems,
           hearts: _hearts,
           totalStars: _totalStars,
@@ -541,7 +541,7 @@ class RewardState extends ChangeNotifier {
   }
 
   final Set<String> _unlockedBadges = {'ilk_adim', 'kelime_avcisi', 'ses_kesfi', 'yildiz_koleksiyoncusu'};
-  String _activeAvatar = '👦';
+  String _activeAvatar = '⭐';
   String _activeCharacterName = 'SÜPER KAHRAMAN CAN';
   String _activeCharacterId = 'char_skater_can';
   final Set<String> _unlockedCharacters = {'char_skater_can', 'char_ninja', 'char_dino'};

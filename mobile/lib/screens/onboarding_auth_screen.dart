@@ -41,7 +41,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
   final TextEditingController _childPasswordCtrl = TextEditingController();
   final TextEditingController _childTherapistCodeCtrl = TextEditingController();
   int _childAge = 6;
-  String _selectedChildAvatar = '👦';
+  String _selectedChildAvatar = '⭐';
 
   // ── DKT Terapist Kayıt Kontrolcüleri ──
   final TextEditingController _therapistNameCtrl = TextEditingController();
@@ -62,7 +62,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
   final TextEditingController _loginTherapistEmailCtrl = TextEditingController();
   final TextEditingController _loginTherapistPassCtrl = TextEditingController();
 
-  final List<String> _avatars = ['👦', '👧', '🧒', '🦁', '🐼', '🚀', '🦄', '🐱', '⚽', '🎨'];
+  final List<String> _avatars = ['⭐', '🚀', '🎨', '🦁', '🐼', '🦄', '🐱', '⚽', '🧒', '👧'];
   final List<int> _ages = [4, 5, 6, 7, 8, 9, 10, 11, 12];
 
   @override
@@ -410,7 +410,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('🧒', style: TextStyle(fontSize: 17)),
+                    const Text('⭐', style: TextStyle(fontSize: 17)),
                     const SizedBox(width: 6),
                     Text(
                       _mainMode == 'register' ? 'Danışan / Öğrenci Kaydı' : 'Danışan Girişi',
@@ -444,7 +444,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('👨‍⚕️', style: TextStyle(fontSize: 17)),
+                    const Text('🗣️', style: TextStyle(fontSize: 17)),
                     const SizedBox(width: 6),
                     Text(
                       _mainMode == 'register' ? 'DKT (Terapist) Kaydı' : 'DKT Girişi',
@@ -503,7 +503,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
             Container(
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(color: const Color(0xFFDCFCE7), borderRadius: BorderRadius.circular(10)),
-              child: const Text('🧒', style: TextStyle(fontSize: 18)),
+              child: const Text('⭐', style: TextStyle(fontSize: 18)),
             ),
             const SizedBox(width: 8),
             const Expanded(
@@ -718,7 +718,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
             Container(
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(color: const Color(0xFFE0F2FE), borderRadius: BorderRadius.circular(10)),
-              child: const Text('👨‍⚕️', style: TextStyle(fontSize: 18)),
+              child: const Text('🗣️', style: TextStyle(fontSize: 18)),
             ),
             const SizedBox(width: 8),
             const Expanded(
@@ -995,7 +995,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
     _sfx.playVictoryFanfare();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('👨‍⚕️ Hoş geldiniz $name! DKT Klinik Portalınız açılıyor...'),
+        content: Text('🗣️ Hoş geldiniz $name! DKT Klinik Portalınız açılıyor...'),
         backgroundColor: const Color(0xFF0284C7),
       ),
     );
@@ -1014,7 +1014,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
             Container(
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(color: const Color(0xFFDCFCE7), borderRadius: BorderRadius.circular(10)),
-              child: const Text('🧒', style: TextStyle(fontSize: 18)),
+              child: const Text('⭐', style: TextStyle(fontSize: 18)),
             ),
             const SizedBox(width: 8),
             const Expanded(
@@ -1136,7 +1136,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
             Container(
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(color: const Color(0xFFE0F2FE), borderRadius: BorderRadius.circular(10)),
-              child: const Text('👨‍⚕️', style: TextStyle(fontSize: 18)),
+              child: const Text('🗣️', style: TextStyle(fontSize: 18)),
             ),
             const SizedBox(width: 8),
             const Expanded(
@@ -1165,7 +1165,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
               const CircleAvatar(
                 radius: 20,
                 backgroundColor: Color(0xFFE0F2FE),
-                child: Text('👨‍⚕️', style: TextStyle(fontSize: 22)),
+                child: Text('🗣️', style: TextStyle(fontSize: 22)),
               ),
               const SizedBox(width: 10),
               Expanded(

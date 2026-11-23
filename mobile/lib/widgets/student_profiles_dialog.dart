@@ -20,13 +20,13 @@ class _StudentProfilesDialogState extends State<StudentProfilesDialog> {
   final SoundEffectsService _sfx = SoundEffectsService();
 
   static const List<String> kAvailableAvatars = [
-    '👦', '👧', '🧒', '🦁', '🐼', '🐱', '🚀', '🦄', '⚽', '🎨'
+    '⭐', '🚀', '🎨', '🦁', '🐼', '🐱', '🦄', '⚽', '🧒', '👧', '👦'
   ];
 
   void _showAddStudentDialog() {
     _sfx.playPopSound();
     final nameController = TextEditingController();
-    String selectedAvatar = '👦';
+    String selectedAvatar = '⭐';
 
     showDialog(
       context: context,
