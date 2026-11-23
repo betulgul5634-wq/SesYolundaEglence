@@ -1275,7 +1275,7 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
     return ListView(
       padding: const EdgeInsets.all(24),
       children: [
-        // 4 KPI KARTI (Tamamen dinamik ve gerçek)
+        // 3 KPI KARTI (Tamamen dinamik ve gerçek)
         Row(
           children: [
             _buildKpiCard(
@@ -1300,14 +1300,6 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
               accCount == 0 ? 'Veri Bekleniyor' : 'Genel Artikülasyon',
               Icons.auto_graph_rounded,
               const Color(0xFF2E7D32),
-            ),
-            const SizedBox(width: 14),
-            _buildKpiCard(
-              'Klinik Protokol',
-              'Bengisu (2020)',
-              '20 Fonem Hiyerarşisi',
-              Icons.menu_book_rounded,
-              const Color(0xFFF57C00),
             ),
           ],
         ),

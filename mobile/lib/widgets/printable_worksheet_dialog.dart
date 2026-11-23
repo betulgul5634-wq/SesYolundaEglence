@@ -144,7 +144,7 @@ class _PrintableWorksheetDialogState extends State<PrintableWorksheetDialog> {
                           style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w900),
                         ),
                         Text(
-                          'Bengisu ve ark. Klinik Hiyerarşisi • [${stage.phoneme}] ${stage.categoryTitle}',
+                          'Klinik Artikülasyon Hiyerarşisi • [${stage.phoneme}] ${stage.categoryTitle}',
                           style: const TextStyle(color: Colors.white70, fontSize: 11, fontWeight: FontWeight.w600),
                         ),
                       ],
@@ -787,7 +787,7 @@ class _PrintableWorksheetDialogState extends State<PrintableWorksheetDialog> {
   <div class="header">
     <div>
       <h1>SES YOLUNDA EĞLENCE • KLİNİK TERAPİ FORMU</h1>
-      <small style="color: #666;">Bengisu ve ark. Klinik Hiyerarşisi | ${stage.phoneme} ${stage.categoryTitle}</small>
+      <small style="color: #666;">Klinik Artikülasyon Hiyerarşisi | ${stage.phoneme} ${stage.categoryTitle}</small>
     </div>
     <div class="badge">${stage.phoneme} SESİ</div>
   </div>
