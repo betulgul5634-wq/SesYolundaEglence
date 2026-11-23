@@ -1440,11 +1440,73 @@ def api_login(payload: LoginPayload):
     conn.close()
     return {"access_token": token, "token_type": "bearer", "therapist": therapist_info}
 
+import requests
+import urllib3
+urllib3.disable_warnings()
+
+def _get_resend_config():
+    api_key = os.getenv("RESEND_API_KEY", "").strip()
+    admin_email = os.getenv("PRIMARY_ADMIN_EMAIL", "betulgul5634@gmail.com").strip()
+    if not api_key:
+        env_file = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".env")
+        if os.path.exists(env_file):
+            with open(env_file, "r", encoding="utf-8") as f:
+                for line in f:
+                    line = line.strip()
+                    if line.startswith("RESEND_API_KEY="):
+                        api_key = line.split("=", 1)[1].strip().strip('"').strip("'")
+                    elif line.startswith("PRIMARY_ADMIN_EMAIL="):
+                        admin_email = line.split("=", 1)[1].strip().strip('"').strip("'")
+    return api_key, admin_email
+
+def send_real_email(to_email: str, subject: str, text_content: str, html_content: str = None) -> tuple:
+    """
+    Resend API üzerinden anında gerçek e-posta gönderir.
+    """
+    api_key, primary_admin = _get_resend_config()
+    if not to_email or "@" not in to_email:
+        to_email = primary_admin
+
+    clean_to = str(to_email).strip().lower()
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
+
+    if not html_content:
+        html_content = f"<div style='font-family: Arial, sans-serif; padding: 20px;'>{text_content}</div>"
+
+    data = {
+        "from": "Ses Yolunda Eğlence <onboarding@resend.dev>",
+        "to": [clean_to],
+        "subject": subject,
+        "html": html_content
+    }
+
+    try:
+        resp = requests.post("https://api.resend.com/emails", headers=headers, json=data, verify=False, timeout=12)
+        if resp.status_code in [200, 201]:
+            print(f"[RESEND SUCCESS] E-posta başarıyla iletildi: {clean_to} (ID: {resp.json().get('id')})")
+            return True, "E-posta başarıyla iletildi."
+        else:
+            if clean_to != primary_admin:
+                fallback_subject = f"[Alıcı: {clean_to}] {subject}"
+                data["to"] = [primary_admin]
+                data["subject"] = fallback_subject
+                fb_resp = requests.post("https://api.resend.com/emails", headers=headers, json=data, verify=False, timeout=12)
+                if fb_resp.status_code in [200, 201]:
+                    print(f"[RESEND FALLBACK SUCCESS] E-posta başarıyla iletildi: {primary_admin}")
+                    return True, f"E-posta {primary_admin} adresine iletildi."
+            return False, f"Resend Hatası: {resp.text}"
+    except Exception as e:
+        print(f"[RESEND EXCEPTION] {e}")
+        return False, str(e)
+
 @app.post("/api/notifications/send")
 def api_send_notification(payload: NotificationPayload):
     """
     Kullanıcıya veya Terapiste anlık bildirim ve e-posta gönderme servisi.
-    Kayıt onayları, günlük oyun hatırlatmaları ve seans gelişim raporları iletilir.
+    Kayıt onayları ve seans gelişim raporları iletilir.
     """
     if payload.notification_type in ["welcome", "welcome_and_daily_reminder"]:
         subject = payload.subject or "🎉 Ses Yolunda Eğlence'ye Hoş Geldiniz! Kaydınız Tamamlandı"
@@ -1453,28 +1515,45 @@ def api_send_notification(payload: NotificationPayload):
             f"Ses Yolunda Eğlence hesabınız başarıyla oluşturuldu.\n"
             f"Oyunla sesleri ve artikülasyonu öğrenmeye hemen başlayabilirsiniz."
         )
-    elif payload.notification_type == "daily_reminder":
-        subject = payload.subject or f"🔥 Günün Konuşma Macerası Seni Bekliyor! ({payload.student_name})"
-        message = payload.message or (
-            f"Merhaba {payload.student_name}!\n\n"
-            f"Bugünkü konuşma egzersizlerin hazır! Serini kaybetmemek için hemen haritadan bir ses seç ve 3 yıldız topla!"
-        )
+        html_content = f"""
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 560px; margin: 0 auto; background: #ffffff; border-radius: 20px; border: 1px solid #e2e8f0; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06);">
+            <div style="background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); padding: 32px 24px; text-align: center; color: white;">
+                <div style="font-size: 52px; margin-bottom: 8px;">🦜</div>
+                <h1 style="margin: 0; font-size: 24px; font-weight: 800; color: #ffffff;">Ses Yolunda Eğlence</h1>
+                <p style="margin: 6px 0 0; font-size: 13px; color: #93c5fd;">Oyunla Artikülasyon Terapisi & Klinik Takip Platformu</p>
+            </div>
+            <div style="padding: 28px 24px;">
+                <h2 style="color: #1e293b; font-size: 18px; margin-top: 0;">🎉 Tebrikler, Kaydınız Tamamlandı!</h2>
+                <p style="color: #475569; font-size: 14px; line-height: 1.6;">
+                    Merhaba <strong>{payload.student_name}</strong>,<br>
+                    Ses Yolunda Eğlence platformuna kaydınız başarıyla oluşturuldu. Konuşma seslerini eğlenceli oyunlar, interaktif artikülasyon basamakları ve canlı ses analizleriyle öğrenmeye hazırsınız!
+                </p>
+                <div style="text-align: center; margin: 32px 0 20px;">
+                    <a href="https://specified-sends-kevin-slides.trycloudflare.com" style="background: #16a34a; color: white; padding: 14px 28px; text-decoration: none; border-radius: 14px; font-weight: bold; font-size: 14px; display: inline-block;">
+                        🚀 Maceraya Başla & Oyunu Aç
+                    </a>
+                </div>
+            </div>
+            <div style="background: #f8fafc; padding: 16px 24px; border-top: 1px solid #e2e8f0; text-align: center; color: #94a3b8; font-size: 11px;">
+                Bu e-posta Ses Yolunda Eğlence kayıt işleminiz için otomatik olarak oluşturulmuştur.
+            </div>
+        </div>
+        """
     else:
         subject = payload.subject or f"Ses Yolunda Eğlence - {payload.student_name} Gelişim Bildirimi"
-        message = payload.message or f"{payload.student_name} bugünkü artikülasyon hece egzersizlerini başarıyla tamamladı."
+        message = payload.message or f"{payload.student_name} bugünkü artikülasyon egzersizlerini başarıyla tamamladı."
+        html_content = None
 
-    print(f"[EMAIL NOTIFICATION SENT] To: {payload.recipient_email} | Subject: {subject}")
+    sent, detail = send_real_email(payload.recipient_email, subject, message, html_content)
 
     return {
-        "status": "success",
-        "sent": True,
+        "status": "success" if sent else "simulated_or_smtp_missing",
+        "sent": sent,
         "recipient": payload.recipient_email,
         "subject": subject,
         "message": message,
         "notification_type": payload.notification_type,
-        "detail": f"{payload.recipient_email} adresine bildirim e-postası başarıyla iletildi.",
-        "daily_reminder_scheduled": True,
-        "reminder_time": "17:00",
+        "detail": detail,
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
 
