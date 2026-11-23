@@ -21,7 +21,6 @@ import '../widgets/minimal_pairs_dialog.dart';
 import '../utils/word_pictogram_helper.dart';
 import '../widgets/subway_surfers_unlock_dialog.dart';
 import '../widgets/avatar_showcase_widget.dart';
-import '../widgets/parent_report_sheet.dart';
 import '../widgets/hearts_refill_dialog.dart';
 import '../widgets/gems_shop_dialog.dart';
 import '../services/audio_speech_service.dart';
@@ -698,21 +697,6 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
                     onTap: () {
                       Navigator.pop(ctx);
                       _openVoicePostcard();
-                    },
-                  ),
-                  _buildTherapistBagItem(
-                    icon: '📊',
-                    title: 'Gelişim Karnesi',
-                    desc: 'Klinik istatistik & analiz',
-                    color: const Color(0xFF2E7D32),
-                    onTap: () {
-                      Navigator.pop(ctx);
-                      showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        backgroundColor: Colors.transparent,
-                        builder: (_) => const ParentReportSheet(),
-                      );
                     },
                   ),
                 ],

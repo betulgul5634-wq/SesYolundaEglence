@@ -735,9 +735,35 @@ class LeaderboardLeagueSheet extends StatelessWidget {
               Expanded(
                 child: ListView.separated(
                   padding: const EdgeInsets.all(16),
-                  itemCount: competitors.length,
+                  itemCount: competitors.length + (competitors.length <= 2 ? 1 : 0),
                   separatorBuilder: (_, _) => const SizedBox(height: 8),
                   itemBuilder: (ctx, i) {
+                    if (i == competitors.length) {
+                      return Container(
+                        padding: const EdgeInsets.all(14),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF1F8E9),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: const Color(0xFFAED581)),
+                        ),
+                        child: const Row(
+                          children: [
+                            Text('🌟', style: TextStyle(fontSize: 22)),
+                            SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                'Tebrikler! Liginde gerçek verilerle 1. sıradasın. Kliniğe ve platforma yeni danışanlar katıldıkça burada gerçek zamanlı yarışacaksınız.',
+                                style: TextStyle(
+                                  color: Color(0xFF33691E),
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
                     final user = competitors[i];
                     final rank = i + 1;
                     final isTop3 = rank <= 3;

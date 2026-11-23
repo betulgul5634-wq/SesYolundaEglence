@@ -12,7 +12,6 @@ import '../widgets/daily_quests_dialog.dart';
 import '../widgets/leaderboard_league_sheet.dart';
 import '../widgets/articulation_screening_dialog.dart';
 import '../widgets/avatar_wardrobe_sheet.dart';
-import '../widgets/sticker_book_sheet.dart';
 import '../widgets/streak_calendar_dialog.dart';
 import '../widgets/gems_shop_dialog.dart';
 import '../widgets/hearts_refill_dialog.dart';
@@ -906,39 +905,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       Text(
                         'Gardırop',
                         style: TextStyle(fontWeight: FontWeight.w900, color: Color(0xFF6A1B9A), fontSize: 11),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              // 📖 Çıkartma Albümü
-              InkWell(
-                onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    backgroundColor: Colors.transparent,
-                    builder: (_) => const StickerBookSheet(),
-                  );
-                },
-                borderRadius: BorderRadius.circular(16),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFFF9C4),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: const Color(0xFFFBC02D), width: 1.5),
-                    boxShadow: const [
-                      BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 2),
-                    ],
-                  ),
-                  child: Row(
-                    children: const [
-                      Text('📖', style: TextStyle(fontSize: 15)),
-                      SizedBox(width: 3),
-                      Text(
-                        'Albüm',
-                        style: TextStyle(fontWeight: FontWeight.w900, color: Color(0xFFF57F17), fontSize: 11),
                       ),
                     ],
                   ),

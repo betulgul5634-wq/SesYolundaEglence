@@ -767,6 +767,23 @@
       return false;
     };
   </script>
+  <script>
+    // Tarayıcı önbelleğindeki eski Flutter Web Service Worker'larını ve paketlerini temizle
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        for (let registration of registrations) {
+          registration.unregister();
+        }
+      });
+      if (typeof caches !== 'undefined') {
+        caches.keys().then(function(names) {
+          for (let name of names) {
+            caches.delete(name);
+          }
+        });
+      }
+    }
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

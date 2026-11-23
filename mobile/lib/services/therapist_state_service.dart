@@ -258,53 +258,9 @@ class TherapistStateService extends ChangeNotifier {
   }
 
   void _initDefaultStudents() {
-    _students.addAll([
-      {
-        'id': 1,
-        'name': 'Can (Aktif Danışan)',
-        'age': 6,
-        'avatar': '👦',
-        'diagnosis': 'Fonolojik Bozukluk & Çift Dudak Artikülasyonu',
-        'target_phonemes': '/p/, /b/, /m/',
-        'parent_email': 'veli.can@gmail.com',
-        'therapist_code': _therapistCode,
-        'student_code': 'DKT-1-CAN',
-        'total_stars': 0,
-        'accuracy': 0.0,
-        'sessions_count': 0,
-        'sessions': <Map<String, dynamic>>[],
-      },
-      {
-        'id': 2,
-        'name': 'Ali Kaya',
-        'age': 7,
-        'avatar': '🦁',
-        'diagnosis': 'R ve L Sesletim Güçlüğü (Rotasizm)',
-        'target_phonemes': '/r/, /l/',
-        'parent_email': 'veli.ali@gmail.com',
-        'therapist_code': _therapistCode,
-        'student_code': 'DKT-2-ALI',
-        'total_stars': 0,
-        'accuracy': 0.0,
-        'sessions_count': 0,
-        'sessions': <Map<String, dynamic>>[],
-      },
-      {
-        'id': 3,
-        'name': 'Zeynep Su',
-        'age': 5,
-        'avatar': '🐱',
-        'diagnosis': 'İnterdental Pelteklik (/s/ ve /z/ sesleri)',
-        'target_phonemes': '/s/, /z/',
-        'parent_email': 'zeynep.anne@gmail.com',
-        'therapist_code': _therapistCode,
-        'student_code': 'DKT-3-ZEYNEP',
-        'total_stars': 0,
-        'accuracy': 0.0,
-        'sessions_count': 0,
-        'sessions': <Map<String, dynamic>>[],
-      },
-    ]);
+    // Gerçek kullanıcı odaklı: Başlangıçta sahte veya bot danışan eklenmez.
+    // Danışanlar kayıt ol ekranından veya terapist tarafından doğrudan eklenir.
+    _students.clear();
   }
 
   /// Yerel Depolama (Flutter Web LocalStorage)
@@ -354,7 +310,11 @@ class TherapistStateService extends ChangeNotifier {
           final list = jsonDecode(raw) as List;
           _students.clear();
           for (final item in list) {
-            _students.add(Map<String, dynamic>.from(item as Map));
+            final m = Map<String, dynamic>.from(item as Map);
+            final name = (m['name'] as String? ?? '').toLowerCase();
+            if (!name.contains('ali kaya') && !name.contains('zeynep su') && !name.contains('can (aktif danışan)')) {
+              _students.add(m);
+            }
           }
         }
       }
