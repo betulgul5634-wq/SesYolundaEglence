@@ -390,7 +390,7 @@ class _SymmetricCharacterPainter extends CustomPainter {
   }
 
   // ==========================================
-  // 1. 🛹 KAYKAYCI CAN (Subway Surfers Jake Tarzı)
+  // 1. 🛹 SES KAŞİFİ
   // ==========================================
   void _drawSkaterCan(Canvas canvas, double cx, double w, double h) {
     // A. ZEMİNDE SİMETRİK KAYKAY (Her iki ayağın altında yatay dengeli durur)
@@ -650,7 +650,7 @@ class _SymmetricCharacterPainter extends CustomPainter {
   }
 
   // ==========================================
-  // 2. 🤖 FÜTÜRİSTİK ROBO-B
+  // 2. 🤖 SES ROBOTU
   // ==========================================
   void _drawRoboB(Canvas canvas, double cx, double w, double h) {
     final metalPaint = Paint()
@@ -728,7 +728,7 @@ class _SymmetricCharacterPainter extends CustomPainter {
   }
 
   // ==========================================
-  // 3. 🥷 GÖLGE NİNJA KAAN
+  // 3. 🥷 RİTİM NİNJASI
   // ==========================================
   void _drawNinja(Canvas canvas, double cx, double w, double h) {
     final ninjaDark = Paint()
@@ -1483,7 +1483,7 @@ class _SymmetricCharacterPainter extends CustomPainter {
   }
 
   // ==========================================
-  // 7. 🏴‍☠️ KAPTAN YANKI (Ritim & Söz Kaptanı)
+  // 7. 🏴‍☠️ SES KAPTANI
   // ==========================================
   void _drawKaptanYanki(Canvas canvas, double cx, double w, double h) {
     // 1. ZEMİNDE AHŞAP GEMİ GÜVERTESİ PLATFORMU
@@ -1701,7 +1701,7 @@ class _SymmetricCharacterPainter extends CustomPainter {
   }
 
   // ==========================================
-  // 8. 👨‍🚀 UZAY KAŞİFİ KOZMO (Galaksi Ses Pilotu)
+  // 8. 👨‍🚀 UZAY KAŞİFİ
   // ==========================================
   void _drawKozmoAstronot(Canvas canvas, double cx, double w, double h) {
     // 1. ZEMİNDE NEON İYON HALKASI PLATFORMU

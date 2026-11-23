@@ -92,14 +92,14 @@ class _AvatarWardrobeSheetState extends State<AvatarWardrobeSheet> {
   ];
 
   final List<_ShopItem> _characters = [
-    _ShopItem(id: 'char_skater_can', category: 'avatar', name: 'Kaykaycı Can', emoji: '👦', gemPrice: 0),
-    _ShopItem(id: 'char_ece', category: 'avatar', name: 'Kaşif Ece', emoji: '👧', gemPrice: 0),
-    _ShopItem(id: 'char_robo_b', category: 'avatar', name: 'Fütüristik Robo-B', emoji: '🤖', gemPrice: 120),
-    _ShopItem(id: 'char_ninja', category: 'avatar', name: 'Gölge Ninja Kaan', emoji: '🥷', gemPrice: 50),
-    _ShopItem(id: 'char_prenses', category: 'avatar', name: 'Prenses Yıldız', emoji: '👸', gemPrice: 90),
-    _ShopItem(id: 'char_superhero', category: 'avatar', name: 'Süper Artikülo', emoji: '🦸', gemPrice: 80),
-    _ShopItem(id: 'char_dino', category: 'avatar', name: 'Dino Rex', emoji: '🦖', gemPrice: 110),
-    _ShopItem(id: 'char_astro', category: 'avatar', name: 'Galaksi Astronotu', emoji: '🧑‍🚀', gemPrice: 100),
+    _ShopItem(id: 'char_skater_can', category: 'avatar', name: 'Ses Kaşifi', emoji: '👦', gemPrice: 0),
+    _ShopItem(id: 'char_ece', category: 'avatar', name: 'Ritim Kaşifi', emoji: '👧', gemPrice: 0),
+    _ShopItem(id: 'char_robo_b', category: 'avatar', name: 'Ses Robotu', emoji: '🤖', gemPrice: 120),
+    _ShopItem(id: 'char_ninja', category: 'avatar', name: 'Ritim Ninjası', emoji: '🥷', gemPrice: 50),
+    _ShopItem(id: 'char_prenses', category: 'avatar', name: 'Melodi Prensesi', emoji: '👸', gemPrice: 90),
+    _ShopItem(id: 'char_superhero', category: 'avatar', name: 'Süper Konuşmacı', emoji: '🦸', gemPrice: 80),
+    _ShopItem(id: 'char_dino', category: 'avatar', name: 'Neşeli Dino', emoji: '🦖', gemPrice: 110),
+    _ShopItem(id: 'char_astro', category: 'avatar', name: 'Uzay Kaşifi', emoji: '🧑‍🚀', gemPrice: 100),
   ];
 
   @override

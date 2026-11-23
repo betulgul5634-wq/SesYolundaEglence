@@ -552,7 +552,7 @@ class RewardState extends ChangeNotifier {
 
   final Set<String> _unlockedBadges = {};
   String _activeAvatar = '⭐';
-  String _activeCharacterName = 'SÜPER KAHRAMAN CAN';
+  String _activeCharacterName = 'SES KAŞİFİ';
   String _activeCharacterId = 'char_skater_can';
   final Set<String> _unlockedCharacters = {'char_skater_can', 'char_ninja', 'char_dino'};
 

@@ -27,7 +27,7 @@ class SubwayCharacter {
 const List<SubwayCharacter> kSubwayCharacters = [
   SubwayCharacter(
     id: 'char_skater_can',
-    name: 'SES KAŞİFİ CAN',
+    name: 'SES KAŞİFİ',
     title: 'Sokakların Neşeli Kaykaycısı 🛹',
     avatarEmoji: '🛹',
     gradientColors: [Color(0xFFFF9800), Color(0xFFFF5722), Color(0xFFD84315)],
@@ -35,7 +35,7 @@ const List<SubwayCharacter> kSubwayCharacters = [
   ),
   SubwayCharacter(
     id: 'char_robo_b',
-    name: 'SES ROBOTU BİBİ',
+    name: 'SES ROBOTU',
     title: 'Gelişmiş Ses & Frekans Robotu 🤖',
     avatarEmoji: '🤖',
     gradientColors: [Color(0xFF00E5FF), Color(0xFF0091EA), Color(0xFF0D47A1)],
@@ -67,15 +67,15 @@ const List<SubwayCharacter> kSubwayCharacters = [
   ),
   SubwayCharacter(
     id: 'char_dino',
-    name: 'DİNO DİDİ',
-    title: 'Neşeli Dansçı Yavru Ejder 🦖',
+    name: 'NEŞELİ DİNO',
+    title: 'Ritim Tutan Yavru Dinozor 🦖',
     avatarEmoji: '🦖',
     gradientColors: [Color(0xFF66BB6A), Color(0xFF2E7D32), Color(0xFF1B5E20)],
     ability: 'Dinozor Kükremesi & Güçlü Diyafram 🐾',
   ),
   SubwayCharacter(
     id: 'char_korsan',
-    name: 'KAPTAN YANKI',
+    name: 'SES KAPTANI',
     title: 'Uzak Denizlerin Ritim Kaptanı 🏴‍☠️',
     avatarEmoji: '🏴‍☠️',
     gradientColors: [Color(0xFFD32F2F), Color(0xFF1A237E), Color(0xFF212121)],
@@ -83,7 +83,7 @@ const List<SubwayCharacter> kSubwayCharacters = [
   ),
   SubwayCharacter(
     id: 'char_astronot',
-    name: 'UZAY KAŞİFİ KOZMO',
+    name: 'UZAY KAŞİFİ',
     title: 'Galaksi Ses & Frekans Pilotu 🚀',
     avatarEmoji: '👨‍🚀',
     gradientColors: [Color(0xFF00E5FF), Color(0xFF1E88E5), Color(0xFF0D47A1)],

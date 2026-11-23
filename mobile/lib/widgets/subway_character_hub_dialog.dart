@@ -36,7 +36,7 @@ class SubwayRosterCharacter {
 const List<SubwayRosterCharacter> kSubwayRoster = [
   SubwayRosterCharacter(
     id: 'char_skater_can',
-    name: 'SES KAŞİFİ CAN',
+    name: 'SES KAŞİFİ',
     title: 'Sokakların Neşeli Kaykaycısı 🛹',
     avatarEmoji: '🛹',
     ability: 'Hızlı Kaykay & Akıcı Konuşma Ritmi ⚡',
@@ -50,7 +50,7 @@ const List<SubwayRosterCharacter> kSubwayRoster = [
   ),
   SubwayRosterCharacter(
     id: 'char_robo_b',
-    name: 'SES ROBOTU BİBİ',
+    name: 'SES ROBOTU',
     title: 'Gelişmiş Ses & Frekans Robotu 🤖',
     avatarEmoji: '🤖',
     ability: 'Lazer Ses Dalgası & Çelik Dudaklar 💥',
@@ -106,8 +106,8 @@ const List<SubwayRosterCharacter> kSubwayRoster = [
   ),
   SubwayRosterCharacter(
     id: 'char_dino',
-    name: 'DİNO DİDİ',
-    title: 'Neşeli Dansçı Yavru Ejder 🦖',
+    name: 'NEŞELİ DİNO',
+    title: 'Ritim Tutan Yavru Dinozor 🦖',
     avatarEmoji: '🦖',
     ability: 'Dinozor Kükremesi & Güçlü Diyafram 🐾',
     requiredStage: 6,
@@ -120,7 +120,7 @@ const List<SubwayRosterCharacter> kSubwayRoster = [
   ),
   SubwayRosterCharacter(
     id: 'char_korsan',
-    name: 'KAPTAN YANKI',
+    name: 'SES KAPTANI',
     title: 'Uzak Denizlerin Ritim Kaptanı 🏴‍☠️',
     avatarEmoji: '🏴‍☠️',
     ability: 'Korsan Narası & Güçlü Yankı Ritmi ⚓',
@@ -134,7 +134,7 @@ const List<SubwayRosterCharacter> kSubwayRoster = [
   ),
   SubwayRosterCharacter(
     id: 'char_astronot',
-    name: 'UZAY KAŞİFİ KOZMO',
+    name: 'UZAY KAŞİFİ',
     title: 'Galaksi Ses & Frekans Pilotu 🚀',
     avatarEmoji: '👨‍🚀',
     ability: 'Yerçekimsiz Ses Süzülüşü & Radyo Netliği 🪐',
