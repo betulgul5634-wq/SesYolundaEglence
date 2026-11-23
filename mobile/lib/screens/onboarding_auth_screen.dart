@@ -1142,50 +1142,6 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
         ),
         const Divider(height: 20),
 
-        // Hızlı Kayıtlı Çocuk Butonu
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: const Color(0xFFF0FDF4),
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: const Color(0xFFBBF7D0)),
-          ),
-          child: Row(
-            children: [
-              CircleAvatar(
-                radius: 20,
-                backgroundColor: const Color(0xFFDCFCE7),
-                child: Text(_rewardState.activeAvatar, style: const TextStyle(fontSize: 22)),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('${_rewardState.studentName} (Aktif Danışan)', style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 13, color: Color(0xFF166534))),
-                    Text('⭐ ${_rewardState.totalStars} Yıldız • 🔥 ${_rewardState.streakDays} Gün Serisi', style: const TextStyle(fontSize: 10.5, color: Color(0xFF15803D))),
-                  ],
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  _sfx.playSuccessDing();
-                  _goToGameMap();
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF16A34A),
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                ),
-                child: const Text('GİRİŞ 🚀', style: TextStyle(fontWeight: FontWeight.w900, color: Colors.white, fontSize: 11.5)),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 14),
-        const Center(child: Text('veya e-posta ve şifreyle giriş yap:', style: TextStyle(fontSize: 10.5, color: Colors.grey, fontWeight: FontWeight.bold))),
-        const SizedBox(height: 10),
-
         const Text('E-Posta Adresi:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
         const SizedBox(height: 4),
         TextField(
@@ -1240,13 +1196,35 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
           child: ElevatedButton(
             onPressed: () {
               var email = _loginChildEmailCtrl.text.trim();
-              if (email.isNotEmpty) {
-                if (!email.contains('@')) {
-                  email = '$email@gmail.com';
-                } else if (email.endsWith('@')) {
-                  email = '${email}gmail.com';
-                }
-                _rewardState.setParentEmail(email);
+              final pass = _loginChildPassCtrl.text.trim();
+              if (email.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('⚠️ Lütfen e-posta adresinizi giriniz.'),
+                    backgroundColor: Colors.orangeAccent,
+                  ),
+                );
+                return;
+              }
+              if (pass.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('⚠️ Lütfen şifrenizi giriniz.'),
+                    backgroundColor: Colors.orangeAccent,
+                  ),
+                );
+                return;
+              }
+              if (!email.contains('@')) {
+                email = '$email@gmail.com';
+              } else if (email.endsWith('@')) {
+                email = '${email}gmail.com';
+              }
+              _rewardState.setParentEmail(email);
+              final userNameFromEmail = email.split('@').first;
+              if (userNameFromEmail.isNotEmpty) {
+                final formattedName = userNameFromEmail[0].toUpperCase() + userNameFromEmail.substring(1);
+                _rewardState.setStudentName(formattedName);
               }
               _sfx.playSuccessDing();
               _goToGameMap();
@@ -1289,51 +1267,6 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
           ],
         ),
         const Divider(height: 20),
-
-        // Hızlı Kayıtlı Terapist Girişi
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: const Color(0xFFF0F9FF),
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: const Color(0xFFBAE6FD)),
-          ),
-          child: Row(
-            children: [
-              const CircleAvatar(
-                radius: 20,
-                backgroundColor: Color(0xFFE0F2FE),
-                child: Text('🗣️', style: TextStyle(fontSize: 22)),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(_dkt.therapistName, style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 12.5, color: Color(0xFF0369A1))),
-                    Text('${_dkt.clinicName} • (${_dkt.students.length} Danışan)', style: const TextStyle(fontSize: 10.5, color: Color(0xFF0284C7))),
-                  ],
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  _sfx.playSuccessDing();
-                  _dkt.loginTherapist(_dkt.email, '');
-                  _goToTherapistPortal();
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0284C7),
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                ),
-                child: const Text('PORTAL 📋', style: TextStyle(fontWeight: FontWeight.w900, color: Colors.white, fontSize: 11.5)),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 14),
-        const Center(child: Text('veya kurumsal hesapla giriş yap:', style: TextStyle(fontSize: 10.5, color: Colors.grey, fontWeight: FontWeight.bold))),
-        const SizedBox(height: 10),
 
         const Text('Kurumsal E-Posta Adresi:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
         const SizedBox(height: 4),

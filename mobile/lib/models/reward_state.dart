@@ -73,9 +73,9 @@ class RewardState extends ChangeNotifier {
     _loadFromLocalStorage();
   }
 
-  String _studentName = 'Can';
-  String _parentEmail = 'veli@gmail.com';
-  String _therapistEmail = 'dkt@klinik.com';
+  String _studentName = '';
+  String _parentEmail = '';
+  String _therapistEmail = '';
   String _activeProfileId = 'profile_1';
   final List<StudentProfile> _profiles = [];
 
@@ -210,7 +210,13 @@ class RewardState extends ChangeNotifier {
         _activeProfileId = storage['sye_active_profile_id'] ?? _profiles.first.id;
       }
       if (storage.containsKey('sye_student_name')) {
-        _studentName = storage['sye_student_name'] ?? _studentName;
+        final stName = storage['sye_student_name'] ?? '';
+        if (stName == 'Yeni Kahraman' || stName == 'Can') {
+          storage.remove('sye_student_name');
+          _studentName = '';
+        } else {
+          _studentName = stName;
+        }
       }
       if (storage.containsKey('sye_gems')) {
         _gems = int.tryParse(storage['sye_gems'] ?? '') ?? _gems;
