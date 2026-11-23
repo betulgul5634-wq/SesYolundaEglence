@@ -42,12 +42,21 @@ class _ArticulationScreeningDialogState extends State<ArticulationScreeningDialo
     _ScreeningItem(word: 'Balık', phoneme: 'B', emoji: '🐟', hint: 'Çift Dudak Ötümlü'),
     _ScreeningItem(word: 'Tavşan', phoneme: 'T', emoji: '🐰', hint: 'Diş Yuvasıl Patlamalı'),
     _ScreeningItem(word: 'Dede', phoneme: 'D', emoji: '👴', hint: 'Diş Yuvasıl Ötümlü'),
-    _ScreeningItem(word: 'Saat', phoneme: 'S', emoji: '⏰', hint: 'Diş Yuvasıl Sürtünmeli'),
-    _ScreeningItem(word: 'Şapka', phoneme: 'Ş', emoji: '👒', hint: 'Diş Yuvası Ardı Sürtünmeli'),
     _ScreeningItem(word: 'Köpek', phoneme: 'K', emoji: '🐶', hint: 'Yumuşak Damak Patlamalı'),
+    _ScreeningItem(word: 'Güneş', phoneme: 'G', emoji: '☀️', hint: 'Yumuşak Damak Ötümlü'),
+    _ScreeningItem(word: 'Fil', phoneme: 'F', emoji: '🐘', hint: 'Dudak-Diş Sürtünmeli'),
+    _ScreeningItem(word: 'Vazo', phoneme: 'V', emoji: '🏺', hint: 'Dudak-Diş Ötümlü Sürtünmeli'),
+    _ScreeningItem(word: 'Saat', phoneme: 'S', emoji: '⏰', hint: 'Diş Yuvasıl Sürtünmeli'),
+    _ScreeningItem(word: 'Zebra', phoneme: 'Z', emoji: '🦓', hint: 'Diş Yuvasıl Ötümlü Sürtünmeli'),
+    _ScreeningItem(word: 'Şapka', phoneme: 'Ş', emoji: '👒', hint: 'Diş Yuvası Ardı Sürtünmeli'),
+    _ScreeningItem(word: 'Jelibon', phoneme: 'J', emoji: '🍬', hint: 'Diş Yuvası Ardı Ötümlü'),
+    _ScreeningItem(word: 'Havuç', phoneme: 'H', emoji: '🥕', hint: 'Gırtlak Sürtünmeli'),
+    _ScreeningItem(word: 'Çilek', phoneme: 'Ç', emoji: '🍓', hint: 'Ön Damak Patlamalı Sürtünmeli'),
+    _ScreeningItem(word: 'Ceviz', phoneme: 'C', emoji: '🥜', hint: 'Ön Damak Ötümlü Sürtünmeli'),
     _ScreeningItem(word: 'Muz', phoneme: 'M', emoji: '🍌', hint: 'Genizsi Dudak Sesi'),
-    _ScreeningItem(word: 'Roket', phoneme: 'R', emoji: '🚀', hint: 'Diş Yuvasıl Titrek'),
+    _ScreeningItem(word: 'Nar', phoneme: 'N', emoji: '🍎', hint: 'Diş Yuvasıl Genizsi'),
     _ScreeningItem(word: 'Limon', phoneme: 'L', emoji: '🍋', hint: 'Akıcı Yan Ses'),
+    _ScreeningItem(word: 'Roket', phoneme: 'R', emoji: '🚀', hint: 'Diş Yuvasıl Titrek'),
     _ScreeningItem(word: 'Yıldız', phoneme: 'Y', emoji: '⭐', hint: 'Damak Daralmalı'),
   ];
 
@@ -635,7 +644,7 @@ class _ArticulationScreeningDialogState extends State<ArticulationScreeningDialo
                     const SizedBox(height: 6),
                     Text(
                       incorrectPhonemes.isEmpty
-                          ? 'Mükemmel telaffuz! Çocuğunuz taranan 11 temel sesin tamamını yaş gelişimine uygun olarak başarıyla üretiyor.'
+                          ? 'Mükemmel telaffuz! Çocuğunuz taranan ${_items.length} klinik sesin tamamını yaş gelişimine uygun olarak başarıyla üretiyor.'
                           : 'Tespit edilen öncelikli çalışma gerektiren sesler: ${incorrectPhonemes.join(", ")}.\n'
                               'Tavsiye edilen ilk seans: $recommended sesi basamağıdır.',
                       style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF37474F), height: 1.4),
