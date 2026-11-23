@@ -593,46 +593,31 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
         ),
         const SizedBox(height: 10),
 
-        Row(
-          children: [
-            const Text('E-Posta Adresi:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
-            const Spacer(),
-            InkWell(
-              onTap: () {
-                final cur = _childParentEmailCtrl.text.trim();
-                if (!cur.contains('@')) {
-                  _childParentEmailCtrl.text = cur.isEmpty ? '@gmail.com' : '$cur@gmail.com';
-                  _childParentEmailCtrl.selection = TextSelection.fromPosition(TextPosition(offset: _childParentEmailCtrl.text.length));
-                  setState(() {});
-                }
-              },
-              borderRadius: BorderRadius.circular(8),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFE8F5E9),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: const Color(0xFF81C784)),
-                ),
-                child: const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.add_rounded, size: 12, color: Color(0xFF2E7D32)),
-                    SizedBox(width: 2),
-                    Text('@gmail.com ekle', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF2E7D32))),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+        const Text('E-Posta Adresi:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
         const SizedBox(height: 4),
         TextField(
           controller: _childParentEmailCtrl,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
-            hintText: 'ornek@gmail.com',
+            hintText: 'kullaniciadi',
             prefixIcon: const Icon(Icons.email_outlined, size: 18),
+            suffixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+            suffixIcon: const Padding(
+              padding: EdgeInsets.only(right: 14),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    '@gmail.com',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w900,
+                      color: Color(0xFF16A34A),
+                      fontSize: 13,
+                    ),
+                  ),
+                ],
+              ),
+            ),
             helperText: '📩 Kayıt onayınız ve günlük oyun hatırlatmaları bu adrese iletilir.',
             helperStyle: const TextStyle(fontSize: 10, color: Color(0xFF16A34A), fontWeight: FontWeight.w600),
             filled: true,
@@ -719,9 +704,19 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
       return;
     }
     var email = _childParentEmailCtrl.text.trim();
-    if (email.isNotEmpty && !email.contains('@')) {
+    if (email.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('⚠️ Lütfen e-posta adresinizi giriniz.'),
+          backgroundColor: Colors.orangeAccent,
+        ),
+      );
+      return;
+    }
+    if (!email.contains('@')) {
       email = '$email@gmail.com';
-      _childParentEmailCtrl.text = email;
+    } else if (email.endsWith('@')) {
+      email = '${email}gmail.com';
     }
     final therapistCode = _childTherapistCodeCtrl.text.trim();
 
@@ -1192,46 +1187,31 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
         const Center(child: Text('veya e-posta ve şifreyle giriş yap:', style: TextStyle(fontSize: 10.5, color: Colors.grey, fontWeight: FontWeight.bold))),
         const SizedBox(height: 10),
 
-        Row(
-          children: [
-            const Text('E-Posta Adresi:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
-            const Spacer(),
-            InkWell(
-              onTap: () {
-                final cur = _loginChildEmailCtrl.text.trim();
-                if (!cur.contains('@')) {
-                  _loginChildEmailCtrl.text = cur.isEmpty ? '@gmail.com' : '$cur@gmail.com';
-                  _loginChildEmailCtrl.selection = TextSelection.fromPosition(TextPosition(offset: _loginChildEmailCtrl.text.length));
-                  setState(() {});
-                }
-              },
-              borderRadius: BorderRadius.circular(8),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFE8F5E9),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: const Color(0xFF81C784)),
-                ),
-                child: const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.add_rounded, size: 12, color: Color(0xFF2E7D32)),
-                    SizedBox(width: 2),
-                    Text('@gmail.com ekle', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF2E7D32))),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+        const Text('E-Posta Adresi:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
         const SizedBox(height: 4),
         TextField(
           controller: _loginChildEmailCtrl,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
-            hintText: 'ornek@gmail.com',
+            hintText: 'kullaniciadi',
             prefixIcon: const Icon(Icons.email_outlined, size: 18),
+            suffixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+            suffixIcon: const Padding(
+              padding: EdgeInsets.only(right: 14),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    '@gmail.com',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w900,
+                      color: Color(0xFF16A34A),
+                      fontSize: 13,
+                    ),
+                  ),
+                ],
+              ),
+            ),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
@@ -1261,6 +1241,15 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
           height: 46,
           child: ElevatedButton(
             onPressed: () {
+              var email = _loginChildEmailCtrl.text.trim();
+              if (email.isNotEmpty) {
+                if (!email.contains('@')) {
+                  email = '$email@gmail.com';
+                } else if (email.endsWith('@')) {
+                  email = '${email}gmail.com';
+                }
+                _rewardState.setParentEmail(email);
+              }
               _sfx.playSuccessDing();
               _goToGameMap();
             },
