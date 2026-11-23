@@ -599,7 +599,6 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
           controller: _childParentEmailCtrl,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
-            hintText: 'kullaniciadi',
             prefixIcon: const Icon(Icons.email_outlined, size: 18),
             suffixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
             suffixIcon: const Padding(
@@ -1193,7 +1192,6 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
           controller: _loginChildEmailCtrl,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
-            hintText: 'kullaniciadi',
             prefixIcon: const Icon(Icons.email_outlined, size: 18),
             suffixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
             suffixIcon: const Padding(
