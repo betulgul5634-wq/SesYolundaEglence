@@ -63,6 +63,7 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
   @override
   void initState() {
     super.initState();
+    _dkt.purgeInvalidAndTestStudents();
     _syncFromService();
   }
 
@@ -598,6 +599,86 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _confirmDeleteStudent(Map<String, dynamic> std) {
+    showDialog(
+      context: context,
+      builder: (dCtx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Row(
+          children: [
+            Icon(Icons.delete_outline_rounded, color: Colors.redAccent),
+            SizedBox(width: 8),
+            Text('Danışanı Sil', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
+          ],
+        ),
+        content: Text(
+          '${std['name']} isimli danışanı ve kayıtlı tüm seans verilerini silmek istiyor musunuz?',
+          style: const TextStyle(fontSize: 13),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(dCtx), child: const Text('İptal')),
+          ElevatedButton(
+            onPressed: () {
+              _dkt.deleteStudent(std['id']);
+              Navigator.pop(dCtx);
+              setState(() {
+                if (_selectedStudent?['id'] == std['id']) _selectedStudent = null;
+              });
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('🗑️ ${std['name']} silindi.'),
+                  backgroundColor: const Color(0xFFDC2626),
+                ),
+              );
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFDC2626)),
+            child: const Text('Evet, Sil', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _confirmClearAllTestStudents() {
+    showDialog(
+      context: context,
+      builder: (dCtx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Row(
+          children: [
+            Icon(Icons.delete_sweep_rounded, color: Colors.redAccent),
+            SizedBox(width: 8),
+            Text('Tüm Danışanları Temizle', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
+          ],
+        ),
+        content: const Text(
+          'Tüm test danışanlarını ve seans loglarını temizlemek istiyor musunuz? Paneliniz gerçek kullanım için sıfırlanacaktır.',
+          style: TextStyle(fontSize: 13),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(dCtx), child: const Text('İptal')),
+          ElevatedButton(
+            onPressed: () {
+              _dkt.clearAllStudents();
+              Navigator.pop(dCtx);
+              setState(() {
+                _selectedStudent = null;
+              });
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('🗑️ Tüm test danışanları ve seans logları temizlendi.'),
+                  backgroundColor: Color(0xFF16A34A),
+                ),
+              );
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFDC2626)),
+            child: const Text('Evet, Temizle', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          ),
+        ],
       ),
     );
   }
@@ -1186,6 +1267,19 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
               ),
+              if (_students.isNotEmpty) ...[
+                const SizedBox(width: 8),
+                OutlinedButton.icon(
+                  onPressed: _confirmClearAllTestStudents,
+                  icon: const Icon(Icons.delete_sweep_rounded, size: 16, color: Color(0xFFDC2626)),
+                  label: const Text('Tümünü Temizle', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5, color: Color(0xFFDC2626))),
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: Color(0xFFFCA5A5)),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  ),
+                ),
+              ],
             ],
           ),
         ),
@@ -1612,16 +1706,28 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(std['avatar'] ?? '👦', style: const TextStyle(fontSize: 28)),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFE8F5E9),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Text(
-                            '%${std['accuracy']} Başarı',
-                            style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 10.5, color: Color(0xFF2E7D32)),
-                          ),
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFE8F5E9),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                '%${std['accuracy']} Başarı',
+                                style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 10.5, color: Color(0xFF2E7D32)),
+                              ),
+                            ),
+                            const SizedBox(width: 4),
+                            IconButton(
+                              icon: const Icon(Icons.delete_outline_rounded, size: 18, color: Colors.redAccent),
+                              tooltip: 'Danışanı Sil',
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                              onPressed: () => _confirmDeleteStudent(std),
+                            ),
+                          ],
                         ),
                       ],
                     ),

@@ -882,13 +882,16 @@ class RewardState extends ChangeNotifier {
     }
 
     try {
-      TherapistStateService().recordSession(
-        studentName: _studentName,
-        phoneme: cleanP,
-        accuracy: stat.accuracyPercentage.toDouble(),
-        wordsCorrect: stat.correctAttempts,
-        wordsAttempted: stat.totalAttempts,
-      );
+      final sName = _studentName.trim().toLowerCase();
+      if (sName.length > 1 && sName != 'd' && sName != 'test' && sName != 'betül') {
+        TherapistStateService().recordSession(
+          studentName: _studentName,
+          phoneme: cleanP,
+          accuracy: stat.accuracyPercentage.toDouble(),
+          wordsCorrect: stat.correctAttempts,
+          wordsAttempted: stat.totalAttempts,
+        );
+      }
     } catch (_) {}
 
     notifyListeners();

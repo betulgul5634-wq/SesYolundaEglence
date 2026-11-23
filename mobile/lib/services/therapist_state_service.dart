@@ -119,7 +119,10 @@ class TherapistStateService extends ChangeNotifier {
     String? therapistCode,
   }) {
     final cleanName = name.trim();
-    if (cleanName.isEmpty) return;
+    if (cleanName.length <= 1) return;
+    if (cleanName.toLowerCase() == 'd' || cleanName.toLowerCase() == 'test') return;
+    if (_therapistName.isNotEmpty && cleanName.toLowerCase() == _therapistName.trim().toLowerCase()) return;
+    if (cleanName.toLowerCase() == 'betül') return;
 
     final existingIdx = _students.indexWhere(
       (s) => s['name'].toString().toLowerCase().contains(cleanName.toLowerCase()),
@@ -166,7 +169,7 @@ class TherapistStateService extends ChangeNotifier {
     String parentEmail = '',
   }) {
     final cleanName = name.trim();
-    if (cleanName.isEmpty) return;
+    if (cleanName.length <= 1) return;
 
     final newId = _students.length + 1;
     final studentCode = 'DKT-$newId-${cleanName.split(' ').first.toUpperCase()}';
@@ -201,23 +204,40 @@ class TherapistStateService extends ChangeNotifier {
     String? note,
   }) {
     final cleanName = studentName.trim();
-    var idx = _students.indexWhere((s) => s['name'].toString().contains(cleanName));
+    if (cleanName.length <= 1) return;
+    if (cleanName.toLowerCase() == 'd' || cleanName.toLowerCase() == 'test') return;
+    if (_therapistName.isNotEmpty && cleanName.toLowerCase() == _therapistName.trim().toLowerCase()) return;
+    if (cleanName.toLowerCase() == 'betül') return;
+
+    var idx = _students.indexWhere((s) => s['name'].toString().toLowerCase().contains(cleanName.toLowerCase()));
     if (idx == -1) {
       syncStudentFromOnboarding(name: cleanName, avatar: '👦');
-      idx = _students.indexWhere((s) => s['name'].toString().contains(cleanName));
+      idx = _students.indexWhere((s) => s['name'].toString().toLowerCase().contains(cleanName.toLowerCase()));
       if (idx == -1) return;
     }
 
     final std = _students[idx];
     final sessionsList = (std['sessions'] as List<dynamic>?) ?? [];
+    final cleanPhoneme = phoneme.replaceAll('/', '').trim();
 
-    sessionsList.insert(0, {
-      'date': 'Bugün',
-      'phoneme': phoneme.replaceAll('/', '').trim(),
-      'words': '$wordsCorrect/$wordsAttempted',
-      'acc': accuracy,
-      'note': note ?? 'Artikülasyon egzersiz seansı tamamlandı.',
-    });
+    // Aynı günde aynı fonem için seans varsa güncelle
+    final existingIdx = sessionsList.indexWhere(
+      (se) => (se as Map)['date'] == 'Bugün' && (se['phoneme'] == cleanPhoneme),
+    );
+
+    if (existingIdx != -1) {
+      sessionsList[existingIdx]['words'] = '$wordsCorrect/$wordsAttempted';
+      sessionsList[existingIdx]['acc'] = accuracy;
+      sessionsList[existingIdx]['note'] = note ?? 'Artikülasyon egzersiz seansı güncellendi.';
+    } else {
+      sessionsList.insert(0, {
+        'date': 'Bugün',
+        'phoneme': cleanPhoneme,
+        'words': '$wordsCorrect/$wordsAttempted',
+        'acc': accuracy,
+        'note': note ?? 'Artikülasyon egzersiz seansı tamamlandı.',
+      });
+    }
 
     std['sessions'] = sessionsList;
     std['sessions_count'] = sessionsList.length;
@@ -240,7 +260,40 @@ class TherapistStateService extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// 8. Danışanın Karne ve Seans Verilerini Sıfırla
+  /// 8. Tüm Danışanları Temizle (Panel Sıfırlama)
+  void clearAllStudents() {
+    _students.clear();
+    _saveToLocalStorage();
+    notifyListeners();
+  }
+
+  /// 9. Gerçek Olmayan ve Test Danışanlarını Otomatik Temizle
+  void purgeInvalidAndTestStudents() {
+    _students.removeWhere((s) {
+      final name = (s['name'] as String? ?? '').trim().toLowerCase();
+      return name.length <= 1 ||
+             name == 'd' ||
+             name == 'test' ||
+             name == 'ali kaya' ||
+             name == 'zeynep su' ||
+             name == 'can (aktif danışan)' ||
+             name.contains('ali kaya') ||
+             name == _therapistName.trim().toLowerCase() ||
+             name == 'betül';
+    });
+    for (final s in _students) {
+      final sessList = (s['sessions'] as List<dynamic>?) ?? [];
+      sessList.removeWhere((se) {
+        final words = (se as Map)['words']?.toString() ?? '';
+        return words == '0/1' || words == '0/2' || words == '0/3';
+      });
+      s['sessions_count'] = sessList.length;
+    }
+    _saveToLocalStorage();
+    notifyListeners();
+  }
+
+  /// 10. Danışanın Karne ve Seans Verilerini Sıfırla
   void clearStudentSessions(dynamic studentId) {
     final idx = _students.indexWhere((s) => s['id'] == studentId);
     if (idx != -1) {
@@ -253,7 +306,7 @@ class TherapistStateService extends ChangeNotifier {
     }
   }
 
-  /// 9. Tüm Danışanların Seans Verilerini Sıfırla
+  /// 11. Tüm Danışanların Seans Verilerini Sıfırla
   void resetAllStudentsData() {
     for (final s in _students) {
       s['sessions'] = <Map<String, dynamic>>[];
@@ -324,11 +377,20 @@ class TherapistStateService extends ChangeNotifier {
           _students.clear();
           for (final item in list) {
             final m = Map<String, dynamic>.from(item as Map);
-            final name = (m['name'] as String? ?? '').toLowerCase();
-            if (!name.contains('ali kaya') && !name.contains('zeynep su') && !name.contains('can (aktif danışan)')) {
+            final name = (m['name'] as String? ?? '').trim().toLowerCase();
+            final isInvalid = name.length <= 1 ||
+                              name == 'd' ||
+                              name == 'test' ||
+                              name == 'betül' ||
+                              name == _therapistName.trim().toLowerCase() ||
+                              name.contains('ali kaya') ||
+                              name.contains('zeynep su') ||
+                              name.contains('can (aktif danışan)');
+            if (!isInvalid) {
               _students.add(m);
             }
           }
+          storage['sye_dkt_students'] = jsonEncode(_students);
         }
       }
     } catch (_) {}
