@@ -170,6 +170,9 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
                       TextButton(
                         onPressed: () {
                           _sfx.playPopSound();
+                          _rewardState.setGuestMode(true);
+                          _rewardState.setStudentName('Misafir Kaşif');
+                          _rewardState.setActiveAvatar('👀');
                           _goToGameMap();
                         },
                         child: const Row(
@@ -186,6 +189,30 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
                             ),
                             SizedBox(width: 4),
                             Icon(Icons.arrow_forward_rounded, size: 14, color: Color(0xFF94A3B8)),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF1F5F9),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: const Color(0xFFCBD5E1)),
+                        ),
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text('🔒', style: TextStyle(fontSize: 11)),
+                            SizedBox(width: 5),
+                            Text(
+                              'Deneme Sürümü: İlk 3 ses durağı (/p/, /b/, /m/) açıktır',
+                              style: TextStyle(
+                                color: Color(0xFF64748B),
+                                fontSize: 10.5,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -742,6 +769,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
     }
     final therapistCode = _childTherapistCodeCtrl.text.trim().toUpperCase();
 
+    _rewardState.setGuestMode(false);
     _rewardState.setStudentName(name);
     _rewardState.setActiveAvatar(_selectedChildAvatar);
     if (email.isNotEmpty) {
@@ -1081,6 +1109,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
       edevletDocNo: doc,
       password: pass,
     );
+    _rewardState.setGuestMode(false);
     _rewardState.setTherapistEmail(email);
 
     _sfx.playVictoryFanfare();
@@ -1237,6 +1266,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
               } else if (email.endsWith('@')) {
                 email = '${email}gmail.com';
               }
+              _rewardState.setGuestMode(false);
               _rewardState.setParentEmail(email);
               final userNameFromEmail = email.split('@').first;
               String formattedName = 'Öğrenci';
@@ -1388,6 +1418,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
               } else if (email.endsWith('@')) {
                 email = '${email}gmail.com';
               }
+              _rewardState.setGuestMode(false);
               _dkt.loginTherapist(email, pass);
               _sfx.playSuccessDing();
               _goToTherapistPortal();

@@ -65,6 +65,30 @@ class _StudentProfilesDialogState extends State<StudentProfilesDialog> {
             ),
             const SizedBox(height: 14),
 
+            if (_rewardState.isGuest) ...[
+              Container(
+                margin: const EdgeInsets.only(bottom: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFEF3C7),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: const Color(0xFFF59E0B)),
+                ),
+                child: const Row(
+                  children: [
+                    Text('🔒', style: TextStyle(fontSize: 20)),
+                    SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'Misafir modundasınız. Çoklu öğrenci profili ve kalıcı gelişim takibi için lütfen ücretsiz hesabınızı oluşturun.',
+                        style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF92400E), height: 1.3),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+
             // Profil Listesi
             Flexible(
               child: ListenableBuilder(

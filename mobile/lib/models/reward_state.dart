@@ -77,6 +77,7 @@ class RewardState extends ChangeNotifier {
   String _parentEmail = '';
   String _therapistEmail = '';
   String _therapistCode = '';
+  bool _isGuest = false;
   String _activeProfileId = 'profile_1';
   final List<StudentProfile> _profiles = [];
 
@@ -84,6 +85,7 @@ class RewardState extends ChangeNotifier {
   String get parentEmail => _parentEmail;
   String get therapistEmail => _therapistEmail;
   String get therapistCode => _therapistCode;
+  bool get isGuest => _isGuest;
   String get activeProfileId => _activeProfileId;
   List<StudentProfile> get profiles => List.unmodifiable(_profiles);
 
@@ -99,6 +101,12 @@ class RewardState extends ChangeNotifier {
 
   void setTherapistCode(String code) {
     _therapistCode = code.trim().toUpperCase();
+    _saveToLocalStorage();
+    notifyListeners();
+  }
+
+  void setGuestMode(bool value) {
+    _isGuest = value;
     _saveToLocalStorage();
     notifyListeners();
   }
@@ -232,6 +240,9 @@ class RewardState extends ChangeNotifier {
       }
       if (storage.containsKey('sye_therapist_code')) {
         _therapistCode = storage['sye_therapist_code'] ?? '';
+      }
+      if (storage.containsKey('sye_is_guest')) {
+        _isGuest = storage['sye_is_guest'] == 'true';
       }
       if (storage.containsKey('sye_gems')) {
         _gems = int.tryParse(storage['sye_gems'] ?? '') ?? _gems;
@@ -421,6 +432,7 @@ class RewardState extends ChangeNotifier {
       storage['sye_active_profile_id'] = _activeProfileId;
       storage['sye_student_name'] = _studentName;
       storage['sye_therapist_code'] = _therapistCode;
+      storage['sye_is_guest'] = _isGuest ? 'true' : 'false';
       storage['sye_gems'] = _gems.toString();
       storage['sye_hearts'] = _hearts.toString();
       storage['sye_stars'] = _totalStars.toString();
@@ -895,7 +907,7 @@ class RewardState extends ChangeNotifier {
 
     try {
       final sName = _studentName.trim().toLowerCase();
-      if (sName.length > 1 && sName != 'd' && sName != 'test' && sName != 'betül') {
+      if (!_isGuest && sName.length > 1 && sName != 'd' && sName != 'test' && sName != 'betül') {
         TherapistStateService().recordSession(
           studentName: _studentName,
           phoneme: cleanP,

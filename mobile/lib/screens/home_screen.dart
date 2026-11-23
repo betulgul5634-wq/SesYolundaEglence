@@ -3,6 +3,7 @@ import '../widgets/student_profiles_dialog.dart';
 import '../widgets/therapist_portal_dialog.dart';
 import '../services/therapist_state_service.dart';
 import 'package:flutter/material.dart';
+import 'onboarding_auth_screen.dart';
 import '../data/sound_groups_data.dart';
 import '../models/sound_group.dart';
 import '../models/reward_state.dart';
@@ -134,6 +135,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   void _openPractice(SoundStage stage, int index) async {
+    // 🔒 Misafir Modu Kısıtlaması: İlk 3 ses durağı (/p/, /b/, /m/) denenebilir
+    if (_rewardState.isGuest && index >= 3) {
+      _showGuestRestrictionDialog(context, featureName: '${stage.phoneme} Sesi');
+      return;
+    }
+
     final result = await Navigator.push<bool>(
       context,
       MaterialPageRoute(
@@ -155,6 +162,81 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         );
       });
     }
+  }
+
+  void _showGuestRestrictionDialog(BuildContext context, {String? featureName}) {
+    _sfx.playPopSound();
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+        contentPadding: const EdgeInsets.all(24),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFEF3C7),
+                shape: BoxShape.circle,
+                border: Border.all(color: const Color(0xFFF59E0B), width: 2),
+              ),
+              child: const Text('🔒', style: TextStyle(fontSize: 40)),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              featureName != null ? '$featureName Kilitli' : 'Misafir Modu Kısıtı',
+              style: const TextStyle(
+                fontWeight: FontWeight.w900,
+                fontSize: 18,
+                color: Color(0xFF0F172A),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              featureName != null
+                  ? '$featureName durağı ve sonraki ses durakları misafir kullanıcılar için kilitlidir.\n\nMisafir modunda ilk 3 ses durağı (/p/, /b/, /m/) ücretsiz denenebilir. Tüm 20 fonem hiyerarşisine erişmek, rozetlerini kaydetmek ve terapi sürecini takip etmek için hemen ücretsiz hesabını oluştur!'
+                  : 'Bu özellik misafir kullanıcılar için kısıtlıdır. İlerlemelerinizi kaydetmek, rozet kazanmak ve tüm 20 ses durağını açmak için hemen ücretsiz kayıt olun!',
+              style: const TextStyle(fontSize: 12.5, color: Color(0xFF475569), height: 1.45),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              width: double.infinity,
+              height: 48,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.pop(ctx);
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => const OnboardingAuthScreen()),
+                  );
+                },
+                icon: const Icon(Icons.rocket_launch_rounded, color: Colors.white, size: 18),
+                label: const Text(
+                  'Ücretsiz Hesap Oluştur 🚀',
+                  style: TextStyle(fontWeight: FontWeight.w900, color: Colors.white, fontSize: 13.5),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF58CC02),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  elevation: 2,
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text(
+                'Keşfe Devam Et (İlk 3 Durak)',
+                style: TextStyle(color: Color(0xFF94A3B8), fontWeight: FontWeight.bold, fontSize: 12),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   List<SoundStage> get _filteredStages {
@@ -608,45 +690,99 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                 ),
 
-                // 👥 Öğrenci Profili / Değiştirici Butonu
-                InkWell(
-                  onTap: () {
-                    _sfx.playPopSound();
-                    showDialog(
-                      context: context,
-                      builder: (_) => const StudentProfilesDialog(),
-                    );
-                  },
-                  borderRadius: BorderRadius.circular(16),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE8F5E9),
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: const Color(0xFF4CAF50), width: 1.5),
-                      boxShadow: const [
-                        BoxShadow(color: Color(0x10000000), blurRadius: 4, offset: Offset(0, 2)),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(_rewardState.activeAvatar, style: const TextStyle(fontSize: 16)),
-                        const SizedBox(width: 5),
-                        Text(
-                          _rewardState.studentName,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w900,
-                            fontSize: 12.5,
-                            color: Color(0xFF1B5E20),
-                          ),
+                // 👥 Öğrenci Profili / Misafir Modu Butonu
+                if (_rewardState.isGuest) ...[
+                  InkWell(
+                    onTap: () {
+                      _sfx.playPopSound();
+                      _showGuestRestrictionDialog(context);
+                    },
+                    borderRadius: BorderRadius.circular(16),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFFFEF3C7), Color(0xFFFDE68A)],
                         ),
-                        const SizedBox(width: 2),
-                        const Icon(Icons.arrow_drop_down_rounded, size: 20, color: Color(0xFF2E7D32)),
-                      ],
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: const Color(0xFFF59E0B), width: 1.5),
+                        boxShadow: const [
+                          BoxShadow(color: Color(0x15000000), blurRadius: 4, offset: Offset(0, 2)),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text('👀', style: TextStyle(fontSize: 15)),
+                          const SizedBox(width: 5),
+                          const Text(
+                            'Misafir (3/20 Durak Açık)',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w900,
+                              fontSize: 11.5,
+                              color: Color(0xFF92400E),
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF58CC02),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: const Text(
+                              'Kayıt Ol 🚀',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                                fontSize: 10.5,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
+                ] else ...[
+                  InkWell(
+                    onTap: () {
+                      _sfx.playPopSound();
+                      showDialog(
+                        context: context,
+                        builder: (_) => const StudentProfilesDialog(),
+                      );
+                    },
+                    borderRadius: BorderRadius.circular(16),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE8F5E9),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: const Color(0xFF4CAF50), width: 1.5),
+                        boxShadow: const [
+                          BoxShadow(color: Color(0x10000000), blurRadius: 4, offset: Offset(0, 2)),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(_rewardState.activeAvatar, style: const TextStyle(fontSize: 16)),
+                          const SizedBox(width: 5),
+                          Text(
+                            _rewardState.studentName,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w900,
+                              fontSize: 12.5,
+                              color: Color(0xFF1B5E20),
+                            ),
+                          ),
+                          const SizedBox(width: 2),
+                          const Icon(Icons.arrow_drop_down_rounded, size: 20, color: Color(0xFF2E7D32)),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
                 const SizedBox(width: 8),
                 InkWell(
                   onTap: () {
@@ -1178,13 +1314,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      stage.phoneme,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w900,
-                                        fontSize: 15,
-                                        color: isSelected ? Colors.white : themeCol,
-                                      ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          stage.phoneme,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w900,
+                                            fontSize: 15,
+                                            color: isSelected ? Colors.white : themeCol,
+                                          ),
+                                        ),
+                                        if (_rewardState.isGuest && globalIndex >= 3) ...[
+                                          const SizedBox(width: 3),
+                                          const Text('🔒', style: TextStyle(fontSize: 10)),
+                                        ],
+                                      ],
                                     ),
                                     Text(
                                       stage.categoryTitle.split(' ')[0], // Çift, Diş, Yumuşak vs.
@@ -1400,8 +1545,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ),
                 const SizedBox(width: 6),
                 Text(
-                  '⭐ ${stage.starsCollected}/15',
-                  style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 12, color: Color(0xFFFF9600)),
+                  (_rewardState.isGuest && index >= 3)
+                      ? '🔒 Kilitli'
+                      : '⭐ ${stage.starsCollected}/15',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 12,
+                    color: (_rewardState.isGuest && index >= 3) ? const Color(0xFFEF4444) : const Color(0xFFFF9600),
+                  ),
                 ),
               ],
             ),
@@ -1472,6 +1623,28 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ),
                   ),
                 ),
+                if (_rewardState.isGuest && index >= 3)
+                  Positioned(
+                    top: 2,
+                    right: 4,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFEF4444),
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 4)],
+                        border: Border.all(color: Colors.white, width: 1.2),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.lock_rounded, size: 11, color: Colors.white),
+                          SizedBox(width: 2),
+                          Text('Kilitli', style: TextStyle(color: Colors.white, fontSize: 9.5, fontWeight: FontWeight.w900)),
+                        ],
+                      ),
+                    ),
+                  ),
                 if (stage.isCompleted)
                   Positioned(
                     top: 0,
