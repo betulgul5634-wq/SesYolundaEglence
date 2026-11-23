@@ -579,8 +579,8 @@ class _BadgesSheetState extends State<BadgesSheet> {
                               const SizedBox(width: 8),
                               _buildMiniStatBox(
                                 icon: '🗺️',
-                                label: 'Ses Durağı',
-                                value: '${rewardState.completedStagesCount} Durak',
+                                label: 'Harita Sesi',
+                                value: '${rewardState.completedStagesCount} / 20',
                                 color: const Color(0xFF047857),
                               ),
                               const SizedBox(width: 8),
@@ -591,6 +591,32 @@ class _BadgesSheetState extends State<BadgesSheet> {
                                 color: const Color(0xFFB91C1C),
                               ),
                             ],
+                          ),
+                          const SizedBox(height: 10),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withAlpha(180),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: const Color(0xFFFDE68A)),
+                            ),
+                            child: const Row(
+                              children: [
+                                Text('💡', style: TextStyle(fontSize: 13)),
+                                SizedBox(width: 6),
+                                Expanded(
+                                  child: Text(
+                                    'Yıldızlar mikrofona doğru konuştukça kazanılır. "Harita Sesi" bitirdiğin harf etaplarıdır (/p/, /b/ vb.).',
+                                    style: TextStyle(
+                                      fontSize: 10.5,
+                                      fontWeight: FontWeight.w700,
+                                      color: Color(0xFF92400E),
+                                      height: 1.25,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),

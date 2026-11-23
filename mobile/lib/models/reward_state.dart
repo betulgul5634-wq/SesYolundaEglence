@@ -308,7 +308,13 @@ class RewardState extends ChangeNotifier {
         if (raw != null && raw.isNotEmpty) {
           final list = jsonDecode(raw);
           if (list is List) {
-            _unlockedStickers.addAll(list.map((e) => e.toString().toLowerCase().trim()));
+            final set = list.map((e) => e.toString().toLowerCase().trim()).toSet();
+            // Eski sahte 10 mock çıkartmayı temizle
+            if (set.contains('pasta') && set.contains('panda') && set.length <= 10 && totalPracticedAttempts <= 2) {
+              storage.remove('sye_unlocked_stickers');
+            } else {
+              _unlockedStickers.addAll(set);
+            }
           }
         }
       }
@@ -341,9 +347,15 @@ class RewardState extends ChangeNotifier {
         if (raw != null && raw.isNotEmpty) {
           final map = jsonDecode(raw);
           if (map is Map) {
-            map.forEach((k, v) {
-              _stageStars[k.toString()] = int.tryParse(v.toString()) ?? 0;
-            });
+            final keys = map.keys.toSet();
+            final isMockSet = keys.length <= 5 && keys.contains('sound_p') && keys.contains('sound_b') && totalPracticedAttempts <= 2;
+            if (!isMockSet) {
+              map.forEach((k, v) {
+                _stageStars[k.toString()] = int.tryParse(v.toString()) ?? 0;
+              });
+            } else {
+              storage.remove('sye_stage_stars');
+            }
           }
         }
       }
@@ -563,10 +575,8 @@ class RewardState extends ChangeNotifier {
   String? _equippedPet = '🐶';
   final Set<String> _unlockedAccessories = {'hat_crown', 'prop_skateboard', 'hat_cap'};
 
-  // 📖 Çıkartma Albümü
-  final Set<String> _unlockedStickers = {
-    'pasta', 'panda', 'kedi', 'balon', 'roket', 'aslan', 'elma', 'araba', 'peynir', 'robot'
-  };
+  // 📖 Çıkartma Albümü (Mikrofonla pratik yapıp kelimeleri bildikçe açılır)
+  final Set<String> _unlockedStickers = {};
 
   // 🎡 Şans Çarkıfeleği Günlük Durumu
   bool _spinWheelAvailable = true;
@@ -580,14 +590,8 @@ class RewardState extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Seviye Yıldız İlerlemesi: id -> 1, 2, 3 yıldız
-  final Map<String, int> _stageStars = {
-    'sound_p': 3,
-    'sound_b': 3,
-    'sound_m': 3,
-    'sound_n': 2,
-    'sound_r': 1,
-  };
+  // Seviye Yıldız İlerlemesi: id -> 1, 2, 3 yıldız (Haritada sesler tamamlandıkça dolar)
+  final Map<String, int> _stageStars = {};
 
   // Klinik Terapist / Ebeveyn İstatistikleri
   final Map<String, PhonemeStat> _phonemeStats = {};
@@ -603,12 +607,11 @@ class RewardState extends ChangeNotifier {
   /// Tamamlanan harita ses durakları sayısı (en az 1 yıldız kazanılan)
   int get completedStagesCount => _stageStars.values.where((s) => s > 0).length;
 
-  /// Gerçek artikülasyon / telaffuz pratik kelime sayısı
+  /// Gerçek artikülasyon / telaffuz pratik kelime sayısı (Yalnızca gerçek denemeler)
   int get effectivePracticedWords {
     final fromStats = totalPracticedSuccesses;
-    final fromStages = _stageStars.values.fold<int>(0, (prev, stars) => prev + (stars > 0 ? stars * 2 : 0));
     final fromQuests = _questWordsCount;
-    return fromStats > 0 ? fromStats : (fromStages > 0 ? fromStages : fromQuests);
+    return fromStats > 0 ? fromStats : fromQuests;
   }
 
   Set<String> get unlockedBadges {
