@@ -498,7 +498,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Danışan / Öğrenci Kaydı', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16, color: Color(0xFF0F172A))),
-                  Text('Çocuğun kendi eğlenceli konuşma profili', style: TextStyle(fontSize: 11, color: Color(0xFF64748B))),
+                  Text('Eğlenceli konuşma ve ses profili', style: TextStyle(fontSize: 11, color: Color(0xFF64748B))),
                 ],
               ),
             ),
@@ -506,12 +506,12 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
         ),
         const Divider(height: 20),
 
-        const Text('Çocuğun / Danışanın Adı:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
+        const Text('Kullanıcı Adı:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
         const SizedBox(height: 4),
         TextField(
           controller: _childNameCtrl,
           decoration: InputDecoration(
-            hintText: 'Çocuğunuzun Adı',
+            hintText: 'Kullanıcı Adı',
             prefixIcon: const Icon(Icons.person_outline_rounded, size: 20),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
@@ -522,7 +522,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
         const SizedBox(height: 10),
 
         // Yaş Seçimi
-        const Text('Çocuğun Yaşı:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
+        const Text('Yaş:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
         const SizedBox(height: 6),
         SizedBox(
           height: 36,
@@ -661,7 +661,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
     if (name.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('⚠️ Lütfen çocuğunuzun adını giriniz.'),
+          content: Text('⚠️ Lütfen bir kullanıcı adı giriniz.'),
           backgroundColor: Colors.orangeAccent,
         ),
       );
@@ -1037,7 +1037,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('${_rewardState.studentName} (Aktif Çocuk)', style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 13, color: Color(0xFF166534))),
+                    Text('${_rewardState.studentName} (Aktif Danışan)', style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 13, color: Color(0xFF166534))),
                     Text('⭐ ${_rewardState.totalStars} Yıldız • 🔥 ${_rewardState.streakDays} Gün Serisi', style: const TextStyle(fontSize: 10.5, color: Color(0xFF15803D))),
                   ],
                 ),
