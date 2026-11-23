@@ -98,6 +98,19 @@ class TherapistStateService extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// 4. Şifre Sıfırlama
+  bool resetPassword(String emailInput, String newPassword) {
+    final cleanEmail = emailInput.trim().toLowerCase();
+    if (cleanEmail.isNotEmpty) _email = cleanEmail;
+    if (newPassword.trim().isNotEmpty) {
+      _password = newPassword.trim();
+      _saveToLocalStorage();
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
+
   /// 4. Çocuğu Terapist Sistemine Eşle & Senkronize Et
   void syncStudentFromOnboarding({
     required String name,

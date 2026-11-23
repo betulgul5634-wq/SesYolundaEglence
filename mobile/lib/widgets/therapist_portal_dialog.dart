@@ -88,6 +88,235 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
     super.dispose();
   }
 
+  void _showForgotPasswordDialog(BuildContext context, {String initialEmail = ''}) {
+    final cleanInitial = initialEmail.replaceAll('@gmail.com', '').trim();
+    final emailCtrl = TextEditingController(text: cleanInitial);
+    final newPassCtrl = TextEditingController();
+    final confirmPassCtrl = TextEditingController();
+    bool obscureNew = true;
+    bool obscureConfirm = true;
+
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return StatefulBuilder(
+          builder: (dialogCtx, setDialogState) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+              titlePadding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+              actionsPadding: const EdgeInsets.fromLTRB(20, 10, 20, 16),
+              title: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF42A5F5), Color(0xFF1E88E5)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Text('🔑', style: TextStyle(fontSize: 20)),
+                  ),
+                  const SizedBox(width: 10),
+                  const Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Şifremi Unuttum',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Color(0xFF0F172A)),
+                        ),
+                        Text(
+                          'Yeni şifrenizi belirleyerek hesabınızı yenileyin',
+                          style: TextStyle(fontSize: 11, color: Color(0xFF64748B), fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Divider(height: 16),
+                    const Text('Kayıtlı E-Posta Adresiniz:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
+                    const SizedBox(height: 4),
+                    TextField(
+                      controller: emailCtrl,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        hintText: 'kullaniciadi',
+                        prefixIcon: const Icon(Icons.alternate_email_rounded, size: 18),
+                        suffixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+                        suffixIcon: const Padding(
+                          padding: EdgeInsets.only(right: 14),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                '@gmail.com',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w900,
+                                  color: Color(0xFF1E88E5),
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        filled: true,
+                        fillColor: const Color(0xFFF8FAFC),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+
+                    const Text('Yeni Şifre Belirleyin:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
+                    const SizedBox(height: 4),
+                    TextField(
+                      controller: newPassCtrl,
+                      obscureText: obscureNew,
+                      decoration: InputDecoration(
+                        hintText: 'En az 4 karakter',
+                        prefixIcon: const Icon(Icons.lock_outline_rounded, size: 18),
+                        suffixIcon: IconButton(
+                          icon: Icon(obscureNew ? Icons.visibility_off_rounded : Icons.visibility_rounded, size: 18, color: const Color(0xFF64748B)),
+                          onPressed: () => setDialogState(() => obscureNew = !obscureNew),
+                        ),
+                        filled: true,
+                        fillColor: const Color(0xFFF8FAFC),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+
+                    const Text('Yeni Şifre (Tekrar):', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
+                    const SizedBox(height: 4),
+                    TextField(
+                      controller: confirmPassCtrl,
+                      obscureText: obscureConfirm,
+                      decoration: InputDecoration(
+                        hintText: 'Şifrenizi tekrar yazın',
+                        prefixIcon: const Icon(Icons.lock_reset_rounded, size: 18),
+                        suffixIcon: IconButton(
+                          icon: Icon(obscureConfirm ? Icons.visibility_off_rounded : Icons.visibility_rounded, size: 18, color: const Color(0xFF64748B)),
+                          onPressed: () => setDialogState(() => obscureConfirm = !obscureConfirm),
+                        ),
+                        filled: true,
+                        fillColor: const Color(0xFFF8FAFC),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF0FDF4),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: const Color(0xFFBBF7D0)),
+                      ),
+                      child: const Row(
+                        children: [
+                          Icon(Icons.shield_outlined, color: Color(0xFF16A34A), size: 18),
+                          SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              'Yeni şifreniz kaydedildikten sonra hesabınıza anında tanımlanır.',
+                              style: TextStyle(fontSize: 10.5, color: Color(0xFF166534), fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(dialogCtx).pop(),
+                  child: const Text('Vazgeç', style: TextStyle(color: Color(0xFF64748B), fontWeight: FontWeight.bold)),
+                ),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    var rawEmail = emailCtrl.text.trim();
+                    final newPass = newPassCtrl.text.trim();
+                    final confirmPass = confirmPassCtrl.text.trim();
+
+                    if (rawEmail.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('⚠️ Lütfen e-posta adresinizi giriniz.'), backgroundColor: Colors.orangeAccent),
+                      );
+                      return;
+                    }
+                    if (newPass.length < 4) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('⚠️ Şifre en az 4 karakter olmalıdır.'), backgroundColor: Colors.orangeAccent),
+                      );
+                      return;
+                    }
+                    if (newPass != confirmPass) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('⚠️ Şifreler birbiriyle eşleşmiyor!'), backgroundColor: Colors.redAccent),
+                      );
+                      return;
+                    }
+
+                    if (!rawEmail.contains('@')) {
+                      rawEmail = '$rawEmail@gmail.com';
+                    } else if (rawEmail.endsWith('@')) {
+                      rawEmail = '${rawEmail}gmail.com';
+                    }
+
+                    _dkt.resetPassword(rawEmail, newPass);
+                    final prefix = rawEmail.replaceAll('@gmail.com', '');
+                    setState(() {
+                      _loginEmailCtrl.text = prefix;
+                      _loginPassCtrl.text = newPass;
+                      _regEmailCtrl.text = prefix;
+                      _regPassCtrl.text = newPass;
+                    });
+
+                    _sfx.playSuccessDing();
+                    Navigator.of(dialogCtx).pop();
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Row(
+                          children: [
+                            const Icon(Icons.check_circle_rounded, color: Colors.white),
+                            const SizedBox(width: 8),
+                            Expanded(child: Text('✅ Şifreniz başarıyla yenilendi! ($rawEmail)')),
+                          ],
+                        ),
+                        backgroundColor: const Color(0xFF16A34A),
+                        duration: const Duration(seconds: 4),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.check_rounded, size: 16, color: Colors.white),
+                  label: const Text('Şifremi Sıfırla & Kaydet', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF1E88E5),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
   void _showAddStudentModal() {
     final nameCtrl = TextEditingController();
     final parentEmailCtrl = TextEditingController();
@@ -504,10 +733,28 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                   // GİRİŞ FORMU
                   TextField(
                     controller: _loginEmailCtrl,
+                    keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       labelText: 'E-posta Adresi',
                       labelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
                       prefixIcon: const Icon(Icons.email_outlined, size: 18),
+                      suffixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+                      suffixIcon: const Padding(
+                        padding: EdgeInsets.only(right: 14),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              '@gmail.com',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                                color: Color(0xFF1E88E5),
+                                fontSize: 13,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                     ),
@@ -524,13 +771,34 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                       contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                     ),
                   ),
-                  const SizedBox(height: 18),
+                  const SizedBox(height: 4),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton.icon(
+                      onPressed: () => _showForgotPasswordDialog(context, initialEmail: _loginEmailCtrl.text.trim()),
+                      icon: const Icon(Icons.lock_reset_rounded, size: 15, color: Color(0xFF1E88E5)),
+                      label: const Text(
+                        'Şifremi Unuttum',
+                        style: TextStyle(
+                          fontSize: 11.5,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF1E88E5),
+                        ),
+                      ),
+                      style: TextButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 14),
                   SizedBox(
                     width: double.infinity,
                     height: 44,
                     child: ElevatedButton(
                       onPressed: () {
-                        final email = _loginEmailCtrl.text.trim();
+                        var email = _loginEmailCtrl.text.trim();
                         final pass = _loginPassCtrl.text.trim();
                         if (email.isEmpty || pass.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -540,6 +808,11 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                             ),
                           );
                           return;
+                        }
+                        if (!email.contains('@')) {
+                          email = '$email@gmail.com';
+                        } else if (email.endsWith('@')) {
+                          email = '${email}gmail.com';
                         }
                         _dkt.loginTherapist(email, pass);
                         setState(() {
@@ -660,10 +933,28 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                   const SizedBox(height: 10),
                   TextField(
                     controller: _regEmailCtrl,
+                    keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       labelText: 'E-posta Adresi',
                       labelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
                       prefixIcon: const Icon(Icons.email_outlined, size: 18),
+                      suffixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+                      suffixIcon: const Padding(
+                        padding: EdgeInsets.only(right: 14),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              '@gmail.com',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                                color: Color(0xFF1E88E5),
+                                fontSize: 13,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                     ),
@@ -680,7 +971,28 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                       contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                     ),
                   ),
-                  const SizedBox(height: 18),
+                  const SizedBox(height: 4),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton.icon(
+                      onPressed: () => _showForgotPasswordDialog(context, initialEmail: _regEmailCtrl.text.trim()),
+                      icon: const Icon(Icons.lock_reset_rounded, size: 15, color: Color(0xFF1E88E5)),
+                      label: const Text(
+                        'Şifremi Unuttum',
+                        style: TextStyle(
+                          fontSize: 11.5,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF1E88E5),
+                        ),
+                      ),
+                      style: TextButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 14),
                   SizedBox(
                     width: double.infinity,
                     height: 44,
@@ -706,9 +1018,15 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                         }
                         final name = _regNameCtrl.text.trim();
                         final clinic = _regClinicCtrl.text.trim().isNotEmpty ? _regClinicCtrl.text.trim() : 'Dil ve Konuşma Danışmanlık Merkezi';
-                        final email = _regEmailCtrl.text.trim();
+                        var email = _regEmailCtrl.text.trim();
                         final doc = _regEdevletCtrl.text.trim();
                         final pass = _regPassCtrl.text.trim().isNotEmpty ? _regPassCtrl.text.trim() : '123456';
+
+                        if (!email.contains('@')) {
+                          email = '$email@gmail.com';
+                        } else if (email.endsWith('@')) {
+                          email = '${email}gmail.com';
+                        }
 
                         _dkt.registerTherapist(
                           name: name,
