@@ -23,6 +23,7 @@ import '../widgets/subway_surfers_unlock_dialog.dart';
 import '../widgets/avatar_showcase_widget.dart';
 import '../widgets/hearts_refill_dialog.dart';
 import '../widgets/gems_shop_dialog.dart';
+import '../widgets/voice_flight_mini_game.dart';
 import '../services/audio_speech_service.dart';
 
 class SoundPracticeScreen extends StatefulWidget {
@@ -298,6 +299,144 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
     );
   }
 
+  void _openVoiceFlightGame() {
+    showDialog(
+      context: context,
+      builder: (ctx) => VoiceFlightMiniGameDialog(
+        phoneme: widget.stage.soundLetter,
+        soundTitle: widget.stage.phoneme,
+        onGameWon: () {
+          _rewardState.recordPracticeToday();
+          _rewardState.recordQuestMiniGame();
+          _rewardState.addReward(earnedStars: 4, earnedXp: 40, earnedGems: 20);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('🚀 Harika Uçuş! Roketi sesinle göklere uçurdun! +4 ⭐ +20 💎'),
+              backgroundColor: Color(0xFF2E7D32),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  void _openMirrorForWord([String? word]) {
+    showDialog(
+      context: context,
+      builder: (ctx) => SpeechMirrorDialog(
+        phoneme: widget.stage.phoneme,
+        hint: widget.stage.articulationHint,
+        targetWord: word,
+      ),
+    );
+  }
+
+  void _showSurpriseMiniGameBreakDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (ctx) => Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+        child: Container(
+          width: 380,
+          padding: const EdgeInsets.all(22),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(28),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: const BoxDecoration(
+                  color: Color(0xFFFFF8E1),
+                  shape: BoxShape.circle,
+                ),
+                child: const Text('🎉', style: TextStyle(fontSize: 44)),
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                '5 Kelimeyi Harika Söyledin!',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 19, fontWeight: FontWeight.w900, color: Color(0xFF2E7D32)),
+              ),
+              const SizedBox(height: 6),
+              const Text(
+                'Sürpriz oyun molası kazandın! 🌟 Hangisini oynamak istersin?',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 13.5, color: Colors.black87, fontWeight: FontWeight.w700),
+              ),
+              const SizedBox(height: 18),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFFF7043),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(ctx);
+                        _openBalloonGame();
+                      },
+                      child: const Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text('🎈', style: TextStyle(fontSize: 26)),
+                          SizedBox(height: 4),
+                          Text(
+                            'Balon Patlat',
+                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 13),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF7E57C2),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(ctx);
+                        _openVoiceFlightGame();
+                      },
+                      child: const Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text('🚀', style: TextStyle(fontSize: 26)),
+                          SizedBox(height: 4),
+                          Text(
+                            'Sesle Uçuş',
+                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 13),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              TextButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: const Text(
+                  'Pratiğe Devam Et ⏩',
+                  style: TextStyle(fontWeight: FontWeight.w800, color: Colors.grey, fontSize: 13),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   void _openVoicePostcard() {
     showDialog(
       context: context,
@@ -379,12 +518,22 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
         barrierDismissible: false,
         builder: (ctx) => _CelebrationConfettiDialog(
           result: result,
-          onContinue: () => Navigator.pop(ctx),
+          onContinue: () {
+            Navigator.pop(ctx);
+            // Her 5 başarılı kelimede bir sürpriz mini oyun molası teklif et
+            if (_completedWordsInSession.isNotEmpty && _completedWordsInSession.length % 5 == 0) {
+              Future.delayed(const Duration(milliseconds: 350), () {
+                if (mounted) _showSurpriseMiniGameBreakDialog();
+              });
+            }
+          },
         ),
       );
     } else {
-      _rewardState.loseHeart();
-      // Hatalı sesletim: Detaylı klinik artikülasyon ve hata teşhis diyaloğu
+      // Çocuk dostu pedagoji: Can kaybı CEZASI YOKTUR! Çaba & Gayret Yıldızı verilir ⭐
+      _rewardState.addReward(earnedStars: 1, earnedXp: 15, earnedGems: 5);
+
+      // Hatalı sesletim: Çocuk dostu sıcak teşvik ve rehberlik diyaloğu
       showDialog(
         context: context,
         builder: (ctx) => _DiagnosticErrorDialog(
@@ -401,14 +550,7 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
             );
           },
         ),
-      ).then((_) {
-        if (_rewardState.hearts <= 0 && mounted) {
-          showDialog(
-            context: context,
-            builder: (_) => const HeartsRefillDialog(),
-          );
-        }
-      });
+      );
     }
   }
 
@@ -883,15 +1025,7 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
           ),
           // 🪞 Canlı Konuşma Aynası Butonu
           InkWell(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (ctx) => SpeechMirrorDialog(
-                  phoneme: widget.stage.phoneme,
-                  hint: widget.stage.articulationHint,
-                ),
-              );
-            },
+            onTap: () => _openMirrorForWord(),
             borderRadius: BorderRadius.circular(16),
             child: Container(
               margin: const EdgeInsets.only(right: 6),
@@ -1525,15 +1659,15 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
                 const Icon(Icons.menu_book_rounded, color: Color(0xFF0288D1), size: 48),
                 const SizedBox(height: 12),
                 const Text(
-                  'Klinik Sesbilgisi Kuralı (Ötümsüzleşme)',
+                  '😴 Bu Ses Kelimenin Sonunda Uykuya Dalar!',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Color(0xFF01579B)),
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  'Türkçe fonoloji kuralları gereği ötümlü ünsüzler (örneğin ${widget.stage.phoneme} sesi) kelime sonunda yer almaz; ötümsüzleşerek sert karşılığına dönüşür.\n\nBu nedenle klinik artikülasyon kitabında da ${widget.stage.phoneme} sesi için $position pozisyonu boş bırakılmıştır.',
+                  'Güzel Türkçemizde ${widget.stage.phoneme} sesi kelimelerin en sonunda kullanılmaz, çünkü yorulup arkadaşı olan sert sese dönüşür!\n\nBu yüzden bu durağımızda kelime sonu çalışmıyoruz. Diğer konumlardaki kelimeleri keşfetmeye devam et! 🎈🚀',
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 13, height: 1.6, fontWeight: FontWeight.w600, color: Color(0xFF37474F)),
+                  style: const TextStyle(fontSize: 13, height: 1.6, fontWeight: FontWeight.w700, color: Color(0xFF37474F)),
                 ),
               ],
             ),
@@ -1733,6 +1867,8 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
                 primaryColor: primaryColor,
                 isSpeakingNow: isSpeaking,
                 onListen: () => _onlyListen(word),
+                onSlowListen: () => _onlyListen(word, mode: 'syllable'),
+                onOpenMirror: () => _openMirrorForWord(word),
                 onSpeak: () => _listenThenSpeak(word),
               );
             },
@@ -2273,16 +2409,16 @@ class _SpeechInteractiveSheetState extends State<_SpeechInteractiveSheet> {
           const SizedBox(height: 6),
           Text(
             _isPlayingAudio
-                ? 'Öğretmen seslendiriyor, dikkatle dinle... 👩‍🏫'
+                ? 'Beni dikkatle dinle... 👂🔊'
                 : (_isListeningMic
-                    ? 'Seni dinliyorum, rahatça söyle! Bitince butona bas 🎙️'
-                    : 'Hazırsan yeşil butona bas ve söyle!'),
+                    ? 'Seni dinliyorum, rahatça söyle! 🎙️'
+                    : 'Beni dinledin, şimdi sıra sende! Hadi söyle! 🌟'),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14,
               color: _isPlayingAudio
                   ? const Color(0xFF1976D2)
-                  : (_isListeningMic ? const Color(0xFFD32F2F) : Colors.black87),
+                  : (_isListeningMic ? const Color(0xFFD32F2F) : const Color(0xFF2E7D32)),
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -2733,6 +2869,7 @@ class _DiagnosticErrorDialogState extends State<_DiagnosticErrorDialog> {
   @override
   Widget build(BuildContext context) {
     final int score = widget.result.score;
+    final int childEffort = (score > 0 ? score : 55).clamp(45, 95);
     final int errorPct = widget.result.errorPercentage > 0 ? widget.result.errorPercentage : (100 - score);
 
     return Dialog(
@@ -2862,7 +2999,7 @@ class _DiagnosticErrorDialogState extends State<_DiagnosticErrorDialog> {
                           border: Border.all(color: const Color(0xFF81C784)),
                         ),
                         child: Text(
-                          'Gayret Puanın: %$score ⭐ (Çok Yaklaştın!)',
+                          'Çaba Puanın: %$childEffort ⭐ (+1 Gayret Yıldızı Kazandın!)',
                           style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 13, color: Color(0xFF2E7D32)),
                         ),
                       ),

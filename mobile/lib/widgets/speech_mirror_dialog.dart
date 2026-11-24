@@ -11,11 +11,13 @@ import '../models/reward_state.dart';
 class SpeechMirrorDialog extends StatefulWidget {
   final String phoneme;
   final String hint;
+  final String? targetWord;
 
   const SpeechMirrorDialog({
     super.key,
     required this.phoneme,
     this.hint = '',
+    this.targetWord,
   });
 
   @override
@@ -161,7 +163,31 @@ class _SpeechMirrorDialogState extends State<SpeechMirrorDialog> {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
+
+            // Hedef Kelime Rozeti (Kelime Kartından Açıldıysa)
+            if (widget.targetWord != null && widget.targetWord!.isNotEmpty) ...[
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF3E5F5),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: const Color(0xFFBA68C8), width: 1.5),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text('🎯', style: TextStyle(fontSize: 16)),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Hedef Kelime: "${widget.targetWord}"',
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: Color(0xFF6A1B9A)),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 12),
+            ],
 
             // Kamera Görüntüsü Çerçevesi (Altın Ayna Çerçevesi)
             Container(

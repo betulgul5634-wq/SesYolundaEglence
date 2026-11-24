@@ -13,6 +13,8 @@ class Bouncy3DCard extends StatefulWidget {
   final bool isSpeakingNow;
   final VoidCallback onListen;
   final VoidCallback onSpeak;
+  final VoidCallback? onSlowListen;
+  final VoidCallback? onOpenMirror;
 
   const Bouncy3DCard({
     super.key,
@@ -24,6 +26,8 @@ class Bouncy3DCard extends StatefulWidget {
     this.isSpeakingNow = false,
     required this.onListen,
     required this.onSpeak,
+    this.onSlowListen,
+    this.onOpenMirror,
   });
 
   @override
@@ -202,10 +206,36 @@ class _Bouncy3DCardState extends State<Bouncy3DCard>
                 ),
               ),
 
-              // 3. İKİ ADET 3D FİZİKSEL OYUNCAK BUTON
+              // 3. 3D FİZİKSEL OYUNCAK BUTONLAR (KAPLUMBAĞA, AYNA, DİNLE, SÖYLE)
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  // 🐢 Kaplumbağa Modu (Yavaş / Hece Hece Dinleme)
+                  if (widget.onSlowListen != null) ...[
+                    _build3DButton(
+                      icon: Icons.hourglass_bottom_rounded,
+                      emoji: '🐢',
+                      color: const Color(0xFFFF9800),
+                      shadowColor: const Color(0xFFE65100),
+                      tooltip: 'Yavaş Dinle 🐢',
+                      onTap: widget.onSlowListen!,
+                    ),
+                    const SizedBox(width: 6),
+                  ],
+
+                  // 🪞 Canlı Konuşma Aynası
+                  if (widget.onOpenMirror != null) ...[
+                    _build3DButton(
+                      icon: Icons.face_rounded,
+                      emoji: '🪞',
+                      color: const Color(0xFF9C27B0),
+                      shadowColor: const Color(0xFF6A1B9A),
+                      tooltip: 'Canlı Ayna 🪞',
+                      onTap: widget.onOpenMirror!,
+                    ),
+                    const SizedBox(width: 6),
+                  ],
+
                   // Dinle Butonu (Mavi 3D Pill)
                   _build3DButton(
                     icon: Icons.volume_up_rounded,
@@ -214,7 +244,7 @@ class _Bouncy3DCardState extends State<Bouncy3DCard>
                     tooltip: 'Yalnızca Dinle 🔊',
                     onTap: widget.onListen,
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: 6),
 
                   // Söyle Butonu (Yeşil Büyük 3D Pill)
                   _build3DButton(
@@ -236,25 +266,31 @@ class _Bouncy3DCardState extends State<Bouncy3DCard>
 
   Widget _build3DButton({
     required IconData icon,
+    String? emoji,
     required Color color,
     required Color shadowColor,
     required String tooltip,
     required VoidCallback onTap,
     bool isLarge = false,
   }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(16),
-      child: Container(
-        padding: EdgeInsets.all(isLarge ? 10 : 8),
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(color: shadowColor, offset: const Offset(0, 3)),
-          ],
+    return Tooltip(
+      message: tooltip,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(16),
+        child: Container(
+          padding: EdgeInsets.all(isLarge ? 9 : 7),
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(color: shadowColor, offset: const Offset(0, 3)),
+            ],
+          ),
+          child: emoji != null
+              ? Text(emoji, style: TextStyle(fontSize: isLarge ? 20 : 16))
+              : Icon(icon, color: Colors.white, size: isLarge ? 22 : 18),
         ),
-        child: Icon(icon, color: Colors.white, size: isLarge ? 24 : 20),
       ),
     );
   }
