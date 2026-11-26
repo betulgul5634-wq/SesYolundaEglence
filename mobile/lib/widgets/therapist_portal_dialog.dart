@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +7,7 @@ import 'dart:html' as html;
 import '../services/sound_effects_service.dart';
 import '../services/therapist_state_service.dart';
 import '../models/reward_state.dart';
+import '../screens/onboarding_auth_screen.dart';
 
 /// 👨‍⚕️ UZMAN TERAPİST YÖNETİM PORTALI & GİRİŞ MERKEZİ (FLUTTER WEB ENTEGRE)
 /// Terapistin hastalarını, seanslarını, grafiklerini, klinik notlarını ve danışan kodlarını
@@ -35,6 +37,7 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
   final TherapistStateService _dkt = TherapistStateService();
 
   late bool _isLoggedIn;
+  bool _didLogout = false;
   bool _isRegisterMode = false;
   late String _therapistName;
   late String _clinicName;
@@ -60,6 +63,118 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
 
   List<Map<String, dynamic>> get _students => _dkt.students;
 
+  void _printFullStudentReport(Map<String, dynamic> student) {
+    if (!kIsWeb) return;
+    final sName = student['name']?.toString() ?? 'Danışan';
+    final age = student['age']?.toString() ?? '6';
+    final diag = student['diagnosis']?.toString() ?? 'Artikülasyon Güçlüğü';
+    final targets = student['target_phonemes']?.toString() ?? '-';
+    final acc = student['accuracy']?.toString() ?? '0';
+    final stars = student['total_stars']?.toString() ?? '0';
+    final assess = (student['clinical_assessment'] as String? ?? '').trim();
+    final sessions = (student['sessions'] as List<dynamic>?) ?? [];
+
+    final isActiveStudent = !RewardState().isGuest &&
+        RewardState().studentName.trim().toLowerCase() == sName.trim().toLowerCase();
+    final stats = isActiveStudent ? RewardState().phonemeStats.values : const <PhonemeStat>[];
+    int initAtt = 0, initCor = 0, medAtt = 0, medCor = 0, finAtt = 0, finCor = 0;
+    for (final s in stats) {
+      initAtt += s.initialAttempts;
+      initCor += s.initialCorrect;
+      medAtt += s.medialAttempts;
+      medCor += s.medialCorrect;
+      finAtt += s.finalAttempts;
+      finCor += s.finalCorrect;
+    }
+    final initPct = initAtt > 0 ? '%${((initCor / initAtt) * 100).round()}' : '-';
+    final medPct = medAtt > 0 ? '%${((medCor / medAtt) * 100).round()}' : '-';
+    final finPct = finAtt > 0 ? '%${((finCor / finAtt) * 100).round()}' : '-';
+
+    String esc(String v) => v.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+
+    final sessionRows = sessions.isEmpty
+        ? '<tr><td colspan="4" style="text-align:center;color:#64748b;">Henüz seans kaydı bulunmamaktadır.</td></tr>'
+        : sessions.take(15).map((s) {
+            final m = s as Map;
+            return '<tr>'
+                '<td>${esc(m['date']?.toString() ?? '')}</td>'
+                '<td><b>/${esc(m['phoneme']?.toString() ?? '')}/</b></td>'
+                '<td>%${esc(m['acc']?.toString() ?? '0')} (${esc(m['words']?.toString() ?? '')})</td>'
+                '<td>${esc(m['note']?.toString() ?? '')}</td>'
+                '</tr>';
+          }).join();
+
+    final reportHtml = '''
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Klinik Gelişim Karnesi - ${esc(sName)}</title>
+<style>
+  @page { size: A4; margin: 16mm; }
+  body { font-family: Arial, Helvetica, sans-serif; color: #0f172a; margin: 0; padding: 20px; }
+  .header { border-bottom: 3px solid #16a34a; padding-bottom: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
+  .title { font-size: 22px; font-weight: 900; color: #166534; margin: 0; }
+  .sub { font-size: 12px; color: #475569; margin-top: 4px; }
+  .box { border: 1px solid #cbd5e1; border-radius: 10px; padding: 14px; margin-bottom: 14px; background: #f8fafc; }
+  .grid { display: flex; gap: 12px; margin-bottom: 14px; }
+  .card { flex: 1; border: 1px solid #bbf7d0; border-radius: 10px; padding: 12px; background: #f0fdf4; }
+  .card h4 { margin: 0 0 6px 0; font-size: 12px; color: #166534; }
+  .big { font-size: 24px; font-weight: 900; color: #15803d; }
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 12px; }
+  th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; }
+  th { background: #e2e8f0; }
+  .assess { border: 1.5px solid #86efac; background: #f0fdf4; border-radius: 10px; padding: 14px; margin-top: 14px; }
+  .sign { text-align: right; margin-top: 14px; font-size: 12px; font-weight: bold; color: #166534; }
+  @media print { body { padding: 0; } }
+</style>
+</head>
+<body>
+  <div class="header">
+    <div>
+      <h1 class="title">Klinik Gelişim Karnesi</h1>
+      <div class="sub">Ebeveyn & Dil ve Konuşma Terapisti Klinik Değerlendirme Raporu</div>
+      <div class="sub"><b>Kurum:</b> ${esc(_clinicName)} • <b>Sorumlu:</b> ${esc(_therapistName)}</div>
+    </div>
+    <div style="text-align:right;font-size:11px;color:#475569;">
+      <b>Ses Yolunda Eğlence</b><br>e-Devlet Onaylı DKT Raporu
+    </div>
+  </div>
+
+  <div class="box">
+    <b>Danışan:</b> ${esc(sName)} &nbsp;|&nbsp; <b>Yaş:</b> ${esc(age)} &nbsp;|&nbsp; <b>Klinik Tanı:</b> ${esc(diag)} &nbsp;|&nbsp; <b>Hedef Sesler:</b> ${esc(targets)}
+  </div>
+
+  <div class="grid">
+    <div class="card"><h4>Genel Başarı</h4><div class="big">%${esc(acc)}</div></div>
+    <div class="card"><h4>Toplanan Yıldız</h4><div class="big">${esc(stars)} ⭐</div></div>
+    <div class="card"><h4>Başta / Ortada / Sonda</h4><div style="font-size:15px;font-weight:bold;">$initPct / $medPct / $finPct</div></div>
+  </div>
+
+  <div class="box" style="background:#fff;">
+    <b>Klinik Seans Geçmişi</b>
+    <table>
+      <thead><tr><th>Tarih</th><th>Ses</th><th>Başarı</th><th>Klinik Not / Ödev</th></tr></thead>
+      <tbody>$sessionRows</tbody>
+    </table>
+  </div>
+
+  <div class="assess">
+    <b>Uzman Terapist Klinik Değerlendirmesi & Öneri</b>
+    <p style="font-size:13px;line-height:1.5;">${assess.isNotEmpty ? esc(assess) : 'Değerlendirme notu henüz girilmemiştir.'}</p>
+    <div class="sign">${esc(_therapistName)}<br>e-Devlet Onaylı DKT</div>
+  </div>
+
+  <script>window.onload = function() { setTimeout(function() { window.print(); }, 250); };</script>
+</body>
+</html>
+''';
+
+    final blob = html.Blob([reportHtml], 'text/html;charset=utf-8');
+    final url = html.Url.createObjectUrlFromBlob(blob);
+    html.window.open(url, '_blank');
+  }
+
   @override
   void initState() {
     super.initState();
@@ -69,7 +184,7 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
 
   void _syncFromService() {
     // Serviste oturum açıksa veya parametre geldiyse oturumu açık yap
-    _isLoggedIn = _dkt.isLoggedIn || widget.initialLoggedIn;
+    _isLoggedIn = _dkt.isLoggedIn || (widget.initialLoggedIn && !_didLogout);
     _therapistName = widget.initialName ?? _dkt.therapistName;
     _clinicName = widget.initialClinic ?? _dkt.clinicName;
     _edevletDocNo = widget.initialEdevlet ?? _dkt.edevletDocNo;
@@ -151,25 +266,7 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                       controller: emailCtrl,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
-                        hintText: 'kullaniciadi',
                         prefixIcon: const Icon(Icons.alternate_email_rounded, size: 18),
-                        suffixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
-                        suffixIcon: const Padding(
-                          padding: EdgeInsets.only(right: 14),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                '@gmail.com',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w900,
-                                  color: Color(0xFF1E88E5),
-                                  fontSize: 13,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                         filled: true,
                         fillColor: const Color(0xFFF8FAFC),
                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
@@ -405,8 +502,7 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
 
   void _showStudentCodeDialog(Map<String, dynamic> student) {
     _sfx.playPopSound();
-    final studentNameFirst = student['name'].toString().split(' ').first.toUpperCase();
-    final studentCode = 'DKT-${student['id']}-$studentNameFirst';
+    final studentCode = _dkt.therapistCode;
 
     showDialog(
       context: context,
@@ -607,10 +703,21 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
   void _showSendToParentDialog(Map<String, dynamic> student) {
     _sfx.playPopSound();
     final studentName = student['name'] ?? 'Danışan';
-    final initialEmail = (student['parent_email'] as String? ?? '').replaceAll('@gmail.com', '').trim();
-    final emailCtrl = TextEditingController(text: initialEmail.isNotEmpty ? initialEmail : 'veli');
-    final phoneCtrl = TextEditingController();
-    final noteCtrl = TextEditingController(text: 'Haftalık artikülasyon ve konuşma terapisi egzersizleri başarıyla tamamlandı.');
+    final initialEmail = (student['parent_email'] as String? ?? '').trim();
+    final initialPhone = (student['parent_phone'] as String? ?? '').trim();
+    var initialNote = (student['clinical_assessment'] as String? ?? '').trim();
+    if (initialNote.isEmpty) {
+      final sessions = (student['sessions'] as List?) ?? const [];
+      for (final s in sessions) {
+        if (s is Map && (s['note'] as String? ?? '').trim().isNotEmpty) {
+          initialNote = (s['note'] as String).trim();
+          break;
+        }
+      }
+    }
+    final emailCtrl = TextEditingController(text: initialEmail);
+    final phoneCtrl = TextEditingController(text: initialPhone);
+    final noteCtrl = TextEditingController(text: initialNote);
     bool sentSuccess = false;
     String statusMessage = '';
 
@@ -619,19 +726,21 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
       builder: (ctx) => StatefulBuilder(
         builder: (dCtx, setModalState) {
           final currentAccuracy = student['accuracy'] ?? 0;
-          final phonemes = student['target_phonemes'] ?? '/p/, /b/';
+          final totalAttempts = student['total_attempts'] ?? 0;
+          final rawPhonemes = (student['target_phonemes'] as String? ?? '').trim();
+          final phonemes = rawPhonemes.isNotEmpty ? rawPhonemes : 'Henüz atanmadı';
 
           String buildReportText() {
-            var fullEmail = emailCtrl.text.trim();
-            if (!fullEmail.contains('@')) fullEmail = '$fullEmail@gmail.com';
+            final noteText = noteCtrl.text.trim();
+            final noteLine = noteText.isNotEmpty ? '📝 Terapist Notu: $noteText\n' : '';
             return '🗣️ SES YOLUNDA EĞLENCE • KLİNİK GELİŞİM BİLDİRİMİ\n'
                    '━━━━━━━━━━━━━━━━━━━━━━\n'
                    '👨‍⚕️ Terapist: ${_dkt.therapistName.isNotEmpty ? _dkt.therapistName : "Uzm. Dil ve Konuşma Terapisti"}\n'
                    '🏥 Klinik: ${_dkt.clinicName.isNotEmpty ? _dkt.clinicName : "Dil ve Konuşma Danışmanlık Merkezi"}\n'
-                   '👶 Danışan: $studentName (${student['age']} Yaş)\n'
-                   '📊 Artikülasyon Başarısı: %$currentAccuracy\n'
-                   '🎯 Çalışılan Fonemler: $phonemes\n'
-                   '📝 Terapist Notu: ${noteCtrl.text.trim()}\n'
+                   '👶 Danışan: $studentName (${student['age'] ?? "-"} Yaş)\n'
+                   '📊 Artikülasyon Başarısı: %$currentAccuracy ($totalAttempts deneme)\n'
+                   '🎯 Hedef Fonemler: $phonemes\n'
+                   '$noteLine'
                    '━━━━━━━━━━━━━━━━━━━━━━\n'
                    '✨ Çocuğunuzun günlük ses çalışmalarını evde desteklemeye devam ediniz.';
           }
@@ -724,25 +833,8 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                     controller: emailCtrl,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                      hintText: 'ornek.veli',
+                      hintText: 'ornek@eposta.com',
                       prefixIcon: const Icon(Icons.email_outlined, size: 18),
-                      suffixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
-                      suffixIcon: const Padding(
-                        padding: EdgeInsets.only(right: 14),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              '@gmail.com',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w900,
-                                color: Color(0xFF16A34A),
-                                fontSize: 13,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
                       filled: true,
                       fillColor: const Color(0xFFF8FAFC),
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
@@ -832,8 +924,14 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
               // 📧 E-Posta Butonu
               ElevatedButton.icon(
                 onPressed: () {
-                  var pEmail = emailCtrl.text.trim();
-                  if (!pEmail.contains('@')) pEmail = '$pEmail@gmail.com';
+                  final pEmail = emailCtrl.text.trim();
+                  if (pEmail.isEmpty || !pEmail.contains('@')) {
+                    setModalState(() {
+                      sentSuccess = true;
+                      statusMessage = '⚠️ Lütfen geçerli bir veli e-posta adresi girin.';
+                    });
+                    return;
+                  }
                   student['parent_email'] = pEmail;
                   _dkt.saveToLocalStorage();
 
@@ -860,9 +958,13 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
               // 💬 WhatsApp Butonu
               ElevatedButton.icon(
                 onPressed: () {
-                  var phone = phoneCtrl.text.replaceAll(RegExp(r'[^0-9]'), '');
+                  final rawPhone = phoneCtrl.text.trim();
+                  if (rawPhone.isNotEmpty) {
+                    student['parent_phone'] = rawPhone;
+                    _dkt.saveToLocalStorage();
+                  }
+                  var phone = rawPhone.replaceAll(RegExp(r'[^0-9]'), '');
                   if (phone.startsWith('0')) phone = '90${phone.substring(1)}';
-                  if (phone.isEmpty) phone = '';
                   final text = Uri.encodeComponent(buildReportText());
                   final waUrl = phone.isNotEmpty
                       ? 'https://api.whatsapp.com/send?phone=$phone&text=$text'
@@ -1027,23 +1129,6 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                       labelText: 'E-posta Adresi',
                       labelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
                       prefixIcon: const Icon(Icons.email_outlined, size: 18),
-                      suffixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
-                      suffixIcon: const Padding(
-                        padding: EdgeInsets.only(right: 14),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              '@gmail.com',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w900,
-                                color: Color(0xFF1E88E5),
-                                fontSize: 13,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                     ),
@@ -1227,23 +1312,6 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                       labelText: 'E-posta Adresi',
                       labelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
                       prefixIcon: const Icon(Icons.email_outlined, size: 18),
-                      suffixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
-                      suffixIcon: const Padding(
-                        padding: EdgeInsets.only(right: 14),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              '@gmail.com',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w900,
-                                color: Color(0xFF1E88E5),
-                                fontSize: 13,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                     ),
@@ -1309,7 +1377,13 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                         final clinic = _regClinicCtrl.text.trim().isNotEmpty ? _regClinicCtrl.text.trim() : 'Dil ve Konuşma Danışmanlık Merkezi';
                         var email = _regEmailCtrl.text.trim();
                         final doc = _regEdevletCtrl.text.trim();
-                        final pass = _regPassCtrl.text.trim().isNotEmpty ? _regPassCtrl.text.trim() : '123456';
+                        final pass = _regPassCtrl.text.trim();
+                        if (email.isEmpty || pass.length < 4) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Lütfen geçerli e-posta ve en az 4 karakterli şifre giriniz.')),
+                          );
+                          return;
+                        }
 
                         if (!email.contains('@')) {
                           email = '$email@gmail.com';
@@ -1338,18 +1412,6 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                     ),
                   ),
                 ],
-
-                const SizedBox(height: 16),
-                TextButton(
-                  onPressed: () {
-                    setState(() {
-                      _isLoggedIn = true;
-                      _therapistName = 'Konuk Dil ve Konuşma Terapisti';
-                    });
-                    _sfx.playPopSound();
-                  },
-                  child: const Text('⚡ Tek Tıkla Demo Giriş (Doç. Dr. Emir)', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Color(0xFF1E88E5))),
-                ),
               ],
             ),
           ),
@@ -1401,7 +1463,7 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text('🏛️ e-Devlet Onaylı DKT${_edevletDocNo.isNotEmpty ? ' ($_edevletDocNo)' : ''}', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF1B5E20))),
+                              const Text('🏛️ e-Devlet Onaylı DKT', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF1B5E20))),
                             ],
                           ),
                         ),
@@ -1417,8 +1479,13 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
               // Çıkış Yap Butonu
               TextButton.icon(
                 onPressed: () {
+                  _sfx.playPopSound();
                   _dkt.logout();
-                  setState(() => _syncFromService());
+                  _didLogout = true;
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (_) => const OnboardingAuthScreen()),
+                    (route) => false,
+                  );
                 },
                 icon: const Icon(Icons.logout_rounded, size: 16, color: Colors.redAccent),
                 label: const Text('Çıkış', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.redAccent)),
@@ -1897,18 +1964,30 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                 ),
               ),
               const SizedBox(width: 12),
-              // Fonem Filtresi
-              Wrap(
-                spacing: 6,
-                children: ['ALL', '/r/', '/k/', '/s/', '/p/'].map((f) {
-                  final isSelected = _filterPhoneme == f;
-                  return ChoiceChip(
-                    label: Text(f == 'ALL' ? 'Tümü' : f, style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: isSelected ? Colors.white : Colors.black87)),
-                    selected: isSelected,
-                    selectedColor: const Color(0xFF1E88E5),
-                    onSelected: (v) => setState(() => _filterPhoneme = f),
-                  );
-                }).toList(),
+              // Fonem Filtresi (Tüm 20 Klinik Ses)
+              Flexible(
+                flex: 2,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      'ALL', '/p/', '/b/', '/t/', '/d/', '/k/', '/g/', '/f/', '/v/',
+                      '/s/', '/z/', '/ş/', '/j/', '/h/', '/ç/', '/c/', '/m/', '/n/',
+                      '/l/', '/r/', '/y/'
+                    ].map((f) {
+                      final isSelected = _filterPhoneme == f;
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 6),
+                        child: ChoiceChip(
+                          label: Text(f == 'ALL' ? 'Tümü' : f, style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: isSelected ? Colors.white : Colors.black87)),
+                          selected: isSelected,
+                          selectedColor: const Color(0xFF1E88E5),
+                          onSelected: (v) => setState(() => _filterPhoneme = f),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
               ),
             ],
           ),
@@ -2100,11 +2179,7 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
             ),
             const Spacer(),
             ElevatedButton.icon(
-              onPressed: () {
-                if (kIsWeb) {
-                  html.window.print();
-                }
-              },
+              onPressed: () => _printFullStudentReport(std),
               icon: const Icon(Icons.print_rounded, size: 16, color: Colors.white),
               label: const Text('Raporu Yazdır / PDF', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.white)),
               style: ElevatedButton.styleFrom(
@@ -2239,7 +2314,7 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                       children: [
                         const Icon(Icons.email_outlined, size: 14, color: Color(0xFF1565C0)),
                         const SizedBox(width: 4),
-                        Text('Veli Bildirim E-postası: ${std['parent_email'] ?? 'veli@gmail.com'}', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFF1565C0))),
+                        Text('Veli Bildirim E-postası: ${std['parent_email'] ?? 'Kayıtlı değil'}', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFF1565C0))),
                       ],
                     ),
                   ],
@@ -2252,6 +2327,234 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                   Text('%${std['accuracy']}', style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Color(0xFF2E7D32))),
                 ],
               ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+
+        // 🎯 HEDEF SES & EV ÖDEVİ ATAMA
+        Builder(
+          builder: (_) {
+            const allPhonemes = ['p', 'b', 't', 'd', 'k', 'g', 'f', 'v', 's', 'z', 'ş', 'j', 'h', 'ç', 'c', 'm', 'n', 'l', 'r', 'y'];
+            final currentTargets = (std['target_phonemes']?.toString() ?? '')
+                .split(',')
+                .map((e) => e.replaceAll('/', '').trim().toLowerCase())
+                .where((e) => e.isNotEmpty)
+                .toSet();
+            return Container(
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: const Color(0xFFE2E8F0)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Row(
+                    children: [
+                      Text('🎯', style: TextStyle(fontSize: 18)),
+                      SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          'Hedef Ses & Ev Ödevi Atama (Oyun Haritasında Öne Çıkar)',
+                          style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Wrap(
+                    spacing: 6,
+                    runSpacing: 6,
+                    children: allPhonemes.map((ph) {
+                      final isSel = currentTargets.contains(ph);
+                      return FilterChip(
+                        label: Text('/$ph/', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5, color: isSel ? Colors.white : const Color(0xFF334155))),
+                        selected: isSel,
+                        selectedColor: const Color(0xFF0284C7),
+                        checkmarkColor: Colors.white,
+                        onSelected: (val) {
+                          setState(() {
+                            if (val) {
+                              currentTargets.add(ph);
+                            } else {
+                              currentTargets.remove(ph);
+                            }
+                            final formatted = currentTargets.map((e) => '/$e/').join(', ');
+                            std['target_phonemes'] = formatted;
+                            _dkt.saveToLocalStorage();
+                            if (RewardState().studentName.trim().toLowerCase() == (std['name']?.toString() ?? '').trim().toLowerCase()) {
+                              RewardState().setAssignedTargetPhonemes(formatted);
+                            }
+                            if (kIsWeb && std['id'] != null) {
+                              try {
+                                final req = html.HttpRequest();
+                                req.open('POST', '/api/therapist/students/${std['id']}/target-phonemes');
+                                req.setRequestHeader('Content-Type', 'application/json');
+                                req.send(jsonEncode({'target_phonemes': formatted}));
+                              } catch (_) {}
+                            }
+                          });
+                          _sfx.playPopSound();
+                        },
+                      );
+                    }).toList(),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+        const SizedBox(height: 16),
+
+        // 📊 POZİSYON BAZLI BAŞARI ANALİZİ (BAŞTA / ORTADA / SONDA) & SEANS TAKİP
+        Builder(
+          builder: (_) {
+            final isActiveStudent = !RewardState().isGuest &&
+                RewardState().studentName.trim().toLowerCase() == (std['name']?.toString() ?? '').trim().toLowerCase();
+            final stats = isActiveStudent ? RewardState().phonemeStats.values : const <PhonemeStat>[];
+            int initAtt = 0, initCor = 0, medAtt = 0, medCor = 0, finAtt = 0, finCor = 0;
+            for (final s in stats) {
+              initAtt += s.initialAttempts;
+              initCor += s.initialCorrect;
+              medAtt += s.medialAttempts;
+              medCor += s.medialCorrect;
+              finAtt += s.finalAttempts;
+              finCor += s.finalCorrect;
+            }
+            final initPct = initAtt > 0 ? (initCor / initAtt) : 0.0;
+            final medPct = medAtt > 0 ? (medCor / medAtt) : 0.0;
+            final finPct = finAtt > 0 ? (finCor / finAtt) : 0.0;
+
+            Widget posBar(String label, double pct, int cor, int att, Color color) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                        Text(att > 0 ? '%${(pct * 100).round()} ($cor/$att)' : 'Henüz veri yok', style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w800, color: color)),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: LinearProgressIndicator(
+                        value: pct,
+                        minHeight: 8,
+                        backgroundColor: const Color(0xFFE2E8F0),
+                        valueColor: AlwaysStoppedAnimation<Color>(color),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+
+            return Container(
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: const Color(0xFFE2E8F0)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('📊 Pozisyon Bazlı Hata & Başarı Analizi', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13)),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                        decoration: BoxDecoration(color: const Color(0xFFECFDF5), borderRadius: BorderRadius.circular(10)),
+                        child: Text('📅 ${sessions.length} Seans • 🔥 ${RewardState().streakDays} Gün Seri', style: const TextStyle(fontSize: 10.5, fontWeight: FontWeight.bold, color: Color(0xFF047857))),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  posBar('Kelime Başında (Initial)', initPct, initCor, initAtt, const Color(0xFF16A34A)),
+                  posBar('Kelime Ortasında (Medial)', medPct, medCor, medAtt, const Color(0xFF0284C7)),
+                  posBar('Kelime Sonunda (Final)', finPct, finCor, finAtt, const Color(0xFFF59E0B)),
+                ],
+              ),
+            );
+          },
+        ),
+        const SizedBox(height: 16),
+
+        // 🎧 ÇOCUĞUN SES KAYITLARINI DİNLEME (İLK GÜN VS BUGÜN)
+        Container(
+          padding: const EdgeInsets.all(18),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: const Color(0xFFE2E8F0)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('🎧 Çocuğun Ses Kayıtları (İlk Gün vs. Bugün)', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13)),
+                  TextButton.icon(
+                    onPressed: () async {
+                      if (!kIsWeb) return;
+                      try {
+                        final raw = await html.HttpRequest.getString('/api/therapist/recordings?student_name=${Uri.encodeComponent(std['name']?.toString() ?? '')}');
+                        final data = jsonDecode(raw) as Map<String, dynamic>;
+                        final list = (data['recordings'] as List<dynamic>? ?? []).map((e) => Map<String, dynamic>.from(e as Map)).toList();
+                        if (!mounted) return;
+                        setState(() {
+                          std['recordings'] = list;
+                        });
+                      } catch (_) {}
+                    },
+                    icon: const Icon(Icons.refresh_rounded, size: 16),
+                    label: const Text('Kayıtları Getir', style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold)),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 6),
+              if (((std['recordings'] as List?) ?? []).isEmpty)
+                const Text(
+                  'Henüz ses kaydı yok veya listelemek için "Kayıtları Getir"e tıklayın.',
+                  style: TextStyle(fontSize: 11.5, color: Color(0xFF64748B)),
+                )
+              else
+                ...((std['recordings'] as List).take(5).map((rec) {
+                  final r = Map<String, dynamic>.from(rec as Map);
+                  return ListTile(
+                    dense: true,
+                    contentPadding: EdgeInsets.zero,
+                    leading: const CircleAvatar(
+                      radius: 16,
+                      backgroundColor: Color(0xFFE0F2FE),
+                      child: Icon(Icons.graphic_eq_rounded, size: 16, color: Color(0xFF0284C7)),
+                    ),
+                    title: Text('${r['word']} (/${r['phoneme']}/)', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12.5)),
+                    trailing: ElevatedButton.icon(
+                      onPressed: () {
+                        if (kIsWeb) {
+                          final audio = html.AudioElement(r['url']?.toString() ?? '');
+                          audio.play();
+                        }
+                      },
+                      icon: const Icon(Icons.play_arrow_rounded, size: 16, color: Colors.white),
+                      label: const Text('Dinle', style: TextStyle(fontSize: 11, color: Colors.white, fontWeight: FontWeight.bold)),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF0284C7),
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        minimumSize: Size.zero,
+                      ),
+                    ),
+                  );
+                })),
             ],
           ),
         ),
@@ -2295,16 +2598,27 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                   ElevatedButton(
                     onPressed: () {
                       if (_clinicalNoteCtrl.text.trim().isNotEmpty) {
+                        final noteText = _clinicalNoteCtrl.text.trim();
+                        final now = DateTime.now();
+                        final dateStr = '${now.day.toString().padLeft(2, '0')}.${now.month.toString().padLeft(2, '0')}.${now.year}';
                         setState(() {
                           (std['sessions'] as List).insert(0, {
-                            'date': 'Şimdi',
-                            'phoneme': std['target_phonemes'].toString().split(',')[0].replaceAll('/', '').trim(),
-                            'words': 'Ödev',
-                            'acc': 100.0,
-                            'note': _clinicalNoteCtrl.text.trim(),
+                            'date': dateStr,
+                            'phoneme': 'Klinik Not',
+                            'words': 'Not',
+                            'acc': null,
+                            'note': noteText,
                           });
                           _clinicalNoteCtrl.clear();
                         });
+                        if (kIsWeb && std['id'] != null) {
+                          try {
+                            final req = html.HttpRequest();
+                            req.open('POST', '/api/therapist/students/${std['id']}/notes');
+                            req.setRequestHeader('Content-Type', 'application/json');
+                            req.send(jsonEncode({'note': noteText}));
+                          } catch (_) {}
+                        }
                         _sfx.playSuccessDing();
                       }
                     },
@@ -2335,34 +2649,59 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
             children: [
               const Text('Klinik Seans Geçmişi ve Notlar', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 14)),
               const SizedBox(height: 12),
-              ...sessions.map((sess) => Container(
-                margin: const EdgeInsets.only(bottom: 8),
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF8FAFC),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(color: const Color(0xFFE3F2FD), borderRadius: BorderRadius.circular(8)),
-                      child: Text('/${sess['phoneme']}/ Sesi', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11, color: Color(0xFF1976D2))),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Tarih: ${sess['date']} • Doğru Sözcük: ${sess['words']}', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
-                          Text('"${sess['note']}"', style: const TextStyle(fontSize: 10.5, fontStyle: FontStyle.italic, color: Colors.black54)),
-                        ],
+              ...sessions.map((sess) {
+                final isNoteOnly = sess['words'] == 'Ödev' ||
+                    sess['words'] == 'Not' ||
+                    sess['phoneme'] == 'Klinik Not' ||
+                    sess['phoneme'] == 'Klinik Not & Ödev' ||
+                    sess['acc'] == null;
+                return Container(
+                  margin: const EdgeInsets.only(bottom: 8),
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF8FAFC),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: isNoteOnly ? const Color(0xFFFEF3C7) : const Color(0xFFE3F2FD),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          isNoteOnly ? '📝 Klinik Not' : '/${sess['phoneme']}/ Sesi',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 11,
+                            color: isNoteOnly ? const Color(0xFFB45309) : const Color(0xFF1976D2),
+                          ),
+                        ),
                       ),
-                    ),
-                    Text('%${sess['acc']}', style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 14, color: Color(0xFF2E7D32))),
-                  ],
-                ),
-              )),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              isNoteOnly
+                                  ? 'Tarih: ${sess['date']}'
+                                  : 'Tarih: ${sess['date']} • Doğru Sözcük: ${sess['words']}',
+                              style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+                            ),
+                            Text('"${sess['note']}"', style: const TextStyle(fontSize: 10.5, fontStyle: FontStyle.italic, color: Colors.black54)),
+                          ],
+                        ),
+                      ),
+                      if (!isNoteOnly)
+                        Text('%${sess['acc']}', style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 14, color: Color(0xFF2E7D32)))
+                      else
+                        const Text('📝 Not', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 12, color: Color(0xFFB45309))),
+                    ],
+                  ),
+                );
+              }),
             ],
           ),
         ),
@@ -2378,13 +2717,36 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
       orElse: () => _students.first,
     );
 
-    final isCanOrActive = currentStudent['name'].toString().toLowerCase().contains('can');
-    final stats = rewardState.phonemeStats.values.toList();
+    final isCanOrActive = !rewardState.isGuest &&
+        rewardState.studentName.trim().toLowerCase() == currentStudent['name'].toString().trim().toLowerCase();
+    final List<PhonemeStat> stats = isCanOrActive ? rewardState.phonemeStats.values.toList() : <PhonemeStat>[];
+    if (!isCanOrActive) {
+      final studentSessions = (currentStudent['sessions'] as List<dynamic>?) ?? [];
+      for (final s in studentSessions) {
+        final m = s as Map;
+        final ph = (m['phoneme']?.toString() ?? '').replaceAll('/', '').trim().toUpperCase();
+        final wordsStr = m['words']?.toString() ?? '';
+        if (ph.isEmpty || ph.contains('KLİNİK') || wordsStr == 'Ödev' || wordsStr == 'Not') continue;
+        final parts = wordsStr.split('/');
+        final cor = parts.length == 2 ? (int.tryParse(parts[0]) ?? 0) : 0;
+        final att = parts.length == 2 ? (int.tryParse(parts[1]) ?? 0) : 0;
+        if (att > 0) {
+          final st = PhonemeStat(phoneme: ph)
+            ..totalAttempts = att
+            ..correctAttempts = cor;
+          stats.add(st);
+        }
+      }
+    }
     final int overallAcc = isCanOrActive
         ? rewardState.overallAccuracy
         : ((currentStudent['accuracy'] as num?)?.round() ?? 0);
-    final int totalAttempts = isCanOrActive ? rewardState.totalPracticedAttempts : 0;
-    final int totalSuccess = isCanOrActive ? rewardState.totalPracticedSuccesses : 0;
+    final int totalAttempts = isCanOrActive
+        ? rewardState.totalPracticedAttempts
+        : stats.fold<int>(0, (sum, s) => sum + s.totalAttempts);
+    final int totalSuccess = isCanOrActive
+        ? rewardState.totalPracticedSuccesses
+        : stats.fold<int>(0, (sum, s) => sum + s.correctAttempts);
     final int stars = isCanOrActive ? rewardState.totalStars : ((currentStudent['total_stars'] as int?) ?? 0);
     final int streak = isCanOrActive ? rewardState.streakDays : 0;
 
@@ -2468,9 +2830,7 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
               const SizedBox(width: 12),
               // Yazdır / PDF Butonu
               ElevatedButton.icon(
-                onPressed: () {
-                  if (kIsWeb) html.window.print();
-                },
+                onPressed: () => _printFullStudentReport(currentStudent),
                 icon: const Icon(Icons.print_rounded, size: 16, color: Colors.white),
                 label: const Text('Raporu Yazdır / PDF', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5, color: Colors.white)),
                 style: ElevatedButton.styleFrom(
@@ -2599,7 +2959,7 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          'Kurum: $_clinicName • Sorumlu: $_therapistName ($_edevletDocNo)',
+                          'Kurum: $_clinicName • Sorumlu: $_therapistName',
                           style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF1565C0)),
                         ),
                       ],
@@ -2868,9 +3228,101 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                       ],
                     ),
                     const SizedBox(height: 8),
-                    const Text(
-                      'Danışan çift dudak seslerinde (/p/, /b/, /m/) hedeflenen klinik doğruluk eşiğini (%80) aşmıştır. Dil ucu titreşimli /r/ fonemi hece başı çalışmalarına devam edilmeli, veli evde ayna karşısında dudak motor pratiklerini sürdürmelidir.',
-                      style: TextStyle(fontSize: 12, height: 1.4, color: Color(0xFF14532D), fontWeight: FontWeight.w600),
+                    Builder(
+                      builder: (_) {
+                        final savedAssess = (currentStudent['clinical_assessment'] as String? ?? '').trim();
+                        final isEditing = currentStudent['_editing_assess'] == true || savedAssess.isEmpty;
+                        if (!isEditing) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Text(
+                                savedAssess,
+                                style: const TextStyle(fontSize: 12.5, height: 1.45, color: Color(0xFF14532D), fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(height: 8),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Row(
+                                    children: [
+                                      Icon(Icons.check_circle_rounded, size: 15, color: Color(0xFF16A34A)),
+                                      SizedBox(width: 4),
+                                      Text('Kaydedildi', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF16A34A))),
+                                    ],
+                                  ),
+                                  TextButton.icon(
+                                    onPressed: () {
+                                      setState(() => currentStudent['_editing_assess'] = true);
+                                    },
+                                    icon: const Icon(Icons.edit_rounded, size: 14, color: Color(0xFF15803D)),
+                                    label: const Text('Düzenle', style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: Color(0xFF15803D))),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          );
+                        }
+                        final assessCtrl = TextEditingController(text: savedAssess);
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            TextField(
+                              controller: assessCtrl,
+                              maxLines: 3,
+                              style: const TextStyle(fontSize: 12.5, height: 1.4, color: Color(0xFF14532D), fontWeight: FontWeight.w600),
+                              decoration: InputDecoration(
+                                hintText: 'Danışan hakkındaki klinik değerlendirmenizi ve veli önerinizi buraya yazın...',
+                                hintStyle: const TextStyle(fontSize: 11.5, color: Color(0xFF64748B)),
+                                filled: true,
+                                fillColor: Colors.white,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: const BorderSide(color: Color(0xFF86EFAC)),
+                                ),
+                                contentPadding: const EdgeInsets.all(12),
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: ElevatedButton.icon(
+                                onPressed: () {
+                                  final txt = assessCtrl.text.trim();
+                                  setState(() {
+                                    currentStudent['clinical_assessment'] = txt;
+                                    currentStudent['_editing_assess'] = false;
+                                    _dkt.saveToLocalStorage();
+                                  });
+                                  if (kIsWeb && currentStudent['id'] != null) {
+                                    try {
+                                      final assessReq = html.HttpRequest();
+                                      assessReq.open('POST', '/api/therapist/students/${currentStudent['id']}/assessment');
+                                      assessReq.setRequestHeader('Content-Type', 'application/json');
+                                      assessReq.send(jsonEncode({'clinical_assessment': txt}));
+                                    } catch (_) {}
+                                  }
+                                  _sfx.playSuccessDing();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('✅ Klinik değerlendirme veritabanına kaydedildi!'),
+                                      backgroundColor: Color(0xFF16A34A),
+                                      duration: Duration(seconds: 2),
+                                    ),
+                                  );
+                                },
+                                icon: const Icon(Icons.save_rounded, size: 16, color: Colors.white),
+                                label: const Text('Değerlendirmeyi Kaydet', style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: Colors.white)),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFF16A34A),
+                                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
                     ),
                     const SizedBox(height: 12),
                     Row(
@@ -2880,7 +3332,7 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(_therapistName, style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 12, color: Color(0xFF166534))),
-                            Text('🏛️ e-Devlet Onaylı DKT ($_edevletDocNo)', style: const TextStyle(fontSize: 10.5, fontWeight: FontWeight.bold, color: Color(0xFF15803D))),
+                            const Text('🏛️ e-Devlet Onaylı DKT', style: TextStyle(fontSize: 10.5, fontWeight: FontWeight.bold, color: Color(0xFF15803D))),
                           ],
                         ),
                       ],

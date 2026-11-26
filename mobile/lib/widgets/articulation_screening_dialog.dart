@@ -4,22 +4,32 @@ import '../services/audio_speech_service.dart';
 import '../services/sound_effects_service.dart';
 import '../models/reward_state.dart';
 
-class _ScreeningItem {
+class _PositionWord {
+  final String position; // 'Başta', 'Ortada', 'Sonda'
   final String word;
-  final String phoneme;
   final String emoji;
-  final String hint;
 
-  const _ScreeningItem({
+  const _PositionWord({
+    required this.position,
     required this.word,
-    required this.phoneme,
     required this.emoji,
+  });
+}
+
+class _ScreeningSound {
+  final String phoneme;
+  final String hint;
+  final List<_PositionWord> positions;
+
+  const _ScreeningSound({
+    required this.phoneme,
     required this.hint,
+    required this.positions,
   });
 }
 
 /// 🔍 2 DAKİKALIK AKILLI ARTİKÜLASYON TARAMA TESTİ
-/// Çocuğun hangi seslerde zorlandığını saniyeler içinde teşhis eden klinik ön değerlendirme modülü.
+/// Çocuğun hangi seslerde ve hangi kelime pozisyonlarında (Başta, Ortada, Sonda) zorlandığını teşhis eden klinik modül.
 class ArticulationScreeningDialog extends StatefulWidget {
   final ValueChanged<String>? onSelectRecommendedSound;
 
@@ -37,30 +47,111 @@ class _ArticulationScreeningDialogState extends State<ArticulationScreeningDialo
   final SoundEffectsService _sfx = SoundEffectsService();
   final RewardState _rewardState = RewardState();
 
-  static const List<_ScreeningItem> _items = [
-    _ScreeningItem(word: 'Pasta', phoneme: 'P', emoji: '🎂', hint: 'Çift Dudak Patlamalı'),
-    _ScreeningItem(word: 'Balık', phoneme: 'B', emoji: '🐟', hint: 'Çift Dudak Ötümlü'),
-    _ScreeningItem(word: 'Tavşan', phoneme: 'T', emoji: '🐰', hint: 'Diş Yuvasıl Patlamalı'),
-    _ScreeningItem(word: 'Dede', phoneme: 'D', emoji: '👴', hint: 'Diş Yuvasıl Ötümlü'),
-    _ScreeningItem(word: 'Köpek', phoneme: 'K', emoji: '🐶', hint: 'Yumuşak Damak Patlamalı'),
-    _ScreeningItem(word: 'Güneş', phoneme: 'G', emoji: '☀️', hint: 'Yumuşak Damak Ötümlü'),
-    _ScreeningItem(word: 'Fil', phoneme: 'F', emoji: '🐘', hint: 'Dudak-Diş Sürtünmeli'),
-    _ScreeningItem(word: 'Vazo', phoneme: 'V', emoji: '🏺', hint: 'Dudak-Diş Ötümlü Sürtünmeli'),
-    _ScreeningItem(word: 'Saat', phoneme: 'S', emoji: '⏰', hint: 'Diş Yuvasıl Sürtünmeli'),
-    _ScreeningItem(word: 'Zebra', phoneme: 'Z', emoji: '🦓', hint: 'Diş Yuvasıl Ötümlü Sürtünmeli'),
-    _ScreeningItem(word: 'Şapka', phoneme: 'Ş', emoji: '👒', hint: 'Diş Yuvası Ardı Sürtünmeli'),
-    _ScreeningItem(word: 'Jelibon', phoneme: 'J', emoji: '🍬', hint: 'Diş Yuvası Ardı Ötümlü'),
-    _ScreeningItem(word: 'Havuç', phoneme: 'H', emoji: '🥕', hint: 'Gırtlak Sürtünmeli'),
-    _ScreeningItem(word: 'Çilek', phoneme: 'Ç', emoji: '🍓', hint: 'Ön Damak Patlamalı Sürtünmeli'),
-    _ScreeningItem(word: 'Ceviz', phoneme: 'C', emoji: '🥜', hint: 'Ön Damak Ötümlü Sürtünmeli'),
-    _ScreeningItem(word: 'Muz', phoneme: 'M', emoji: '🍌', hint: 'Genizsi Dudak Sesi'),
-    _ScreeningItem(word: 'Nar', phoneme: 'N', emoji: '🍎', hint: 'Diş Yuvasıl Genizsi'),
-    _ScreeningItem(word: 'Limon', phoneme: 'L', emoji: '🍋', hint: 'Akıcı Yan Ses'),
-    _ScreeningItem(word: 'Roket', phoneme: 'R', emoji: '🚀', hint: 'Diş Yuvasıl Titrek'),
-    _ScreeningItem(word: 'Yıldız', phoneme: 'Y', emoji: '⭐', hint: 'Damak Daralmalı'),
+  static const List<_ScreeningSound> _sounds = [
+    _ScreeningSound(phoneme: 'P', hint: 'Çift Dudak Patlamalı', positions: [
+      _PositionWord(position: 'Başta', word: 'Pasta', emoji: '🎂'),
+      _PositionWord(position: 'Ortada', word: 'Köpek', emoji: '🐶'),
+      _PositionWord(position: 'Sonda', word: 'Top', emoji: '⚽'),
+    ]),
+    _ScreeningSound(phoneme: 'B', hint: 'Çift Dudak Ötümlü', positions: [
+      _PositionWord(position: 'Başta', word: 'Balık', emoji: '🐟'),
+      _PositionWord(position: 'Ortada', word: 'Araba', emoji: '🚗'),
+      _PositionWord(position: 'Sonda', word: 'Web', emoji: '🌐'),
+    ]),
+    _ScreeningSound(phoneme: 'T', hint: 'Diş Yuvasıl Patlamalı', positions: [
+      _PositionWord(position: 'Başta', word: 'Tavşan', emoji: '🐰'),
+      _PositionWord(position: 'Ortada', word: 'Kutu', emoji: '📦'),
+      _PositionWord(position: 'Sonda', word: 'At', emoji: '🐴'),
+    ]),
+    _ScreeningSound(phoneme: 'D', hint: 'Diş Yuvasıl Ötümlü', positions: [
+      _PositionWord(position: 'Başta', word: 'Dede', emoji: '👴'),
+      _PositionWord(position: 'Ortada', word: 'Kedi', emoji: '🐱'),
+      _PositionWord(position: 'Sonda', word: 'Kod', emoji: '💻'),
+    ]),
+    _ScreeningSound(phoneme: 'K', hint: 'Yumuşak Damak Patlamalı', positions: [
+      _PositionWord(position: 'Başta', word: 'Köpek', emoji: '🐶'),
+      _PositionWord(position: 'Ortada', word: 'Şeker', emoji: '🍬'),
+      _PositionWord(position: 'Sonda', word: 'Balık', emoji: '🐟'),
+    ]),
+    _ScreeningSound(phoneme: 'G', hint: 'Yumuşak Damak Ötümlü', positions: [
+      _PositionWord(position: 'Başta', word: 'Güneş', emoji: '☀️'),
+      _PositionWord(position: 'Ortada', word: 'Gaga', emoji: '🐦'),
+      _PositionWord(position: 'Sonda', word: 'Lig', emoji: '🏆'),
+    ]),
+    _ScreeningSound(phoneme: 'F', hint: 'Dudak-Diş Sürtünmeli', positions: [
+      _PositionWord(position: 'Başta', word: 'Fil', emoji: '🐘'),
+      _PositionWord(position: 'Ortada', word: 'Zürafa', emoji: '🦒'),
+      _PositionWord(position: 'Sonda', word: 'Şef', emoji: '👨‍🍳'),
+    ]),
+    _ScreeningSound(phoneme: 'V', hint: 'Dudak-Diş Ötümlü Sürtünmeli', positions: [
+      _PositionWord(position: 'Başta', word: 'Vazo', emoji: '🏺'),
+      _PositionWord(position: 'Ortada', word: 'Havuç', emoji: '🥕'),
+      _PositionWord(position: 'Sonda', word: 'Ev', emoji: '🏠'),
+    ]),
+    _ScreeningSound(phoneme: 'S', hint: 'Diş Yuvasıl Sürtünmeli', positions: [
+      _PositionWord(position: 'Başta', word: 'Saat', emoji: '⏰'),
+      _PositionWord(position: 'Ortada', word: 'Masa', emoji: '🪑'),
+      _PositionWord(position: 'Sonda', word: 'Otobüs', emoji: '🚌'),
+    ]),
+    _ScreeningSound(phoneme: 'Z', hint: 'Diş Yuvasıl Ötümlü Sürtünmeli', positions: [
+      _PositionWord(position: 'Başta', word: 'Zebra', emoji: '🦓'),
+      _PositionWord(position: 'Ortada', word: 'Üzüm', emoji: '🍇'),
+      _PositionWord(position: 'Sonda', word: 'Muz', emoji: '🍌'),
+    ]),
+    _ScreeningSound(phoneme: 'Ş', hint: 'Diş Yuvası Ardı Sürtünmeli', positions: [
+      _PositionWord(position: 'Başta', word: 'Şapka', emoji: '👒'),
+      _PositionWord(position: 'Ortada', word: 'Kaşık', emoji: '🥄'),
+      _PositionWord(position: 'Sonda', word: 'Kuş', emoji: '🐦'),
+    ]),
+    _ScreeningSound(phoneme: 'J', hint: 'Diş Yuvası Ardı Ötümlü', positions: [
+      _PositionWord(position: 'Başta', word: 'Jelibon', emoji: '🍬'),
+      _PositionWord(position: 'Ortada', word: 'Pijama', emoji: '🛌'),
+      _PositionWord(position: 'Sonda', word: 'Plaj', emoji: '🏖️'),
+    ]),
+    _ScreeningSound(phoneme: 'H', hint: 'Gırtlak Sürtünmeli', positions: [
+      _PositionWord(position: 'Başta', word: 'Havuç', emoji: '🥕'),
+      _PositionWord(position: 'Ortada', word: 'Kahve', emoji: '☕'),
+      _PositionWord(position: 'Sonda', word: 'Timsah', emoji: '🐊'),
+    ]),
+    _ScreeningSound(phoneme: 'Ç', hint: 'Ön Damak Patlamalı Sürtünmeli', positions: [
+      _PositionWord(position: 'Başta', word: 'Çilek', emoji: '🍓'),
+      _PositionWord(position: 'Ortada', word: 'Böcek', emoji: '🐞'),
+      _PositionWord(position: 'Sonda', word: 'Ağaç', emoji: '🌳'),
+    ]),
+    _ScreeningSound(phoneme: 'C', hint: 'Ön Damak Ötümlü Sürtünmeli', positions: [
+      _PositionWord(position: 'Başta', word: 'Ceviz', emoji: '🥜'),
+      _PositionWord(position: 'Ortada', word: 'Tencere', emoji: '🍲'),
+      _PositionWord(position: 'Sonda', word: 'Sac', emoji: '🍳'),
+    ]),
+    _ScreeningSound(phoneme: 'M', hint: 'Genizsi Dudak Sesi', positions: [
+      _PositionWord(position: 'Başta', word: 'Muz', emoji: '🍌'),
+      _PositionWord(position: 'Ortada', word: 'Elma', emoji: '🍎'),
+      _PositionWord(position: 'Sonda', word: 'Kalem', emoji: '✏️'),
+    ]),
+    _ScreeningSound(phoneme: 'N', hint: 'Diş Yuvasıl Genizsi', positions: [
+      _PositionWord(position: 'Başta', word: 'Nar', emoji: '🍎'),
+      _PositionWord(position: 'Ortada', word: 'Anne', emoji: '👩'),
+      _PositionWord(position: 'Sonda', word: 'Balon', emoji: '🎈'),
+    ]),
+    _ScreeningSound(phoneme: 'L', hint: 'Akıcı Yan Ses', positions: [
+      _PositionWord(position: 'Başta', word: 'Limon', emoji: '🍋'),
+      _PositionWord(position: 'Ortada', word: 'Kalem', emoji: '✏️'),
+      _PositionWord(position: 'Sonda', word: 'Gül', emoji: '🌹'),
+    ]),
+    _ScreeningSound(phoneme: 'R', hint: 'Diş Yuvasıl Titrek', positions: [
+      _PositionWord(position: 'Başta', word: 'Roket', emoji: '🚀'),
+      _PositionWord(position: 'Ortada', word: 'Arı', emoji: '🐝'),
+      _PositionWord(position: 'Sonda', word: 'Kar', emoji: '❄️'),
+    ]),
+    _ScreeningSound(phoneme: 'Y', hint: 'Damak Daralmalı', positions: [
+      _PositionWord(position: 'Başta', word: 'Yıldız', emoji: '⭐'),
+      _PositionWord(position: 'Ortada', word: 'Ayı', emoji: '🐻'),
+      _PositionWord(position: 'Sonda', word: 'Ay', emoji: '🌙'),
+    ]),
   ];
 
-  int _currentIndex = 0;
+  int _currentSoundIndex = 0;
+  int _currentPosIndex = 0;
   bool _isListening = false;
   bool _isPlayingAudio = false;
   String _liveSpeech = '';
@@ -68,9 +159,12 @@ class _ArticulationScreeningDialogState extends State<ArticulationScreeningDialo
   Timer? _countdownTimer;
 
   SpeechEvaluationResult? _lastResult;
-  final Map<String, bool> _results = {}; // phoneme -> isCorrect
-  final Map<String, String> _recognizedWords = {}; // phoneme -> what was heard
+  final Map<String, bool> _results = {}; // '${phoneme}_${position}' -> isCorrect
   bool _isFinished = false;
+
+  _ScreeningSound get _currentSound => _sounds[_currentSoundIndex];
+  _PositionWord get _currentPosWord => _currentSound.positions[_currentPosIndex];
+  String _resultKey(String phoneme, String position) => '${phoneme}_$position';
 
   @override
   void dispose() {
@@ -83,12 +177,13 @@ class _ArticulationScreeningDialogState extends State<ArticulationScreeningDialo
   void _playModelVoice() async {
     if (_isPlayingAudio || _isListening) return;
     _sfx.playPopSound();
-    final item = _items[_currentIndex];
+    final sound = _currentSound;
+    final posWord = _currentPosWord;
     setState(() => _isPlayingAudio = true);
 
     await _audioService.speakTurkish(
-      item.word,
-      phoneme: item.phoneme,
+      posWord.word,
+      phoneme: sound.phoneme,
     );
 
     if (mounted) {
@@ -113,13 +208,14 @@ class _ArticulationScreeningDialogState extends State<ArticulationScreeningDialo
       return;
     }
 
-    final item = _items[_currentIndex];
+    final sound = _currentSound;
+    final posWord = _currentPosWord;
     _sfx.playPopSound();
 
     setState(() {
       _isListening = true;
       _lastResult = null;
-      _liveSpeech = 'Dinleniyor... Şimdi "${item.word}" de! 🎤';
+      _liveSpeech = 'Dinleniyor... Şimdi "${posWord.word}" de! 🎤';
       _secondsLeft = 8;
     });
 
@@ -134,8 +230,8 @@ class _ArticulationScreeningDialogState extends State<ArticulationScreeningDialo
     });
 
     final res = await _audioService.listenAndEvaluate(
-      targetText: item.word,
-      phoneme: item.phoneme,
+      targetText: posWord.word,
+      phoneme: sound.phoneme,
       duration: const Duration(seconds: 8),
       onLiveSpeech: (text) {
         if (mounted) {
@@ -151,19 +247,18 @@ class _ArticulationScreeningDialogState extends State<ArticulationScreeningDialo
     setState(() {
       _isListening = false;
       _lastResult = res;
-      _recognizedWords[item.phoneme] = res.recognizedText.isNotEmpty ? res.recognizedText : '(Sessiz)';
-      _results[item.phoneme] = res.isMatched;
+      _results[_resultKey(sound.phoneme, posWord.position)] = res.isMatched;
     });
 
     _rewardState.recordAttempt(
-      phoneme: item.phoneme,
-      position: 'Başta',
+      phoneme: sound.phoneme,
+      position: posWord.position,
       isCorrect: res.isMatched,
     );
 
     if (res.isMatched) {
       _sfx.playSuccessDing();
-      _rewardState.unlockSticker(item.word);
+      _rewardState.unlockSticker(posWord.word);
       _rewardState.addReward(earnedStars: 1, earnedXp: 15, earnedGems: 5);
     }
   }
@@ -174,12 +269,19 @@ class _ArticulationScreeningDialogState extends State<ArticulationScreeningDialo
     _audioService.stopListening();
   }
 
-  /// Sonraki kelimeye geç
+  /// Sonraki pozisyona veya sonraki sese geç
   void _advanceToNextItem() {
     _sfx.playPopSound();
-    if (_currentIndex + 1 < _items.length) {
+    if (_currentPosIndex + 1 < _currentSound.positions.length) {
       setState(() {
-        _currentIndex++;
+        _currentPosIndex++;
+        _lastResult = null;
+        _liveSpeech = '';
+      });
+    } else if (_currentSoundIndex + 1 < _sounds.length) {
+      setState(() {
+        _currentSoundIndex++;
+        _currentPosIndex = 0;
         _lastResult = null;
         _liveSpeech = '';
       });
@@ -195,9 +297,14 @@ class _ArticulationScreeningDialogState extends State<ArticulationScreeningDialo
 
   /// Terapist / Ebeveyn için manuel hızlı değerlendirme
   void _manualScore(bool isCorrect) {
-    final item = _items[_currentIndex];
-    _results[item.phoneme] = isCorrect;
-    _recognizedWords[item.phoneme] = isCorrect ? item.word : '(Farklı Sesletim)';
+    final sound = _currentSound;
+    final posWord = _currentPosWord;
+    _results[_resultKey(sound.phoneme, posWord.position)] = isCorrect;
+    _rewardState.recordAttempt(
+      phoneme: sound.phoneme,
+      position: posWord.position,
+      isCorrect: isCorrect,
+    );
 
     if (isCorrect) {
       _sfx.playSuccessDing();
@@ -215,7 +322,8 @@ class _ArticulationScreeningDialogState extends State<ArticulationScreeningDialo
       return _buildFinishedReportDialog();
     }
 
-    final item = _items[_currentIndex];
+    final sound = _currentSound;
+    final posWord = _currentPosWord;
 
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
@@ -260,7 +368,7 @@ class _ArticulationScreeningDialogState extends State<ArticulationScreeningDialo
                           ),
                         ),
                         Text(
-                          'Madde ${_currentIndex + 1} / ${_items.length} • /${item.phoneme.toLowerCase()}/ Sesi (${item.hint})',
+                          'Ses ${_currentSoundIndex + 1} / ${_sounds.length} • /${sound.phoneme.toLowerCase()}/ (${sound.hint})',
                           style: const TextStyle(fontSize: 11.5, color: Colors.black54, fontWeight: FontWeight.w700),
                         ),
                       ],
@@ -274,52 +382,135 @@ class _ArticulationScreeningDialogState extends State<ArticulationScreeningDialo
               ),
               const SizedBox(height: 12),
 
-              // 11 SESLİK İLERLEME ÇUBUĞU (Progress Dots)
+              // 20 SESLİK İLERLEME ÇUBUĞU (Tıklanabilir)
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: List.generate(_items.length, (i) {
-                    final p = _items[i].phoneme;
-                    final isDone = _results.containsKey(p);
-                    final isCorrect = _results[p] == true;
-                    final isCurrent = i == _currentIndex;
+                  children: List.generate(_sounds.length, (i) {
+                    final s = _sounds[i];
+                    final posResults = s.positions
+                        .map((pw) => _results[_resultKey(s.phoneme, pw.position)])
+                        .whereType<bool>()
+                        .toList();
+                    final isDone = posResults.isNotEmpty;
+                    final allCorrect = isDone && posResults.every((v) => v);
+                    final isCurrent = i == _currentSoundIndex;
 
-                    return Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 2.5),
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-                      decoration: BoxDecoration(
-                        color: isCurrent
-                            ? const Color(0xFF1E88E5)
-                            : (isDone
-                                ? (isCorrect ? const Color(0xFFE8F5E9) : const Color(0xFFFFEBEE))
-                                : Colors.grey[200]),
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
+                    return GestureDetector(
+                      onTap: _isListening
+                          ? null
+                          : () {
+                              _sfx.playPopSound();
+                              setState(() {
+                                _currentSoundIndex = i;
+                                _currentPosIndex = 0;
+                                _lastResult = null;
+                                _liveSpeech = '';
+                              });
+                            },
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 2.5),
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                        decoration: BoxDecoration(
                           color: isCurrent
-                              ? const Color(0xFF0D47A1)
+                              ? const Color(0xFF1E88E5)
                               : (isDone
-                                  ? (isCorrect ? const Color(0xFF4CAF50) : const Color(0xFFE53935))
-                                  : Colors.transparent),
-                          width: isCurrent ? 1.5 : 1.0,
+                                  ? (allCorrect ? const Color(0xFFE8F5E9) : const Color(0xFFFFEBEE))
+                                  : Colors.grey[200]),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: isCurrent
+                                ? const Color(0xFF0D47A1)
+                                : (isDone
+                                    ? (allCorrect ? const Color(0xFF4CAF50) : const Color(0xFFE53935))
+                                    : Colors.transparent),
+                            width: isCurrent ? 1.5 : 1.0,
+                          ),
                         ),
-                      ),
-                      child: Text(
-                        '/${p.toLowerCase()}/',
-                        style: TextStyle(
-                          fontSize: 10.5,
-                          fontWeight: FontWeight.w900,
-                          color: isCurrent
-                              ? Colors.white
-                              : (isDone
-                                  ? (isCorrect ? const Color(0xFF2E7D32) : const Color(0xFFC62828))
-                                  : Colors.grey[600]),
+                        child: Text(
+                          '/${s.phoneme.toLowerCase()}/',
+                          style: TextStyle(
+                            fontSize: 10.5,
+                            fontWeight: FontWeight.w900,
+                            color: isCurrent
+                                ? Colors.white
+                                : (isDone
+                                    ? (allCorrect ? const Color(0xFF2E7D32) : const Color(0xFFC62828))
+                                    : Colors.grey[600]),
+                          ),
                         ),
                       ),
                     );
                   }),
                 ),
               ),
-              const SizedBox(height: 14),
+              const SizedBox(height: 10),
+
+              // BAŞTA / ORTADA / SONDA POZİSYON SEÇİCİ
+              Row(
+                children: List.generate(sound.positions.length, (pIdx) {
+                  final pw = sound.positions[pIdx];
+                  final pKey = _resultKey(sound.phoneme, pw.position);
+                  final pRes = _results[pKey];
+                  final isSelected = pIdx == _currentPosIndex;
+                  return Expanded(
+                    child: GestureDetector(
+                      onTap: _isListening
+                          ? null
+                          : () {
+                              _sfx.playPopSound();
+                              setState(() {
+                                _currentPosIndex = pIdx;
+                                _lastResult = null;
+                                _liveSpeech = '';
+                              });
+                            },
+                      child: Container(
+                        margin: EdgeInsets.only(right: pIdx < 2 ? 6 : 0),
+                        padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 6),
+                        decoration: BoxDecoration(
+                          color: isSelected
+                              ? const Color(0xFF1565C0)
+                              : (pRes == true
+                                  ? const Color(0xFFE8F5E9)
+                                  : (pRes == false ? const Color(0xFFFFEBEE) : const Color(0xFFF1F5F9))),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: isSelected
+                                ? const Color(0xFF0D47A1)
+                                : (pRes == true
+                                    ? const Color(0xFF66BB6A)
+                                    : (pRes == false ? const Color(0xFFEF5350) : const Color(0xFFCBD5E1))),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(pw.emoji, style: const TextStyle(fontSize: 13)),
+                            const SizedBox(width: 4),
+                            Flexible(
+                              child: Text(
+                                pw.position,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 11.5,
+                                  fontWeight: FontWeight.w900,
+                                  color: isSelected
+                                      ? Colors.white
+                                      : (pRes == true
+                                          ? const Color(0xFF2E7D32)
+                                          : (pRes == false ? const Color(0xFFC62828) : const Color(0xFF334155))),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }),
+              ),
+              const SizedBox(height: 12),
 
               // BÜYÜK GÖRSEL & KELİME KARTI
               Container(
@@ -335,15 +526,27 @@ class _ArticulationScreeningDialogState extends State<ArticulationScreeningDialo
                 ),
                 child: Column(
                   children: [
-                    Text(item.emoji, style: const TextStyle(fontSize: 60)),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE3F2FD),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text(
+                        '/${sound.phoneme.toLowerCase()}/ Sesi • ${posWord.position} Pozisyon',
+                        style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w900, color: Color(0xFF1565C0)),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(posWord.emoji, style: const TextStyle(fontSize: 60)),
                     const SizedBox(height: 8),
                     Text(
-                      item.word,
+                      posWord.word,
                       style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w900, color: Color(0xFF1565C0)),
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'İpucu: "${item.word}" de ve mikrofona söyle!',
+                      'İpucu: "${posWord.word}" de ve mikrofona söyle!',
                       style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Colors.black54),
                     ),
                     const SizedBox(height: 10),
@@ -407,7 +610,7 @@ class _ArticulationScreeningDialogState extends State<ArticulationScreeningDialo
                       ),
                       const SizedBox(height: 6),
                       Text(
-                        'Hedef: "${item.word}"  •  Duyulan: "${_lastResult!.recognizedText.isNotEmpty ? _lastResult!.recognizedText : '(Net duyulamadı)'}"',
+                        'Hedef: "${posWord.word}"  •  Duyulan: "${_lastResult!.recognizedText.isNotEmpty ? _lastResult!.recognizedText : '(Net duyulamadı)'}"',
                         textAlign: TextAlign.center,
                         style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.w800, color: Color(0xFF37474F)),
                       ),
@@ -443,7 +646,9 @@ class _ArticulationScreeningDialogState extends State<ArticulationScreeningDialo
                               ),
                               icon: const Icon(Icons.arrow_forward_rounded, size: 18),
                               label: Text(
-                                _currentIndex + 1 < _items.length ? 'Sonraki Sese Geç ➔' : 'Taramayı Tamamla 🏁',
+                                _currentPosIndex + 1 < _currentSound.positions.length
+                                    ? 'Sonraki Pozisyona Geç ➔'
+                                    : (_currentSoundIndex + 1 < _sounds.length ? 'Sonraki Sese Geç ➔' : 'Taramayı Tamamla 🏁'),
                                 style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 12),
                               ),
                             ),
@@ -563,14 +768,15 @@ class _ArticulationScreeningDialogState extends State<ArticulationScreeningDialo
 
   /// TARAMA TESTİ TAMAMLANDIĞINDA AÇILAN KLİNİK RAPOR
   Widget _buildFinishedReportDialog() {
+    final totalTested = _results.length;
     final correctCount = _results.values.where((v) => v).length;
-    final incorrectPhonemes = _results.entries
-        .where((e) => !e.value)
-        .map((e) => '/${e.key.toLowerCase()}/')
+    final incorrectPhonemes = _sounds
+        .where((s) => s.positions.any((pw) => _results[_resultKey(s.phoneme, pw.position)] == false))
+        .map((s) => '/${s.phoneme.toLowerCase()}/')
         .toList();
 
     final recommended = incorrectPhonemes.isNotEmpty ? incorrectPhonemes.first : '/r/';
-    final percent = ((correctCount / _items.length) * 100).round();
+    final percent = totalTested > 0 ? ((correctCount / totalTested) * 100).round() : 0;
 
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
@@ -593,7 +799,7 @@ class _ArticulationScreeningDialogState extends State<ArticulationScreeningDialo
               ),
               const SizedBox(height: 4),
               Text(
-                'Genel Fonetik Uyum: $correctCount / ${_items.length} (%$percent Başarı)',
+                'Genel Fonetik Uyum: $correctCount / $totalTested (%$percent Başarı)',
                 style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: Color(0xFF1976D2)),
               ),
               const SizedBox(height: 14),
@@ -644,7 +850,7 @@ class _ArticulationScreeningDialogState extends State<ArticulationScreeningDialo
                     const SizedBox(height: 6),
                     Text(
                       incorrectPhonemes.isEmpty
-                          ? 'Mükemmel telaffuz! Çocuğunuz taranan ${_items.length} klinik sesin tamamını yaş gelişimine uygun olarak başarıyla üretiyor.'
+                          ? 'Mükemmel telaffuz! Çocuğunuz taranan ${_sounds.length} klinik sesin tüm pozisyonlarını başarıyla üretiyor.'
                           : 'Tespit edilen öncelikli çalışma gerektiren sesler: ${incorrectPhonemes.join(", ")}.\n'
                               'Tavsiye edilen ilk seans: $recommended sesi basamağıdır.',
                       style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF37474F), height: 1.4),

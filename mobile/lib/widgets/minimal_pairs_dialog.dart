@@ -230,6 +230,48 @@ class _MinimalPairsDialogState extends State<MinimalPairsDialog> {
           correctIndex: 0,
         ),
       ];
+    } else if (cleanP == 'm' || cleanP == 'n') {
+      _questions = [
+        _MinimalPairQuestion(
+          title: '/m/ ve /n/ Ayırt Etme',
+          optionA: _PairOption(word: 'Masa', emoji: '🪑', phoneme: 'M'),
+          optionB: _PairOption(word: 'Nasa', emoji: '🚀', phoneme: 'N'),
+          correctIndex: 0,
+        ),
+        _MinimalPairQuestion(
+          title: '/m/ ve /n/ Ayırt Etme',
+          optionA: _PairOption(word: 'Mal', emoji: '📦', phoneme: 'M'),
+          optionB: _PairOption(word: 'Nal', emoji: '🧲', phoneme: 'N'),
+          correctIndex: 1,
+        ),
+        _MinimalPairQuestion(
+          title: '/m/ ve /n/ Ayırt Etme',
+          optionA: _PairOption(word: 'Muz', emoji: '🍌', phoneme: 'M'),
+          optionB: _PairOption(word: 'Nar', emoji: '🍎', phoneme: 'N'),
+          correctIndex: 0,
+        ),
+      ];
+    } else if (cleanP == 'h' || cleanP == 'j') {
+      _questions = [
+        _MinimalPairQuestion(
+          title: '/h/ ve /j/ Ayırt Etme',
+          optionA: _PairOption(word: 'Halı', emoji: '🧶', phoneme: 'H'),
+          optionB: _PairOption(word: 'Jale', emoji: '👩', phoneme: 'J'),
+          correctIndex: 0,
+        ),
+        _MinimalPairQuestion(
+          title: '/h/ ve /j/ Ayırt Etme',
+          optionA: _PairOption(word: 'Havuç', emoji: '🥕', phoneme: 'H'),
+          optionB: _PairOption(word: 'Jelibon', emoji: '🍬', phoneme: 'J'),
+          correctIndex: 1,
+        ),
+        _MinimalPairQuestion(
+          title: '/h/ ve /j/ Ayırt Etme',
+          optionA: _PairOption(word: 'Horoz', emoji: '🐓', phoneme: 'H'),
+          optionB: _PairOption(word: 'Jeton', emoji: '🪙', phoneme: 'J'),
+          correctIndex: 0,
+        ),
+      ];
     } else {
       // Varsayılan: P ve B Ayırt Etme
       _questions = [

@@ -305,7 +305,10 @@ class _AvatarWardrobeSheetState extends State<AvatarWardrobeSheet> {
                   itemCount: currentItems.length,
                   itemBuilder: (ctx, i) {
                     final item = currentItems[i];
-                    final isUnlocked = item.gemPrice == 0 || _rewardState.isAccessoryUnlocked(item.id);
+                    final isUnlocked = item.gemPrice == 0 ||
+                        (item.category == 'avatar'
+                            ? _rewardState.isCharacterUnlocked(item.id)
+                            : _rewardState.isAccessoryUnlocked(item.id));
                     
                     bool isEquipped = false;
                     if (item.category == 'hat') {
@@ -328,8 +331,38 @@ class _AvatarWardrobeSheetState extends State<AvatarWardrobeSheet> {
                     return InkWell(
                       onTap: () {
                         if (item.category == 'avatar') {
-                          _rewardState.equipCharacter(item.id, item.name, item.emoji);
-                          _sfx.playSuccessDing();
+                          if (isUnlocked) {
+                            _rewardState.equipCharacter(item.id, item.name, item.emoji);
+                            _sfx.playSuccessDing();
+                          } else {
+                            final success = _rewardState.buyAndEquipCharacter(
+                              charId: item.id,
+                              name: item.name,
+                              emoji: item.emoji,
+                              gemCost: item.gemPrice,
+                            );
+                            if (success) {
+                              _sfx.playCoinChime();
+                            } else {
+                              _sfx.playPopSound();
+                              showDialog(
+                                context: context,
+                                builder: (dCtx) => AlertDialog(
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                                  title: const Text('💎 Yetersiz Elmas', style: TextStyle(fontWeight: FontWeight.w900)),
+                                  content: Text(
+                                    '${item.name} için ${item.gemPrice} 💎 gerekiyor.\nMevcut elmasın: ${_rewardState.gems} 💎\n\nKelimeleri çalışarak elmas toplayabilirsin!',
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(dCtx),
+                                      child: const Text('Tamam', style: TextStyle(fontWeight: FontWeight.bold)),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                          }
                           return;
                         }
 

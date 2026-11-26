@@ -18,7 +18,7 @@ def init_db():
     conn = get_connection()
     cur = conn.cursor()
 
-    # 1. Terapistler Tablosu (Dil ve Konuşma Terapistleri & e-Devlet YÖK Mezuniyet Doğrulamalı)
+    # 1. Terapistler Tablosu
     cur.execute("""
     CREATE TABLE IF NOT EXISTS therapists (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -28,23 +28,31 @@ def init_db():
         title TEXT DEFAULT 'Dil ve Konuşma Terapisti (DKT)',
         clinic_name TEXT DEFAULT 'Dil ve Konuşma Terapisi Danışmanlık Merkezi',
         edevlet_document_no TEXT DEFAULT 'YOK-2024-DKT-8921',
+        therapist_code TEXT DEFAULT 'DKT-BETUL',
         is_edevlet_verified INTEGER DEFAULT 1,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
     """)
 
-    # 2. Öğrenci / Danışan Çocuklar Tablosu (Veli E-Posta Bildirim Entegreli)
+    # 2. Öğrenci / Danışan Çocuklar Tablosu
     cur.execute("""
     CREATE TABLE IF NOT EXISTS students (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        therapist_id INTEGER NOT NULL,
+        therapist_id INTEGER DEFAULT 1,
         full_name TEXT NOT NULL,
-        age INTEGER NOT NULL,
+        age INTEGER DEFAULT 6,
         avatar TEXT DEFAULT '👦',
         diagnosis TEXT DEFAULT 'Fonolojik ve Artikülasyon Bozukluğu',
-        target_phonemes TEXT DEFAULT '/r/, /k/, /s/',
+        target_phonemes TEXT DEFAULT '/p/, /b/, /m/',
         parent_email TEXT DEFAULT '',
+        password_hash TEXT DEFAULT '',
+        therapist_code TEXT DEFAULT '',
         total_stars INTEGER DEFAULT 0,
+        xp INTEGER DEFAULT 0,
+        gems INTEGER DEFAULT 50,
+        hearts INTEGER DEFAULT 5,
+        streak_days INTEGER DEFAULT 1,
+        last_active_date TEXT DEFAULT '',
         overall_accuracy REAL DEFAULT 0.0,
         active_stage_index INTEGER DEFAULT 0,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -69,7 +77,7 @@ def init_db():
     );
     """)
 
-    # 4. Detaylı Seans Sözcük / Fonem Logları
+    # 4. Detaylı Seans Logları
     cur.execute("""
     CREATE TABLE IF NOT EXISTS session_logs (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -85,7 +93,7 @@ def init_db():
     );
     """)
 
-    # 5. Oyun Skorları Tablosu
+    # 5. Oyun Skorları
     cur.execute("""
     CREATE TABLE IF NOT EXISTS game_scores (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -99,51 +107,48 @@ def init_db():
     );
     """)
 
+    # Kolon ekleme kontrolleri (Geriye dönük uyumluluk)
+    def ensure_column(table, col_name, col_type):
+        try:
+            cur.execute(f"ALTER TABLE {table} ADD COLUMN {col_name} {col_type}")
+        except Exception:
+            pass
+
+    ensure_column("students", "password_hash", "TEXT DEFAULT ''")
+    ensure_column("students", "therapist_code", "TEXT DEFAULT ''")
+    ensure_column("students", "xp", "INTEGER DEFAULT 0")
+    ensure_column("students", "gems", "INTEGER DEFAULT 50")
+    ensure_column("students", "hearts", "INTEGER DEFAULT 5")
+    ensure_column("students", "streak_days", "INTEGER DEFAULT 1")
+    ensure_column("students", "last_active_date", "TEXT DEFAULT ''")
+    ensure_column("students", "clinical_assessment", "TEXT DEFAULT ''")
+    ensure_column("therapists", "therapist_code", "TEXT DEFAULT 'DKT-BETUL'")
+
+    # Sahte test kullanıcılarını temizle
+    cur.execute("DELETE FROM students WHERE full_name IN ('Ali Yılmaz', 'Zeynep Kaya', 'Can Demir', 'Kerem Öztürk')")
+
     conn.commit()
 
-    # Varsayılan Terapist ve Örnek Klinik Verileri Yükle (Seed Data)
+    # Varsayılan Terapist (e-Devlet Onaylı Betül Gül)
     cur.execute("SELECT COUNT(*) as cnt FROM therapists")
     if cur.fetchone()["cnt"] == 0:
-        seed_clinical_data(conn)
+        admin_pass = hash_password("123456")
+        cur.execute("""
+        INSERT INTO therapists (email, password_hash, full_name, title, clinic_name, edevlet_document_no, therapist_code, is_edevlet_verified)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            "betulgul5634@gmail.com",
+            admin_pass,
+            "Uzm. DKT Betül Gül",
+            "Dil ve Konuşma Terapisti (DKT)",
+            "Dil ve Konuşma Danışmanlık Merkezi",
+            "YOKME9PRF4N8DER3Z0",
+            "DKT-BETUL",
+            1
+        ))
+        conn.commit()
 
     conn.close()
-
-def seed_clinical_data(conn):
-    cur = conn.cursor()
-    # Demo Dil ve Konuşma Terapisti (e-Devlet Onaylı DKT Mezuniyet Belgeli)
-    admin_pass = hash_password("123456")
-    cur.execute("""
-    INSERT INTO therapists (email, password_hash, full_name, title, clinic_name, edevlet_document_no, is_edevlet_verified)
-    VALUES (?, ?, ?, ?, ?, ?, ?)
-    """, ("dkt@klinik.com", admin_pass, "Uzm. DKT Merve Kaya", "Dil ve Konuşma Terapisti (DKT)", "Dil ve Konuşma Danışmanlık Merkezi", "YOK-2024-DKT-8921", 1))
-    therapist_id = cur.lastrowid
-
-    # 4 Örnek Öğrenci (Veli Bildirim E-postaları ile)
-    students_data = [
-        (therapist_id, "Ali Yılmaz", 6, "👦", "Rhotacism (/r/ Sesletim Güçlüğü)", "/r/, /l/", "veli.ali@gmail.com", 42, 78.5, 17),
-        (therapist_id, "Zeynep Kaya", 5, "👧", "Önleme (/k/ ➔ /t/ değişimi)", "/k/, /g/", "veli.zeynep@gmail.com", 55, 84.0, 4),
-        (therapist_id, "Can Demir", 7, "🧒", "Sigmatizm (/s/ Pelteklik)", "/s/, /z/", "veli.can@gmail.com", 68, 91.2, 8),
-        (therapist_id, "Kerem Öztürk", 6, "🦁", "Ötümlülük Değişimi (/p/ ➔ /b/)", "/p/, /b/", "veli.kerem@gmail.com", 30, 72.0, 0),
-    ]
-
-    for s in students_data:
-        cur.execute("""
-        INSERT INTO students (therapist_id, full_name, age, avatar, diagnosis, target_phonemes, parent_email, total_stars, overall_accuracy, active_stage_index)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, s)
-        s_id = cur.lastrowid
-
-        # Geçmiş seans kayıtları
-        now = datetime.now()
-        for i in range(1, 6):
-            session_date = (now - timedelta(days=6-i)).strftime("%Y-%m-%d %H:%M:%S")
-            acc = min(98.0, 60.0 + (i * 7.5))
-            cur.execute("""
-            INSERT INTO therapy_sessions (student_id, phoneme, duration_minutes, words_attempted, words_correct, accuracy_score, error_distribution, therapist_note, completed_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """, (s_id, s[5].split(",")[0].strip(), 12, 16, int(16 * (acc/100)), acc, json.dumps({"Yerine Koyma": 2, "Önleme": 1 if i < 3 else 0}), f"Seans {i}: Artikülasyon belirginleşiyor, ritim iyi.", session_date))
-
-    conn.commit()
 
 if __name__ == "__main__":
     init_db()

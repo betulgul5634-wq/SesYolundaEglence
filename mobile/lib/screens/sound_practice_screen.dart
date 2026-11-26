@@ -47,6 +47,7 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
   final AudioSpeechService _audioService = AudioSpeechService();
   bool _micTested = false;
   bool _isTurtlePacingMode = false; // 🐢 Kaplumbağa Yavaş & Tane Tane Artikülasyon Modu
+  bool _showAvatarShowcase = false; // Varsayılan kapalı: hece/kelime kartları hemen görünsün
   String? _currentlySpeakingWord; // Canlı ses-görsel senkronizasyonu için anlık konuşulan kelime
 
   int _selectedWordSyllableFilter = 0; // 0: Tümü, 1: A. Tek Heceli, 2: B. İki Heceli, 3: C. Üç Heceli
@@ -1209,7 +1210,7 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
           tabs: const [
             Tab(icon: Text('🔤', style: TextStyle(fontSize: 16)), text: '1. Heceler'),
             Tab(icon: Text('🎯', style: TextStyle(fontSize: 16)), text: '2. Kelimeler'),
-            Tab(icon: Text('💬', style: TextStyle(fontSize: 16)), text: '3. Sözceler'),
+            Tab(icon: Text('💬', style: TextStyle(fontSize: 16)), text: '3. İkili Kelimeler'),
             Tab(icon: Text('📝', style: TextStyle(fontSize: 16)), text: '4. Cümleler'),
             Tab(icon: Text('📖', style: TextStyle(fontSize: 16)), text: '5. Hikaye'),
           ],
@@ -1227,16 +1228,45 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
                     articulationHint: stage.articulationHint,
                   ),
 
-                  // 🏆 EFSANE AVATAR VİTRİNİ & KOLEKSİYONU (Kocaman, Hareketli ve Renkli/Gri Podyum)
-                  AvatarShowcaseWidget(
-                    onOpenMiniGame: () => _openMiniGame(
-                      stageLevel: _tabController.index + 1,
-                      stageName: 'Aşama ${_tabController.index + 1}',
+                  // 🏆 AÇILIR/KAPANIR AVATAR VİTRİNİ (Hece/kelime kartları hemen görünsün)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                    child: InkWell(
+                      onTap: () => setState(() => _showAvatarShowcase = !_showAvatarShowcase),
+                      borderRadius: BorderRadius.circular(14),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFFF8E1),
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(color: const Color(0xFFFFCA28), width: 1.5),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              '🌟 Karakter Podyumu & Ödüller',
+                              style: TextStyle(fontWeight: FontWeight.w900, fontSize: 12.5, color: Color(0xFFE65100)),
+                            ),
+                            Icon(
+                              _showAvatarShowcase ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded,
+                              color: const Color(0xFFE65100),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    onSelectStage: (stIdx) {
-                      _tabController.animateTo(stIdx);
-                    },
                   ),
+                  if (_showAvatarShowcase)
+                    AvatarShowcaseWidget(
+                      onOpenMiniGame: () => _openMiniGame(
+                        stageLevel: _tabController.index + 1,
+                        stageName: 'Aşama ${_tabController.index + 1}',
+                      ),
+                      onSelectStage: (stIdx) {
+                        _tabController.animateTo(stIdx);
+                      },
+                    ),
 
                   // 🎮 CANLI OYUN BANNER'I (Ses Temalı Mini Oyun)
                   _buildTopGameBanner(stage),

@@ -24,7 +24,13 @@ app = FastAPI(title="Ses Yolunda Eğlence Klinik Terapist Motoru", version="6.1"
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "http://127.0.0.1:8080",
+        "http://localhost:8080",
+        "http://127.0.0.1:8000",
+        "http://localhost:8000",
+    ],
+    allow_origin_regex=r"https?://(localhost|127\.0\.0\.1)(:\d+)?",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -517,85 +523,17 @@ async def text_to_speech(
                 wav_bytes = f.read()
             return Response(content=wav_bytes, media_type="audio/wav")
 
-    # Kesin Oncelik 3: J harfinde veya 'jjjj' sesinde ASLA 'je' veya 'je je' denmesin, dogrudan 'jjjjj' motor sesi calsin!
-    if clean_syl in ("j", "jj", "jjj", "jjjj", "jjjjj") or (clean_p == "j" and mode in ("phoneme", "syllable") and clean_syl in ("j", "jj", "jjjj")):
-        j_sound_file = os.path.join(pure_dir, "j.wav")
-        if os.path.exists(j_sound_file):
-            with open(j_sound_file, "rb") as f:
-                wav_bytes = f.read()
-            return Response(content=wav_bytes, media_type="audio/wav")
-
-    # Kesin Oncelik 4: H harfinde veya 'hhhh' sesinde ASLA 'he' veya 'he he' denmesin, dogrudan saf nefes 'hhhh' sesi calsin!
-    if clean_syl in ("h", "hh", "hhh", "hhhh", "hhhhh") or (clean_p == "h" and mode in ("phoneme", "syllable") and clean_syl in ("h", "hh", "hhh", "hhhh")):
-        h_sound_file = os.path.join(pure_dir, "h.wav")
-        if os.path.exists(h_sound_file):
-            with open(h_sound_file, "rb") as f:
-                wav_bytes = f.read()
-            return Response(content=wav_bytes, media_type="audio/wav")
-
-    # Kesin Oncelik 5: Ç harfinde veya 'ççç' sesinde ASLA 'çe' denmesin, dogrudan saf 'çççç' sesi calsin!
-    if clean_syl in ("ç", "çç", "ççç", "çççç", "ççççç") or (clean_p == "ç" and mode in ("phoneme", "syllable") and clean_syl in ("ç", "çç", "ççç")):
-        ch_sound_file = os.path.join(pure_dir, "ç.wav")
-        if os.path.exists(ch_sound_file):
-            with open(ch_sound_file, "rb") as f:
-                wav_bytes = f.read()
-            return Response(content=wav_bytes, media_type="audio/wav")
-
-    # Kesin Oncelik 5.1: C harfinde veya 'ccc' sesinde ASLA 'ce' denmesin, dogrudan saf 'c.wav' sesi calsin!
-    if clean_syl in ("c", "cc", "ccc", "cccc", "ccccc") or (clean_p == "c" and mode in ("phoneme", "syllable") and clean_syl in ("c", "cc", "ccc")):
-        c_sound_file = os.path.join(pure_dir, "c.wav")
-        if os.path.exists(c_sound_file):
-            with open(c_sound_file, "rb") as f:
-                wav_bytes = f.read()
-            return Response(content=wav_bytes, media_type="audio/wav")
-
-    # Kesin Oncelik 5.2: M harfinde veya 'mmm' sesinde ASLA 'me' denmesin, dogrudan saf 'm.wav' sesi calsin!
-    if clean_syl in ("m", "mm", "mmm", "mmmm", "mmmmm") or (clean_p == "m" and mode in ("phoneme", "syllable") and clean_syl in ("m", "mm", "mmm")):
-        m_sound_file = os.path.join(pure_dir, "m.wav")
-        if os.path.exists(m_sound_file):
-            with open(m_sound_file, "rb") as f:
-                wav_bytes = f.read()
-            return Response(content=wav_bytes, media_type="audio/wav")
-
-    # Kesin Oncelik 5.3: N harfinde veya 'nnnn' sesinde ASLA 'ne' veya 'nene' denmesin, dogrudan saf 'n.wav' sesi calsin!
-    if clean_syl in ("n", "nn", "nnn", "nnnn", "nnnnn") or (clean_p == "n" and mode in ("phoneme", "syllable") and clean_syl in ("n", "nn", "nnn", "nnnn")):
-        n_sound_file = os.path.join(pure_dir, "n.wav")
-        if os.path.exists(n_sound_file):
-            with open(n_sound_file, "rb") as f:
-                wav_bytes = f.read()
-            return Response(content=wav_bytes, media_type="audio/wav")
-
-    # Kesin Oncelik 5.4: L harfinde veya 'llll' sesinde ASLA 'le' veya 'lele' denmesin, dogrudan saf 'l.wav' sesi calsin!
-    if clean_syl in ("l", "ll", "lll", "llll", "lllll") or (clean_p == "l" and mode in ("phoneme", "syllable") and clean_syl in ("l", "ll", "lll", "llll")):
-        l_sound_file = os.path.join(pure_dir, "l.wav")
-        if os.path.exists(l_sound_file):
-            with open(l_sound_file, "rb") as f:
-                wav_bytes = f.read()
-            return Response(content=wav_bytes, media_type="audio/wav")
-
-    # Kesin Oncelik 5.5: R harfinde veya 'rrrr' sesinde ASLA 're' veya 're re' denmesin, dogrudan saf 'r.wav' sesi calsin!
-    if clean_syl in ("r", "rr", "rrr", "rrrr", "rrrrr") or (clean_p == "r" and mode in ("phoneme", "syllable") and clean_syl in ("r", "rr", "rrr", "rrrr")):
-        r_sound_file = os.path.join(pure_dir, "r.wav")
-        if os.path.exists(r_sound_file):
-            with open(r_sound_file, "rb") as f:
-                wav_bytes = f.read()
-            return Response(content=wav_bytes, media_type="audio/wav")
-
-    # Kesin Oncelik 5.6: Y harfinde veya 'yyyy' sesinde ASLA 'ye' veya 'ye ye' denmesin, dogrudan saf 'y.wav' sesi calsin!
-    if clean_syl in ("y", "yy", "yyy", "yyyy", "yyyyy") or (clean_p == "y" and mode in ("phoneme", "syllable") and clean_syl in ("y", "yy", "yyy", "yyyy")):
-        y_sound_file = os.path.join(pure_dir, "y.wav")
-        if os.path.exists(y_sound_file):
-            with open(y_sound_file, "rb") as f:
-                wav_bytes = f.read()
-            return Response(content=wav_bytes, media_type="audio/wav")
-
-    # Kesin Oncelik 5.7: P harfinde veya 'ppp' sesinde ASLA 'pe' denmesin, dogrudan saf p patlama sesi 'p.wav' calsin!
-    if clean_syl in ("p", "pp", "ppp", "pppp", "ppppp") or (clean_p == "p" and mode in ("phoneme", "syllable") and clean_syl in ("p", "pp", "ppp")):
-        p_sound_file = os.path.join(pure_dir, "p.wav")
-        if os.path.exists(p_sound_file):
-            with open(p_sound_file, "rb") as f:
-                wav_bytes = f.read()
-            return Response(content=wav_bytes, media_type="audio/wav")
+    # Kesin Oncelik 3: Tum 20 fonem icin harf ismi ('pe', 'be', 'ke', 'je', 'he') yerine dogrudan saf fonem WAV dosyasi calsin!
+    ALL_20_PHONEMES = ("p", "b", "t", "d", "k", "g", "f", "v", "s", "z", "ş", "j", "h", "ç", "c", "m", "n", "l", "r", "y")
+    for ph in ALL_20_PHONEMES:
+        if clean_syl in (ph, ph * 2, ph * 3, ph * 4, ph * 5, f"{ph} sesi") or (
+            clean_p == ph and mode in ("phoneme", "syllable") and clean_syl in (ph, ph * 2, ph * 3, ph * 4)
+        ):
+            ph_sound_file = os.path.join(pure_dir, f"{ph}.wav")
+            if os.path.exists(ph_sound_file):
+                with open(ph_sound_file, "rb") as f:
+                    wav_bytes = f.read()
+                return Response(content=wav_bytes, media_type="audio/wav")
 
     # Kesin Oncelik 6: H sesinin Hasibe Hala hikayesi doğrudan stüdyo kaydı olarak çalsın!
     if ("hasibe" in trimmed_text.lower() and "havuç" in trimmed_text.lower() and len(trimmed_text) > 80) or (clean_p == "h" and mode == "story"):
@@ -956,10 +894,26 @@ async def evaluate_audio(
     target_text: str = Form(...),
     target_phoneme: str = Form(...),
     spoken_text: Optional[str] = Form(None),
+    student_name: Optional[str] = Form(""),
     audio_file: Optional[UploadFile] = File(None)
 ):
     file_bytes = await audio_file.read() if audio_file else b""
     recognized = (spoken_text or "").strip()
+
+    # 🎧 Çocuğun ses kaydını terapist dinlemesi için kaydet ("İlk Gün vs. Bugün")
+    if file_bytes and len(file_bytes) > 500:
+        try:
+            rec_dir = os.path.join(os.path.dirname(__file__), "student_recordings")
+            os.makedirs(rec_dir, exist_ok=True)
+            ts = int(time.time())
+            safe_stu = re.sub(r"[^a-zA-Z0-9çÇğĞıİöÖşŞüÜ_-]", "_", (student_name or "danisan").strip()) or "danisan"
+            safe_word = re.sub(r"[^a-zA-Z0-9çÇğĞıİöÖşŞüÜ_-]", "_", target_text.strip())[:24] or "ses"
+            safe_ph = re.sub(r"[^a-zA-ZçÇğĞıİöÖşŞüÜ]", "", target_phoneme) or "x"
+            rec_name = f"{ts}__{safe_stu}__{safe_ph}__{safe_word}.wav"
+            with open(os.path.join(rec_dir, rec_name), "wb") as rf:
+                rf.write(file_bytes)
+        except Exception as rec_err:
+            print(f"[Recording Save Warning] {rec_err}")
     
     clean_target = re.sub(r'[^\w\sğüşıöç]', '', target_text.lower()).strip()
     p_clean = re.sub(r'[/ -]', '', target_phoneme.lower()).strip()
@@ -1326,6 +1280,7 @@ def get_current_therapist_id(authorization: Optional[str] = Header(None)) -> int
 class LoginPayload(BaseModel):
     email: str
     password: str
+    therapist_code: Optional[str] = None
     edevlet_doc_no: Optional[str] = None
 
 class RegisterTherapistPayload(BaseModel):
@@ -1335,7 +1290,33 @@ class RegisterTherapistPayload(BaseModel):
     clinic_name: Optional[str] = "Dil ve Konuşma Terapisi Danışmanlık Merkezi"
     title: Optional[str] = "Dil ve Konuşma Terapisti (DKT)"
     edevlet_doc_no: Optional[str] = "YOK-2024-DKT-8921"
+    therapist_code: Optional[str] = "DKT-BETUL"
     is_edevlet_verified: Optional[bool] = True
+
+class StudentRegisterPayload(BaseModel):
+    full_name: str
+    parent_email: str
+    password: str
+    avatar: Optional[str] = "👦"
+    age: Optional[int] = 6
+    therapist_code: Optional[str] = ""
+
+class ForgotPasswordPayload(BaseModel):
+    email: str
+    new_password: str
+
+class EdevletVerifyPayload(BaseModel):
+    full_name: str
+    barcode: str
+    tc_no: Optional[str] = ""
+
+class SyncStatsPayload(BaseModel):
+    parent_email: Optional[str] = ""
+    student_name: Optional[str] = ""
+    total_stars: Optional[int] = None
+    xp: Optional[int] = None
+    gems: Optional[int] = None
+    hearts: Optional[int] = None
 
 class AddStudentPayload(BaseModel):
     full_name: str
@@ -1364,7 +1345,76 @@ class RecordSessionPayload(BaseModel):
     error_distribution: Optional[dict] = {}
     therapist_note: Optional[str] = "Klinik seans tamamlandı."
 
+@app.post("/api/auth/student/register")
+def api_register_student(payload: StudentRegisterPayload):
+    conn = get_connection()
+    cur = conn.cursor()
+    clean_email = payload.parent_email.strip().lower()
+    clean_name = payload.full_name.strip()
+    clean_code = (payload.therapist_code or "").strip().upper()
+    
+    if not clean_email or not clean_name:
+        conn.close()
+        raise HTTPException(status_code=400, detail="Kullanıcı adı ve e-posta adresi zorunludur!")
+    
+    hashed = hash_password(payload.password)
+    
+    # E-posta veya isimle var olan öğrenciyi ara
+    cur.execute("SELECT * FROM students WHERE LOWER(parent_email) = ? OR LOWER(full_name) = ?", (clean_email, clean_name.lower()))
+    existing = cur.fetchone()
+    
+    if existing:
+        cur.execute("""
+        UPDATE students
+        SET full_name = ?, parent_email = ?, password_hash = ?, avatar = ?, age = ?, therapist_code = ?
+        WHERE id = ?
+        """, (clean_name, clean_email, hashed, payload.avatar or "👦", payload.age or 6, clean_code, existing["id"]))
+        conn.commit()
+        s_id = existing["id"]
+    else:
+        # Terapist id tespiti
+        therapist_id = 1
+        if clean_code:
+            cur.execute("SELECT id FROM therapists WHERE UPPER(therapist_code) = ?", (clean_code,))
+            t_row = cur.fetchone()
+            if t_row:
+                therapist_id = t_row["id"]
+                
+        cur.execute("""
+        INSERT INTO students (therapist_id, full_name, age, avatar, parent_email, password_hash, therapist_code, total_stars, xp, gems, hearts, overall_accuracy)
+        VALUES (?, ?, ?, ?, ?, ?, ?, 0, 0, 50, 5, 0.0)
+        """, (therapist_id, clean_name, payload.age or 6, payload.avatar or "👦", clean_email, hashed, clean_code))
+        conn.commit()
+        s_id = cur.lastrowid
+        
+    cur.execute("SELECT * FROM students WHERE id = ?", (s_id,))
+    s_row = cur.fetchone()
+    
+    token = create_access_token({
+        "student_id": s_id,
+        "email": clean_email,
+        "name": clean_name,
+        "role": "student"
+    })
+    
+    student_info = {
+        "id": s_id,
+        "full_name": s_row["full_name"],
+        "parent_email": s_row["parent_email"] or clean_email,
+        "avatar": s_row["avatar"] or "👦",
+        "age": s_row["age"] or 6,
+        "therapist_code": s_row["therapist_code"] or clean_code,
+        "total_stars": s_row["total_stars"] or 0,
+        "xp": s_row["xp"] or 0,
+        "gems": s_row["gems"] or 50,
+        "hearts": s_row["hearts"] or 5,
+        "overall_accuracy": s_row["overall_accuracy"] or 0.0,
+    }
+    conn.close()
+    return {"access_token": token, "token_type": "bearer", "user_type": "student", "student": student_info}
+
 @app.post("/api/auth/register")
+@app.post("/api/auth/therapist/register")
 def api_register_therapist(payload: RegisterTherapistPayload):
     conn = get_connection()
     cur = conn.cursor()
@@ -1374,9 +1424,10 @@ def api_register_therapist(payload: RegisterTherapistPayload):
         raise HTTPException(status_code=400, detail="Bu e-posta adresiyle zaten bir terapist kayıtlı!")
     
     hashed = hash_password(payload.password)
+    t_code = (payload.therapist_code or f"DKT-{payload.full_name.strip().split()[0].upper()}").strip().upper()
     cur.execute("""
-    INSERT INTO therapists (email, password_hash, full_name, title, clinic_name, edevlet_document_no, is_edevlet_verified)
-    VALUES (?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO therapists (email, password_hash, full_name, title, clinic_name, edevlet_document_no, therapist_code, is_edevlet_verified)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     """, (
         payload.email.strip().lower(),
         hashed,
@@ -1384,6 +1435,7 @@ def api_register_therapist(payload: RegisterTherapistPayload):
         payload.title or "Dil ve Konuşma Terapisti (DKT)",
         payload.clinic_name or "Dil ve Konuşma Terapisi Danışmanlık Merkezi",
         payload.edevlet_doc_no or "YOK-2024-DKT-8921",
+        t_code,
         1 if payload.is_edevlet_verified else 0
     ))
     conn.commit()
@@ -1403,42 +1455,188 @@ def api_register_therapist(payload: RegisterTherapistPayload):
         "title": payload.title or "Dil ve Konuşma Terapisti (DKT)",
         "clinic_name": payload.clinic_name or "Dil ve Konuşma Terapisi Danışmanlık Merkezi",
         "edevlet_document_no": payload.edevlet_doc_no or "YOK-2024-DKT-8921",
+        "therapist_code": t_code,
         "is_edevlet_verified": True
     }
     conn.close()
-    return {"access_token": token, "token_type": "bearer", "therapist": therapist_info}
+    return {"access_token": token, "token_type": "bearer", "user_type": "therapist", "therapist": therapist_info}
 
 @app.post("/api/auth/login")
 def api_login(payload: LoginPayload):
     conn = get_connection()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM therapists WHERE email = ?", (payload.email.strip().lower(),))
-    row = cur.fetchone()
-    
-    # Şifre kontrolü veya demo giriş
+    clean_input = payload.email.strip().lower()
     hashed = hash_password(payload.password)
-    if not row or (row["password_hash"] != hashed and payload.password != "123456"):
-        conn.close()
-        raise HTTPException(status_code=401, detail="E-posta veya şifre hatalı!")
     
-    token = create_access_token({
-        "therapist_id": row["id"],
-        "email": row["email"],
-        "name": row["full_name"],
-        "role": "therapist"
-    })
-    
-    therapist_info = {
-        "id": row["id"],
-        "email": row["email"],
-        "full_name": row["full_name"],
-        "title": row["title"] if "title" in row.keys() else "Dil ve Konuşma Terapisti (DKT)",
-        "clinic_name": row["clinic_name"] if "clinic_name" in row.keys() else "Dil ve Konuşma Danışmanlık Merkezi",
-        "edevlet_document_no": row["edevlet_document_no"] if "edevlet_document_no" in row.keys() else "YOK-2024-DKT-8921",
-        "is_edevlet_verified": True
-    }
+    # 1. Terapistler tablosunda ara
+    cur.execute("SELECT * FROM therapists WHERE LOWER(email) = ?", (clean_input,))
+    t_row = cur.fetchone()
+    if t_row:
+        if t_row["password_hash"] == hashed:
+            token = create_access_token({
+                "therapist_id": t_row["id"],
+                "email": t_row["email"],
+                "name": t_row["full_name"],
+                "role": "therapist"
+            })
+            therapist_info = {
+                "id": t_row["id"],
+                "email": t_row["email"],
+                "full_name": t_row["full_name"],
+                "title": t_row["title"] if "title" in t_row.keys() else "Dil ve Konuşma Terapisti (DKT)",
+                "clinic_name": t_row["clinic_name"] if "clinic_name" in t_row.keys() else "Dil ve Konuşma Danışmanlık Merkezi",
+                "therapist_code": t_row["therapist_code"] if "therapist_code" in t_row.keys() and t_row["therapist_code"] else "DKT-BETUL",
+                "edevlet_document_no": t_row["edevlet_document_no"] if "edevlet_document_no" in t_row.keys() else "YOK-2024-DKT-8921",
+                "is_edevlet_verified": True
+            }
+            conn.close()
+            return {"access_token": token, "token_type": "bearer", "user_type": "therapist", "therapist": therapist_info}
+        else:
+            conn.close()
+            raise HTTPException(status_code=401, detail="Şifre hatalı! Lütfen şifrenizi kontrol ediniz.")
+
+    # 2. Öğrenciler / Danışanlar tablosunda ara (parent_email veya full_name)
+    cur.execute("SELECT * FROM students WHERE LOWER(parent_email) = ? OR LOWER(full_name) = ?", (clean_input, clean_input))
+    s_row = cur.fetchone()
+    if s_row:
+        pwd_match = (not s_row["password_hash"]) or (s_row["password_hash"] == hashed)
+        if pwd_match:
+            if not s_row["password_hash"]:
+                cur.execute("UPDATE students SET password_hash = ? WHERE id = ?", (hashed, s_row["id"]))
+                conn.commit()
+            if payload.therapist_code and payload.therapist_code.strip():
+                cur.execute("UPDATE students SET therapist_code = ? WHERE id = ?", (payload.therapist_code.strip().upper(), s_row["id"]))
+                conn.commit()
+                
+            token = create_access_token({
+                "student_id": s_row["id"],
+                "email": s_row["parent_email"] or clean_input,
+                "name": s_row["full_name"],
+                "role": "student"
+            })
+            student_info = {
+                "id": s_row["id"],
+                "full_name": s_row["full_name"],
+                "parent_email": s_row["parent_email"] or clean_input,
+                "avatar": s_row["avatar"] or "👦",
+                "age": s_row["age"] or 6,
+                "therapist_code": (payload.therapist_code or s_row["therapist_code"] or "").strip().upper(),
+                "total_stars": s_row["total_stars"] or 0,
+                "xp": s_row["xp"] or 0,
+                "gems": s_row["gems"] or 50,
+                "hearts": s_row["hearts"] or 5,
+                "overall_accuracy": s_row["overall_accuracy"] or 0.0,
+                "target_phonemes": s_row["target_phonemes"] if "target_phonemes" in s_row.keys() else "",
+            }
+            conn.close()
+            return {"access_token": token, "token_type": "bearer", "user_type": "student", "student": student_info}
+        else:
+            conn.close()
+            raise HTTPException(status_code=401, detail="Şifre hatalı! Lütfen şifrenizi kontrol ediniz.")
+
     conn.close()
-    return {"access_token": token, "token_type": "bearer", "therapist": therapist_info}
+    raise HTTPException(status_code=404, detail="Bu e-posta veya kullanıcı adı ile kayıtlı hesap bulunamadı. Lütfen önce kaydolun!")
+
+def _is_valid_tc_kimlik(tc: str) -> bool:
+    tc = tc.strip()
+    if len(tc) != 11 or not tc.isdigit() or tc[0] == "0":
+        return False
+    digits = [int(d) for d in tc]
+    odd_sum = digits[0] + digits[2] + digits[4] + digits[6] + digits[8]
+    even_sum = digits[1] + digits[3] + digits[5] + digits[7]
+    d10 = ((odd_sum * 7) - even_sum) % 10
+    d11 = sum(digits[:10]) % 10
+    return digits[9] == d10 and digits[10] == d11
+
+@app.post("/api/auth/therapist/verify-edevlet")
+def api_verify_edevlet(payload: EdevletVerifyPayload):
+    name = payload.full_name.strip()
+    barcode = payload.barcode.strip().upper()
+    tc_no = (payload.tc_no or "").strip()
+
+    if len(name.split()) < 2:
+        raise HTTPException(status_code=400, detail="Lütfen Ad ve Soyadınızı tam olarak giriniz.")
+    if tc_no and not _is_valid_tc_kimlik(tc_no):
+        raise HTTPException(status_code=400, detail="Geçersiz T.C. Kimlik Numarası! 11 haneli geçerli numara giriniz.")
+    if len(barcode) < 8 or barcode in {"12345678", "ABCDEFGH", "TEST1234"} or not re.match(r"^[A-Z0-9\-]+$", barcode):
+        raise HTTPException(
+            status_code=400,
+            detail="Geçersiz e-Devlet/YÖK barkod numarası! En az 8 karakterli resmi barkod giriniz (Örn: YOK-2024-DKT-8921)."
+        )
+
+    first_token = re.sub(r"[^A-ZÇĞİÖŞÜ]", "", name.split()[0].upper()) or "KLINIK"
+    return {
+        "verified": True,
+        "barcode": barcode,
+        "university": "YÖK Yükseköğretim Bilgi Sistemi (Format & Kimlik Doğrulandı)",
+        "department": "Dil ve Konuşma Terapisi Bölümü",
+        "therapist_code": f"DKT-{first_token}",
+        "official_portal": "https://www.turkiye.gov.tr/belge-dogrulama",
+    }
+
+@app.post("/api/students/sync-stats")
+def api_sync_student_stats(payload: SyncStatsPayload):
+    clean_email = (payload.parent_email or "").strip().lower()
+    clean_name = (payload.student_name or "").strip().lower()
+    if not clean_email and not clean_name:
+        raise HTTPException(status_code=400, detail="Öğrenci kimliği gerekli.")
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT id FROM students WHERE (LOWER(parent_email) = ? AND ? != '') OR (LOWER(full_name) = ? AND ? != '') LIMIT 1",
+        (clean_email, clean_email, clean_name, clean_name),
+    )
+    row = cur.fetchone()
+    if not row:
+        conn.close()
+        return {"status": "not_found"}
+    updates = []
+    params = []
+    if payload.total_stars is not None:
+        updates.append("total_stars = ?")
+        params.append(payload.total_stars)
+    if payload.xp is not None:
+        updates.append("xp = ?")
+        params.append(payload.xp)
+    if payload.gems is not None:
+        updates.append("gems = ?")
+        params.append(payload.gems)
+    if payload.hearts is not None:
+        updates.append("hearts = ?")
+        params.append(payload.hearts)
+    if updates:
+        params.append(row["id"])
+        cur.execute(f"UPDATE students SET {', '.join(updates)} WHERE id = ?", params)
+        conn.commit()
+    conn.close()
+    return {"status": "success"}
+
+@app.post("/api/auth/forgot-password")
+def api_forgot_password(payload: ForgotPasswordPayload):
+    conn = get_connection()
+    cur = conn.cursor()
+    clean_email = payload.email.strip().lower()
+    hashed = hash_password(payload.new_password)
+    
+    updated = False
+    # Terapist kontrolü
+    cur.execute("SELECT id FROM therapists WHERE LOWER(email) = ?", (clean_email,))
+    if cur.fetchone():
+        cur.execute("UPDATE therapists SET password_hash = ? WHERE LOWER(email) = ?", (hashed, clean_email))
+        conn.commit()
+        updated = True
+        
+    # Öğrenci kontrolü
+    cur.execute("SELECT id FROM students WHERE LOWER(parent_email) = ? OR LOWER(full_name) = ?", (clean_email, clean_email))
+    if cur.fetchone():
+        cur.execute("UPDATE students SET password_hash = ? WHERE LOWER(parent_email) = ? OR LOWER(full_name) = ?", (hashed, clean_email, clean_email))
+        conn.commit()
+        updated = True
+        
+    conn.close()
+    if updated:
+        return {"status": "success", "message": "Şifreniz başarıyla güncellendi!"}
+    raise HTTPException(status_code=404, detail="Bu e-posta adresi ile kayıtlı kullanıcı bulunamadı.")
 
 import requests
 import urllib3
@@ -1529,7 +1727,7 @@ def api_send_notification(payload: NotificationPayload):
                     Ses Yolunda Eğlence platformuna kaydınız başarıyla oluşturuldu. Konuşma seslerini eğlenceli oyunlar, interaktif artikülasyon basamakları ve canlı ses analizleriyle öğrenmeye hazırsınız!
                 </p>
                 <div style="text-align: center; margin: 32px 0 20px;">
-                    <a href="https://specified-sends-kevin-slides.trycloudflare.com" style="background: #16a34a; color: white; padding: 14px 28px; text-decoration: none; border-radius: 14px; font-weight: bold; font-size: 14px; display: inline-block;">
+                    <a href="http://127.0.0.1:8080" style="background: #16a34a; color: white; padding: 14px 28px; text-decoration: none; border-radius: 14px; font-weight: bold; font-size: 14px; display: inline-block;">
                         🚀 Maceraya Başla & Oyunu Aç
                     </a>
                 </div>
@@ -1608,12 +1806,12 @@ def get_leaderboard():
         conn = get_connection()
         cur = conn.cursor()
         cur.execute("""
-        SELECT s.id, s.full_name, s.avatar, s.total_stars, s.overall_accuracy,
+        SELECT s.id, s.full_name, s.avatar, s.total_stars, s.overall_accuracy, s.xp,
                COUNT(ts.id) as sessions_count
         FROM students s
         LEFT JOIN therapy_sessions ts ON s.id = ts.student_id
         GROUP BY s.id
-        ORDER BY s.total_stars DESC, s.overall_accuracy DESC
+        ORDER BY s.xp DESC, s.total_stars DESC, s.overall_accuracy DESC
         """)
         rows = [dict(r) for r in cur.fetchall()]
         conn.close()
@@ -1626,17 +1824,19 @@ def get_leaderboard():
             stars = r.get("total_stars") or 0
             acc = r.get("overall_accuracy") or 0.0
             sessions = r.get("sessions_count") or 0
-            # XP: kazanılan yıldızlar ve yapılan seanslar üzerinden gerçek hesaplama
+            stored_xp = r.get("xp") or 0
             calculated_xp = (stars * 10) + (sessions * 20)
+            final_xp = max(stored_xp, calculated_xp)
             badge_text = f"{stars} Yıldız • {sessions} Seans" if sessions > 0 else (f"{stars} Yıldız ⭐" if stars > 0 else "Kayıtlı Danışan 🌱")
             results.append({
                 "id": r["id"],
                 "name": name,
                 "avatar": r.get("avatar") or "🧒",
-                "xp": calculated_xp,
+                "xp": final_xp,
                 "stars": stars,
                 "badge": badge_text,
             })
+        results.sort(key=lambda x: x["xp"], reverse=True)
         return {"status": "success", "leaderboard": results}
     except Exception as e:
         return {"status": "error", "message": str(e), "leaderboard": []}
@@ -1712,19 +1912,45 @@ def get_therapist_dashboard(authorization: Optional[str] = Header(None)):
     }
 
 @app.get("/api/therapist/students")
-def get_students(authorization: Optional[str] = Header(None)):
+def get_students(therapist_code: Optional[str] = None, authorization: Optional[str] = Header(None)):
     therapist_id = get_current_therapist_id(authorization)
     conn = get_connection()
     cur = conn.cursor()
-    cur.execute("""
-    SELECT s.*, COUNT(ts.id) as session_count
-    FROM students s
-    LEFT JOIN therapy_sessions ts ON s.id = ts.student_id
-    WHERE s.therapist_id = ?
-    GROUP BY s.id
-    ORDER BY s.id DESC
-    """, (therapist_id,))
+    if therapist_code and therapist_code.strip():
+        cur.execute("""
+        SELECT s.*, COUNT(ts.id) as session_count
+        FROM students s
+        LEFT JOIN therapy_sessions ts ON s.id = ts.student_id
+        WHERE UPPER(s.therapist_code) = ? OR s.therapist_id = ?
+        GROUP BY s.id
+        ORDER BY s.id DESC
+        """, (therapist_code.strip().upper(), therapist_id))
+    else:
+        cur.execute("""
+        SELECT s.*, COUNT(ts.id) as session_count
+        FROM students s
+        LEFT JOIN therapy_sessions ts ON s.id = ts.student_id
+        GROUP BY s.id
+        ORDER BY s.id DESC
+        """)
     students = [dict(r) for r in cur.fetchall()]
+    for st in students:
+        cur.execute("""
+        SELECT phoneme, words_attempted, words_correct, accuracy_score, therapist_note, completed_at
+        FROM therapy_sessions
+        WHERE student_id = ?
+        ORDER BY id DESC LIMIT 20
+        """, (st["id"],))
+        st["sessions"] = [
+            {
+                "date": (r["completed_at"] or "Bugün")[:10],
+                "phoneme": (r["phoneme"] or "").replace("/", "").strip(),
+                "acc": round(r["accuracy_score"] or 0.0, 1),
+                "words": f"{r['words_correct'] or 0}/{r['words_attempted'] or 0}",
+                "note": r["therapist_note"] or "",
+            }
+            for r in cur.fetchall()
+        ]
     conn.close()
     return {"students": students}
 
@@ -1759,6 +1985,71 @@ def get_student_detail(student_id: int):
 
 class NotePayload(BaseModel):
     note: str
+
+class TargetPhonemesPayload(BaseModel):
+    target_phonemes: str
+
+@app.post("/api/therapist/students/{student_id}/target-phonemes")
+def update_student_target_phonemes(student_id: int, payload: TargetPhonemesPayload):
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("UPDATE students SET target_phonemes = ? WHERE id = ?", (payload.target_phonemes.strip(), student_id))
+    conn.commit()
+    conn.close()
+    return {"status": "success", "target_phonemes": payload.target_phonemes.strip()}
+
+@app.get("/api/therapist/recordings")
+def list_student_recordings(student_name: Optional[str] = None):
+    rec_dir = os.path.join(os.path.dirname(__file__), "student_recordings")
+    if not os.path.exists(rec_dir):
+        return {"recordings": []}
+    files = sorted(
+        [f for f in os.listdir(rec_dir) if f.endswith(".wav")],
+        reverse=True,
+    )
+    items = []
+    filter_stu = (student_name or "").strip().lower()
+    for fn in files[:50]:
+        parts = fn[:-4].split("__")
+        if len(parts) >= 4:
+            ts_str, stu, ph, word = parts[0], parts[1], parts[2], parts[3]
+        else:
+            ts_str, stu, ph, word = "0", "danisan", "-", fn[:-4]
+        if filter_stu and filter_stu not in stu.lower():
+            continue
+        items.append({
+            "filename": fn,
+            "timestamp": int(ts_str) if ts_str.isdigit() else 0,
+            "student_name": stu.replace("_", " "),
+            "phoneme": ph,
+            "word": word.replace("_", " "),
+            "url": f"/api/therapist/recordings/{fn}",
+        })
+    return {"recordings": items}
+
+@app.get("/api/therapist/recordings/{filename}")
+def get_student_recording(filename: str):
+    safe_fn = os.path.basename(filename)
+    rec_path = os.path.join(os.path.dirname(__file__), "student_recordings", safe_fn)
+    if not os.path.exists(rec_path):
+        raise HTTPException(status_code=404, detail="Kayıt bulunamadı.")
+    with open(rec_path, "rb") as f:
+        return Response(content=f.read(), media_type="audio/wav")
+
+class AssessmentPayload(BaseModel):
+    clinical_assessment: str = ""
+
+@app.post("/api/therapist/students/{student_id}/assessment")
+def save_student_assessment(student_id: int, payload: AssessmentPayload):
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute(
+        "UPDATE students SET clinical_assessment = ? WHERE id = ?",
+        (payload.clinical_assessment.strip(), student_id),
+    )
+    conn.commit()
+    conn.close()
+    return {"status": "success", "clinical_assessment": payload.clinical_assessment.strip()}
 
 @app.post("/api/therapist/students/{student_id}/notes")
 def add_student_note(student_id: int, payload: NotePayload):
@@ -1803,7 +2094,8 @@ def record_session(payload: RecordSessionPayload):
             s_id = cur.lastrowid
 
     if not s_id:
-        s_id = 1 # Varsayılan Ali Yılmaz
+        conn.close()
+        raise HTTPException(status_code=404, detail="Seans kaydedilecek öğrenci bulunamadı.")
 
     err_json = json.dumps(payload.error_distribution or {})
     cur.execute("""
@@ -1811,12 +2103,15 @@ def record_session(payload: RecordSessionPayload):
     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     """, (s_id, payload.phoneme, payload.duration_minutes, payload.words_attempted, payload.words_correct, payload.accuracy_score, err_json, payload.therapist_note))
     
-    # Öğrenci ortalama skorunu ve yıldızını güncelle
+    # Öğrenci ortalama skorunu, yıldızını, XP ve elmas bilgisini güncelle
     cur.execute("SELECT AVG(accuracy_score) as avg_acc, COUNT(*) as cnt FROM therapy_sessions WHERE student_id = ?", (s_id,))
     agg = cur.fetchone()
     avg_acc = round(agg["avg_acc"] or payload.accuracy_score, 1)
     
-    cur.execute("UPDATE students SET overall_accuracy = ?, total_stars = total_stars + 3 WHERE id = ?", (avg_acc, s_id))
+    cur.execute(
+        "UPDATE students SET overall_accuracy = ?, total_stars = total_stars + 3, xp = xp + 20, gems = gems + 10 WHERE id = ?",
+        (avg_acc, s_id),
+    )
     conn.commit()
     conn.close()
     return {"status": "success", "message": "Seans başarıyla kaydedildi.", "student_id": s_id, "updated_accuracy": avg_acc}

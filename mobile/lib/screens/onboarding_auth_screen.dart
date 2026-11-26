@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:html' as html;
 import 'package:flutter/foundation.dart';
@@ -64,6 +65,12 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
   final TextEditingController _loginChildTherapistCodeCtrl = TextEditingController();
   final TextEditingController _loginTherapistEmailCtrl = TextEditingController();
   final TextEditingController _loginTherapistPassCtrl = TextEditingController();
+  bool _rememberChild = false;
+  bool _rememberTherapist = false;
+  bool _obscureChildRegPass = true;
+  bool _obscureTherapistRegPass = true;
+  bool _obscureChildLoginPass = true;
+  bool _obscureTherapistLoginPass = true;
 
   final List<String> _avatars = ['⭐', '🚀', '🎨', '🦁', '🐼', '🦄', '🐱', '⚽', '🧒', '👧'];
   final List<int> _ages = [4, 5, 6, 7, 8, 9, 10, 11, 12];
@@ -78,9 +85,35 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
     _mascotBounce = Tween<double>(begin: -5.0, end: 5.0).animate(
       CurvedAnimation(parent: _mascotAnimController, curve: Curves.easeInOut),
     );
-    if (_rewardState.therapistCode.isNotEmpty) {
-      _childTherapistCodeCtrl.text = _rewardState.therapistCode;
-      _loginChildTherapistCodeCtrl.text = _rewardState.therapistCode;
+    // Clear all text controllers to ensure empty fields
+    _childNameCtrl.clear();
+    _childParentEmailCtrl.clear();
+    _childPasswordCtrl.clear();
+    _childTherapistCodeCtrl.clear();
+    _therapistNameCtrl.clear();
+    _clinicNameCtrl.clear();
+    _edevletDocCtrl.clear();
+    _therapistEmailCtrl.clear();
+    _therapistPassCtrl.clear();
+    _loginChildEmailCtrl.clear();
+    _loginChildPassCtrl.clear();
+    _loginChildTherapistCodeCtrl.clear();
+    _loginTherapistEmailCtrl.clear();
+    _loginTherapistPassCtrl.clear();
+    if (kIsWeb) {
+      try {
+        final storage = html.window.localStorage;
+        if (storage['sye_remember_child'] == 'true') {
+          _rememberChild = true;
+          _loginChildEmailCtrl.text = storage['sye_remember_child_email'] ?? '';
+          _loginChildPassCtrl.text = storage['sye_remember_child_pass'] ?? '';
+        }
+        if (storage['sye_remember_dkt'] == 'true') {
+          _rememberTherapist = true;
+          _loginTherapistEmailCtrl.text = storage['sye_remember_dkt_email'] ?? '';
+          _loginTherapistPassCtrl.text = storage['sye_remember_dkt_pass'] ?? '';
+        }
+      } catch (_) {}
     }
   }
 
@@ -431,14 +464,18 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('⭐', style: TextStyle(fontSize: 17)),
-                    const SizedBox(width: 6),
-                    Text(
-                      _mainMode == 'register' ? 'Danışan / Öğrenci Kaydı' : 'Danışan Girişi',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w900,
-                        fontSize: 12,
-                        color: isChild ? const Color(0xFF15803D) : Colors.white70,
+                    const Text('⭐', style: TextStyle(fontSize: 15)),
+                    const SizedBox(width: 5),
+                    Flexible(
+                      child: Text(
+                        _mainMode == 'register' ? 'Danışan / Öğrenci Kaydı' : 'Danışan Girişi',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w900,
+                          fontSize: 11.5,
+                          color: isChild ? const Color(0xFF15803D) : Colors.white,
+                        ),
                       ),
                     ),
                   ],
@@ -454,7 +491,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
               },
               borderRadius: BorderRadius.circular(12),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 9),
+                padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 6),
                 decoration: BoxDecoration(
                   color: !isChild ? Colors.white : Colors.transparent,
                   borderRadius: BorderRadius.circular(12),
@@ -465,14 +502,18 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('🗣️', style: TextStyle(fontSize: 17)),
-                    const SizedBox(width: 6),
-                    Text(
-                      _mainMode == 'register' ? 'DKT (Terapist) Kaydı' : 'DKT Girişi',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w900,
-                        fontSize: 12,
-                        color: !isChild ? const Color(0xFF0369A1) : Colors.white70,
+                    const Text('🗣️', style: TextStyle(fontSize: 15)),
+                    const SizedBox(width: 5),
+                    Flexible(
+                      child: Text(
+                        _mainMode == 'register' ? 'DKT (Terapist) Kaydı' : 'DKT Girişi',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w900,
+                          fontSize: 11.5,
+                          color: !isChild ? const Color(0xFF0369A1) : Colors.white,
+                        ),
                       ),
                     ),
                   ],
@@ -545,7 +586,6 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
         TextField(
           controller: _childNameCtrl,
           decoration: InputDecoration(
-            hintText: 'Kullanıcı Adı',
             prefixIcon: const Icon(Icons.person_outline_rounded, size: 20),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
@@ -624,30 +664,13 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
         ),
         const SizedBox(height: 10),
 
-        const Text('E-Posta Adresi:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
+        const Text('Veli E-Posta Adresi:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
         const SizedBox(height: 4),
         TextField(
           controller: _childParentEmailCtrl,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
             prefixIcon: const Icon(Icons.email_outlined, size: 18),
-            suffixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
-            suffixIcon: const Padding(
-              padding: EdgeInsets.only(right: 14),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    '@gmail.com',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w900,
-                      color: Color(0xFF16A34A),
-                      fontSize: 13,
-                    ),
-                  ),
-                ],
-              ),
-            ),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
@@ -660,35 +683,17 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
         const SizedBox(height: 4),
         TextField(
           controller: _childPasswordCtrl,
-          obscureText: true,
+          obscureText: _obscureChildRegPass,
           decoration: InputDecoration(
-            hintText: '••••••••',
             prefixIcon: const Icon(Icons.lock_outline_rounded, size: 18),
+            suffixIcon: IconButton(
+              icon: Icon(_obscureChildRegPass ? Icons.visibility_off_rounded : Icons.visibility_rounded, size: 18, color: const Color(0xFF64748B)),
+              onPressed: () => setState(() => _obscureChildRegPass = !_obscureChildRegPass),
+            ),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
             contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-          ),
-        ),
-        const SizedBox(height: 4),
-        Align(
-          alignment: Alignment.centerRight,
-          child: TextButton.icon(
-            onPressed: () => _showForgotPasswordDialog(context, initialEmail: _childParentEmailCtrl.text.trim()),
-            icon: const Icon(Icons.lock_reset_rounded, size: 15, color: Color(0xFF16A34A)),
-            label: const Text(
-              'Şifremi Unuttum',
-              style: TextStyle(
-                fontSize: 11.5,
-                fontWeight: FontWeight.w700,
-                color: Color(0xFF16A34A),
-              ),
-            ),
-            style: TextButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-              minimumSize: Size.zero,
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            ),
           ),
         ),
         const SizedBox(height: 10),
@@ -698,8 +703,9 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
         TextField(
           controller: _childTherapistCodeCtrl,
           decoration: InputDecoration(
-            hintText: 'Terapist Eşleştirme Kodu (Varsa girin)',
             prefixIcon: const Icon(Icons.medical_services_outlined, size: 18),
+            helperText: '🔑 Kod girdiğinizde konuşma verileriniz doğrudan terapistinize aktarılır.',
+            helperStyle: const TextStyle(fontSize: 10, color: Color(0xFF64748B)),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
@@ -725,6 +731,53 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
     );
   }
 
+  Future<Map<String, dynamic>> _postAuthJson(String endpoint, Map<String, dynamic> payload) async {
+    if (!kIsWeb) {
+      return {'status': 0, 'data': {'detail': 'Web dışı platformda yerel mod aktif'}};
+    }
+    final completer = Completer<Map<String, dynamic>>();
+    try {
+      final req = html.HttpRequest();
+      req.open('POST', endpoint);
+      req.setRequestHeader('Content-Type', 'application/json');
+      req.onLoadEnd.listen((_) {
+        Map<String, dynamic> decoded = {};
+        try {
+          final text = req.responseText ?? '';
+          if (text.isNotEmpty) {
+            final raw = jsonDecode(text);
+            if (raw is Map<String, dynamic>) {
+              decoded = raw;
+            }
+          }
+        } catch (_) {}
+        if (!completer.isCompleted) {
+          completer.complete({
+            'status': req.status ?? 0,
+            'data': decoded,
+          });
+        }
+      });
+      req.onError.listen((_) {
+        if (!completer.isCompleted) {
+          completer.complete({
+            'status': 0,
+            'data': {'detail': 'Sunucuya bağlanılamadı. Lütfen sunucunun açık olduğundan emin olun.'},
+          });
+        }
+      });
+      req.send(jsonEncode(payload));
+    } catch (e) {
+      if (!completer.isCompleted) {
+        completer.complete({
+          'status': 0,
+          'data': {'detail': 'Bağlantı hatası: $e'},
+        });
+      }
+    }
+    return completer.future;
+  }
+
   void _sendWelcomeAndReminderNotification({required String email, required String name}) {
     if (!kIsWeb) return;
     try {
@@ -741,7 +794,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
     } catch (_) {}
   }
 
-  void _handleChildRegister() {
+  Future<void> _handleChildRegister() async {
     final name = _childNameCtrl.text.trim();
     if (name.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -762,6 +815,16 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
       );
       return;
     }
+    final pass = _childPasswordCtrl.text.trim();
+    if (pass.length < 4) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('⚠️ Lütfen en az 4 karakterli bir şifre belirleyiniz.'),
+          backgroundColor: Colors.orangeAccent,
+        ),
+      );
+      return;
+    }
     if (!email.contains('@')) {
       email = '$email@gmail.com';
     } else if (email.endsWith('@')) {
@@ -769,6 +832,30 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
     }
     final therapistCode = _childTherapistCodeCtrl.text.trim().toUpperCase();
 
+    final res = await _postAuthJson('/api/auth/student/register', {
+      'full_name': name,
+      'parent_email': email,
+      'password': pass,
+      'avatar': _selectedChildAvatar,
+      'age': _childAge,
+      'therapist_code': therapistCode,
+    });
+    if (!mounted) return;
+
+    final status = res['status'] as int? ?? 0;
+    final data = res['data'] as Map<String, dynamic>? ?? {};
+    if (status != 200) {
+      final errMsg = data['detail']?.toString() ?? 'Kayıt sırasında bir hata oluştu (Kod: $status)';
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('❌ $errMsg'),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+      return;
+    }
+
+    _rewardState.resetSessionForLogout();
     _rewardState.setGuestMode(false);
     _rewardState.setStudentName(name);
     _rewardState.setActiveAvatar(_selectedChildAvatar);
@@ -832,7 +919,6 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
         TextField(
           controller: _therapistNameCtrl,
           decoration: InputDecoration(
-            hintText: 'Adınız ve Soyadınız',
             prefixIcon: const Icon(Icons.badge_outlined, size: 20),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
@@ -847,7 +933,6 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
         TextField(
           controller: _clinicNameCtrl,
           decoration: InputDecoration(
-            hintText: 'Klinik veya Çalıştığınız Kurum Adı',
             prefixIcon: const Icon(Icons.apartment_rounded, size: 20),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
@@ -857,7 +942,6 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
         ),
         const SizedBox(height: 10),
 
-        // 🏛️ e-Devlet YÖK Mezuniyet Belge No ve Doğrulama Butonu
         const Text('🏛️ e-Devlet Mezuniyet Barkod No:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
         const SizedBox(height: 4),
         Row(
@@ -866,7 +950,6 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
               child: TextField(
                 controller: _edevletDocCtrl,
                 decoration: InputDecoration(
-                  hintText: 'e-Devlet Mezuniyet Barkod No',
                   prefixIcon: const Icon(Icons.qr_code_rounded, size: 18),
                   filled: true,
                   fillColor: const Color(0xFFF8FAFC),
@@ -933,25 +1016,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
           controller: _therapistEmailCtrl,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
-            hintText: 'E-posta adresiniz',
             prefixIcon: const Icon(Icons.alternate_email_rounded, size: 18),
-            suffixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
-            suffixIcon: const Padding(
-              padding: EdgeInsets.only(right: 14),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    '@gmail.com',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w900,
-                      color: Color(0xFF0284C7),
-                      fontSize: 13,
-                    ),
-                  ),
-                ],
-              ),
-            ),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
@@ -964,35 +1029,17 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
         const SizedBox(height: 4),
         TextField(
           controller: _therapistPassCtrl,
-          obscureText: true,
+          obscureText: _obscureTherapistRegPass,
           decoration: InputDecoration(
-            hintText: '••••••••',
             prefixIcon: const Icon(Icons.lock_outline_rounded, size: 18),
+            suffixIcon: IconButton(
+              icon: Icon(_obscureTherapistRegPass ? Icons.visibility_off_rounded : Icons.visibility_rounded, size: 18, color: const Color(0xFF64748B)),
+              onPressed: () => setState(() => _obscureTherapistRegPass = !_obscureTherapistRegPass),
+            ),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
             contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-          ),
-        ),
-        const SizedBox(height: 4),
-        Align(
-          alignment: Alignment.centerRight,
-          child: TextButton.icon(
-            onPressed: () => _showForgotPasswordDialog(context, initialEmail: _therapistEmailCtrl.text.trim()),
-            icon: const Icon(Icons.lock_reset_rounded, size: 15, color: Color(0xFF0284C7)),
-            label: const Text(
-              'Şifremi Unuttum',
-              style: TextStyle(
-                fontSize: 11.5,
-                fontWeight: FontWeight.w700,
-                color: Color(0xFF0284C7),
-              ),
-            ),
-            style: TextButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-              minimumSize: Size.zero,
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            ),
           ),
         ),
         const SizedBox(height: 14),
@@ -1015,11 +1062,22 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
   }
 
   void _verifyEdevlet() async {
+    final tName = _therapistNameCtrl.text.trim();
     final doc = _edevletDocCtrl.text.trim();
-    if (doc.isEmpty || doc.length < 4) {
+
+    if (tName.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('⚠️ Lütfen mezuniyet belgenizdeki e-Devlet barkod numarasını giriniz.'),
+          content: Text('⚠️ Lütfen önce Ad ve Soyadınızı tam olarak giriniz.'),
+          backgroundColor: Colors.orangeAccent,
+        ),
+      );
+      return;
+    }
+    if (doc.length < 8) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('⚠️ Lütfen en az 8 karakterli resmi e-Devlet/YÖK barkod numaranızı giriniz.'),
           backgroundColor: Colors.orangeAccent,
         ),
       );
@@ -1028,47 +1086,50 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
 
     setState(() => _isVerifyingEdevlet = true);
     _sfx.playPopSound();
-    await Future.delayed(const Duration(milliseconds: 600));
+
+    final res = await _postAuthJson('/api/auth/therapist/verify-edevlet', {
+      'full_name': tName,
+      'barcode': doc,
+    });
     if (!mounted) return;
 
-    final tName = _therapistNameCtrl.text.trim();
-    if (tName.isEmpty) {
+    final status = res['status'] as int? ?? 0;
+    final data = res['data'] as Map<String, dynamic>? ?? {};
+
+    if (status != 200 || data['verified'] != true) {
+      setState(() {
+        _isVerifyingEdevlet = false;
+        _isEdevletVerified = false;
+      });
+      final errMsg = data['detail']?.toString() ?? 'e-Devlet barkod doğrulaması başarısız.';
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('⚠️ Lütfen önce adınızı ve unvanınızı yazınız.'),
-          backgroundColor: Colors.orangeAccent,
+        SnackBar(
+          content: Text('❌ $errMsg'),
+          backgroundColor: Colors.redAccent,
         ),
       );
       return;
     }
 
-    final cleanFirstName = tName
-        .split(' ')
-        .first
-        .replaceAll(RegExp(r'[^a-zA-ZçÇğĞıİöÖşŞüÜ]'), '')
-        .toUpperCase();
-
     setState(() {
       _isVerifyingEdevlet = false;
       _isEdevletVerified = true;
-      _verifiedUniversity = 'Sağlık Bilimleri Fakültesi (Lisans Diploması)';
-      _verifiedDepartment = 'Dil ve Konuşma Terapisi Bölümü';
-      _assignedTherapistCode = 'DKT-$cleanFirstName';
+      _verifiedUniversity = data['university']?.toString() ?? 'YÖK Yükseköğretim Bilgi Sistemi';
+      _verifiedDepartment = data['department']?.toString() ?? 'Dil ve Konuşma Terapisi Bölümü';
+      _assignedTherapistCode = data['therapist_code']?.toString() ?? 'DKT-KLINIK';
     });
 
     _sfx.playVictoryFanfare();
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('🇹🇷 e-Devlet & YÖK Mezuniyet Belgesi Doğrulandı! ($doc • Dil ve Konuşma Terapisi)'),
-          backgroundColor: const Color(0xFF16A34A),
-          duration: const Duration(seconds: 4),
-        ),
-      );
-    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('🇹🇷 e-Devlet Barkod Formatı Doğrulandı! ($doc)'),
+        backgroundColor: const Color(0xFF16A34A),
+        duration: const Duration(seconds: 4),
+      ),
+    );
   }
 
-  void _handleTherapistRegister() {
+  Future<void> _handleTherapistRegister() async {
     final name = _therapistNameCtrl.text.trim();
     final clinic = _clinicNameCtrl.text.trim().isNotEmpty
         ? _clinicNameCtrl.text.trim()
@@ -1102,6 +1163,30 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
       email = '${email}gmail.com';
     }
 
+    final res = await _postAuthJson('/api/auth/therapist/register', {
+      'full_name': name,
+      'email': email,
+      'password': pass,
+      'clinic_name': clinic,
+      'edevlet_doc_no': doc.isNotEmpty ? doc : 'YOK-2024-DKT-8921',
+      'therapist_code': _assignedTherapistCode.isNotEmpty ? _assignedTherapistCode : null,
+      'is_edevlet_verified': true,
+    });
+    if (!mounted) return;
+
+    final status = res['status'] as int? ?? 0;
+    final data = res['data'] as Map<String, dynamic>? ?? {};
+    if (status != 200) {
+      final errMsg = data['detail']?.toString() ?? 'Kayıt sırasında bir hata oluştu (Kod: $status)';
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('❌ $errMsg'),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+      return;
+    }
+
     _dkt.registerTherapist(
       name: name,
       clinic: clinic,
@@ -1111,6 +1196,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
     );
     _rewardState.setGuestMode(false);
     _rewardState.setTherapistEmail(email);
+    _sendWelcomeAndReminderNotification(email: email, name: name);
 
     _sfx.playVictoryFanfare();
     ScaffoldMessenger.of(context).showSnackBar(
@@ -1157,23 +1243,6 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
             prefixIcon: const Icon(Icons.email_outlined, size: 18),
-            suffixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
-            suffixIcon: const Padding(
-              padding: EdgeInsets.only(right: 14),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    '@gmail.com',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w900,
-                      color: Color(0xFF16A34A),
-                      fontSize: 13,
-                    ),
-                  ),
-                ],
-              ),
-            ),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
@@ -1186,10 +1255,13 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
         const SizedBox(height: 4),
         TextField(
           controller: _loginChildPassCtrl,
-          obscureText: true,
+          obscureText: _obscureChildLoginPass,
           decoration: InputDecoration(
-            hintText: '••••••••',
             prefixIcon: const Icon(Icons.lock_outline_rounded, size: 18),
+            suffixIcon: IconButton(
+              icon: Icon(_obscureChildLoginPass ? Icons.visibility_off_rounded : Icons.visibility_rounded, size: 18, color: const Color(0xFF64748B)),
+              onPressed: () => setState(() => _obscureChildLoginPass = !_obscureChildLoginPass),
+            ),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
@@ -1197,25 +1269,50 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
           ),
         ),
         const SizedBox(height: 4),
-        Align(
-          alignment: Alignment.centerRight,
-          child: TextButton.icon(
-            onPressed: () => _showForgotPasswordDialog(context, initialEmail: _loginChildEmailCtrl.text.trim()),
-            icon: const Icon(Icons.lock_reset_rounded, size: 15, color: Color(0xFF16A34A)),
-            label: const Text(
-              'Şifremi Unuttum',
-              style: TextStyle(
-                fontSize: 11.5,
-                fontWeight: FontWeight.w700,
-                color: Color(0xFF16A34A),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            InkWell(
+              onTap: () => setState(() => _rememberChild = !_rememberChild),
+              borderRadius: BorderRadius.circular(8),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    width: 22,
+                    height: 22,
+                    child: Checkbox(
+                      value: _rememberChild,
+                      activeColor: const Color(0xFF16A34A),
+                      onChanged: (v) => setState(() => _rememberChild = v ?? false),
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  const Text(
+                    'Beni Hatırla',
+                    style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w700, color: Color(0xFF334155)),
+                  ),
+                ],
               ),
             ),
-            style: TextButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-              minimumSize: Size.zero,
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            TextButton.icon(
+              onPressed: () => _showForgotPasswordDialog(context, initialEmail: _loginChildEmailCtrl.text.trim()),
+              icon: const Icon(Icons.lock_reset_rounded, size: 15, color: Color(0xFF16A34A)),
+              label: const Text(
+                'Şifremi Unuttum',
+                style: TextStyle(
+                  fontSize: 11.5,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF16A34A),
+                ),
+              ),
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                minimumSize: Size.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
             ),
-          ),
+          ],
         ),
         const SizedBox(height: 10),
         const Text('Terapist Kodu (Opsiyonel):', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
@@ -1224,7 +1321,6 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
           controller: _loginChildTherapistCodeCtrl,
           textCapitalization: TextCapitalization.characters,
           decoration: InputDecoration(
-            hintText: 'Örn: DKT-BETUL (Terapistinizin tanımladığı kod)',
             prefixIcon: const Icon(Icons.vpn_key_rounded, size: 18, color: Color(0xFF0284C7)),
             helperText: '🔑 Kod girdiğinizde konuşma verileriniz doğrudan terapistinize aktarılır.',
             helperStyle: const TextStyle(fontSize: 10, color: Color(0xFF64748B)),
@@ -1240,7 +1336,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
           width: double.infinity,
           height: 46,
           child: ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               var email = _loginChildEmailCtrl.text.trim();
               final pass = _loginChildPassCtrl.text.trim();
               if (email.isEmpty) {
@@ -1266,25 +1362,82 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
               } else if (email.endsWith('@')) {
                 email = '${email}gmail.com';
               }
-              _rewardState.setGuestMode(false);
-              _rewardState.setParentEmail(email);
-              final userNameFromEmail = email.split('@').first;
-              String formattedName = 'Öğrenci';
-              if (userNameFromEmail.isNotEmpty) {
-                formattedName = userNameFromEmail[0].toUpperCase() + userNameFromEmail.substring(1);
-                _rewardState.setStudentName(formattedName);
-              }
               final inputTherapistCode = _loginChildTherapistCodeCtrl.text.trim().toUpperCase();
-              if (inputTherapistCode.isNotEmpty) {
-                _rewardState.setTherapistCode(inputTherapistCode);
+
+              final res = await _postAuthJson('/api/auth/login', {
+                'email': email,
+                'password': pass,
+                if (inputTherapistCode.isNotEmpty) 'therapist_code': inputTherapistCode,
+              });
+              if (!mounted) return;
+
+              final status = res['status'] as int? ?? 0;
+              final data = res['data'] as Map<String, dynamic>? ?? {};
+              if (status != 200) {
+                final errMsg = data['detail']?.toString() ?? 'Giriş yapılamadı. Bilgilerinizi kontrol ediniz.';
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('❌ $errMsg'),
+                    backgroundColor: Colors.redAccent,
+                  ),
+                );
+                return;
               }
-              final effectiveTherapistCode = inputTherapistCode.isNotEmpty ? inputTherapistCode : _rewardState.therapistCode;
+
+              final studentData = data['student'] as Map<String, dynamic>?;
+              final studentName = studentData?['full_name']?.toString() ?? email.split('@').first;
+              final studentAvatar = studentData?['avatar']?.toString() ?? '👦';
+              final studentEmail = studentData?['parent_email']?.toString() ?? email;
+              final effectiveTherapistCode = inputTherapistCode.isNotEmpty
+                  ? inputTherapistCode
+                  : (studentData?['therapist_code']?.toString() ?? _rewardState.therapistCode);
+
+              final backendStars = (studentData?['total_stars'] as num?)?.toInt() ?? 0;
+              final backendXp = (studentData?['xp'] as num?)?.toInt() ?? 0;
+              final backendAcc = (studentData?['overall_accuracy'] as num?)?.toDouble() ?? 0.0;
+              final isDifferentStudent = _rewardState.isGuest ||
+                  _rewardState.studentName.trim().toLowerCase() != studentName.trim().toLowerCase();
+              if (isDifferentStudent) {
+                _rewardState.resetSessionForLogout();
+              }
+              if (backendStars == 0 && backendXp == 0 && backendAcc == 0.0) {
+                _rewardState.clearTherapyStats();
+              }
+
+              _rewardState.setGuestMode(false);
+              _rewardState.setParentEmail(studentEmail);
+              _rewardState.setStudentName(studentName);
+              _rewardState.setActiveAvatar(studentAvatar);
+              _rewardState.syncStatsFromBackend(
+                totalStars: (studentData?['total_stars'] as num?)?.toInt(),
+                xp: (studentData?['xp'] as num?)?.toInt(),
+                gems: (studentData?['gems'] as num?)?.toInt(),
+                hearts: (studentData?['hearts'] as num?)?.toInt(),
+              );
+              _rewardState.setAssignedTargetPhonemes(studentData?['target_phonemes']?.toString() ?? '');
+              if (effectiveTherapistCode.isNotEmpty) {
+                _rewardState.setTherapistCode(effectiveTherapistCode);
+              }
               _dkt.syncStudentFromOnboarding(
-                name: formattedName,
-                avatar: '👦',
-                parentEmail: email,
+                name: studentName,
+                avatar: studentAvatar,
+                parentEmail: studentEmail,
                 therapistCode: effectiveTherapistCode,
               );
+              if (kIsWeb) {
+                try {
+                  final storage = html.window.localStorage;
+                  if (_rememberChild) {
+                    storage['sye_remember_child'] = 'true';
+                    storage['sye_remember_child_email'] = email;
+                    storage['sye_remember_child_pass'] = pass;
+                  } else {
+                    storage.remove('sye_remember_child');
+                    storage.remove('sye_remember_child_email');
+                    storage.remove('sye_remember_child_pass');
+                  }
+                } catch (_) {}
+              }
               _sfx.playSuccessDing();
               _goToGameMap();
             },
@@ -1333,25 +1486,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
           controller: _loginTherapistEmailCtrl,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
-            hintText: 'E-posta adresiniz',
             prefixIcon: const Icon(Icons.email_outlined, size: 18),
-            suffixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
-            suffixIcon: const Padding(
-              padding: EdgeInsets.only(right: 14),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    '@gmail.com',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w900,
-                      color: Color(0xFF0284C7),
-                      fontSize: 13,
-                    ),
-                  ),
-                ],
-              ),
-            ),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
@@ -1364,10 +1499,13 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
         const SizedBox(height: 4),
         TextField(
           controller: _loginTherapistPassCtrl,
-          obscureText: true,
+          obscureText: _obscureTherapistLoginPass,
           decoration: InputDecoration(
-            hintText: '••••••••',
             prefixIcon: const Icon(Icons.lock_outline_rounded, size: 18),
+            suffixIcon: IconButton(
+              icon: Icon(_obscureTherapistLoginPass ? Icons.visibility_off_rounded : Icons.visibility_rounded, size: 18, color: const Color(0xFF64748B)),
+              onPressed: () => setState(() => _obscureTherapistLoginPass = !_obscureTherapistLoginPass),
+            ),
             filled: true,
             fillColor: const Color(0xFFF8FAFC),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
@@ -1375,25 +1513,50 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
           ),
         ),
         const SizedBox(height: 4),
-        Align(
-          alignment: Alignment.centerRight,
-          child: TextButton.icon(
-            onPressed: () => _showForgotPasswordDialog(context, initialEmail: _loginTherapistEmailCtrl.text.trim()),
-            icon: const Icon(Icons.lock_reset_rounded, size: 15, color: Color(0xFF0284C7)),
-            label: const Text(
-              'Şifremi Unuttum',
-              style: TextStyle(
-                fontSize: 11.5,
-                fontWeight: FontWeight.w700,
-                color: Color(0xFF0284C7),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            InkWell(
+              onTap: () => setState(() => _rememberTherapist = !_rememberTherapist),
+              borderRadius: BorderRadius.circular(8),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    width: 22,
+                    height: 22,
+                    child: Checkbox(
+                      value: _rememberTherapist,
+                      activeColor: const Color(0xFF0284C7),
+                      onChanged: (v) => setState(() => _rememberTherapist = v ?? false),
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  const Text(
+                    'Beni Hatırla',
+                    style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w700, color: Color(0xFF334155)),
+                  ),
+                ],
               ),
             ),
-            style: TextButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-              minimumSize: Size.zero,
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            TextButton.icon(
+              onPressed: () => _showForgotPasswordDialog(context, initialEmail: _loginTherapistEmailCtrl.text.trim()),
+              icon: const Icon(Icons.lock_reset_rounded, size: 15, color: Color(0xFF0284C7)),
+              label: const Text(
+                'Şifremi Unuttum',
+                style: TextStyle(
+                  fontSize: 11.5,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF0284C7),
+                ),
+              ),
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                minimumSize: Size.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
             ),
-          ),
+          ],
         ),
         const SizedBox(height: 14),
 
@@ -1401,7 +1564,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
           width: double.infinity,
           height: 46,
           child: ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               var email = _loginTherapistEmailCtrl.text.trim();
               final pass = _loginTherapistPassCtrl.text.trim();
               if (email.isEmpty) {
@@ -1413,13 +1576,68 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
                 );
                 return;
               }
+              if (pass.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('⚠️ Lütfen şifrenizi giriniz.'),
+                    backgroundColor: Colors.orangeAccent,
+                  ),
+                );
+                return;
+              }
               if (!email.contains('@')) {
                 email = '$email@gmail.com';
               } else if (email.endsWith('@')) {
                 email = '${email}gmail.com';
               }
+
+              final res = await _postAuthJson('/api/auth/login', {
+                'email': email,
+                'password': pass,
+              });
+              if (!mounted) return;
+
+              final status = res['status'] as int? ?? 0;
+              final data = res['data'] as Map<String, dynamic>? ?? {};
+              if (status != 200) {
+                final errMsg = data['detail']?.toString() ?? 'Giriş yapılamadı. Bilgilerinizi kontrol ediniz.';
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('❌ $errMsg'),
+                    backgroundColor: Colors.redAccent,
+                  ),
+                );
+                return;
+              }
+
+              final therapistData = data['therapist'] as Map<String, dynamic>?;
+              if (therapistData != null) {
+                _dkt.registerTherapist(
+                  name: therapistData['full_name']?.toString() ?? 'Dil ve Konuşma Terapisti',
+                  clinic: therapistData['clinic_name']?.toString() ?? 'Dil ve Konuşma Merkezi',
+                  email: therapistData['email']?.toString() ?? email,
+                  edevletDocNo: therapistData['edevlet_document_no']?.toString() ?? '',
+                  password: pass,
+                );
+              } else {
+                _dkt.loginTherapist(email, pass);
+              }
               _rewardState.setGuestMode(false);
-              _dkt.loginTherapist(email, pass);
+              _rewardState.setTherapistEmail(email);
+              if (kIsWeb) {
+                try {
+                  final storage = html.window.localStorage;
+                  if (_rememberTherapist) {
+                    storage['sye_remember_dkt'] = 'true';
+                    storage['sye_remember_dkt_email'] = email;
+                    storage['sye_remember_dkt_pass'] = pass;
+                  } else {
+                    storage.remove('sye_remember_dkt');
+                    storage.remove('sye_remember_dkt_email');
+                    storage.remove('sye_remember_dkt_pass');
+                  }
+                } catch (_) {}
+              }
               _sfx.playSuccessDing();
               _goToTherapistPortal();
             },
@@ -1427,7 +1645,14 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
               backgroundColor: const Color(0xFF0284C7),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
             ),
-            child: const Text('Klinik Portalı\'na Giriş Yap 🗣️', style: TextStyle(fontWeight: FontWeight.w900, color: Colors.white, fontSize: 13.5)),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.medical_services_rounded, color: Colors.white, size: 18),
+                SizedBox(width: 8),
+                Text('Klinik Portalı\'na Giriş Yap', style: TextStyle(fontWeight: FontWeight.w900, color: Colors.white, fontSize: 13.5)),
+              ],
+            ),
           ),
         ),
       ],
@@ -1499,25 +1724,8 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
                       controller: emailCtrl,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
-                        hintText: 'kullaniciadi',
+                        hintText: 'ornek@eposta.com',
                         prefixIcon: const Icon(Icons.alternate_email_rounded, size: 18),
-                        suffixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
-                        suffixIcon: const Padding(
-                          padding: EdgeInsets.only(right: 14),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                '@gmail.com',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w900,
-                                  color: Color(0xFF0284C7),
-                                  fontSize: 13,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                         filled: true,
                         fillColor: const Color(0xFFF8FAFC),
                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
@@ -1595,7 +1803,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
                   child: const Text('Vazgeç', style: TextStyle(color: Color(0xFF64748B), fontWeight: FontWeight.bold)),
                 ),
                 ElevatedButton.icon(
-                  onPressed: () {
+                  onPressed: () async {
                     var rawEmail = emailCtrl.text.trim();
                     final newPass = newPassCtrl.text.trim();
                     final confirmPass = confirmPassCtrl.text.trim();
@@ -1625,6 +1833,15 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
                       rawEmail = '${rawEmail}gmail.com';
                     }
 
+                    final scaffoldMessenger = ScaffoldMessenger.of(context);
+                    final dialogNav = Navigator.of(dialogCtx);
+
+                    await _postAuthJson('/api/auth/forgot-password', {
+                      'email': rawEmail,
+                      'new_password': newPass,
+                    });
+                    if (!mounted) return;
+
                     // Terapist ve Veli Şifrelerini Güncelle
                     _dkt.resetPassword(rawEmail, newPass);
                     final prefix = rawEmail.replaceAll('@gmail.com', '');
@@ -1637,9 +1854,9 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
                     _childPasswordCtrl.text = newPass;
 
                     _sfx.playSuccessDing();
-                    Navigator.of(dialogCtx).pop();
+                    dialogNav.pop();
 
-                    ScaffoldMessenger.of(context).showSnackBar(
+                    scaffoldMessenger.showSnackBar(
                       SnackBar(
                         content: Row(
                           children: [

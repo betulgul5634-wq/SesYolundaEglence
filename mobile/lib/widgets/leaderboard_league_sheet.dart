@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:html' as html;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../models/reward_state.dart';
 import '../services/sound_effects_service.dart';
@@ -119,8 +122,35 @@ LeagueTier getLeagueForXp(int xp) {
 }
 
 /// 🏆 SÜPER ARTİKÜLASYON LİGİ (DUOLINGO TARZI HAFTALIK SIRALAMA)
-class LeaderboardLeagueSheet extends StatelessWidget {
+class LeaderboardLeagueSheet extends StatefulWidget {
   const LeaderboardLeagueSheet({super.key});
+
+  @override
+  State<LeaderboardLeagueSheet> createState() => _LeaderboardLeagueSheetState();
+}
+
+class _LeaderboardLeagueSheetState extends State<LeaderboardLeagueSheet> {
+  List<Map<String, dynamic>> _backendLeaderboard = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchLeaderboard();
+  }
+
+  Future<void> _fetchLeaderboard() async {
+    if (!kIsWeb) return;
+    try {
+      final respText = await html.HttpRequest.getString('/api/leaderboard');
+      final decoded = jsonDecode(respText) as Map<String, dynamic>;
+      final list = decoded['leaderboard'] as List<dynamic>? ?? [];
+      if (mounted) {
+        setState(() {
+          _backendLeaderboard = list.map((e) => Map<String, dynamic>.from(e as Map)).toList();
+        });
+      }
+    } catch (_) {}
+  }
 
   String _getWeeklyCountdown() {
     final now = DateTime.now();
@@ -438,27 +468,49 @@ class LeaderboardLeagueSheet extends StatelessWidget {
         registeredNames.add('yeni kahraman');
         registeredNames.add('can');
 
-        // 2. Platformda kayıtlı gerçek danışan çocuklar (DKT Kliniği & Platform Kayıtları)
-        for (final st in dktService.students) {
-          final sName = (st['name'] as String? ?? '').trim();
-          final clean = sName.toLowerCase();
-          final activeName = rewardState.studentName.trim().toLowerCase();
-          if (clean.isNotEmpty &&
-              !registeredNames.contains(clean) &&
-              !clean.contains(activeName) &&
-              !activeName.contains(clean)) {
-            registeredNames.add(clean);
-            final accuracy = (st['accuracy'] as num?)?.toDouble() ?? 0.0;
-            final sessionsCount = (st['sessions_count'] as int?) ?? 0;
-            final realXp = ((accuracy * sessionsCount) / 10).round() * 10;
-            competitors.add(
-              _LeagueUser(
-                name: sName,
-                avatar: st['avatar'] as String? ?? '🧒',
-                xp: realXp,
-                badge: sessionsCount > 0 ? '$sessionsCount Seans Tamamlandı' : 'Klinik Danışanı 🤝',
-              ),
-            );
+        // 2. Veritabanındaki canlı kayıtlı danışanlar (/api/leaderboard)
+        if (_backendLeaderboard.isNotEmpty) {
+          for (final row in _backendLeaderboard) {
+            final sName = (row['name'] as String? ?? '').trim();
+            final clean = sName.toLowerCase();
+            final activeLower = rewardState.studentName.trim().toLowerCase();
+            if (clean.isNotEmpty &&
+                !registeredNames.contains(clean) &&
+                !clean.contains(activeLower) &&
+                !activeLower.contains(clean)) {
+              registeredNames.add(clean);
+              competitors.add(
+                _LeagueUser(
+                  name: sName,
+                  avatar: row['avatar'] as String? ?? '🧒',
+                  xp: (row['xp'] as num?)?.toInt() ?? 0,
+                  badge: row['badge'] as String? ?? 'Kayıtlı Danışan 🌱',
+                ),
+              );
+            }
+          }
+        } else {
+          // Çevrimdışı yedek: sadece yerel senkronize gerçek XP değerleri
+          for (final st in dktService.students) {
+            final sName = (st['name'] as String? ?? '').trim();
+            final clean = sName.toLowerCase();
+            final activeLower = rewardState.studentName.trim().toLowerCase();
+            if (clean.isNotEmpty &&
+                !registeredNames.contains(clean) &&
+                !clean.contains(activeLower) &&
+                !activeLower.contains(clean)) {
+              registeredNames.add(clean);
+              final realXp = (st['xp'] as num?)?.toInt() ?? 0;
+              final sessionsCount = (st['sessions_count'] as int?) ?? 0;
+              competitors.add(
+                _LeagueUser(
+                  name: sName,
+                  avatar: st['avatar'] as String? ?? '🧒',
+                  xp: realXp,
+                  badge: sessionsCount > 0 ? '$sessionsCount Seans Tamamlandı' : 'Kayıtlı Danışan 🌱',
+                ),
+              );
+            }
           }
         }
 

@@ -80,6 +80,7 @@ class RewardState extends ChangeNotifier {
   bool _isGuest = false;
   String _activeProfileId = 'profile_1';
   final List<StudentProfile> _profiles = [];
+  List<String> _assignedTargetPhonemes = [];
 
   String get studentName => _studentName;
   String get parentEmail => _parentEmail;
@@ -88,6 +89,16 @@ class RewardState extends ChangeNotifier {
   bool get isGuest => _isGuest;
   String get activeProfileId => _activeProfileId;
   List<StudentProfile> get profiles => List.unmodifiable(_profiles);
+  List<String> get assignedTargetPhonemes => List.unmodifiable(_assignedTargetPhonemes);
+
+  void setAssignedTargetPhonemes(String csv) {
+    _assignedTargetPhonemes = csv
+        .split(',')
+        .map((e) => e.replaceAll('/', '').trim().toLowerCase())
+        .where((e) => e.isNotEmpty)
+        .toList();
+    notifyListeners();
+  }
 
   void setParentEmail(String email) {
     _parentEmail = email.trim();
@@ -107,6 +118,29 @@ class RewardState extends ChangeNotifier {
 
   void setGuestMode(bool value) {
     _isGuest = value;
+    _saveToLocalStorage();
+    notifyListeners();
+  }
+
+  /// Veritabanından gelen öğrenci istatistiklerini yerel duruma aktarır
+  void syncStatsFromBackend({
+    int? totalStars,
+    int? xp,
+    int? gems,
+    int? hearts,
+  }) {
+    if (totalStars != null) _totalStars = totalStars;
+    if (xp != null) _xp = xp;
+    if (gems != null) _gems = gems;
+    if (hearts != null) _hearts = hearts;
+    final currentIdx = _profiles.indexWhere((p) => p.id == _activeProfileId);
+    if (currentIdx != -1) {
+      _profiles[currentIdx]
+        ..totalStars = _totalStars
+        ..xp = _xp
+        ..gems = _gems
+        ..hearts = _hearts;
+    }
     _saveToLocalStorage();
     notifyListeners();
   }
@@ -349,7 +383,11 @@ class RewardState extends ChangeNotifier {
           }
         }
       }
-      if (storage.containsKey('sye_phoneme_stats')) {
+      final statsOwner = (storage['sye_phoneme_stats_owner'] ?? '').trim().toLowerCase();
+      final currentOwner = _studentName.trim().toLowerCase();
+      if (storage.containsKey('sye_phoneme_stats') &&
+          currentOwner.isNotEmpty &&
+          statsOwner == currentOwner) {
         final raw = storage['sye_phoneme_stats'];
         if (raw != null && raw.isNotEmpty) {
           final map = jsonDecode(raw);
@@ -363,6 +401,9 @@ class RewardState extends ChangeNotifier {
             });
           }
         }
+      } else {
+        _phonemeStats.clear();
+        storage.remove('sye_phoneme_stats');
       }
       if (storage.containsKey('sye_stage_stars')) {
         final raw = storage['sye_stage_stars'];
@@ -404,6 +445,27 @@ class RewardState extends ChangeNotifier {
         }
       }
       _checkDailyQuestsReset();
+      // Yıldız sayısı 15'ten azsa eski önbellekten kalan Yıldız Koleksiyoncusu rozetini temizle
+      if (_totalStars < 15) {
+        _unlockedBadges.remove('yildiz_koleksiyoncusu');
+      }
+      if (completedStagesCount < 3) {
+        _unlockedBadges.remove('ses_yolcusu');
+      }
+      if (completedStagesCount < 6) {
+        _unlockedBadges.remove('harita_kasifi');
+      }
+      if (_questMirrorCount < 1) {
+        _unlockedBadges.remove('ayna_kasifi');
+      }
+      // Eski 'br' test profilini tarayıcı önbelleğinden temizle
+      _profiles.removeWhere((p) => p.name.trim().toLowerCase() == 'br');
+      if (_studentName.trim().toLowerCase() == 'br') {
+        _studentName = _profiles.isNotEmpty ? _profiles.first.name : 'Yeni Kahraman';
+        _activeProfileId = _profiles.isNotEmpty ? _profiles.first.id : 'profile_1';
+        _isGuest = true;
+        _saveToLocalStorage();
+      }
     } catch (e) {
       debugPrint('LocalStorage okuma hatası: $e');
     }
@@ -451,6 +513,7 @@ class RewardState extends ChangeNotifier {
       final statsMap = <String, dynamic>{};
       _phonemeStats.forEach((k, v) => statsMap[k] = v.toJson());
       storage['sye_phoneme_stats'] = jsonEncode(statsMap);
+      storage['sye_phoneme_stats_owner'] = _studentName.trim().toLowerCase();
       storage['sye_stage_stars'] = jsonEncode(_stageStars);
       storage['sye_world_theme'] = _worldTheme;
       storage['sye_streak_days'] = _streakDays.toString();
@@ -806,6 +869,20 @@ class RewardState extends ChangeNotifier {
 
   bool isCharacterUnlocked(String charId) => _unlockedCharacters.contains(charId);
 
+  bool buyAndEquipCharacter({
+    required String charId,
+    required String name,
+    required String emoji,
+    required int gemCost,
+  }) {
+    if (_gems >= gemCost && !_unlockedCharacters.contains(charId)) {
+      _gems -= gemCost;
+      equipCharacter(charId, name, emoji);
+      return true;
+    }
+    return false;
+  }
+
   // Aksesuar Satın Alma ve Kuşanma
   bool buyAndEquipAccessory({
     required String itemId,
@@ -850,14 +927,62 @@ class RewardState extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Çıkış yapıldığında önceki kullanıcının oturum verilerini sıfırlar
+  void resetSessionForLogout() {
+    _isGuest = true;
+    _studentName = 'Yeni Kahraman';
+    _parentEmail = '';
+    _therapistEmail = '';
+    _therapistCode = '';
+    _totalStars = 0;
+    _xp = 0;
+    _gems = 50;
+    _hearts = 5;
+    _streakDays = 0;
+    _practicedDates.clear();
+    _questWordsCount = 0;
+    _questMiniGamesCount = 0;
+    _questMirrorCount = 0;
+    _questChestClaimed = false;
+    _claimedQuestIds.clear();
+    _stageStars.clear();
+    _unlockedStickers.clear();
+    _unlockedBadges.clear();
+    _phonemeStats.clear();
+    _assignedTargetPhonemes = [];
+    _saveToLocalStorage();
+    notifyListeners();
+  }
+
+  void _syncStatsToBackend() {
+    if (!kIsWeb || _isGuest) return;
+    if (_parentEmail.trim().isEmpty && (_studentName.trim().isEmpty || _studentName == 'Yeni Kahraman')) {
+      return;
+    }
+    try {
+      final req = html.HttpRequest();
+      req.open('POST', '/api/students/sync-stats');
+      req.setRequestHeader('Content-Type', 'application/json');
+      req.send(jsonEncode({
+        'parent_email': _parentEmail.trim(),
+        'student_name': _studentName.trim(),
+        'total_stars': _totalStars,
+        'xp': _xp,
+        'gems': _gems,
+        'hearts': _hearts,
+      }));
+    } catch (_) {}
+  }
+
   void addReward({required int earnedStars, required int earnedXp, required int earnedGems}) {
     _totalStars += earnedStars;
     _xp += earnedXp;
     _gems += earnedGems;
-    if (_totalStars >= 10 && !_unlockedBadges.contains('yildiz_koleksiyoncusu')) {
+    if (_totalStars >= 15 && !_unlockedBadges.contains('yildiz_koleksiyoncusu')) {
       _unlockedBadges.add('yildiz_koleksiyoncusu');
     }
     _saveToLocalStorage();
+    _syncStatsToBackend();
     notifyListeners();
   }
 
@@ -865,6 +990,7 @@ class RewardState extends ChangeNotifier {
     if (_hearts > 0) {
       _hearts--;
       _saveToLocalStorage();
+      _syncStatsToBackend();
       notifyListeners();
     }
   }
@@ -874,6 +1000,7 @@ class RewardState extends ChangeNotifier {
       _gems -= 50;
       _hearts = 5;
       _saveToLocalStorage();
+      _syncStatsToBackend();
       notifyListeners();
     }
   }

@@ -1,7 +1,12 @@
 import '../widgets/subway_character_hub_dialog.dart';
+import '../widgets/owl_riddle_game_dialog.dart';
+import '../widgets/sticker_album_dialog.dart';
 import '../widgets/student_profiles_dialog.dart';
 import '../widgets/therapist_portal_dialog.dart';
 import '../services/therapist_state_service.dart';
+// ignore: avoid_web_libraries_in_flutter, deprecated_member_use
+import 'dart:html' as html;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'onboarding_auth_screen.dart';
 import '../data/sound_groups_data.dart';
@@ -72,12 +77,32 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    // 👄 Erken Edinim Çift Dudak Sesleri Hiyerarşisi (/p/, /b/, /m/)
-    // /m/ sesini /b/'nin hemen ardına (3. durak) alarak misafir ve çocuklara doğal dudak sırası sunuyoruz
-    final mStage = kBookStages.firstWhere((s) => s.phoneme == '/m/');
-    final otherStages = kBookStages.where((s) => s.phoneme != '/m/').toList();
-    otherStages.insert(2, mStage);
-    _stages = otherStages;
+    // Doğal kitap hiyerarşisini koru (Dünya 1 bölünmeden sıralı gelsin)
+    _stages = List.of(kBookStages);
+    bool loadedSavedStage = false;
+    if (kIsWeb) {
+      try {
+        final storage = html.window.localStorage;
+        final owner = (storage['sye_last_stage_owner'] ?? '').trim().toLowerCase();
+        final currentOwner = _rewardState.studentName.trim().toLowerCase();
+        if (currentOwner.isNotEmpty && owner == currentOwner) {
+          final saved = int.tryParse(storage['sye_last_stage_index'] ?? '');
+          if (saved != null && saved >= 0 && saved < _stages.length) {
+            _selectedStageIndex = saved;
+            loadedSavedStage = true;
+          }
+        }
+      } catch (_) {}
+    }
+    if (!loadedSavedStage && _rewardState.assignedTargetPhonemes.isNotEmpty) {
+      final firstTarget = _rewardState.assignedTargetPhonemes.first.toLowerCase();
+      final targetIdx = _stages.indexWhere(
+        (s) => s.soundLetter.toLowerCase() == firstTarget,
+      );
+      if (targetIdx != -1) {
+        _selectedStageIndex = targetIdx;
+      }
+    }
 
     _mascotBounceController = AnimationController(
       vsync: this,
@@ -140,10 +165,36 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  /// 🔒 Misafir Modu Kısıt Kontrolü: Yalnızca Çift Dudak sesleri (/p/, /b/, /m/) açıktır
+  String _getChildFriendlySubtitle(String soundLetter) {
+    switch (soundLetter.trim().toUpperCase()) {
+      case 'P': return 'Balon Patlatma 🎈';
+      case 'B': return 'Davul Patlatma 🥁';
+      case 'T': return 'Tıkır Saat ⏰';
+      case 'D': return 'Araba Kornası 🚗';
+      case 'K': return 'Kıkır Kıkır Ses 😄';
+      case 'G': return 'Güçlü Ses 🍇';
+      case 'F': return 'Tavşan Dişi 🐰';
+      case 'V': return 'Vızır Motor 🛵';
+      case 'S': return 'İnce Rüzgar 🐍';
+      case 'Z': return 'Arı Vızıltısı 🐝';
+      case 'Ş': return 'Sessiz Fısıltı 🤫';
+      case 'J': return 'Vızıldayan Motor ⚡';
+      case 'H': return 'Sıcak Nefes 🔥';
+      case 'Ç': return 'Çuf Çuf Tren 🚂';
+      case 'C': return 'Cik Cik Kuş 🐥';
+      case 'M': return 'Nefis Dondurma 🍦';
+      case 'N': return 'Neşeli Zil 🔔';
+      case 'L': return 'Şarkıcı Dil 🎵';
+      case 'R': return 'Yarış Arabası 🏎️';
+      case 'Y': return 'Tatlı Kaydırak 🛝';
+      default: return 'Ses Macerası 🌟';
+    }
+  }
+
+  /// 🔒 Misafir Modu Kısıt Kontrolü: İlk 3 ses durağı (/p/, /b/, /t/) açıktır
   bool _isStageLockedForGuest(SoundStage stage) {
     if (!_rewardState.isGuest) return false;
-    const allowed = {'/p/', '/b/', '/m/'};
+    const allowed = {'/p/', '/b/', '/t/'};
     return !allowed.contains(stage.phoneme);
   }
 
@@ -152,6 +203,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     if (_isStageLockedForGuest(stage)) {
       _showGuestRestrictionDialog(context, featureName: '${stage.phoneme} Sesi');
       return;
+    }
+
+    if (kIsWeb) {
+      try {
+        html.window.localStorage['sye_last_stage_index'] = index.toString();
+        html.window.localStorage['sye_last_stage_owner'] = _rewardState.studentName.trim().toLowerCase();
+      } catch (_) {}
     }
 
     final result = await Navigator.push<bool>(
@@ -659,6 +717,117 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   /// Üst İstatistik Barı
+  void _showParentalGateDialog(VoidCallback onApproved) {
+    final answerCtrl = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (dCtx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        title: const Row(
+          children: [
+            Text('🛡️', style: TextStyle(fontSize: 24)),
+            SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                'Ebeveyn / Terapist Onayı',
+                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
+              ),
+            ),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Çıkış yapmadan önce lütfen yetişkin doğrulamasını yanıtlayın:',
+              style: TextStyle(fontSize: 13, color: Color(0xFF475569)),
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              '8 + 5 = ?',
+              style: TextStyle(fontWeight: FontWeight.w900, fontSize: 20, color: Color(0xFF0F172A)),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              controller: answerCtrl,
+              keyboardType: TextInputType.number,
+              autofocus: true,
+              decoration: InputDecoration(
+                hintText: 'Sonucu yazın',
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dCtx),
+            child: const Text('Vazgeç'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              if (answerCtrl.text.trim() == '13') {
+                Navigator.pop(dCtx);
+                onApproved();
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('⚠️ Yanlış yanıt! Lütfen tekrar deneyin.'),
+                    backgroundColor: Colors.orangeAccent,
+                  ),
+                );
+              }
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFEF5350)),
+            child: const Text('Onayla & Çıkış Yap', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _performLogout() {
+    _sfx.playPopSound();
+    _therapistState.logout();
+    _rewardState.resetSessionForLogout();
+    if (kIsWeb) {
+      try {
+        html.window.localStorage.remove('sye_last_stage_index');
+        html.window.localStorage.remove('sye_last_stage_owner');
+      } catch (_) {}
+    }
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => const OnboardingAuthScreen()),
+      (route) => false,
+    );
+  }
+
+  void _cycleWorldTheme() {
+    final themes = ['day', 'night', 'candy', 'ocean'];
+    final currentIdx = themes.indexOf(_rewardState.worldTheme);
+    final nextTheme = themes[(currentIdx + 1) % themes.length];
+    _rewardState.setWorldTheme(nextTheme);
+    _sfx.playSuccessDing();
+
+    final names = {
+      'day': '☀️ Tropik Gündüz',
+      'night': '🌌 Gece Kozmosu',
+      'candy': '🍭 Şeker Dünyası',
+      'ocean': '🌊 Mavi Okyanus',
+    };
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('🎨 Dünya Teması Değişti: ${names[nextTheme]}!'),
+        duration: const Duration(seconds: 2),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: const Color(0xFF673AB7),
+      ),
+    );
+  }
+
   Widget _buildGameTopBar() {
     return Container(
       color: Colors.white,
@@ -702,6 +871,45 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ],
                   ),
                 ),
+
+                // 🗣️ Terapist Paneli Dönüş Butonu (DKT oturumu açıkken görünür)
+                if (_therapistState.isLoggedIn)
+                  InkWell(
+                    onTap: () {
+                      _sfx.playPopSound();
+                      showDialog(
+                        context: context,
+                        builder: (_) => TherapistPortalDialog(
+                          initialLoggedIn: _therapistState.isLoggedIn,
+                        ),
+                      );
+                    },
+                    borderRadius: BorderRadius.circular(16),
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFF0284C7), Color(0xFF0369A1)],
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: const [
+                          BoxShadow(color: Color(0x330284C7), blurRadius: 5, offset: Offset(0, 2)),
+                        ],
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text('🗣️', style: TextStyle(fontSize: 15)),
+                          SizedBox(width: 4),
+                          Text(
+                            'DKT Paneli',
+                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 11.5),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
 
                 // 👥 Öğrenci Profili / Misafir Modu Butonu
                 if (_rewardState.isGuest) ...[
@@ -833,28 +1041,115 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   child: _buildTopStat('❤️', '${_rewardState.hearts}', const Color(0xFFFF4B4B)),
                 ),
                 const SizedBox(width: 6),
-                // 🌌 Dünya Teması Seçici (Gündüz ☀️, Kozmos 🌌, Şeker 🍭, Okyanus 🌊)
+                // 🏆 Süper Lig Butonu
                 InkWell(
                   onTap: () {
-                    final themes = ['day', 'night', 'candy', 'ocean'];
-                    final currentIdx = themes.indexOf(_rewardState.worldTheme);
-                    final nextTheme = themes[(currentIdx + 1) % themes.length];
-                    _rewardState.setWorldTheme(nextTheme);
-                    _sfx.playSuccessDing();
-
-                    final names = {
-                      'day': '☀️ Tropik Gündüz',
-                      'night': '🌌 Gece Kozmosu',
-                      'candy': '🍭 Şeker Dünyası',
-                      'ocean': '🌊 Mavi Okyanus',
-                    };
-
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('🎨 Dünya Teması Değişti: ${names[nextTheme]}!'),
-                        duration: const Duration(seconds: 2),
-                        behavior: SnackBarBehavior.floating,
-                        backgroundColor: const Color(0xFF673AB7),
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
+                      builder: (_) => const LeaderboardLeagueSheet(),
+                    );
+                  },
+                  borderRadius: BorderRadius.circular(16),
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 6),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFFF8E1),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: const Color(0xFFFFD54F), width: 1.5),
+                      boxShadow: const [
+                        BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 2),
+                      ],
+                    ),
+                    child: const Row(
+                      children: [
+                        Text('🏆', style: TextStyle(fontSize: 15)),
+                        SizedBox(width: 3),
+                        Text(
+                          'Lig',
+                          style: TextStyle(fontWeight: FontWeight.w900, color: Color(0xFFF57F17), fontSize: 11),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                // 🎯 Günlük Görevler Butonu
+                InkWell(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (_) => const DailyQuestsDialog(),
+                    );
+                  },
+                  borderRadius: BorderRadius.circular(16),
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 6),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE8F5E9),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: const Color(0xFF4CAF50), width: 1.5),
+                      boxShadow: const [
+                        BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 2),
+                      ],
+                    ),
+                    child: const Row(
+                      children: [
+                        Text('🎯', style: TextStyle(fontSize: 15)),
+                        SizedBox(width: 3),
+                        Text(
+                          'Görevler',
+                          style: TextStyle(fontWeight: FontWeight.w900, color: Color(0xFF2E7D32), fontSize: 11),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                // 🎖️ Rozetler
+                InkWell(
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
+                      builder: (_) => const BadgesSheet(),
+                    );
+                  },
+                  borderRadius: BorderRadius.circular(16),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFFD900),
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: const [
+                        BoxShadow(color: Color(0xFFCC9900), offset: Offset(0, 3)),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        const Text('🎖️', style: TextStyle(fontSize: 16)),
+                        const SizedBox(width: 4),
+                        Text(
+                          '${_rewardState.unlockedBadges.length}',
+                          style: const TextStyle(fontWeight: FontWeight.w900, color: Color(0xFF5D4037)),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 6),
+                // 🔍 2 Dk Tarama (Görünür Hızlı Erişim)
+                InkWell(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (_) => ArticulationScreeningDialog(
+                        onSelectRecommendedSound: (recPhoneme) {
+                          final idx = _stages.indexWhere((s) => s.phoneme.toLowerCase() == recPhoneme.toLowerCase());
+                          if (idx != -1) _openPractice(_stages[idx], idx);
+                        },
                       ),
                     );
                   },
@@ -862,266 +1157,97 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFEDE7F6),
+                      color: const Color(0xFFE3F2FD),
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: const Color(0xFF673AB7), width: 1.5),
-                      boxShadow: const [
-                        BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 2),
-                      ],
+                      border: Border.all(color: const Color(0xFF2196F3), width: 1.5),
                     ),
-                    child: Row(
+                    child: const Row(
                       children: [
-                        Text(
-                          _rewardState.worldTheme == 'night'
-                              ? '🌌'
-                              : (_rewardState.worldTheme == 'candy'
-                                  ? '🍭'
-                                  : (_rewardState.worldTheme == 'ocean' ? '🌊' : '☀️')),
-                          style: const TextStyle(fontSize: 15),
-                        ),
-                        const SizedBox(width: 3),
-                        const Text(
-                          'Tema',
-                          style: TextStyle(fontWeight: FontWeight.w900, color: Color(0xFF512DA8), fontSize: 11),
-                        ),
+                        Text('🔍', style: TextStyle(fontSize: 14)),
+                        SizedBox(width: 3),
+                        Text('Tarama', style: TextStyle(fontWeight: FontWeight.w900, color: Color(0xFF1565C0), fontSize: 11)),
                       ],
                     ),
                   ),
                 ),
                 const SizedBox(width: 6),
-              // 🏆 Süper Lig Butonu
-              InkWell(
-                onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    backgroundColor: Colors.transparent,
-                    builder: (_) => const LeaderboardLeagueSheet(),
-                  );
-                },
-                borderRadius: BorderRadius.circular(16),
-                child: Container(
-                  margin: const EdgeInsets.only(right: 6),
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFFF8E1),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: const Color(0xFFFFD54F), width: 1.5),
-                    boxShadow: const [
-                      BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 2),
-                    ],
-                  ),
-                  child: Row(
-                    children: const [
-                      Text('🏆', style: TextStyle(fontSize: 15)),
-                      SizedBox(width: 3),
-                      Text(
-                        'Lig',
-                        style: TextStyle(fontWeight: FontWeight.w900, color: Color(0xFFF57F17), fontSize: 11),
+                // ☰ Diğer Araçlar & Çıkış Menüsü (Sade Çocuk Dostu Menü)
+                PopupMenuButton<String>(
+                  tooltip: 'Menü ve Araçlar',
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+                  onSelected: (value) {
+                    _sfx.playPopSound();
+                    if (value == 'theme') {
+                      _cycleWorldTheme();
+                    } else if (value == 'screening') {
+                      showDialog(
+                        context: context,
+                        builder: (_) => ArticulationScreeningDialog(
+                          onSelectRecommendedSound: (recPhoneme) {
+                            final idx = _stages.indexWhere((s) => s.phoneme.toLowerCase() == recPhoneme.toLowerCase());
+                            if (idx != -1) _openPractice(_stages[idx], idx);
+                          },
+                        ),
+                      );
+                    } else if (value == 'spin') {
+                      showDialog(context: context, builder: (_) => const LuckySpinDialog());
+                    } else if (value == 'characters') {
+                      showDialog(context: context, builder: (_) => SubwayCharacterHubDialog(rewardState: _rewardState));
+                    } else if (value == 'wardrobe') {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        builder: (_) => const AvatarWardrobeSheet(),
+                      );
+                    } else if (value == 'riddle') {
+                      showDialog(context: context, builder: (_) => OwlRiddleGameDialog(phoneme: _stages[_selectedStageIndex].soundLetter));
+                    } else if (value == 'stickers') {
+                      showDialog(context: context, builder: (_) => const StickerAlbumDialog());
+                    } else if (value == 'logout') {
+                      _performLogout();
+                    }
+                  },
+                  itemBuilder: (_) => [
+                    const PopupMenuItem(value: 'theme', child: Text('🎨 Dünya Teması Değiştir')),
+                    const PopupMenuItem(value: 'screening', child: Text('🔍 2 Dk Konuşma Taraması')),
+                    const PopupMenuItem(value: 'spin', child: Text('🎡 Şans Çarkıfeleği')),
+                    const PopupMenuItem(value: 'characters', child: Text('🌟 Karakter Arenası')),
+                    const PopupMenuItem(value: 'wardrobe', child: Text('🛍️ Gardırop & Eşyalar')),
+                    const PopupMenuItem(value: 'riddle', child: Text('🦉 Bilge Baykuş Bilmecesi')),
+                    const PopupMenuItem(value: 'stickers', child: Text('🖼️ Çıkartma Defterim')),
+                    const PopupMenuDivider(),
+                    PopupMenuItem(
+                      value: 'logout',
+                      child: Text(
+                        (_rewardState.isGuest && !_therapistState.isLoggedIn)
+                            ? '🔑 Giriş / Kayıt Ekranına Dön'
+                            : '🚪 Çıkış Yap',
+                        style: const TextStyle(color: Color(0xFFC62828), fontWeight: FontWeight.bold),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              // 🔍 2 Dk Hızlı Tarama Testi Butonu
-              InkWell(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (_) => ArticulationScreeningDialog(
-                      onSelectRecommendedSound: (recPhoneme) {
-                        final idx = _stages.indexWhere((s) => s.phoneme.toLowerCase() == recPhoneme.toLowerCase());
-                        if (idx != -1) {
-                          _openPractice(_stages[idx], idx);
-                        }
-                      },
                     ),
-                  );
-                },
-                borderRadius: BorderRadius.circular(16),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFE3F2FD),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: const Color(0xFF2196F3), width: 1.5),
-                    boxShadow: const [
-                      BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 2),
-                    ],
-                  ),
-                  child: Row(
-                    children: const [
-                      Text('🔍', style: TextStyle(fontSize: 15)),
-                      SizedBox(width: 3),
-                      Text(
-                        'Tarama',
-                        style: TextStyle(fontWeight: FontWeight.w900, color: Color(0xFF1565C0), fontSize: 11),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              // 🎯 Günlük Görevler Butonu
-              InkWell(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (_) => const DailyQuestsDialog(),
-                  );
-                },
-                borderRadius: BorderRadius.circular(16),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFE8F5E9),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: const Color(0xFF4CAF50), width: 1.5),
-                    boxShadow: const [
-                      BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 2),
-                    ],
-                  ),
-                  child: Row(
-                    children: const [
-                      Text('🎯', style: TextStyle(fontSize: 15)),
-                      SizedBox(width: 3),
-                      Text(
-                        'Görevler',
-                        style: TextStyle(fontWeight: FontWeight.w900, color: Color(0xFF2E7D32), fontSize: 11),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              // 🎡 Şans Çarkı Butonu
-              InkWell(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (_) => const LuckySpinDialog(),
-                  );
-                },
-                borderRadius: BorderRadius.circular(16),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFFF3E0),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: const Color(0xFFFF9800), width: 1.5),
-                    boxShadow: const [
-                      BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 2),
-                    ],
-                  ),
-                  child: Row(
-                    children: const [
-                      Text('🎡', style: TextStyle(fontSize: 15)),
-                      SizedBox(width: 3),
-                      Text(
-                        'Çark',
-                        style: TextStyle(fontWeight: FontWeight.w900, color: Color(0xFFE65100), fontSize: 11),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              // 🚇 Subway Surfers Karakter Arenası
-              InkWell(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (_) => SubwayCharacterHubDialog(rewardState: _rewardState),
-                  );
-                },
-                borderRadius: BorderRadius.circular(16),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFFFF9800), Color(0xFFFF5722)],
+                  ],
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF1F5F9),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: const Color(0xFF94A3B8), width: 1.5),
                     ),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: const Color(0xFFFFD54F), width: 1.5),
-                    boxShadow: const [
-                      BoxShadow(color: Color(0x33FF9800), offset: Offset(0, 2), blurRadius: 4),
-                    ],
-                  ),
-                  child: Row(
-                    children: const [
-                      Text('🌟', style: TextStyle(fontSize: 15)),
-                      SizedBox(width: 4),
-                      Text(
-                        'Karakterler',
-                        style: TextStyle(fontWeight: FontWeight.w900, color: Colors.white, fontSize: 11),
-                      ),
-                    ],
+                    child: const Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.menu_rounded, size: 16, color: Color(0xFF334155)),
+                        SizedBox(width: 4),
+                        Text(
+                          'Menü',
+                          style: TextStyle(fontWeight: FontWeight.w900, color: Color(0xFF334155), fontSize: 11),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(width: 6),
-              // 🛍️ Gardırop & Dükkan
-              InkWell(
-                onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    backgroundColor: Colors.transparent,
-                    builder: (_) => const AvatarWardrobeSheet(),
-                  );
-                },
-                borderRadius: BorderRadius.circular(16),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF3E5F5),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: const Color(0xFF8E24AA), width: 1.5),
-                    boxShadow: const [
-                      BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 2),
-                    ],
-                  ),
-                  child: Row(
-                    children: const [
-                      Text('🛍️', style: TextStyle(fontSize: 15)),
-                      SizedBox(width: 3),
-                      Text(
-                        'Gardırop',
-                        style: TextStyle(fontWeight: FontWeight.w900, color: Color(0xFF6A1B9A), fontSize: 11),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    backgroundColor: Colors.transparent,
-                    builder: (_) => const BadgesSheet(),
-                  );
-                },
-                borderRadius: BorderRadius.circular(16),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFFD900),
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: const [
-                      BoxShadow(color: Color(0xFFCC9900), offset: Offset(0, 3)),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      const Text('🏆', style: TextStyle(fontSize: 18)),
-                      const SizedBox(width: 4),
-                      Text(
-                        '${_rewardState.unlockedBadges.length}',
-                        style: const TextStyle(fontWeight: FontWeight.w900, color: Color(0xFF5D4037)),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+              ],
           ),
         );
       },
@@ -1345,11 +1471,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       ],
                                     ),
                                     Text(
-                                      stage.categoryTitle.split(' ')[0], // Çift, Diş, Yumuşak vs.
+                                      _getChildFriendlySubtitle(stage.soundLetter),
                                       style: TextStyle(
-                                        fontSize: 9,
+                                        fontSize: 9.5,
                                         fontWeight: FontWeight.w800,
-                                        color: isSelected ? Colors.white70 : themeCol.withAlpha(180),
+                                        color: isSelected ? Colors.white70 : themeCol.withAlpha(190),
                                       ),
                                     ),
                                   ],
@@ -1482,7 +1608,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           color: const Color(0xFFE8F5E9),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: const Text('DOKUN 👆', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: Color(0xFF2E7D32))),
+                        child: const Text('🔊 DİNLE', style: TextStyle(fontSize: 9.5, fontWeight: FontWeight.w900, color: Color(0xFF2E7D32))),
                       ),
                     ],
                   ),
@@ -1493,7 +1619,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                   const SizedBox(height: 3),
                   Text(
-                    'Aktif macera: ${activeStage.phoneme} Sesi Dünyası 🌟',
+                    (_rewardState.totalPracticedAttempts == 0 && _rewardState.totalStars == 0)
+                        ? 'Önerilen ilk macera: ${activeStage.phoneme} Sesi Dünyası 🌟'
+                        : 'Aktif macera: ${activeStage.phoneme} Sesi Dünyası 🌟',
                     style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 11, color: Colors.black54),
                   ),
                   const SizedBox(height: 8),
@@ -1509,7 +1637,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       ),
                       icon: const Icon(Icons.play_arrow_rounded, size: 20),
                       label: Text(
-                        'Kaldığın Yerden Başla: ${activeStage.phoneme} 🚀',
+                        (_rewardState.totalPracticedAttempts == 0 && _rewardState.totalStars == 0)
+                            ? 'Hemen Başla: ${activeStage.phoneme} 🚀'
+                            : 'Kaldığın Yerden Başla: ${activeStage.phoneme} 🚀',
                         style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 12),
                       ),
                       onPressed: () {
@@ -1530,6 +1660,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget _buildGameNode(SoundStage stage, int index) {
     final Color nodeColor = Color(stage.colorHex);
     final Color bottomShadow = HSLColor.fromColor(nodeColor).withLightness(0.32).toColor();
+    final bool isAssignedHomework = !_rewardState.isGuest &&
+        _rewardState.assignedTargetPhonemes.contains(stage.soundLetter.toLowerCase());
 
     return GestureDetector(
       onTap: () {
@@ -1539,6 +1671,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          if (isAssignedHomework)
+            Container(
+              margin: const EdgeInsets.only(bottom: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFF8E1),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: const Color(0xFFFFB300), width: 1.5),
+              ),
+              child: const Text(
+                '⭐ Terapist Ödevi',
+                style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: Color(0xFFE65100)),
+              ),
+            ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
             decoration: BoxDecoration(
@@ -1557,10 +1703,26 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16, color: nodeColor),
                 ),
                 const SizedBox(width: 6),
+                InkWell(
+                  onTap: () {
+                    _sfx.playPopSound();
+                    _audioService.speakTurkish(
+                      stage.soundLetter,
+                      phoneme: stage.soundLetter,
+                      mode: 'phoneme',
+                    );
+                  },
+                  borderRadius: BorderRadius.circular(10),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 1),
+                    child: Icon(Icons.volume_up_rounded, size: 17, color: nodeColor),
+                  ),
+                ),
+                const SizedBox(width: 4),
                 Text(
                   _isStageLockedForGuest(stage)
                       ? '🔒 Kilitli'
-                      : '⭐ ${stage.starsCollected}/15',
+                      : '⭐ ${(stage.starsCollected > 0 ? stage.starsCollected : _rewardState.getStageStars(stage.id) * 5).clamp(0, 15)}/15',
                   style: TextStyle(
                     fontWeight: FontWeight.w800,
                     fontSize: 12,
@@ -1570,7 +1732,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ],
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: index == _selectedStageIndex ? 66 : 8),
 
           SizedBox(
             width: 110,
@@ -1636,28 +1798,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ),
                   ),
                 ),
-                if (_isStageLockedForGuest(stage))
-                  Positioned(
-                    top: 2,
-                    right: 4,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFEF4444),
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 4)],
-                        border: Border.all(color: Colors.white, width: 1.2),
-                      ),
-                      child: const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(Icons.lock_rounded, size: 11, color: Colors.white),
-                          SizedBox(width: 2),
-                          Text('Kilitli', style: TextStyle(color: Colors.white, fontSize: 9.5, fontWeight: FontWeight.w900)),
-                        ],
-                      ),
-                    ),
-                  ),
                 if (stage.isCompleted)
                   Positioned(
                     top: 0,
@@ -1748,10 +1888,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           SizedBox(
             width: 140,
             child: Text(
-              stage.categoryTitle,
+              _getChildFriendlySubtitle(stage.soundLetter),
               textAlign: TextAlign.center,
               maxLines: 2,
-              style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: Color(0xFF2E7D32)),
+              style: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.w800, color: Color(0xFF2E7D32)),
             ),
           ),
         ],

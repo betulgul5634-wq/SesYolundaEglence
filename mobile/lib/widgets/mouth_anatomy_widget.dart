@@ -74,8 +74,8 @@ class _MouthAnatomyWidgetState extends State<MouthAnatomyWidget>
       case 'N': return 'Dil ucunu üst diş arkasına yapıştır, sesi burnundan çınlat: Nnn! 🔔';
       case 'L': return 'Dil ucunu üst diş arkasına kaldır, havanın dil yanlarından akmasını sağla: Lll! 🎶';
       case 'Y': return 'Dil ortasını damağa yaklaştır, kaydıraktan kayar gibi tatlıca akıt: Yyy! 🛝✨';
-      case 'B': return 'Dudaklarını birbirine kapat, boğazını titreterek güçlüce patlat: Bı! 🎈💥';
-      case 'P': return 'Dudaklarını sıkıca kapat, havayı topla ve aniden puf diye patlat: Pı! 🎈💥';
+      case 'B': return 'Dudaklarını birbirine kapat, boğazını titreterek güçlüce patlat! 🎈💥';
+      case 'P': return 'Dudaklarını sıkıca kapat, havayı topla ve puf diye patlat! 🎈💥';
       default: return 'Doğru artikülasyon modeli';
     }
   }
@@ -1309,6 +1309,25 @@ class _PreciseClinicalAnatomyPainter extends CustomPainter {
         lowerToothY - 1,
       );
       tonguePath.quadraticBezierTo(center.dx + 8, center.dy + 28, center.dx + 40, center.dy + 26);
+    } else if (cleanP == 'Ç' || cleanP == 'C') {
+      // Ön damak patlamalı-sürtünmeli: Dil ön-ortası sert damağa temas edip sürtünmeli açılır
+      final double drop = isPlosion ? (openFactor * 16.0) : 0.0;
+      tonguePath.quadraticBezierTo(
+        center.dx + 12,
+        center.dy - 14 + drop,
+        center.dx - 16,
+        center.dy - 8 + drop,
+      );
+      tonguePath.quadraticBezierTo(center.dx + 4, center.dy + 26, center.dx + 40, center.dy + 26);
+    } else if (cleanP == 'Y') {
+      // Damaksı daralmalı: Dil ortası sert damağa doğru kubbeleşir (kaydırak)
+      tonguePath.quadraticBezierTo(
+        center.dx + 14,
+        center.dy - 12,
+        center.dx - 16,
+        lowerToothY + 2,
+      );
+      tonguePath.quadraticBezierTo(center.dx + 8, center.dy + 26, center.dx + 40, center.dy + 26);
     } else if (cleanP == 'R') {
       // R sesi: Dil ucu üst diş yuvasına kalkık, kenarlar yan dişlere yapışık, dil ucu flutter yapar
       final double rFlutter = (isStep2 || isPlosion)
@@ -1353,10 +1372,14 @@ class _PreciseClinicalAnatomyPainter extends CustomPainter {
     canvas.drawPath(upperLipPath, lipFill);
     canvas.drawPath(upperLipPath, lipStroke);
 
-    // B) ALT DUDAK (Çene ile Birlikte Açılır / Kapanır)
-    final double lowerLipContactY = (cleanP == 'T' || cleanP == 'D' || cleanP == 'K')
-        ? (center.dy - 1 + jawDrop)
-        : (isPlosion ? (center.dy - 1 + jawDrop) : (center.dy - 1));
+    // B) ALT DUDAK (Yalnızca P/B/M dudakları kapatır, F/V üst dişe değer, diğerlerinde dudaklar açıktır)
+    final bool isBilabial = cleanP == 'P' || cleanP == 'B' || cleanP == 'M';
+    final bool isLabiodental = cleanP == 'F' || cleanP == 'V';
+    final double lowerLipContactY = isBilabial
+        ? (isPlosion ? (center.dy - 1 + jawDrop) : (center.dy - 1))
+        : (isLabiodental
+            ? (center.dy + 4 + (isPlosion ? jawDrop * 0.4 : 0.0))
+            : (center.dy + 3 + jawDrop));
     final double lowerLipBulgeX = center.dx - 38 - puffX;
 
     final lowerLipPath = Path()

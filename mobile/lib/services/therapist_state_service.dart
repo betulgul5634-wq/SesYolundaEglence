@@ -17,6 +17,49 @@ class TherapistStateService extends ChangeNotifier {
     if (_students.isEmpty) {
       _initDefaultStudents();
     }
+    if (kIsWeb) {
+      fetchStudentsFromBackend();
+    }
+  }
+
+  /// Veritabanından gerçek kayıtlı öğrencileri çeker
+  Future<void> fetchStudentsFromBackend() async {
+    if (!kIsWeb) return;
+    try {
+      final code = _therapistCode.trim().toUpperCase();
+      final query = code.isNotEmpty ? '?therapist_code=${Uri.encodeComponent(code)}' : '';
+      final respText = await html.HttpRequest.getString('/api/therapist/students$query');
+      final decoded = jsonDecode(respText) as Map<String, dynamic>;
+      final list = decoded['students'] as List<dynamic>? ?? [];
+      if (list.isNotEmpty) {
+        _students.clear();
+        for (final item in list) {
+          final m = Map<String, dynamic>.from(item as Map);
+          _students.add({
+            'id': m['id'],
+            'name': m['full_name'] ?? 'Öğrenci',
+            'age': m['age'] ?? 6,
+            'avatar': m['avatar'] ?? '👦',
+            'diagnosis': m['diagnosis'] ?? 'Artikülasyon ve Sesletim Gelişimi',
+            'target_phonemes': m['target_phonemes'] ?? '/r/, /s/, /k/',
+            'parent_email': m['parent_email'] ?? '',
+            'therapist_code': m['therapist_code'] ?? '',
+            'student_code': m['student_code'] ?? '',
+            'total_stars': m['total_stars'] ?? 0,
+            'xp': m['xp'] ?? 0,
+            'accuracy': (m['overall_accuracy'] as num?)?.toDouble() ?? 0.0,
+            'clinical_assessment': m['clinical_assessment'] ?? '',
+            'sessions_count': m['session_count'] ?? m['sessions_count'] ?? 0,
+            'sessions': (m['sessions'] as List?)
+                    ?.map((s) => Map<String, dynamic>.from(s as Map))
+                    .toList() ??
+                <Map<String, dynamic>>[],
+          });
+        }
+        _saveToLocalStorage();
+        notifyListeners();
+      }
+    } catch (_) {}
   }
 
   // Terapist Oturum Bilgileri
@@ -211,6 +254,21 @@ class TherapistStateService extends ChangeNotifier {
     });
 
     _saveToLocalStorage();
+    if (kIsWeb) {
+      try {
+        final req = html.HttpRequest();
+        req.open('POST', '/api/therapist/students');
+        req.setRequestHeader('Content-Type', 'application/json');
+        req.send(jsonEncode({
+          'full_name': cleanName,
+          'age': age,
+          'avatar': avatar,
+          'diagnosis': diagnosis.trim().isNotEmpty ? diagnosis.trim() : 'Artikülasyon Güçlüğü',
+          'target_phonemes': targetPhonemes.trim().isNotEmpty ? targetPhonemes.trim() : '/r/, /s/',
+          'parent_email': parentEmail.trim(),
+        }));
+      } catch (_) {}
+    }
     notifyListeners();
   }
 
@@ -372,7 +430,7 @@ class TherapistStateService extends ChangeNotifier {
       storage['sye_dkt_clinic'] = _clinicName;
       storage['sye_dkt_email'] = _email;
       storage['sye_dkt_edevlet'] = _edevletDocNo;
-      storage['sye_dkt_pass'] = _password;
+      storage.remove('sye_dkt_pass');
       storage['sye_dkt_code'] = _therapistCode;
       storage['sye_dkt_students'] = jsonEncode(_students);
     } catch (_) {}
@@ -397,9 +455,6 @@ class TherapistStateService extends ChangeNotifier {
       if (storage.containsKey('sye_dkt_edevlet')) {
         _edevletDocNo = storage['sye_dkt_edevlet'] ?? '';
       }
-      if (storage.containsKey('sye_dkt_pass')) {
-        _password = storage['sye_dkt_pass'] ?? '';
-      }
       if (storage.containsKey('sye_dkt_code')) {
         _therapistCode = storage['sye_dkt_code'] ?? '';
       }
@@ -414,6 +469,7 @@ class TherapistStateService extends ChangeNotifier {
             final isInvalid = name.length <= 1 ||
                               name == 'd' ||
                               name == 'test' ||
+                              name == 'br' ||
                               name == 'betül' ||
                               name == _therapistName.trim().toLowerCase() ||
                               name.contains('ali kaya') ||
