@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../services/audio_speech_service.dart';
 import '../services/sound_effects_service.dart';
@@ -67,239 +68,137 @@ class _MinimalPairsDialogState extends State<MinimalPairsDialog> {
 
   void _initQuestions() {
     final cleanP = widget.phoneme.replaceAll('/', '').trim().toLowerCase();
+    final rng = math.Random();
+
+    List<_MinimalPairQuestion> makePool(String title, List<List<String>> pairs) {
+      final list = pairs.map((p) {
+        return _MinimalPairQuestion(
+          title: title,
+          optionA: _PairOption(word: p[0], emoji: p[1], phoneme: p[2]),
+          optionB: _PairOption(word: p[3], emoji: p[4], phoneme: p[5]),
+          correctIndex: rng.nextInt(2),
+        );
+      }).toList();
+      list.shuffle(rng);
+      return list.take(6).toList();
+    }
 
     if (cleanP == 'r' || cleanP == 'y') {
-      _questions = [
-        _MinimalPairQuestion(
-          title: '/r/ ve /y/ Ayırt Etme',
-          optionA: _PairOption(word: 'Arı', emoji: '🐝', phoneme: 'R'),
-          optionB: _PairOption(word: 'Ayı', emoji: '🐻', phoneme: 'Y'),
-          correctIndex: 0,
-        ),
-        _MinimalPairQuestion(
-          title: '/r/ ve /y/ Ayırt Etme',
-          optionA: _PairOption(word: 'Kar', emoji: '❄️', phoneme: 'R'),
-          optionB: _PairOption(word: 'Kay', emoji: '⛷️', phoneme: 'Y'),
-          correctIndex: 1,
-        ),
-        _MinimalPairQuestion(
-          title: '/r/ ve /y/ Ayırt Etme',
-          optionA: _PairOption(word: 'Ray', emoji: '🚂', phoneme: 'R'),
-          optionB: _PairOption(word: 'Yay', emoji: '🏹', phoneme: 'Y'),
-          correctIndex: 0,
-        ),
-        _MinimalPairQuestion(
-          title: '/r/ ve /y/ Ayırt Etme',
-          optionA: _PairOption(word: 'Kör', emoji: '🙈', phoneme: 'R'),
-          optionB: _PairOption(word: 'Köy', emoji: '🏡', phoneme: 'Y'),
-          correctIndex: 1,
-        ),
-      ];
+      _questions = makePool('/r/ ve /y/ Ayırt Etme', [
+        ['Arı', '🐝', 'R', 'Ayı', '🐻', 'Y'],
+        ['Kar', '❄️', 'R', 'Kay', '⛷️', 'Y'],
+        ['Ray', '🚂', 'R', 'Yay', '🏹', 'Y'],
+        ['Kör', '🙈', 'R', 'Köy', '🏡', 'Y'],
+        ['Sar', '🎁', 'R', 'Say', '🔢', 'Y'],
+        ['Yer', '🌍', 'R', 'Yey', '😋', 'Y'],
+        ['Dur', '🛑', 'R', 'Duy', '👂', 'Y'],
+        ['Var', '✅', 'R', 'Vay', '😮', 'Y'],
+      ]);
     } else if (cleanP == 's' || cleanP == 'ş') {
-      _questions = [
-        _MinimalPairQuestion(
-          title: '/s/ ve /ş/ Ayırt Etme',
-          optionA: _PairOption(word: 'Kas', emoji: '💪', phoneme: 'S'),
-          optionB: _PairOption(word: 'Kaş', emoji: '🤨', phoneme: 'Ş'),
-          correctIndex: 0,
-        ),
-        _MinimalPairQuestion(
-          title: '/s/ ve /ş/ Ayırt Etme',
-          optionA: _PairOption(word: 'As', emoji: '🃏', phoneme: 'S'),
-          optionB: _PairOption(word: 'Aş', emoji: '🍲', phoneme: 'Ş'),
-          correctIndex: 1,
-        ),
-        _MinimalPairQuestion(
-          title: '/s/ ve /ş/ Ayırt Etme',
-          optionA: _PairOption(word: 'Tas', emoji: '🥣', phoneme: 'S'),
-          optionB: _PairOption(word: 'Taş', emoji: '🪨', phoneme: 'Ş'),
-          correctIndex: 0,
-        ),
-      ];
+      _questions = makePool('/s/ ve /ş/ Ayırt Etme', [
+        ['Kas', '💪', 'S', 'Kaş', '🤨', 'Ş'],
+        ['As', '🃏', 'S', 'Aş', '🍲', 'Ş'],
+        ['Tas', '🥣', 'S', 'Taş', '🪨', 'Ş'],
+        ['Ses', '🔊', 'S', 'Şeş', '🎲', 'Ş'],
+        ['Kıs', '🔉', 'S', 'Kış', '☃️', 'Ş'],
+        ['Bas', '🦶', 'S', 'Baş', '🗣️', 'Ş'],
+        ['Sis', '🌫️', 'S', 'Şiş', '🍢', 'Ş'],
+        ['Sık', '🤏', 'S', 'Şık', '✨', 'Ş'],
+      ]);
     } else if (cleanP == 't' || cleanP == 'd') {
-      _questions = [
-        _MinimalPairQuestion(
-          title: '/t/ ve /d/ Ayırt Etme',
-          optionA: _PairOption(word: 'Tam', emoji: '💯', phoneme: 'T'),
-          optionB: _PairOption(word: 'Dam', emoji: '🏠', phoneme: 'D'),
-          correctIndex: 0,
-        ),
-        _MinimalPairQuestion(
-          title: '/t/ ve /d/ Ayırt Etme',
-          optionA: _PairOption(word: 'Tel', emoji: '🧵', phoneme: 'T'),
-          optionB: _PairOption(word: 'Del', emoji: '🕳️', phoneme: 'D'),
-          correctIndex: 1,
-        ),
-        _MinimalPairQuestion(
-          title: '/t/ ve /d/ Ayırt Etme',
-          optionA: _PairOption(word: 'Tur', emoji: '🚴', phoneme: 'T'),
-          optionB: _PairOption(word: 'Dur', emoji: '🛑', phoneme: 'D'),
-          correctIndex: 1,
-        ),
-        _MinimalPairQuestion(
-          title: '/t/ ve /d/ Ayırt Etme',
-          optionA: _PairOption(word: 'Ot', emoji: '🌿', phoneme: 'T'),
-          optionB: _PairOption(word: 'Od', emoji: '🔥', phoneme: 'D'),
-          correctIndex: 0,
-        ),
-      ];
+      _questions = makePool('/t/ ve /d/ Ayırt Etme', [
+        ['Tam', '💯', 'T', 'Dam', '🏠', 'D'],
+        ['Tel', '🧵', 'T', 'Del', '🕳️', 'D'],
+        ['Tur', '🚴', 'T', 'Dur', '🛑', 'D'],
+        ['Ters', '🔄', 'T', 'Ders', '📖', 'D'],
+        ['Tik', '✅', 'T', 'Dik', '📐', 'D'],
+        ['Toz', '🧹', 'T', 'Doz', '💊', 'D'],
+        ['Tut', '✊', 'T', 'Dut', '🫐', 'D'],
+        ['Tün', '🌙', 'T', 'Dün', '⏮️', 'D'],
+      ]);
     } else if (cleanP == 'k' || cleanP == 'g') {
-      _questions = [
-        _MinimalPairQuestion(
-          title: '/k/ ve /g/ Ayırt Etme',
-          optionA: _PairOption(word: 'Kül', emoji: '💨', phoneme: 'K'),
-          optionB: _PairOption(word: 'Gül', emoji: '🌹', phoneme: 'G'),
-          correctIndex: 1,
-        ),
-        _MinimalPairQuestion(
-          title: '/k/ ve /g/ Ayırt Etme',
-          optionA: _PairOption(word: 'Kar', emoji: '❄️', phoneme: 'K'),
-          optionB: _PairOption(word: 'Gar', emoji: '🚉', phoneme: 'G'),
-          correctIndex: 0,
-        ),
-        _MinimalPairQuestion(
-          title: '/k/ ve /g/ Ayırt Etme',
-          optionA: _PairOption(word: 'Köz', emoji: '🪵', phoneme: 'K'),
-          optionB: _PairOption(word: 'Göz', emoji: '👁️', phoneme: 'G'),
-          correctIndex: 1,
-        ),
-      ];
+      _questions = makePool('/k/ ve /g/ Ayırt Etme', [
+        ['Kül', '💨', 'K', 'Gül', '🌹', 'G'],
+        ['Kar', '❄️', 'K', 'Gar', '🚉', 'G'],
+        ['Köz', '🪵', 'K', 'Göz', '👁️', 'G'],
+        ['Kel', '🧑‍🦲', 'K', 'Gel', '👋', 'G'],
+        ['Kaz', '🪿', 'K', 'Gaz', '⛽', 'G'],
+        ['Kir', '🧼', 'K', 'Gir', '🚪', 'G'],
+        ['Kör', '🙈', 'K', 'Gör', '👀', 'G'],
+        ['Kök', '🌱', 'K', 'Gök', '🌌', 'G'],
+      ]);
     } else if (cleanP == 'f' || cleanP == 'v') {
-      _questions = [
-        _MinimalPairQuestion(
-          title: '/f/ ve /v/ Ayırt Etme',
-          optionA: _PairOption(word: 'Far', emoji: '💡', phoneme: 'F'),
-          optionB: _PairOption(word: 'Var', emoji: '✅', phoneme: 'V'),
-          correctIndex: 0,
-        ),
-        _MinimalPairQuestion(
-          title: '/f/ ve /v/ Ayırt Etme',
-          optionA: _PairOption(word: 'Saf', emoji: '🥛', phoneme: 'F'),
-          optionB: _PairOption(word: 'Sav', emoji: '🛡️', phoneme: 'V'),
-          correctIndex: 1,
-        ),
-      ];
+      _questions = makePool('/f/ ve /v/ Ayırt Etme', [
+        ['Far', '💡', 'F', 'Var', '✅', 'V'],
+        ['Saf', '🥛', 'F', 'Sav', '🛡️', 'V'],
+        ['Af', '🙏', 'F', 'Av', '🏹', 'V'],
+        ['Fay', '🌋', 'F', 'Vay', '😮', 'V'],
+        ['Of', '😮‍💨', 'F', 'Ov', '🤲', 'V'],
+        ['Kof', '💨', 'F', 'Kov', '👉', 'V'],
+      ]);
     } else if (cleanP == 'c' || cleanP == 'ç') {
-      _questions = [
-        _MinimalPairQuestion(
-          title: '/c/ ve /ç/ Ayırt Etme',
-          optionA: _PairOption(word: 'Can', emoji: '❤️', phoneme: 'C'),
-          optionB: _PairOption(word: 'Çan', emoji: '🔔', phoneme: 'Ç'),
-          correctIndex: 0,
-        ),
-        _MinimalPairQuestion(
-          title: '/c/ ve /ç/ Ayırt Etme',
-          optionA: _PairOption(word: 'Cam', emoji: '🪟', phoneme: 'C'),
-          optionB: _PairOption(word: 'Çam', emoji: '🌲', phoneme: 'Ç'),
-          correctIndex: 1,
-        ),
-      ];
+      _questions = makePool('/c/ ve /ç/ Ayırt Etme', [
+        ['Can', '❤️', 'C', 'Çan', '🔔', 'Ç'],
+        ['Cam', '🪟', 'C', 'Çam', '🌲', 'Ç'],
+        ['Cin', '🧞', 'C', 'Çin', '🇨🇳', 'Ç'],
+        ['Sac', '🍳', 'C', 'Saç', '💇', 'Ç'],
+        ['Acı', '🌶️', 'C', 'Açı', '📐', 'Ç'],
+        ['Cenk', '⚔️', 'C', 'Çenk', '🎵', 'Ç'],
+      ]);
     } else if (cleanP == 'l') {
-      _questions = [
-        _MinimalPairQuestion(
-          title: '/l/ ve /r/ Ayırt Etme',
-          optionA: _PairOption(word: 'Bal', emoji: '🍯', phoneme: 'L'),
-          optionB: _PairOption(word: 'Bar', emoji: '🍫', phoneme: 'R'),
-          correctIndex: 0,
-        ),
-        _MinimalPairQuestion(
-          title: '/l/ ve /r/ Ayırt Etme',
-          optionA: _PairOption(word: 'Sal', emoji: '🪵', phoneme: 'L'),
-          optionB: _PairOption(word: 'Sar', emoji: '📦', phoneme: 'R'),
-          correctIndex: 0,
-        ),
-        _MinimalPairQuestion(
-          title: '/l/ ve /r/ Ayırt Etme',
-          optionA: _PairOption(word: 'Kol', emoji: '💪', phoneme: 'L'),
-          optionB: _PairOption(word: 'Kor', emoji: '🔥', phoneme: 'R'),
-          correctIndex: 0,
-        ),
-      ];
+      _questions = makePool('/l/ ve /r/ Ayırt Etme', [
+        ['Bal', '🍯', 'L', 'Bar', '🍫', 'R'],
+        ['Sal', '🪵', 'L', 'Sar', '📦', 'R'],
+        ['Kol', '💪', 'L', 'Kor', '🔥', 'R'],
+        ['Kal', '🏠', 'L', 'Kar', '❄️', 'R'],
+        ['Yol', '🛣️', 'L', 'Yor', '🏃', 'R'],
+        ['Gül', '🌹', 'L', 'Gür', '🦁', 'R'],
+        ['Kil', '🏺', 'L', 'Kir', '🧼', 'R'],
+        ['Fal', '🔮', 'L', 'Far', '💡', 'R'],
+      ]);
     } else if (cleanP == 'z') {
-      _questions = [
-        _MinimalPairQuestion(
-          title: '/z/ ve /s/ Ayırt Etme',
-          optionA: _PairOption(word: 'Kaz', emoji: '🪿', phoneme: 'Z'),
-          optionB: _PairOption(word: 'Kas', emoji: '💪', phoneme: 'S'),
-          correctIndex: 0,
-        ),
-        _MinimalPairQuestion(
-          title: '/z/ ve /s/ Ayırt Etme',
-          optionA: _PairOption(word: 'Zil', emoji: '🔔', phoneme: 'Z'),
-          optionB: _PairOption(word: 'Sil', emoji: '🧹', phoneme: 'S'),
-          correctIndex: 0,
-        ),
-      ];
+      _questions = makePool('/z/ ve /s/ Ayırt Etme', [
+        ['Kaz', '🪿', 'Z', 'Kas', '💪', 'S'],
+        ['Zil', '🔔', 'Z', 'Sil', '🧹', 'S'],
+        ['Buz', '🧊', 'Z', 'Bus', '🚌', 'S'],
+        ['Yaz', '☀️', 'Z', 'Yas', '🖤', 'S'],
+        ['Kız', '👧', 'Z', 'Kıs', '✂️', 'S'],
+        ['Söz', '💬', 'Z', 'Sös', '🎀', 'S'],
+        ['Zar', '🎲', 'Z', 'Sar', '🎁', 'S'],
+      ]);
     } else if (cleanP == 'm' || cleanP == 'n') {
-      _questions = [
-        _MinimalPairQuestion(
-          title: '/m/ ve /n/ Ayırt Etme',
-          optionA: _PairOption(word: 'Masa', emoji: '🪑', phoneme: 'M'),
-          optionB: _PairOption(word: 'Nasa', emoji: '🚀', phoneme: 'N'),
-          correctIndex: 0,
-        ),
-        _MinimalPairQuestion(
-          title: '/m/ ve /n/ Ayırt Etme',
-          optionA: _PairOption(word: 'Mal', emoji: '📦', phoneme: 'M'),
-          optionB: _PairOption(word: 'Nal', emoji: '🧲', phoneme: 'N'),
-          correctIndex: 1,
-        ),
-        _MinimalPairQuestion(
-          title: '/m/ ve /n/ Ayırt Etme',
-          optionA: _PairOption(word: 'Muz', emoji: '🍌', phoneme: 'M'),
-          optionB: _PairOption(word: 'Nar', emoji: '🍎', phoneme: 'N'),
-          correctIndex: 0,
-        ),
-      ];
+      _questions = makePool('/m/ ve /n/ Ayırt Etme', [
+        ['Masa', '🪑', 'M', 'Nasa', '🚀', 'N'],
+        ['Mal', '📦', 'M', 'Nal', '🧲', 'N'],
+        ['Muz', '🍌', 'M', 'Nar', '🍎', 'N'],
+        ['Cam', '🪟', 'M', 'Can', '❤️', 'N'],
+        ['Dam', '🏠', 'M', 'Dan', '🥁', 'N'],
+        ['Kim', '🕵️', 'M', 'Kin', '😠', 'N'],
+        ['Mum', '🕯️', 'M', 'Nun', '🌙', 'N'],
+      ]);
     } else if (cleanP == 'h' || cleanP == 'j') {
-      _questions = [
-        _MinimalPairQuestion(
-          title: '/h/ ve /j/ Ayırt Etme',
-          optionA: _PairOption(word: 'Halı', emoji: '🧶', phoneme: 'H'),
-          optionB: _PairOption(word: 'Jale', emoji: '👩', phoneme: 'J'),
-          correctIndex: 0,
-        ),
-        _MinimalPairQuestion(
-          title: '/h/ ve /j/ Ayırt Etme',
-          optionA: _PairOption(word: 'Havuç', emoji: '🥕', phoneme: 'H'),
-          optionB: _PairOption(word: 'Jelibon', emoji: '🍬', phoneme: 'J'),
-          correctIndex: 1,
-        ),
-        _MinimalPairQuestion(
-          title: '/h/ ve /j/ Ayırt Etme',
-          optionA: _PairOption(word: 'Horoz', emoji: '🐓', phoneme: 'H'),
-          optionB: _PairOption(word: 'Jeton', emoji: '🪙', phoneme: 'J'),
-          correctIndex: 0,
-        ),
-      ];
+      _questions = makePool('/h/ ve /j/ Ayırt Etme', [
+        ['Halı', '🧶', 'H', 'Jale', '👩', 'J'],
+        ['Havuç', '🥕', 'H', 'Jelibon', '🍬', 'J'],
+        ['Horoz', '🐓', 'H', 'Jeton', '🪙', 'J'],
+        ['Hızlı', '⚡', 'H', 'Jilet', '🪒', 'J'],
+        ['Hediye', '🎁', 'H', 'Japon', '🗾', 'J'],
+        ['Halka', '⭕', 'H', 'Jant', '🛞', 'J'],
+      ]);
     } else {
-      // Varsayılan: P ve B Ayırt Etme
-      _questions = [
-        _MinimalPairQuestion(
-          title: '/p/ ve /b/ Ayırt Etme',
-          optionA: _PairOption(word: 'Pil', emoji: '🔋', phoneme: 'P'),
-          optionB: _PairOption(word: 'Bil', emoji: '🧠', phoneme: 'B'),
-          correctIndex: 0,
-        ),
-        _MinimalPairQuestion(
-          title: '/p/ ve /b/ Ayırt Etme',
-          optionA: _PairOption(word: 'Pas', emoji: '⚽', phoneme: 'P'),
-          optionB: _PairOption(word: 'Bas', emoji: '🦶', phoneme: 'B'),
-          correctIndex: 1,
-        ),
-        _MinimalPairQuestion(
-          title: '/p/ ve /b/ Ayırt Etme',
-          optionA: _PairOption(word: 'Pak', emoji: '🧼', phoneme: 'P'),
-          optionB: _PairOption(word: 'Bak', emoji: '👀', phoneme: 'B'),
-          correctIndex: 0,
-        ),
-        _MinimalPairQuestion(
-          title: '/p/ ve /b/ Ayırt Etme',
-          optionA: _PairOption(word: 'Pul', emoji: '✉️', phoneme: 'P'),
-          optionB: _PairOption(word: 'Bul', emoji: '🔍', phoneme: 'B'),
-          correctIndex: 1,
-        ),
-      ];
+      // /p/ ve /b/ Ayırt Etme (Zengin havuzdan karışık 6 soru)
+      _questions = makePool('/p/ ve /b/ Ayırt Etme', [
+        ['Pil', '🔋', 'P', 'Bil', '🧠', 'B'],
+        ['Pas', '⚽', 'P', 'Bas', '🦶', 'B'],
+        ['Pak', '🧼', 'P', 'Bak', '👀', 'B'],
+        ['Pul', '✉️', 'P', 'Bul', '🔍', 'B'],
+        ['Pay', '🥧', 'P', 'Bay', '🎩', 'B'],
+        ['Pat', '💥', 'P', 'Bat', '🦇', 'B'],
+        ['Pek', '👍', 'P', 'Bek', '🛡️', 'B'],
+        ['Pala', '🗡️', 'P', 'Bala', '🍯', 'B'],
+        ['Pus', '🌫️', 'P', 'Bus', '🚌', 'B'],
+        ['Para', '💰', 'P', 'Bara', '🏋️', 'B'],
+      ]);
     }
   }
 

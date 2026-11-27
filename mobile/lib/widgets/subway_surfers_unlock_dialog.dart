@@ -104,8 +104,14 @@ class SubwaySurfersUnlockDialog extends StatefulWidget {
     required this.onEquip,
   });
 
-  static SubwayCharacter getCharacterForLevel(int stageLevel) {
-    final idx = (stageLevel - 1) % kSubwayCharacters.length;
+  static SubwayCharacter getCharacterForLevel(int stageLevel, {String? phoneme}) {
+    const soundOrder = [
+      'p', 'b', 't', 'd', 'k', 'g', 'f', 'v', 's', 'z',
+      'ş', 'j', 'h', 'ç', 'c', 'm', 'n', 'l', 'r', 'y',
+    ];
+    final cleanP = (phoneme ?? '').replaceAll('/', '').trim().toLowerCase();
+    final soundOffset = cleanP.isNotEmpty ? soundOrder.indexOf(cleanP).clamp(0, 19) : 0;
+    final idx = (soundOffset + (stageLevel - 1)) % kSubwayCharacters.length;
     return kSubwayCharacters[idx];
   }
 

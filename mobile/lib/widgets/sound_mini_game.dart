@@ -959,19 +959,25 @@ class _SoundMiniGameDialogState extends State<SoundMiniGameDialog>
 
   /// Arenadaki Kelime Yemi Baloncuğu (Ferah hap kutusu, dokununca da canavar gider)
   Widget _buildWordOrbWidget(_WordOrb orb) {
-    // Kelimenin uzunluğuna göre dinamik genişlik: Kelime asla "..." ile kesilmez!
-    final double orbWidth = (orb.word.length > 4)
-        ? (orb.word.length * 11.0 + 26.0).clamp(84.0, 135.0)
-        : 80.0;
+    final bool isLongPhraseOrSentence = orb.word.length > 18;
+    // Kelime/cümle uzunluğuna göre dinamik genişlik
+    final double orbWidth = isLongPhraseOrSentence
+        ? (orb.word.length * 6.5 + 32.0).clamp(155.0, 225.0)
+        : ((orb.word.length > 4)
+            ? (orb.word.length * 11.0 + 26.0).clamp(84.0, 145.0)
+            : 80.0);
 
     return Positioned(
       left: orb.pos.dx - (orbWidth / 2),
-      top: orb.pos.dy - 28,
+      top: orb.pos.dy - (isLongPhraseOrSentence ? 38 : 28),
       child: GestureDetector(
         onTap: () => _moveTowardsTap(orb.pos),
         child: Container(
           width: orbWidth,
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+          padding: EdgeInsets.symmetric(
+            horizontal: isLongPhraseOrSentence ? 12 : 10,
+            vertical: isLongPhraseOrSentence ? 8 : 7,
+          ),
           decoration: BoxDecoration(
             gradient: const LinearGradient(
               colors: [Color(0xFF0D47A1), Color(0xFF1976D2), Color(0xFF00B0FF)],
@@ -994,20 +1000,35 @@ class _SoundMiniGameDialogState extends State<SoundMiniGameDialog>
             children: [
               const Text('🍬', style: TextStyle(fontSize: 13)),
               const SizedBox(height: 2),
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
+              if (isLongPhraseOrSentence)
+                Text(
                   orb.word,
                   textAlign: TextAlign.center,
-                  maxLines: 1,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontWeight: FontWeight.w900,
-                    fontSize: 14.5,
+                    fontSize: 12.5,
+                    height: 1.25,
                     color: Colors.white,
-                    letterSpacing: 0.3,
+                    letterSpacing: 0.2,
+                  ),
+                )
+              else
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    orb.word,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w900,
+                      fontSize: 14.5,
+                      color: Colors.white,
+                      letterSpacing: 0.3,
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
         ),
@@ -1045,7 +1066,10 @@ class _SoundMiniGameDialogState extends State<SoundMiniGameDialog>
 
   /// 🏆 KAZANINCA DİREKT AÇILAN DEV KOCA AVATAR KARTI
   Widget _buildGiantAvatarUnlockScreen() {
-    final char = SubwaySurfersUnlockDialog.getCharacterForLevel(widget.stageLevel);
+    final char = SubwaySurfersUnlockDialog.getCharacterForLevel(
+      widget.stageLevel,
+      phoneme: widget.phoneme,
+    );
 
     return Dialog(
       backgroundColor: Colors.transparent,

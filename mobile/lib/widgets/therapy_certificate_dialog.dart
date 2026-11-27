@@ -170,7 +170,12 @@ class _TherapyCertificateDialogState extends State<TherapyCertificateDialog> {
             : 'Sevgili Öğrencimiz');
     final cleanP = widget.phoneme.replaceAll('/', '').trim();
     final now = DateTime.now();
-    final dateStr = '${now.day}.${now.month}.${now.year}';
+    final dateStr = '${now.day.toString().padLeft(2, '0')}.${now.month.toString().padLeft(2, '0')}.${now.year}';
+    final stageKey = 'sound_${cleanP.toLowerCase()}';
+    final int stageStars = rewardState.getStageStars(stageKey).clamp(0, 3);
+    final int correctAttempts = rewardState.phonemeStats[cleanP.toUpperCase()]?.correctAttempts ?? 0;
+    final int displayStars = stageStars > 0 ? stageStars : (correctAttempts > 0 ? 1 : 0);
+    final String starsText = '${'⭐' * displayStars} $displayStars/3'.trim();
 
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
@@ -318,7 +323,7 @@ class _TherapyCertificateDialogState extends State<TherapyCertificateDialog> {
                               children: [
                                 const Text('⭐ YILDIZLAR', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: Colors.grey)),
                                 const SizedBox(height: 2),
-                                const Text('⭐⭐⭐ 3/3', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: Color(0xFFFF8F00))),
+                                Text(starsText, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: Color(0xFFFF8F00))),
                               ],
                             ),
                             Container(height: 30, width: 1, color: Colors.grey[300]),
@@ -326,7 +331,10 @@ class _TherapyCertificateDialogState extends State<TherapyCertificateDialog> {
                               children: [
                                 const Text('🎖️ ONAY', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: Colors.grey)),
                                 const SizedBox(height: 2),
-                                const Text('KLİNİK ONAYLI', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w900, color: Color(0xFF2E7D32))),
+                                Text(
+                                  displayStars >= 3 ? 'KLİNİK ONAYLI' : 'GELİŞİM BELGESİ',
+                                  style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w900, color: Color(0xFF2E7D32)),
+                                ),
                               ],
                             ),
                           ],

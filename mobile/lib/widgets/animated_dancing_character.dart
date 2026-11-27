@@ -42,7 +42,6 @@ class _AnimatedDancingCharacterState extends State<AnimatedDancingCharacter>
 
   bool _isWinking = false;
   int _trickIndex = 0;
-  String _currentTrickEmoji = '✨ ⭐ 💫';
 
   @override
   void initState() {
@@ -88,20 +87,16 @@ class _AnimatedDancingCharacterState extends State<AnimatedDancingCharacter>
 
     switch (_trickIndex) {
       case 0:
-        _currentTrickEmoji = '🌟 360° TAKLA! ✨';
         _sfx.playSuccessDing();
         break;
       case 1:
-        _currentTrickEmoji = '🎉 COŞKULU DANS! 💃';
         _sfx.playVictoryFanfare();
         break;
       case 2:
-        _currentTrickEmoji = '🎵 NEŞELİ SELAM! 💖';
         _sfx.playPopSound();
         break;
       case 3:
       default:
-        _currentTrickEmoji = '🚀 SÜPER UÇUŞ! ⚡';
         _sfx.playPowerUpSound();
         break;
     }
@@ -211,31 +206,6 @@ class _AnimatedDancingCharacterState extends State<AnimatedDancingCharacter>
                               ),
                             ],
                           ),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                // 3. DOKUNMA YILDIZ & TRICK EFEKT BALONU
-                if (tapProgress > 0.05 && tapProgress < 0.95)
-                  Positioned(
-                    top: s * 0.02,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withAlpha(210),
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: Colors.amberAccent, width: 1.5),
-                        boxShadow: const [
-                          BoxShadow(color: Colors.amber, blurRadius: 10, spreadRadius: 1),
-                        ],
-                      ),
-                      child: Text(
-                        _currentTrickEmoji,
-                        style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.white,
                         ),
                       ),
                     ),

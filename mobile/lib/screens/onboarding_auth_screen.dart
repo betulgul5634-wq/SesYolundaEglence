@@ -1367,6 +1367,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
               final res = await _postAuthJson('/api/auth/login', {
                 'email': email,
                 'password': pass,
+                'role': 'student',
                 if (inputTherapistCode.isNotEmpty) 'therapist_code': inputTherapistCode,
               });
               if (!mounted) return;
@@ -1385,16 +1386,27 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
               }
 
               final studentData = data['student'] as Map<String, dynamic>?;
-              final studentName = studentData?['full_name']?.toString() ?? email.split('@').first;
-              final studentAvatar = studentData?['avatar']?.toString() ?? '👦';
-              final studentEmail = studentData?['parent_email']?.toString() ?? email;
+              if (studentData == null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('❌ Öğrenci hesabı bulunamadı. Terapist girişi için Terapist sekmesini kullanın.'),
+                    backgroundColor: Colors.redAccent,
+                  ),
+                );
+                return;
+              }
+              final studentName = (studentData['full_name']?.toString() ?? '').trim().isNotEmpty
+                  ? studentData['full_name'].toString().trim()
+                  : 'Öğrenci';
+              final studentAvatar = studentData['avatar']?.toString() ?? '👦';
+              final studentEmail = studentData['parent_email']?.toString() ?? email;
               final effectiveTherapistCode = inputTherapistCode.isNotEmpty
                   ? inputTherapistCode
-                  : (studentData?['therapist_code']?.toString() ?? _rewardState.therapistCode);
+                  : (studentData['therapist_code']?.toString() ?? _rewardState.therapistCode);
 
-              final backendStars = (studentData?['total_stars'] as num?)?.toInt() ?? 0;
-              final backendXp = (studentData?['xp'] as num?)?.toInt() ?? 0;
-              final backendAcc = (studentData?['overall_accuracy'] as num?)?.toDouble() ?? 0.0;
+              final backendStars = (studentData['total_stars'] as num?)?.toInt() ?? 0;
+              final backendXp = (studentData['xp'] as num?)?.toInt() ?? 0;
+              final backendAcc = (studentData['overall_accuracy'] as num?)?.toDouble() ?? 0.0;
               final isDifferentStudent = _rewardState.isGuest ||
                   _rewardState.studentName.trim().toLowerCase() != studentName.trim().toLowerCase();
               if (isDifferentStudent) {
@@ -1409,12 +1421,12 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
               _rewardState.setStudentName(studentName);
               _rewardState.setActiveAvatar(studentAvatar);
               _rewardState.syncStatsFromBackend(
-                totalStars: (studentData?['total_stars'] as num?)?.toInt(),
-                xp: (studentData?['xp'] as num?)?.toInt(),
-                gems: (studentData?['gems'] as num?)?.toInt(),
-                hearts: (studentData?['hearts'] as num?)?.toInt(),
+                totalStars: (studentData['total_stars'] as num?)?.toInt(),
+                xp: (studentData['xp'] as num?)?.toInt(),
+                gems: (studentData['gems'] as num?)?.toInt(),
+                hearts: (studentData['hearts'] as num?)?.toInt(),
               );
-              _rewardState.setAssignedTargetPhonemes(studentData?['target_phonemes']?.toString() ?? '');
+              _rewardState.setAssignedTargetPhonemes(studentData['target_phonemes']?.toString() ?? '');
               if (effectiveTherapistCode.isNotEmpty) {
                 _rewardState.setTherapistCode(effectiveTherapistCode);
               }
@@ -1594,6 +1606,7 @@ class _OnboardingAuthScreenState extends State<OnboardingAuthScreen>
               final res = await _postAuthJson('/api/auth/login', {
                 'email': email,
                 'password': pass,
+                'role': 'therapist',
               });
               if (!mounted) return;
 

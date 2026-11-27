@@ -535,26 +535,6 @@ class _PhonemeMysteryPuzzleDialogState extends State<PhonemeMysteryPuzzleDialog>
                         onPressed: startListening,
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    SizedBox(
-                      width: double.infinity,
-                      child: OutlinedButton.icon(
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: const Color(0xFF2E7D32),
-                          side: const BorderSide(color: Color(0xFF81C784), width: 1.5),
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                        ),
-                        icon: const Icon(Icons.lock_open_rounded, size: 18),
-                        label: const Text('Dinle ve Parçayı Aç ✨', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 12)),
-                        onPressed: () {
-                          _audioService.stopSpeaking();
-                          _audioService.speakTurkish(tile.word, phoneme: widget.phoneme);
-                          Navigator.pop(dialogCtx);
-                          _revealTile(tile);
-                        },
-                      ),
-                    ),
                   ],
                 ],
               ),

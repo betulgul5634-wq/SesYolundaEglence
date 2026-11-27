@@ -443,6 +443,7 @@
         recognition.continuous = isContinuous;
         recognition.interimResults = true;
         recognition.maxAlternatives = 10;
+        let accumulatedBase = '';
 
         recognition.onstart = function() {
           console.log('Mikrofon ve STT hazır, dinleniyor...');
@@ -454,10 +455,11 @@
           for (let i = 0; i < event.results.length; ++i) {
             const res = event.results[i];
             if (res.length > 0) {
-              fullTranscript += res[0].transcript;
+              fullTranscript += res[0].transcript + ' ';
             }
           }
-          const heard = fullTranscript.trim();
+          const sessionHeard = fullTranscript.trim();
+          const heard = (accumulatedBase ? (accumulatedBase + ' ' + sessionHeard) : sessionHeard).trim();
 
           if (heard) {
             window.currentSpokenTranscript = heard;
@@ -485,6 +487,9 @@
         recognition.onend = function() {
           console.log('STT onend. isListeningActive:', window.isListeningActive);
           if (window.isListeningActive) {
+            if (isContinuous && window.currentSpokenTranscript) {
+              accumulatedBase = window.currentSpokenTranscript.trim();
+            }
             try {
               recognition.start();
               console.log('STT yeniden başlatıldı.');

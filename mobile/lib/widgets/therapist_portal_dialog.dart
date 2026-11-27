@@ -1686,26 +1686,31 @@ class _TherapistPortalDialogState extends State<TherapistPortalDialog> {
 
     for (final s in _students) {
       final sess = (s['sessions'] as List?) ?? [];
-      totalSessions += sess.length;
       for (final se in sess) {
-        final ph = (se['phoneme'] ?? '').toString();
+        final ph = (se['phoneme'] ?? '').toString().trim();
+        final wordsStr = (se['words'] ?? '').toString().trim();
+        final isNoteOnly = ph.toLowerCase().contains('klinik not') ||
+            wordsStr == '0/0' ||
+            wordsStr == 'Ödev' ||
+            wordsStr == 'Not';
+        if (isNoteOnly) continue;
+
+        totalSessions++;
         final acc = (se['acc'] as num?)?.toDouble() ?? 0.0;
         allSessions.add({
           'student_name': s['name'],
           'avatar': s['avatar'] ?? '👦',
           'diagnosis': s['diagnosis'] ?? 'Artikülasyon',
           'phoneme': ph,
-          'words': se['words'] ?? '16/16',
+          'words': wordsStr.isNotEmpty ? wordsStr : '0/0',
           'acc': acc,
           'date': se['date'] ?? 'Bugün',
           'note': se['note'] ?? '',
         });
-        if (acc > 0) {
-          totalAcc += acc;
-          accCount++;
-          if (ph.isNotEmpty) {
-            phonemeAccMap.putIfAbsent(ph, () => []).add(acc);
-          }
+        totalAcc += acc;
+        accCount++;
+        if (ph.isNotEmpty) {
+          phonemeAccMap.putIfAbsent(ph, () => []).add(acc);
         }
       }
     }

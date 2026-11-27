@@ -82,27 +82,29 @@ class _MouthAnatomyWidgetState extends State<MouthAnatomyWidget>
 
   int _getAudioDurationMs() {
     final cleanP = widget.phoneme.replaceAll('/', '').trim().toUpperCase();
-    if (cleanP == 'B') return 14450; // 14.45 sn tam eşzamanlı
-    if (cleanP == 'P') return 14200;
-    if (cleanP == 'T') return 19500; // 19.50 sn canlı saat oyunu tam eşzamanlı
-    if (cleanP == 'D') return 21400; // 21.40 sn düt düt araba ve davul oyunu tam eşzamanlı
-    if (cleanP == 'K') return 28320; // 28.32 sn klinik K sesi rehberi tam eşzamanlı
-    if (cleanP == 'G') return 18500; // 18.50 sn güçlü G sesi rehberi
-    if (cleanP == 'R') return 19600;
-    if (cleanP == 'S') return 15543;
-    if (cleanP == 'Z') return 14387;
-    if (cleanP == 'Ş') return 16305;
-    if (cleanP == 'J') return 22980;
-    if (cleanP == 'F') return 16000;
-    if (cleanP == 'V') return 16000;
-    if (cleanP == 'H') return 15000;
-    if (cleanP == 'Ç') return 16000;
-    if (cleanP == 'C') return 16000;
-    if (cleanP == 'M') return 15000;
-    if (cleanP == 'N') return 15000;
-    if (cleanP == 'L') return 16000;
-    if (cleanP == 'Y') return 15000;
-    return 14450;
+    switch (cleanP) {
+      case 'P': return 21138;
+      case 'B': return 13880;
+      case 'T': return 16317;
+      case 'D': return 18952;
+      case 'K': return 18539;
+      case 'G': return 17462;
+      case 'F': return 10195;
+      case 'V': return 9664;
+      case 'S': return 16464;
+      case 'Z': return 15504;
+      case 'Ş': return 16944;
+      case 'J': return 21240;
+      case 'H': return 17672;
+      case 'Ç': return 9008;
+      case 'C': return 8944;
+      case 'M': return 8011;
+      case 'N': return 8670;
+      case 'L': return 8226;
+      case 'R': return 16160;
+      case 'Y': return 10018;
+      default: return 15000;
+    }
   }
 
   @override
@@ -223,10 +225,17 @@ class _MouthAnatomyWidgetState extends State<MouthAnatomyWidget>
     });
   }
 
-  void _startVideoWithVoice() {
+  double? _pendingSeekSec;
+
+  void _startVideoWithVoice({double? initialSeekSec}) {
+    final durSec = _getAudioDurationMs() / 1000.0;
+    final startProgress = (initialSeekSec != null && durSec > 0)
+        ? (initialSeekSec / durSec).clamp(0.0, 1.0)
+        : 0.0;
+    _pendingSeekSec = (initialSeekSec != null && initialSeekSec > 0.05) ? initialSeekSec : null;
     setState(() {
       _isPlaying = true;
-      _animController.reset();
+      _animController.value = startProgress;
     });
 
     // Donanım düzeyinde ses ile %100 birebir kilitli canlı senkronizasyon motoru
@@ -237,9 +246,19 @@ class _MouthAnatomyWidgetState extends State<MouthAnatomyWidget>
       onAudioStarted: () {
         if (!mounted) return;
         setState(() => _isPlaying = true);
+        if (_pendingSeekSec != null) {
+          _audioService.seekAudio(_pendingSeekSec!);
+        }
       },
       onTimeUpdate: (currentSec, totalSec) {
         if (!mounted) return;
+        if (_pendingSeekSec != null) {
+          if (currentSec < _pendingSeekSec! - 0.5) {
+            _audioService.seekAudio(_pendingSeekSec!);
+            return;
+          }
+          _pendingSeekSec = null;
+        }
         if (totalSec > 0) {
           final progress = (currentSec / totalSec).clamp(0.0, 1.0);
           _animController.value = progress;
@@ -247,6 +266,7 @@ class _MouthAnatomyWidgetState extends State<MouthAnatomyWidget>
       },
       onAudioCompleted: () {
         if (!mounted) return;
+        _pendingSeekSec = null;
         setState(() {
           _isPlaying = false;
           _animController.value = 1.0;
@@ -279,51 +299,19 @@ class _MouthAnatomyWidgetState extends State<MouthAnatomyWidget>
   }
 
   void _seekToStep(int step) {
-    final cleanP = widget.phoneme.replaceAll('/', '').trim().toUpperCase();
+    final dur = _getAudioDurationMs() / 1000.0;
+    final double targetSec = step == 0
+        ? 0.05
+        : (step == 1 ? dur * 0.34 : dur * 0.69);
     setState(() {
       _currentStep = step;
-      double targetSec = 0.0;
-      if (cleanP == 'D') {
-        if (step == 0) targetSec = 0.1;
-        if (step == 1) targetSec = 7.8;
-        if (step == 2) targetSec = 14.8;
-      } else if (cleanP == 'K') {
-        if (step == 0) targetSec = 0.1;
-        if (step == 1) targetSec = 10.2;
-        if (step == 2) targetSec = 18.7;
-      } else if (cleanP == 'T') {
-        if (step == 0) targetSec = 0.1;
-        if (step == 1) targetSec = 7.4;
-        if (step == 2) targetSec = 12.6;
-      } else if (cleanP == 'R') {
-        if (step == 0) targetSec = 0.1;
-        if (step == 1) targetSec = 8.9;
-        if (step == 2) targetSec = 13.4;
-      } else if (cleanP == 'S') {
-        if (step == 0) targetSec = 0.1;
-        if (step == 1) targetSec = 6.0;
-        if (step == 2) targetSec = 10.2;
-      } else if (cleanP == 'Z') {
-        if (step == 0) targetSec = 0.1;
-        if (step == 1) targetSec = 5.5;
-        if (step == 2) targetSec = 9.5;
-      } else if (cleanP == 'Ş') {
-        if (step == 0) targetSec = 0.1;
-        if (step == 1) targetSec = 6.8;
-        if (step == 2) targetSec = 11.2;
-      } else if (cleanP == 'J') {
-        if (step == 0) targetSec = 0.1;
-        if (step == 1) targetSec = 6.2;
-        if (step == 2) targetSec = 12.8;
-      } else {
-        if (step == 0) targetSec = 0.1;
-        if (step == 1) targetSec = 4.2;
-        if (step == 2) targetSec = 9.9;
-      }
-
-      final dur = _getAudioDurationMs() / 1000.0;
       _animController.value = (targetSec / dur).clamp(0.0, 1.0);
-      _audioService.seekAudio(targetSec);
+      if (_isPlaying) {
+        _pendingSeekSec = targetSec;
+        _audioService.seekAudio(targetSec);
+      } else {
+        _startVideoWithVoice(initialSeekSec: targetSec);
+      }
     });
   }
 
@@ -589,33 +577,55 @@ class _MouthAnatomyWidgetState extends State<MouthAnatomyWidget>
     String _getPillTitle(int index, String cleanP) {
     if (index == 0) {
       if (cleanP == 'T' || cleanP == 'D') return '1. Gülümse & Dili Bas 😊';
-      if (cleanP == 'K') return '1. Dili Aşağı Sakla 👅';
+      if (cleanP == 'K' || cleanP == 'G') return '1. Dili Aşağı Sakla 👅';
       if (cleanP == 'R') return '1. Dili Yaklaştır 👅';
       if (cleanP == 'J' || cleanP == 'Ş') return '1. Dudakları Yuvarla 👄';
       if (cleanP == 'Z' || cleanP == 'S') return '1. Dişleri Yaklaştır 🦷';
-      if (cleanP == 'B') return '1. Dudakları Sık';
-      return '1. Dudakları Kapat';
+      if (cleanP == 'F' || cleanP == 'V') return '1. Dişi Dudağa Değdir 🐰';
+      if (cleanP == 'H') return '1. Ağzı Rahatça Arala 👄';
+      if (cleanP == 'Ç' || cleanP == 'C' || cleanP == 'N' || cleanP == 'L') return '1. Dili Damağa Bas 👅';
+      if (cleanP == 'Y') return '1. Gülümse & Ağzı Aç 😊';
+      if (cleanP == 'B' || cleanP == 'M') return '1. Dudakları Kapat 👄';
+      if (cleanP == 'P') return '1. Dudakları Kapat 👄';
+      return '1. Dudakları Kapat 👄';
     } else if (index == 1) {
       if (cleanP == 'T') return '2. Nefesini Sakla 🤫';
-      if (cleanP == 'D') return '2. Boğazı Titret 🚗';
+      if (cleanP == 'D' || cleanP == 'G' || cleanP == 'V' || cleanP == 'C' || cleanP == 'M') return '2. Boğazı Titret ⚡';
       if (cleanP == 'K') return '2. Arkasını Damağa Bas 🤫';
       if (cleanP == 'R') return '2. Motoru Çalıştır 🏎️';
       if (cleanP == 'J') return '2. Boğazı Titret ⚡';
       if (cleanP == 'Ş') return '2. Yanları Kaldır 👅';
       if (cleanP == 'Z') return '2. Boğazı Titret ✋';
       if (cleanP == 'S') return '2. Dilini Ortada Tut 👅';
-      if (cleanP == 'B') return '2. Titreşimi Hisset';
-      return '2. Hava Birikir';
+      if (cleanP == 'F' || cleanP == 'H') return '2. Nefesi Topla 🌬️';
+      if (cleanP == 'Ç') return '2. Dudakları Uzat 👄';
+      if (cleanP == 'N') return '2. Havayı Burna Yönelt 🔔';
+      if (cleanP == 'L') return '2. Dil Yanlarını Aç 🌬️';
+      if (cleanP == 'Y') return '2. Dil Ortasını Kaldır 👅';
+      if (cleanP == 'B') return '2. Titreşimi Hisset ⚡';
+      if (cleanP == 'P') return '2. Havayı Biriktir 🌬️';
+      return '2. Havayı Biriktir 🌬️';
     } else {
       if (cleanP == 'T') return '3. "Tik-Tak! T!" Patlat ⏰';
       if (cleanP == 'D') return '3. "Düt-Düt! D!" Patlat 🥁';
-      if (cleanP == 'K') return '3. "K! K! K!" Patlat 💥';
+      if (cleanP == 'K') return '3. /k/ Sesini Patlat! 💥';
+      if (cleanP == 'G') return '3. /g/ Sesini Patlat! 💥';
       if (cleanP == 'R') return '3. Dil Ucunu Titret: Rrr! 🏎️';
       if (cleanP == 'J') return '3. Motoru Titret: Jjj! 🏎️';
       if (cleanP == 'Ş') return '3. Rüzgar Gibi Üfle: Şşş! 🤫';
       if (cleanP == 'Z') return '3. Arı Gibi Vızılda 🐝';
       if (cleanP == 'S') return '3. Islık Gibi Üfle: Sss! 🐍';
-      if (cleanP == 'B') return '3. "B!" Patlat';
+      if (cleanP == 'F') return '3. Fısıltıyla Üfle: Fff! 🌬️';
+      if (cleanP == 'V') return '3. Motor Gibi Vızıldat: Vvv! 🛵';
+      if (cleanP == 'H') return '3. Sıcak Nefes Üfle: Hhh! 🔥';
+      if (cleanP == 'Ç') return '3. /ç/ Sesini Patlat! 🚂';
+      if (cleanP == 'C') return '3. /c/ Sesini Patlat! 🐥';
+      if (cleanP == 'M') return '3. Burundan Akıt: Mmm! 🍦';
+      if (cleanP == 'N') return '3. Burundan Çınlat: Nnn! 🔔';
+      if (cleanP == 'L') return '3. Dil Yanından Akıt: Lll! 🎶';
+      if (cleanP == 'Y') return '3. Kaydıraktan Akıt: Yyy! 🛝';
+      if (cleanP == 'B') return '3. /b/ Patlat! 💥';
+      if (cleanP == 'P') return '3. /p/ Diye Patlat! 🎈💥';
       return '3. Sesi Patlat!';
     }
   }
@@ -759,9 +769,9 @@ class _MouthAnatomyWidgetState extends State<MouthAnatomyWidget>
       if (step == 1) return '2. Adım: Boğazına Dokun ve Titreşimi Hisset';
       return '3. Adım: Dudaklarını Birden Açıp Sesi Patlat: B!';
     }
-    if (step == 0) return '1. Adım: Dudaklarını Kapat';
-    if (step == 1) return '2. Adım: Havayı Biriktir';
-    return '3. Adım: "Pı" Diye Patlat!';
+    if (step == 0) return '1. Adım: Dudakları Sıkıca Kapat & Dili Rahat Bırak 👄';
+    if (step == 1) return '2. Adım: Havayı Biriktir & Boğazı Sessiz Tut 🤫🌬️';
+    return '3. Adım: Avucuna Hava Üfleyerek /p/ Patlat! 🎈💥';
   }
 
   String _getStepNarration(int step) {
@@ -938,12 +948,12 @@ class _MouthAnatomyWidgetState extends State<MouthAnatomyWidget>
       return 'Dudaklarını birden açarak biriken sesi dışarı fırlat: B!';
     }
     if (step == 0) {
-      return 'Dudaklarını birbirine sıkıca bastır. Dilin ağzının tabanında rahat dursun.';
+      return 'Alt ve üst dudaklarını birbirine sıkıca bastırıp kapat. Dilin ağzının tabanında düz ve rahat dursun; dişlerin hafifçe aralık olsun.';
     }
     if (step == 1) {
-      return 'Nefesini dudaklarının arkasında topla.';
+      return 'Derin bir nefes al ve havayı kapalı dudaklarının arkasında biriktir. Elini boğazına koy: /p/ sessiz (ötümsüz) bir sestir, boğazında hiç titreşim olmamalı!';
     }
-    return 'Dudaklarını açarak havayı patlat: Pı!';
+    return 'Elini ağzının önüne tut; dudaklarını birden açıp biriken havayı "puf" diye dışarı patlat! Avucunda güçlü bir hava vuruşu hissetmelisin: /p/!';
   }
 }
 

@@ -452,7 +452,7 @@ class _PrintableWorksheetDialogState extends State<PrintableWorksheetDialog> {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                storyText.length > 280 ? '${storyText.substring(0, 280)}...' : storyText,
+                                storyText,
                                 style: const TextStyle(fontSize: 10.5, height: 1.4, fontWeight: FontWeight.w600, color: Color(0xFF263238)),
                               ),
                             ],
@@ -502,7 +502,7 @@ class _PrintableWorksheetDialogState extends State<PrintableWorksheetDialog> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Klinik Öneri: Günde 15 dk egzersiz yapılması ve hedef sesin doğal konuşmada pekiştirilmesi önerilir.',
+                                    'Klinik Öneri: Günlük düzenli egzersiz yapılması ve hedef sesin doğal konuşmada pekiştirilmesi önerilir.',
                                     style: TextStyle(fontWeight: FontWeight.w800, fontSize: 10.5, color: Color(0xFF2E7D32)),
                                   ),
                                   Text(
@@ -853,19 +853,19 @@ class _PrintableWorksheetDialogState extends State<PrintableWorksheetDialog> {
       <th>Pazartesi</th><th>Salı</th><th>Çarşamba</th><th>Perşembe</th><th>Cuma</th><th>Cumartesi</th><th>Pazar</th>
     </tr>
     <tr>
-      <td>15 dk [ ]<br>⭐⭐⭐⭐⭐<br>İmza: ____</td>
-      <td>15 dk [ ]<br>⭐⭐⭐⭐⭐<br>İmza: ____</td>
-      <td>15 dk [ ]<br>⭐⭐⭐⭐⭐<br>İmza: ____</td>
-      <td>15 dk [ ]<br>⭐⭐⭐⭐⭐<br>İmza: ____</td>
-      <td>15 dk [ ]<br>⭐⭐⭐⭐⭐<br>İmza: ____</td>
-      <td>15 dk [ ]<br>⭐⭐⭐⭐⭐<br>İmza: ____</td>
-      <td>15 dk [ ]<br>⭐⭐⭐⭐⭐<br>İmza: ____</td>
+      <td>[ ] Tamamlandı<br>⭐⭐⭐⭐⭐<br>İmza: ____</td>
+      <td>[ ] Tamamlandı<br>⭐⭐⭐⭐⭐<br>İmza: ____</td>
+      <td>[ ] Tamamlandı<br>⭐⭐⭐⭐⭐<br>İmza: ____</td>
+      <td>[ ] Tamamlandı<br>⭐⭐⭐⭐⭐<br>İmza: ____</td>
+      <td>[ ] Tamamlandı<br>⭐⭐⭐⭐⭐<br>İmza: ____</td>
+      <td>[ ] Tamamlandı<br>⭐⭐⭐⭐⭐<br>İmza: ____</td>
+      <td>[ ] Tamamlandı<br>⭐⭐⭐⭐⭐<br>İmza: ____</td>
     </tr>
   </table>
 
   <div class="footer-note">
     <div>
-      <strong>Klinik Not:</strong> Günlük 15 dakika tekrar artikülasyon alışkanlığını pekiştirir. Dudak/dil temasında zorlanma olursa aynadan faydalanınız.
+      <strong>Klinik Not:</strong> Günlük düzenli tekrar artikülasyon alışkanlığını pekiştirir. Dudak/dil temasında zorlanma olursa aynadan faydalanınız.
     </div>
     <div style="border-left: 1px solid #ccc; padding-left: 10px; text-align: center; white-space: nowrap;">
       Terapist / Veli İmzası<br>_____ / _____
@@ -901,7 +901,7 @@ class _WeeklyDayBox extends StatelessWidget {
         children: [
           Text(day, style: const TextStyle(fontSize: 10.5, fontWeight: FontWeight.w900, color: Colors.black54)),
           const SizedBox(height: 2),
-          const Text('15 dk', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w700, color: Color(0xFF2E7D32))),
+          const Text('Tekrar [ ]', style: TextStyle(fontSize: 8.5, fontWeight: FontWeight.w700, color: Color(0xFF2E7D32))),
           const SizedBox(height: 2),
           const Text('⭐⭐⭐⭐⭐', style: TextStyle(fontSize: 8, color: Colors.black38)),
         ],

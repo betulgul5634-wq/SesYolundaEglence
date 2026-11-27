@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse, Response
 from pydantic import BaseModel
 from typing import Optional, List
+import asyncio
 import os
 import ssl
 import edge_tts.communicate
@@ -419,6 +420,8 @@ def format_turkish_speech_text(text: str) -> str:
     return cap
 
 # ── 1. DOĞAL, ANLAŞILIR, KLİNİK TÜRKÇE KADIN SESİ (tr-TR-EmelNeural) ─────────
+_EDGE_TTS_CACHE: dict[tuple[str, str, str], bytes] = {}
+
 @app.get("/api/tts")
 async def text_to_speech(
     text: str = Query(..., description="Seslendirilecek kelime"),
@@ -523,17 +526,18 @@ async def text_to_speech(
                 wav_bytes = f.read()
             return Response(content=wav_bytes, media_type="audio/wav")
 
-    # Kesin Oncelik 3: Tum 20 fonem icin harf ismi ('pe', 'be', 'ke', 'je', 'he') yerine dogrudan saf fonem WAV dosyasi calsin!
-    ALL_20_PHONEMES = ("p", "b", "t", "d", "k", "g", "f", "v", "s", "z", "ş", "j", "h", "ç", "c", "m", "n", "l", "r", "y")
-    for ph in ALL_20_PHONEMES:
-        if clean_syl in (ph, ph * 2, ph * 3, ph * 4, ph * 5, f"{ph} sesi") or (
-            clean_p == ph and mode in ("phoneme", "syllable") and clean_syl in (ph, ph * 2, ph * 3, ph * 4)
-        ):
-            ph_sound_file = os.path.join(pure_dir, f"{ph}.wav")
-            if os.path.exists(ph_sound_file):
-                with open(ph_sound_file, "rb") as f:
-                    wav_bytes = f.read()
-                return Response(content=wav_bytes, media_type="audio/wav")
+    # Kesin Oncelik 3: Tum 20 fonem icin harf ismi ('pe', 'be', 'ke', 'je', 'he') yerine dogrudan saf fonem WAV dosyasi calsin! (explain modu haric!)
+    if mode != "explain":
+        ALL_20_PHONEMES = ("p", "b", "t", "d", "k", "g", "f", "v", "s", "z", "ş", "j", "h", "ç", "c", "m", "n", "l", "r", "y")
+        for ph in ALL_20_PHONEMES:
+            if clean_syl in (ph, ph * 2, ph * 3, ph * 4, ph * 5, f"{ph} sesi") or (
+                clean_p == ph and mode in ("phoneme", "syllable") and clean_syl in (ph, ph * 2, ph * 3, ph * 4)
+            ):
+                ph_sound_file = os.path.join(pure_dir, f"{ph}.wav")
+                if os.path.exists(ph_sound_file):
+                    with open(ph_sound_file, "rb") as f:
+                        wav_bytes = f.read()
+                    return Response(content=wav_bytes, media_type="audio/wav")
 
     # Kesin Oncelik 6: H sesinin Hasibe Hala hikayesi doğrudan stüdyo kaydı olarak çalsın!
     if ("hasibe" in trimmed_text.lower() and "havuç" in trimmed_text.lower() and len(trimmed_text) > 80) or (clean_p == "h" and mode == "story"):
@@ -735,21 +739,32 @@ async def text_to_speech(
             pitch = "+2Hz"
 
     # Edge-TTS: Gerçek insan kalitesinde Türkçe stüdyo kadın sesi (tr-TR-EmelNeural)
-    try:
-        communicate = edge_tts.Communicate(
-            text=speech_text,
-            voice="tr-TR-EmelNeural",
-            rate=rate,
-            pitch=pitch  # Enerjik, canlı ve çocuk dostu sıcak ton
-        )
-        mp3_fp = io.BytesIO()
-        async for chunk in communicate.stream():
-            if chunk["type"] == "audio":
-                mp3_fp.write(chunk["data"])
-        mp3_data = mp3_fp.getvalue()
-        return Response(content=mp3_data, media_type="audio/mpeg", headers={"Accept-Ranges": "bytes"})
-    except Exception as e:
-        print(f"Edge-TTS hatası: {e}")
+    cache_key = (speech_text, rate, pitch)
+    if cache_key in _EDGE_TTS_CACHE:
+        return Response(content=_EDGE_TTS_CACHE[cache_key], media_type="audio/mpeg", headers={"Accept-Ranges": "bytes"})
+
+    attempts = [(rate, pitch), (rate, pitch), ("+0%", "+0Hz")]
+    for idx, (try_rate, try_pitch) in enumerate(attempts):
+        try:
+            communicate = edge_tts.Communicate(
+                text=speech_text,
+                voice="tr-TR-EmelNeural",
+                rate=try_rate,
+                pitch=try_pitch
+            )
+            mp3_fp = io.BytesIO()
+            async for chunk in communicate.stream():
+                if chunk["type"] == "audio":
+                    mp3_fp.write(chunk["data"])
+            mp3_data = mp3_fp.getvalue()
+            if mp3_data:
+                if len(_EDGE_TTS_CACHE) > 2000:
+                    _EDGE_TTS_CACHE.clear()
+                _EDGE_TTS_CACHE[cache_key] = mp3_data
+                return Response(content=mp3_data, media_type="audio/mpeg", headers={"Accept-Ranges": "bytes"})
+        except Exception as e:
+            print(f"Edge-TTS hatası (deneme {idx + 1}): {e}")
+            await asyncio.sleep(0.15 * (idx + 1))
 
     # Fallback: gTTS
     tts = gTTS(text=speech_text, lang='tr', tld='com.tr', slow=False)
@@ -1280,6 +1295,7 @@ def get_current_therapist_id(authorization: Optional[str] = Header(None)) -> int
 class LoginPayload(BaseModel):
     email: str
     password: str
+    role: Optional[str] = None
     therapist_code: Optional[str] = None
     edevlet_doc_no: Optional[str] = None
 
@@ -1467,33 +1483,38 @@ def api_login(payload: LoginPayload):
     cur = conn.cursor()
     clean_input = payload.email.strip().lower()
     hashed = hash_password(payload.password)
-    
-    # 1. Terapistler tablosunda ara
-    cur.execute("SELECT * FROM therapists WHERE LOWER(email) = ?", (clean_input,))
-    t_row = cur.fetchone()
-    if t_row:
-        if t_row["password_hash"] == hashed:
-            token = create_access_token({
-                "therapist_id": t_row["id"],
-                "email": t_row["email"],
-                "name": t_row["full_name"],
-                "role": "therapist"
-            })
-            therapist_info = {
-                "id": t_row["id"],
-                "email": t_row["email"],
-                "full_name": t_row["full_name"],
-                "title": t_row["title"] if "title" in t_row.keys() else "Dil ve Konuşma Terapisti (DKT)",
-                "clinic_name": t_row["clinic_name"] if "clinic_name" in t_row.keys() else "Dil ve Konuşma Danışmanlık Merkezi",
-                "therapist_code": t_row["therapist_code"] if "therapist_code" in t_row.keys() and t_row["therapist_code"] else "DKT-BETUL",
-                "edevlet_document_no": t_row["edevlet_document_no"] if "edevlet_document_no" in t_row.keys() else "YOK-2024-DKT-8921",
-                "is_edevlet_verified": True
-            }
+    req_role = (payload.role or "").strip().lower()
+
+    # 1. Terapistler tablosunda ara (yalnızca öğrenci girişi açıkça istenmediyse)
+    if req_role != "student":
+        cur.execute("SELECT * FROM therapists WHERE LOWER(email) = ?", (clean_input,))
+        t_row = cur.fetchone()
+        if t_row:
+            if t_row["password_hash"] == hashed:
+                token = create_access_token({
+                    "therapist_id": t_row["id"],
+                    "email": t_row["email"],
+                    "name": t_row["full_name"],
+                    "role": "therapist"
+                })
+                therapist_info = {
+                    "id": t_row["id"],
+                    "email": t_row["email"],
+                    "full_name": t_row["full_name"],
+                    "title": t_row["title"] if "title" in t_row.keys() else "Dil ve Konuşma Terapisti (DKT)",
+                    "clinic_name": t_row["clinic_name"] if "clinic_name" in t_row.keys() else "Dil ve Konuşma Danışmanlık Merkezi",
+                    "therapist_code": t_row["therapist_code"] if "therapist_code" in t_row.keys() and t_row["therapist_code"] else "DKT-BETUL",
+                    "edevlet_document_no": t_row["edevlet_document_no"] if "edevlet_document_no" in t_row.keys() else "YOKME9PRF4N8DER3Z0",
+                    "is_edevlet_verified": True
+                }
+                conn.close()
+                return {"access_token": token, "token_type": "bearer", "user_type": "therapist", "therapist": therapist_info}
+            else:
+                conn.close()
+                raise HTTPException(status_code=401, detail="Şifre hatalı! Lütfen şifrenizi kontrol ediniz.")
+        if req_role == "therapist":
             conn.close()
-            return {"access_token": token, "token_type": "bearer", "user_type": "therapist", "therapist": therapist_info}
-        else:
-            conn.close()
-            raise HTTPException(status_code=401, detail="Şifre hatalı! Lütfen şifrenizi kontrol ediniz.")
+            raise HTTPException(status_code=404, detail="Bu e-posta ile kayıtlı terapist hesabı bulunamadı.")
 
     # 2. Öğrenciler / Danışanlar tablosunda ara (parent_email veya full_name)
     cur.execute("SELECT * FROM students WHERE LOWER(parent_email) = ? OR LOWER(full_name) = ?", (clean_input, clean_input))
@@ -1809,7 +1830,7 @@ def get_leaderboard():
         SELECT s.id, s.full_name, s.avatar, s.total_stars, s.overall_accuracy, s.xp,
                COUNT(ts.id) as sessions_count
         FROM students s
-        LEFT JOIN therapy_sessions ts ON s.id = ts.student_id
+        LEFT JOIN therapy_sessions ts ON s.id = ts.student_id AND ts.phoneme != 'Klinik Not & Ödev' AND ts.words_attempted > 0
         GROUP BY s.id
         ORDER BY s.xp DESC, s.total_stars DESC, s.overall_accuracy DESC
         """)
@@ -1855,12 +1876,12 @@ def get_therapist_dashboard(authorization: Optional[str] = Header(None)):
     cur.execute("SELECT COUNT(*) as count FROM students WHERE therapist_id = ?", (therapist_id,))
     total_students = cur.fetchone()["count"]
 
-    # Toplam seans sayısı ve ortalama başarı
+    # Toplam seans sayısı ve ortalama başarı (yalnızca gerçek pratik seansları)
     cur.execute("""
     SELECT COUNT(ts.id) as total_sessions, AVG(ts.accuracy_score) as avg_accuracy
     FROM therapy_sessions ts
     JOIN students s ON ts.student_id = s.id
-    WHERE s.therapist_id = ?
+    WHERE s.therapist_id = ? AND ts.phoneme != 'Klinik Not & Ödev' AND ts.words_attempted > 0
     """, (therapist_id,))
     sess_stats = cur.fetchone()
     total_sessions = sess_stats["total_sessions"] or 0
@@ -1871,7 +1892,7 @@ def get_therapist_dashboard(authorization: Optional[str] = Header(None)):
     SELECT ts.phoneme, AVG(ts.accuracy_score) as avg_acc, COUNT(ts.id) as count
     FROM therapy_sessions ts
     JOIN students s ON ts.student_id = s.id
-    WHERE s.therapist_id = ?
+    WHERE s.therapist_id = ? AND ts.phoneme != 'Klinik Not & Ödev' AND ts.words_attempted > 0
     GROUP BY ts.phoneme
     ORDER BY avg_acc ASC
     """, (therapist_id,))
@@ -1891,7 +1912,7 @@ def get_therapist_dashboard(authorization: Optional[str] = Header(None)):
     SELECT ts.id, s.full_name, s.avatar, ts.phoneme, ts.accuracy_score, ts.duration_minutes, ts.completed_at
     FROM therapy_sessions ts
     JOIN students s ON ts.student_id = s.id
-    WHERE s.therapist_id = ?
+    WHERE s.therapist_id = ? AND ts.phoneme != 'Klinik Not & Ödev' AND ts.words_attempted > 0
     ORDER BY ts.completed_at DESC
     LIMIT 8
     """, (therapist_id,))
@@ -1920,7 +1941,7 @@ def get_students(therapist_code: Optional[str] = None, authorization: Optional[s
         cur.execute("""
         SELECT s.*, COUNT(ts.id) as session_count
         FROM students s
-        LEFT JOIN therapy_sessions ts ON s.id = ts.student_id
+        LEFT JOIN therapy_sessions ts ON s.id = ts.student_id AND ts.phoneme != 'Klinik Not & Ödev' AND ts.words_attempted > 0
         WHERE UPPER(s.therapist_code) = ? OR s.therapist_id = ?
         GROUP BY s.id
         ORDER BY s.id DESC
@@ -1929,7 +1950,7 @@ def get_students(therapist_code: Optional[str] = None, authorization: Optional[s
         cur.execute("""
         SELECT s.*, COUNT(ts.id) as session_count
         FROM students s
-        LEFT JOIN therapy_sessions ts ON s.id = ts.student_id
+        LEFT JOIN therapy_sessions ts ON s.id = ts.student_id AND ts.phoneme != 'Klinik Not & Ödev' AND ts.words_attempted > 0
         GROUP BY s.id
         ORDER BY s.id DESC
         """)

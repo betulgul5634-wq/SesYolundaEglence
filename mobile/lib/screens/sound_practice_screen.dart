@@ -11,9 +11,7 @@ import '../widgets/animated_speech_mascot.dart';
 import '../widgets/live_soundwave_visualizer.dart';
 import '../widgets/balloon_pop_game_dialog.dart';
 import '../widgets/flash_practice_dialog.dart';
-import '../widgets/voice_postcard_dialog.dart';
 import '../widgets/practice_session_timer_dialog.dart';
-import '../widgets/voice_lab_tuner_dialog.dart';
 import '../widgets/mystery_puzzle_dialog.dart';
 import '../widgets/printable_worksheet_dialog.dart';
 import '../widgets/memory_match_game_dialog.dart';
@@ -45,7 +43,6 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
   late TabController _tabController;
   final RewardState _rewardState = RewardState();
   final AudioSpeechService _audioService = AudioSpeechService();
-  bool _micTested = false;
   bool _isTurtlePacingMode = false; // 🐢 Kaplumbağa Yavaş & Tane Tane Artikülasyon Modu
   bool _showAvatarShowcase = false; // Varsayılan kapalı: hece/kelime kartları hemen görünsün
   String? _currentlySpeakingWord; // Canlı ses-görsel senkronizasyonu için anlık konuşulan kelime
@@ -113,21 +110,6 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
     super.dispose();
   }
 
-  void _testMicrophone() async {
-    final granted = await _audioService.requestMicrophonePermission();
-    setState(() => _micTested = granted);
-    if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(granted
-            ? '🎤 Harika! Mikrofon hazır ve dinliyor.'
-            : '⚠️ Mikrofon izni onaylanmadı! Lütfen Chrome adres çubuğundaki kilit simgesinden izin verin.'),
-        backgroundColor: granted ? const Color(0xFF2E7D32) : const Color(0xFFD32F2F),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
-
   void _onlyListen(String text, {String mode = 'natural'}) {
     setState(() => _currentlySpeakingWord = text);
     final effectiveMode = _isTurtlePacingMode ? 'syllable' : mode;
@@ -168,31 +150,65 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
   }
 
   void _openMiniGame({int stageLevel = 1, String stageName = 'Heceler'}) {
-    // Aşama seviyesine göre hedef kelimeler ve yanıltıcılar
-    List<String> targets = widget.stage.content.wordsBeginning;
-    if (stageLevel == 1) {
-      targets = widget.stage.content.syllables;
-    } else if (stageLevel == 3) {
-      targets = widget.stage.content.phrases;
-    } else if (stageLevel == 4) {
-      targets = widget.stage.content.wordsMiddle.isNotEmpty 
-          ? widget.stage.content.wordsMiddle 
-          : widget.stage.content.wordsBeginning;
-    }
+    // Aşama seviyesine göre hedef öğeler (Heceler / Kelimeler / İkili Kelimeler / Cümleler / Hikaye)
+    final targets = _resolveTargetWordsForGames(stageLevel: stageLevel);
 
     final cleanP = widget.stage.soundLetter.toLowerCase();
-    const candidateDistractors = [
-      'Güneş', 'Kedi', 'Köpek', 'Elma', 'Ağaç', 'Çiçek', 'Tavşan',
-      'Kuş', 'Gözlük', 'Saat', 'Kalem', 'Kitap', 'Masa', 'Sandalye',
-      'Balık', 'Ev', 'Araba', 'Gemi', 'Uçak', 'Top', 'Ayı', 'Pasta',
-      'Tava', 'Bebek', 'Dondurma', 'Yıldız', 'Limon', 'Portakal'
-    ];
-    final distractorList = candidateDistractors
-        .where((w) => !w.toLowerCase().contains(cleanP))
-        .take(8)
-        .toList();
-    if (distractorList.length < 6) {
-      distractorList.addAll(const ['Mavi', 'Sarı', 'Yeşil', 'Mor', 'Beyaz']);
+    final List<String> distractorList;
+    if (stageLevel == 1) {
+      const candidateSyllableDistractors = [
+        'ma', 'me', 'la', 'le', 'sa', 'se', 'ta', 'te',
+        'ka', 'ke', 'na', 'ne', 'ra', 're', 'ba', 'be',
+      ];
+      distractorList = candidateSyllableDistractors
+          .where((w) => !w.contains(cleanP))
+          .take(8)
+          .toList();
+    } else if (stageLevel == 3) {
+      const candidatePhraseDistractors = [
+        'Sarı güneş', 'Mavi deniz', 'Tatlı elma', 'Güzel çiçek',
+        'Hızlı tavşan', 'Minik kedi', 'Kırmızı gül', 'Büyük ağaç',
+        'Soğuk su', 'Yeşil orman', 'Şirin kuş', 'Beyaz bulut',
+      ];
+      distractorList = candidatePhraseDistractors
+          .where((w) => !w.toLowerCase().contains(cleanP))
+          .take(8)
+          .toList();
+    } else if (stageLevel == 4 || stageLevel == 5) {
+      const candidateSentenceDistractors = [
+        'Kedi süt içiyor.',
+        'Güneş çok sıcak.',
+        'Kuşlar dalda ötüyor.',
+        'Çocuklar bahçede oynuyor.',
+        'Balıklar suda yüzüyor.',
+        'Tavşan havuç yiyor.',
+        'Ali okula gidiyor.',
+        'Elma çok tatlıydı.',
+        'Deniz masmavi görünüyor.',
+        'Rüzgar hafifçe esiyor.',
+        'Bebek mışıl mışıl uyudu.',
+        'Anne sıcak çay demledi.',
+        'Babam yeni araba aldı.',
+        'Kardeşim resim çiziyor.',
+      ];
+      distractorList = candidateSentenceDistractors
+          .where((w) => !w.toLowerCase().contains(cleanP))
+          .take(8)
+          .toList();
+    } else {
+      const candidateDistractors = [
+        'Güneş', 'Kedi', 'Köpek', 'Elma', 'Ağaç', 'Çiçek', 'Tavşan',
+        'Kuş', 'Gözlük', 'Saat', 'Kalem', 'Kitap', 'Masa', 'Sandalye',
+        'Balık', 'Ev', 'Araba', 'Gemi', 'Uçak', 'Top', 'Ayı', 'Pasta',
+        'Tava', 'Bebek', 'Dondurma', 'Yıldız', 'Limon', 'Portakal'
+      ];
+      distractorList = candidateDistractors
+          .where((w) => !w.toLowerCase().contains(cleanP))
+          .take(8)
+          .toList();
+      if (distractorList.length < 6) {
+        distractorList.addAll(const ['Mavi', 'Sarı', 'Yeşil', 'Mor', 'Beyaz']);
+      }
     }
 
     showDialog(
@@ -207,7 +223,10 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
         onGameWon: () {
           _rewardState.recordPracticeToday();
           _rewardState.recordQuestMiniGame();
-          final char = SubwaySurfersUnlockDialog.getCharacterForLevel(stageLevel);
+          final char = SubwaySurfersUnlockDialog.getCharacterForLevel(
+            stageLevel,
+            phoneme: widget.stage.soundLetter,
+          );
           _rewardState.unlockCharacter(char.id);
           _rewardState.addReward(earnedStars: 2 + stageLevel, earnedXp: 40 * stageLevel, earnedGems: 15 * stageLevel);
           ScaffoldMessenger.of(context).showSnackBar(
@@ -222,12 +241,31 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
     );
   }
 
-  List<String> _resolveTargetWordsForGames() {
-    List<String> targets = List.from(widget.stage.content.wordsBeginning);
-    if (targets.isEmpty) targets = List.from(widget.stage.content.wordsMiddle);
-    if (targets.isEmpty) targets = List.from(widget.stage.content.wordsEnding);
-    if (targets.isEmpty) targets = List.from(widget.stage.content.syllables);
-    return targets;
+  List<String> _resolveTargetWordsForGames({int? stageLevel}) {
+    final lvl = stageLevel ?? (_tabController.index + 1);
+    final c = widget.stage.content;
+    if (lvl == 1 && c.syllables.isNotEmpty) {
+      return List.from(c.syllables);
+    } else if (lvl == 2) {
+      final combined = <String>[
+        ...c.wordsBeginning,
+        ...c.wordsMiddle,
+        ...c.wordsEnding,
+      ];
+      if (combined.isNotEmpty) return combined;
+    } else if (lvl == 3 && c.phrases.isNotEmpty) {
+      return List.from(c.phrases);
+    } else if (lvl == 4) {
+      if (c.sentences.isNotEmpty) return List.from(c.sentences);
+      if (c.phrases.isNotEmpty) return List.from(c.phrases);
+    } else if (lvl == 5) {
+      if (c.sentences.isNotEmpty) return List.from(c.sentences);
+      if (c.phrases.isNotEmpty) return List.from(c.phrases);
+    }
+    if (c.wordsBeginning.isNotEmpty) return List.from(c.wordsBeginning);
+    if (c.wordsMiddle.isNotEmpty) return List.from(c.wordsMiddle);
+    if (c.wordsEnding.isNotEmpty) return List.from(c.wordsEnding);
+    return List.from(c.syllables);
   }
 
   void _openMemoryGame() {
@@ -438,15 +476,6 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
     );
   }
 
-  void _openVoicePostcard() {
-    showDialog(
-      context: context,
-      builder: (ctx) => VoicePostcardDialog(
-        phoneme: widget.stage.soundLetter,
-      ),
-    );
-  }
-
   void _openSessionTimer() {
     showDialog(
       context: context,
@@ -454,19 +483,8 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
     );
   }
 
-  void _openVoiceLab() {
-    showDialog(
-      context: context,
-      builder: (ctx) => VoiceLabPitchTunerDialog(
-        phoneme: widget.stage.soundLetter,
-        soundTitle: widget.stage.phoneme,
-      ),
-    );
-  }
-
   void _openMysteryPuzzle() {
-    List<String> targets = widget.stage.content.wordsBeginning;
-    if (targets.isEmpty) targets = widget.stage.content.syllables;
+    final targets = _resolveTargetWordsForGames();
 
     showDialog(
       context: context,
@@ -793,6 +811,28 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
                     color: const Color(0xFFFFB300),
                     onTap: () {
                       Navigator.pop(ctx);
+                      final stageStars = _rewardState.getStageStars(widget.stage.id);
+                      final cleanLetter = widget.stage.soundLetter.trim().toUpperCase();
+                      final correctCount = _rewardState.phonemeStats[cleanLetter]?.correctAttempts ?? 0;
+                      if (stageStars <= 0 && correctCount <= 0) {
+                        showDialog(
+                          context: context,
+                          builder: (dCtx) => AlertDialog(
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                            title: const Text('🎓 Diploma Henüz Açılmadı', style: TextStyle(fontWeight: FontWeight.w900)),
+                            content: Text(
+                              '${widget.stage.phoneme} sesi başarı diplomasını alabilmek için önce bu sesteki egzersizlerden en az 1 yıldız veya doğru sesletim kazanmalısın!',
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(dCtx),
+                                child: const Text('Tamam', style: TextStyle(fontWeight: FontWeight.bold)),
+                              ),
+                            ],
+                          ),
+                        );
+                        return;
+                      }
                       showDialog(
                         context: context,
                         builder: (c) => TherapyCertificateDialog(
@@ -820,26 +860,6 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
                     onTap: () {
                       Navigator.pop(ctx);
                       _openPrintableWorksheet();
-                    },
-                  ),
-                  _buildTherapistBagItem(
-                    icon: '🎛️',
-                    title: 'Ses Laboratuvarı',
-                    desc: 'Akustik spektrum & perde',
-                    color: const Color(0xFF00E5FF),
-                    onTap: () {
-                      Navigator.pop(ctx);
-                      _openVoiceLab();
-                    },
-                  ),
-                  _buildTherapistBagItem(
-                    icon: '💌',
-                    title: 'Ses Kartpostalı',
-                    desc: 'Aileye sesli tebrik',
-                    color: const Color(0xFFE91E63),
-                    onTap: () {
-                      Navigator.pop(ctx);
-                      _openVoicePostcard();
                     },
                   ),
                 ],
@@ -1153,7 +1173,10 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
             builder: (ctx, _) {
               return GestureDetector(
                 onTap: () {
-                  final char = SubwaySurfersUnlockDialog.getCharacterForLevel(_tabController.index + 1);
+                  final char = SubwaySurfersUnlockDialog.getCharacterForLevel(
+                    _tabController.index + 1,
+                    phoneme: widget.stage.soundLetter,
+                  );
                   showDialog(
                     context: context,
                     builder: (ctx) => SubwaySurfersUnlockDialog(
@@ -1189,14 +1212,6 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
                 ),
               );
             },
-          ),
-          IconButton(
-            icon: Icon(
-              _micTested ? Icons.mic_rounded : Icons.mic_none_rounded,
-              color: _micTested ? Colors.lightGreenAccent : Colors.white,
-            ),
-            tooltip: 'Mikrofon İzni / Test',
-            onPressed: _testMicrophone,
           ),
         ],
         bottom: TabBar(
@@ -1291,7 +1306,16 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
 
   Widget _buildTopGameBanner(SoundStage stage) {
     const gameEmoji = '🦁';
-    final gameName = '🦁 SES CANAVARI: ${stage.phoneme} Kelime Avı!';
+    final lvl = _tabController.index + 1;
+    final unitLabel = lvl == 1
+        ? 'hecelerini'
+        : (lvl == 2
+            ? 'kelimelerini'
+            : (lvl == 3 ? 'ikili kelimelerini' : (lvl == 4 ? 'cümlelerini' : 'hikaye cümlelerini')));
+    final stageBadge = lvl == 1
+        ? 'Heceler'
+        : (lvl == 2 ? 'Kelimeler' : (lvl == 3 ? 'İkili Kelimeler' : (lvl == 4 ? 'Cümleler' : 'Hikaye')));
+    final gameName = '🦁 SES CANAVARI: ${stage.phoneme} ($stageBadge Avı!)';
     const gameGrad = [Color(0xFFFFD54F), Color(0xFFFF9800)];
 
     return Container(
@@ -1337,7 +1361,7 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'Canavarla hedef "${stage.phoneme}" kelimelerini ye, dev gibi BÜYÜ! 🌟',
+                  'Canavarla hedef "${stage.phoneme}" $unitLabel ye, dev gibi BÜYÜ! 🌟',
                   style: const TextStyle(
                     color: Colors.black87,
                     fontSize: 11.5,
@@ -1598,7 +1622,7 @@ class _SoundPracticeScreenState extends State<SoundPracticeScreen>
                     isSelected: _selectedWordSyllableFilter == 0,
                     onSelected: () => setState(() {
                       _selectedWordSyllableFilter = 0;
-                      _selectedWordPack = 1;
+                      _selectedWordPack = 0;
                     }),
                     primaryColor: primaryColor,
                   ),
@@ -2336,13 +2360,21 @@ class _SpeechInteractiveSheetState extends State<_SpeechInteractiveSheet> {
       _isListeningMic = false;
     });
 
-    final effectiveMode = widget.isTurtleMode ? 'syllable' : 'natural';
-    await widget.audioService.speakTurkish(
-      widget.targetText,
-      phoneme: widget.soundLetter,
-      mode: effectiveMode,
-      withInstruction: withInstruction,
-    );
+    if (withInstruction) {
+      await widget.audioService.speakTurkish(
+        widget.soundLetter,
+        phoneme: widget.soundLetter,
+        mode: 'explain',
+      );
+    } else {
+      final effectiveMode = widget.isTurtleMode ? 'syllable' : 'natural';
+      await widget.audioService.speakTurkish(
+        widget.targetText,
+        phoneme: widget.soundLetter,
+        mode: effectiveMode,
+        withInstruction: false,
+      );
+    }
 
     if (!mounted) return;
     setState(() {
@@ -3423,14 +3455,23 @@ class _StorySpeechInteractiveSheetState extends State<_StorySpeechInteractiveShe
   bool _isEvaluating = false;
   String _spokenText = '';
 
+  bool _micReady = false;
+  String _micError = '';
+  StreamSubscription<int>? _micVolSub;
+  int _micVolume = 0;
+
   @override
   void initState() {
     super.initState();
+    _micVolSub = widget.audioService.onMicVolume.listen((vol) {
+      if (mounted) setState(() => _micVolume = vol);
+    });
     _startRecording();
   }
 
   @override
   void dispose() {
+    _micVolSub?.cancel();
     widget.audioService.stopListening();
     super.dispose();
   }
@@ -3439,19 +3480,34 @@ class _StorySpeechInteractiveSheetState extends State<_StorySpeechInteractiveShe
     setState(() {
       _isEvaluating = false;
       _spokenText = '';
+      _micError = '';
     });
+
+    final hasPerm = await widget.audioService.requestMicrophonePermission();
+    if (!mounted) return;
+    if (!hasPerm) {
+      setState(() {
+        _micReady = false;
+        _micError = 'Mikrofon izni verilmedi. Tarayıcı adres çubuğundan mikrofona izin verip tekrar deneyin.';
+      });
+      return;
+    }
+
+    setState(() => _micReady = true);
 
     final text = await widget.audioService.listenToSpeech(
       duration: const Duration(minutes: 10),
       continuous: true,
+      targetText: widget.story,
+      phoneme: widget.phoneme,
       onInterimText: (interim) {
         if (mounted) {
           setState(() => _spokenText = interim);
         }
       },
     );
-    if (mounted) {
-      _spokenText = text;
+    if (mounted && text.trim().isNotEmpty) {
+      setState(() => _spokenText = text);
     }
   }
 
@@ -3461,6 +3517,9 @@ class _StorySpeechInteractiveSheetState extends State<_StorySpeechInteractiveShe
     setState(() {
       _isEvaluating = true;
     });
+
+    // WAV kaydının ve son STT sonucunun tamamlanması için bekleme
+    await Future.delayed(const Duration(milliseconds: 550));
 
     final result = await widget.audioService.evaluateStory(
       storyText: widget.story,
@@ -3546,7 +3605,32 @@ class _StorySpeechInteractiveSheetState extends State<_StorySpeechInteractiveShe
               ),
             ),
           ),
-          if (_spokenText.isNotEmpty) ...[
+          if (_micError.isNotEmpty) ...[
+            const SizedBox(height: 8),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFEBEE),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: const Color(0xFFEF9A9A)),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      '⚠️ $_micError',
+                      style: const TextStyle(fontSize: 11.5, color: Color(0xFFC62828), fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: _startRecording,
+                    child: const Text('Tekrar Dene', style: TextStyle(fontWeight: FontWeight.w900)),
+                  ),
+                ],
+              ),
+            ),
+          ] else if (_spokenText.isNotEmpty) ...[
             const SizedBox(height: 8),
             Container(
               width: double.infinity,
@@ -3556,10 +3640,52 @@ class _StorySpeechInteractiveSheetState extends State<_StorySpeechInteractiveShe
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Text(
-                'Duyulan: $_spokenText',
+                '🗣️ Duyulan: $_spokenText',
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(fontSize: 11.5, color: Color(0xFF00695C), fontWeight: FontWeight.w700),
+              ),
+            ),
+          ] else if (_micReady) ...[
+            const SizedBox(height: 8),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: BoxDecoration(
+                color: const Color(0xFFE8F5E9),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: const Color(0xFFA5D6A7)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Expanded(
+                        child: Text(
+                          '🎙️ Mikrofon açık ve dinleniyor... Şimdi hikayeyi sesli oku!',
+                          style: TextStyle(fontSize: 11.5, color: Color(0xFF2E7D32), fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                      Text(
+                        '%$_micVolume',
+                        style: const TextStyle(fontSize: 11, color: Color(0xFF1B5E20), fontWeight: FontWeight.w900),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 5),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(6),
+                    child: LinearProgressIndicator(
+                      value: (_micVolume / 100.0).clamp(0.05, 1.0),
+                      minHeight: 6,
+                      backgroundColor: Colors.white,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        _micVolume > 20 ? const Color(0xFF16A34A) : const Color(0xFF81C784),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

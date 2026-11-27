@@ -67,32 +67,73 @@ class _MemoryMatchGameDialogState extends State<MemoryMatchGameDialog> {
     _isChecking = false;
     _isGameWon = false;
 
-    // Hedef kelimelerden 4 benzersiz kelime seç
+    // Hedef öğelerden görseli birbirinden FARKLI 4 benzersiz kart çifti seç
     final validWords = widget.targetWords
-        .where((w) => w.trim().isNotEmpty && !w.contains(' '))
+        .map((w) => w.trim())
+        .where((w) => w.isNotEmpty)
         .toSet()
         .toList();
 
-    List<String> chosenWords;
-    if (validWords.length >= 4) {
-      validWords.shuffle();
-      chosenWords = validWords.take(4).toList();
-    } else if (validWords.isNotEmpty) {
-      chosenWords = List.generate(4, (i) => validWords[i % validWords.length]);
-    } else {
-      chosenWords = [
+    final List<String> chosenWords = [];
+    final Set<String> usedEmojis = {};
+    final Map<String, String> resolvedEmojis = {};
+
+    if (validWords.isNotEmpty) {
+      validWords.shuffle(math.Random());
+      const distinctPool = [
+        '🌟', '🚀', '🦋', '🎨', '🍀', '🎵', '🌈', '💎',
+        '🦊', '🐳', '🍓', '⚽', '🎯', '🪁', '🧸', '🎈',
+      ];
+      int poolIdx = 0;
+
+      String nextDistinctEmoji() {
+        while (poolIdx < distinctPool.length) {
+          final cand = distinctPool[poolIdx++];
+          if (!usedEmojis.contains(cand)) return cand;
+        }
+        return '✨';
+      }
+
+      // 1. Önce uzun kelimelerden görseli benzersiz olanları seç
+      for (final w in validWords) {
+        if (chosenWords.length >= 4) break;
+        if (w.length <= 3 && !w.contains(' ')) continue;
+        final em = WordPictogramHelper.getPictogram(w);
+        if (!usedEmojis.contains(em)) {
+          usedEmojis.add(em);
+          resolvedEmojis[w] = em;
+          chosenWords.add(w);
+        }
+      }
+      // 2. Heceler veya kalan öğeler için her çifte KESİNLİKLE farklı görsel ata
+      for (final w in validWords) {
+        if (chosenWords.length >= 4) break;
+        if (chosenWords.contains(w)) continue;
+        final distinct = nextDistinctEmoji();
+        usedEmojis.add(distinct);
+        resolvedEmojis[w] = distinct;
+        chosenWords.add(w);
+      }
+    }
+
+    if (chosenWords.isEmpty) {
+      chosenWords.addAll([
         '${widget.phoneme}a',
         '${widget.phoneme}e',
         '${widget.phoneme}ı',
         '${widget.phoneme}i',
-      ];
+      ]);
+      const syms = ['🌟', '🚀', '🦋', '🎨'];
+      for (int i = 0; i < chosenWords.length; i++) {
+        resolvedEmojis[chosenWords[i]] = syms[i];
+      }
     }
 
     final List<_MemoryCard> cardList = [];
     int idCounter = 0;
 
     for (final word in chosenWords) {
-      final emoji = WordPictogramHelper.getPictogram(word);
+      final emoji = resolvedEmojis[word] ?? WordPictogramHelper.getPictogram(word);
       // Çift 1
       cardList.add(_MemoryCard(id: idCounter++, word: word, emoji: emoji));
       // Çift 2
@@ -278,14 +319,19 @@ class _MemoryMatchGameDialogState extends State<MemoryMatchGameDialog> {
                               children: [
                                 Text(card.emoji, style: const TextStyle(fontSize: 32)),
                                 const SizedBox(height: 4),
-                                Text(
-                                  card.word,
-                                  textAlign: TextAlign.center,
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w900,
-                                    color: card.isMatched ? const Color(0xFF2E7D32) : const Color(0xFF311B92),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                                  child: Text(
+                                    card.word,
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 10.5,
+                                      height: 1.15,
+                                      fontWeight: FontWeight.w900,
+                                      color: card.isMatched ? const Color(0xFF2E7D32) : const Color(0xFF311B92),
+                                    ),
                                   ),
                                 ),
                               ],
